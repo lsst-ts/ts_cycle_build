@@ -1,0 +1,306 @@
+version: "3.7"
+
+services:
+
+  base:
+    image: lsstts/base-env:c${CYCLE}
+    build:
+      context: ../build/develop-env/base
+      labels:
+        com.description: "LSST Telescope and Site base development for cycle ${CYCLE}."
+        lsstsqre: ${lsstsqre}
+        dds: ${dds}
+      args:
+        image_tag: ${lsstsqre}
+        dds: ${dds}
+
+  salobj:
+    image: lsstts/salobj:c${CYCLE}
+    depends_on:
+      - base
+    build:
+      context: ../build/develop-env/salobj/
+      labels:
+        com.description: LSST Telescope and Site Docker image with SalObj for cycle ${CYCLE}.
+        ts_dds: ${ts_dds}
+      args:
+        base_image_tag: c${CYCLE}
+        ts_dds: ${ts_dds}
+        ts_config_ocs: ${ts_config_ocs}
+        ts_config_attcs: ${ts_config_attcs}
+        ts_config_mtcalsys: ${ts_config_mtcalsys}
+        ts_config_eas: ${ts_config_eas}
+        ts_config_latiss: ${ts_config_latiss}
+        ts_config_mttcs: ${ts_config_mttcs}
+        ts_config_atcalsys: ${ts_config_atcalsys}
+        ts_xml: ${ts_xml}
+        ts_idl: ${ts_idl}
+        ts_sal: ${ts_sal}
+        ts_salobj: ${ts_salobj}
+
+  develop-env:
+    image: lsstts/develop-env:c${CYCLE}
+    depends_on:
+      - salobj
+    build:
+      context: ../build/develop-env/develop-env/
+      labels:
+        com.description: LSST Telescope and Site development environment image for cycle ${CYCLE}..
+      args:
+        base_image_tag: c${CYCLE}
+        ts_scriptqueue: ${ts_scriptqueue}
+        ts_observatory_control: ${ts_observatory_control}
+        ts_standardscripts: ${ts_standardscripts}
+        ts_externalscripts: ${ts_externalscripts}
+        ts_ATMCSSimulator: ${ts_ATMCSSimulator}
+        ts_ATDome: ${ts_ATDome}
+        ts_ATDomeTrajectory: ${ts_ATDomeTrajectory}
+        ts_simactuators: ${ts_simactuators}
+        ts_hexrotcomm: ${ts_hexrotcomm}
+
+  aos_aoclc:
+    image: lsstts/aos_aoclc:c${CYCLE}
+    depends_on:
+      - aos_sal
+    build:
+      context: ../build/aos_aoclc
+      labels:
+        com.description: "AOS AOCL image for cycle ${CYCLE}."
+        phosim_utils: ${phosim_utils}
+        ts_wep: ${ts_wep}
+        ts_ofc: ${ts_ofc}
+        ts_phosim: ${ts_phosim}
+      args:
+        IMAGE_TAG: c${CYCLE}
+        phosim_utils: ${phosim_utils}
+        ts_wep: ${ts_wep}
+        ts_ofc: ${ts_ofc}
+        ts_phosim: ${ts_phosim}
+
+  aos_sal:
+    image: lsstts/aos_sal:c${CYCLE}
+    depends_on:
+      - develop-env
+    build:
+      context: ../build/aos_sal
+      labels:
+        com.description: "AOS AOCL image for cycle ${CYCLE}."
+      args:
+        base_image_tag: c${CYCLE}
+
+  hexapod:
+    image: lsstts/hexapod:c${CYCLE}
+    build:
+      context: ../build/hexapod
+      labels:
+        com.description: "Hexapod deployment image for cycle ${CYCLE}."
+        base_image: salobj_${ts_salobj}
+        idl: ${ts_idl}
+        hexrotcomm: ${ts_hexrotcomm}
+        hexapod: ${ts_hexapod}
+      args:
+        deploy_tag: salobj_${ts_salobj}
+        idl: ${ts_idl}
+        hexapod: ${ts_hexapod}
+        hexrotcomm: ${ts_hexrotcomm}
+
+  mtaos_sim:
+    image: lsstts/mtaos_sim:c${CYCLE}
+    depends_on:
+      - aos_aoclc
+    build:
+      context: ../build/mtaos_sim
+      labels:
+        com.description: "MTAOS simulator deployment image for cycle ${CYCLE}."
+      args:
+        IMAGE_TAG: c${CYCLE}
+        mtaos: ${ts_mtaos}
+
+  mtm1m3_sim:
+    image: lsstts/mtm1m3_sim:c${CYCLE}
+    build:
+      context: ../build/mtm1m3_sim
+      labels:
+        com.description: "M1M3 simulator deployment image for cycle ${CYCLE}."
+        rpm: 0:${ts_sal}-${ts_xml}.el7.x86_64
+        m1m3: ${ts_m1m3support}
+      args:
+        rpm: 0:${ts_sal}-${ts_xml}.el7.x86_64
+        m1m3: ${ts_m1m3support}
+
+  mtm2_sim:
+    image: lsstts/m2:c${CYCLE}
+    build:
+      context: ../build/mtm2_sim
+      labels:
+        com.description: "M2 simulator deployment image for cycle ${CYCLE}."
+        deploy_tag: salobj_${ts_salobj}
+        idl: ${ts_idl}
+        m2: ${ts_m2}
+        config: ${ts_config_mttcs}
+      args:
+        deploy_tag: salobj_${ts_salobj}
+        idl: ${ts_idl}
+        m2: ${ts_m2}
+        config: v${ts_config_mttcs}
+
+  rotator:
+    image: lsstts/rotator:c${CYCLE}
+    build:
+      context: ../build/rotator
+      labels:
+        com.description: "Rotator deployment image for cycle ${CYCLE}."
+        deploy_tag: salobj_${ts_salobj}
+        idl: ${ts_idl}
+        rotator: ${ts_rotator}
+      args:
+        deploy_tag: salobj_${ts_salobj}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+        rotator: ${ts_rotator}
+        hexrotcomm: ${ts_hexrotcomm}
+
+  mtmount:
+    image: lsstts/mtmount:c${CYCLE}
+    build:
+      context: ../build/mtmount
+      labels:
+        com.description: "MTmount deployment image for cycle ${CYCLE}."
+        deploy_tag: salobj_${ts_salobj}
+        idl: ${ts_idl}
+        mtmount: ${ts_mtmount}
+        config: ${ts_config_mttcs}
+      args:
+        deploy_tag: salobj_${ts_salobj}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+        mtmount: ${ts_mtmount}
+        config: v${ts_config_mttcs}
+
+  ptg:
+    image: ts-dockerhub.lsst.org/ptkernel:c${CYCLE}
+    build:
+      context: ../build/ptg
+      labels:
+        com.description: "Pointing component deployment image for cycle ${CYCLE}."
+        rpm: 0:${ts_sal}-${ts_xml}.el7.x86_64
+        ptg: ${ts_pointing_common}
+      args:
+        rpm: 0:${ts_sal}-${ts_xml}.el7.x86_64
+        ptg: ${ts_pointing_common}
+
+  salkafka:
+    image: lsstts/salkafka:c${CYCLE}
+    build:
+      context: ../build/salkafka
+      labels:
+        com.description: "SAL kafka producers deployment image for cycle ${CYCLE}."
+        base_image: salobj_${ts_salobj}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+        salkafka: ${ts_salkafka}
+      args:
+        deploy_tag: salobj_${ts_salobj}
+        idl: ${ts_idl}
+        salkafka: v${ts_salkafka}
+
+  atmcs-sim:
+    image: lsstts/atmcs_sim:c${CYCLE}
+    build:
+      context: ../build/atmcs_sim
+      labels:
+        com.description: "ATMCS simulator for cycle {$CYCLE}"
+        deploy_tag: salobj_${ts_salobj}
+        atmcs: ${ts_ATMCSSimulator}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+      args:
+        deploy_tag: salobj_${ts_salobj}
+        atmcs: ${ts_ATMCSSimulator}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+
+  atdome:
+    image: lsstts/atdome:c${CYCLE}
+    build:
+      context: ../build/atdome
+      labels:
+        com.description: "ATDome component for cycle {$CYCLE}"
+        deploy_tag: salobj_${ts_salobj}
+        atdome: ${ts_ATDome}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+        config: ${ts_config_attcs}
+      args:
+        deploy_tag: salobj_${ts_salobj}
+        atdome: ${ts_ATDome}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+        config: ${ts_config_attcs}
+
+  atdometrajectory:
+    image: lsstts/atdometrajectory:c${CYCLE}
+    build:
+      context: ../build/atdometrajectory
+      labels:
+        com.description: "ATDomeTrajectory component for cycle {$CYCLE}"
+        deploy_tag: salobj_${ts_salobj}
+        atdometrajectory: ${ts_ATDomeTrajectory}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+        config: ${ts_config_attcs}
+      args:
+        deploy_tag: salobj_${ts_salobj}
+        atdometrajectory: ${ts_ATDomeTrajectory}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+        config: ${ts_config_attcs}
+
+  atpneumatics-sim:
+    image: lsstts/at_pneumatics_sim:c${CYCLE}
+    build:
+      context: ../build/atpneumatics_sim
+      labels:
+        com.description: "ATPneumatics simulator for cycle {$CYCLE}"
+        deploy_tag: salobj_${ts_salobj}
+        atpneumatics_sim: ${ts_ATPneumaticsSimulator}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+      args:
+        deploy_tag: salobj_${ts_salobj}
+        atpneumatics_sim: ${ts_ATPneumaticsSimulator}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+
+  ataos:
+    image: lsstts/ataos:c${CYCLE}
+    build:
+      context: ../build/ataos
+      labels:
+        com.description: "ATAOS component for cycle {$CYCLE}"
+        deploy_tag: c${CYCLE}
+        ataos: ${ts_ataos}
+      args:
+        deploy_tag: c${CYCLE}
+        ataos: ${ts_ataos}
+
+  athexapod:
+    image: lsstts/athexapod:c${CYCLE}
+    build:
+      context: ../build/athexapod
+      labels:
+        com.description: "ATHexapod component for cycle {$CYCLE}"
+        deploy_tag: salobj_${ts_salobj}
+        athexapod: ${ts_athexapod}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+        config: ${ts_config_attcs}
+      args:
+        deploy_tag: salobj_${ts_salobj}
+        athexapod: ${ts_athexapod}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+        config: ${ts_config_attcs}
+
+  atspectrograph:
+    image: lsstts/atspec:c${CYCLE}
+    build:
+      context: ../build/atspectrograph
+      labels:
+        com.description: "ATSpectrograph component for cycle {$CYCLE}"
+        deploy_tag: salobj_${ts_salobj}
+        atspec: ${ts_atspec}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+        config: ${ts_config_latiss}
+      args:
+        deploy_tag: salobj_${ts_salobj}
+        atspec: ${ts_atspec}
+        idl: ${ts_idl}_${ts_sal}_${ts_xml}
+        config: ${ts_config_latiss}
