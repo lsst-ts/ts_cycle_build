@@ -5,7 +5,8 @@ services:
   base:
     image: lsstts/base-env:c${CYCLE}
     build:
-      context: ../build/develop-env/base
+      context: ../build/
+      dockerfile: ./develop-env/base/Dockerfile
       labels:
         com.description: "LSST Telescope and Site base development for cycle ${CYCLE}."
         lsstsqre: ${lsstsqre}
@@ -119,7 +120,8 @@ services:
   mtm1m3_sim:
     image: lsstts/mtm1m3_sim:c${CYCLE}
     build:
-      context: ../build/mtm1m3_sim
+      context: ../build/
+      dockerfile: ./mtm1m3_sim/Dockerfile
       labels:
         com.description: "M1M3 simulator deployment image for cycle ${CYCLE}."
         rpm: 0:${ts_sal}-${ts_xml}.el7.x86_64
@@ -178,7 +180,8 @@ services:
   ptg:
     image: ts-dockerhub.lsst.org/ptkernel:c${CYCLE}
     build:
-      context: ../build/ptg
+      context: ../build/
+      dockerfile: ./ptg/Dockerfile
       labels:
         com.description: "Pointing component deployment image for cycle ${CYCLE}."
         rpm: 0:${ts_sal}-${ts_xml}.el7.x86_64

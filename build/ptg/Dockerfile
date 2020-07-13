@@ -14,7 +14,7 @@ USER root
 # Create user and group
 RUN groupadd lsst && adduser -u 1004 -m -g lsst -s /bin/bash saluser
 
-COPY lsst-ts.repo /etc/yum.repos.d/lsst-ts.repo
+COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 
 RUN yum install -y https://repo.ius.io/ius-release-el7.rpm && \
     yum install -y centos-release-scl cmake
