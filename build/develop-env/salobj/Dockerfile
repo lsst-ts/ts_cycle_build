@@ -1,6 +1,7 @@
 ARG base_image_tag
+ARG hub=lsstts
 
-FROM lsstts/base-env:$base_image_tag
+FROM ${hub}/base-sqre:$base_image_tag
 
 USER saluser
 
@@ -62,15 +63,14 @@ RUN source /home/saluser/.setup_salobj.sh && \
 
 WORKDIR /home/saluser/repos/ts_sal
 RUN source /home/saluser/.setup_salobj.sh && \
-    eups declare -r . ts_sal -t current && \
     setup ts_idl -t current && \
     setup ts_sal -t current && \
     mkdir -p $SAL_WORK_DIR && \
-    mkdir -p $TS_SAL_DIR/lib && scons || pytest --color=no --lf
+    mkdir -p $TS_SAL_DIR/lib && (scons || pytest --color=no --lf)
 
 WORKDIR /home/saluser/
 RUN source /home/saluser/.setup_salobj.sh && \
-    pip install ts-dds==${ts_dds}
+    [ ! -f "/opt/ts_dds-6.10.4-cp37-cp37m-linux_x86_64.whl" ] && pip install ts-dds==${ts_dds}
 
 WORKDIR /home/saluser/
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -84,7 +84,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_sal -t current && \
     setup ts_idl -t current && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
-    eups declare -r . ts_salobj -t current && \
     setup ts_salobj -t current && \
     scons || pytest --color=no --lf
 

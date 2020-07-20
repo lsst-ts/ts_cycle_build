@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 
-source ~/miniconda3/bin/activate
-source $OSPL_HOME/release.com
-source /home/saluser/.bashrc
+source ${HOME}/.setup_sal_env.sh
 
-run_atmcs_simulator.py
+echo "# Starting ATMCS Simulator CSC"
+
+run_atmcs_simulator.py && \
+echo "# ATMCS Simulator finished." || \
+(echo "# ATMCS Simulator failed."; exit 1)

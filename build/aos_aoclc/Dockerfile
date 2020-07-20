@@ -2,7 +2,9 @@
 # system software with the needed AOS repositories
 
 ARG IMAGE_TAG
-FROM lsstts/aos_sal:${IMAGE_TAG}
+ARG hub=lsstts
+
+FROM ${hub}/aos_sal:${IMAGE_TAG}
 
 LABEL author="Te-Wei Tsai <ttsai@lsst.org>"
 
@@ -20,25 +22,13 @@ ARG ts_phosim
 
 # Change to LSST user
 USER $LSST_USER
-WORKDIR $LSST_USER_HOME
 
-# Download the needed AOS repo
-RUN cd ${AOS_REPOS} \
-    && git clone https://github.com/lsst-dm/phosim_utils.git \
-    && cd phosim_utils/ \
-    && git checkout ${phosim_utils} \
-    && cd .. \
-    && git clone https://github.com/lsst-ts/ts_wep.git \
-    && cd ts_wep/ \
-    && git checkout ${ts_wep} \
-    && cd .. \
-    && git clone https://github.com/lsst-ts/ts_ofc.git \
-    && cd ts_ofc/ \
-    && git checkout ${ts_ofc} \
-    && cd .. \
-    && git clone https://github.com/lsst-ts/ts_phosim.git \
-    && cd ts_phosim/ \
-    && git checkout ${ts_phosim}
+RUN mkdir -p ${AOS_REPOS} && \
+    cd ${AOS_REPOS} && \
+    git clone https://github.com/lsst-dm/phosim_utils.git && \
+    git clone https://github.com/lsst-ts/ts_wep.git &&  \
+    git clone https://github.com/lsst-ts/ts_ofc.git &&  \
+    git clone https://github.com/lsst-ts/ts_phosim.git
 
 # Add the PhoSim and output directory
 RUN mkdir -p ${PHOSIM_DIR} \
@@ -49,20 +39,34 @@ ENV PHOSIMPATH "${PHOSIM_DIR}"
 ENV AOCLCOUTPUTPATH "${AOCLC_OUTPUT_PATH}"
 
 # Build the packages
-WORKDIR $AOS_REPOS
+WORKDIR ${AOS_REPOS}/phosim_utils/
+
 RUN source ${LSST_DIR}/loadLSST.bash \
-    && cd phosim_utils/ \
-    && setup -k -r . -t ${SIMS_VERSION} \
-    && scons \
-    && cd ../ts_wep/ \
-    && setup -k -r . \
-    && scons \
-    && cd ../ts_ofc/ \
-    && setup -k -r . \
-    && scons \
-    && cd ../ts_phosim/ \
-    && setup -k -r . \
+    && git checkout ${phosim_utils} \
+    && eups declare -r . -t current \
+    && setup phosim_utils -t current \
     && scons
+
+WORKDIR $AOS_REPOS/ts_wep/
+RUN source ${LSST_DIR}/loadLSST.bash \
+    && git checkout ${ts_wep} \
+    && eups declare -r . -t current \
+    && setup ts_wep -t current \
+    && scons
+
+WORKDIR $AOS_REPOS/ts_ofc/
+RUN source ${LSST_DIR}/loadLSST.bash \
+    && git checkout ${ts_ofc} \
+    && eups declare -r . -t current \
+    && setup ts_ofc -t current \
+    && scons
+
+WORKDIR $AOS_REPOS/ts_phosim/
+RUN source ${LSST_DIR}/loadLSST.bash \
+    && git checkout ${ts_phosim} \
+    && eups declare -r . -t current \
+    && setup ts_phosim -t current \
+    && scons || echo FAILED
 
 # Copy the file for the start of container with interactive environment
 COPY setup.sh ${LSST_USER_HOME}/.setup.sh

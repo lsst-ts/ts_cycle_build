@@ -5,45 +5,24 @@
 # Add the description
 echo "#"
 echo "# Loading LSST Stack"
-. /opt/lsst/software/stack/loadLSST.bash
-setup lsst_distrib
+. ${WORKDIR}/loadLSST.bash
+
+source ${HOME}/ospl_env.sh
+
 echo "#"
 echo "# Loading sal environment"
-. repos/ts_sal/setup.env
-echo "#"
-echo "# Setting up sal, salobj and scriptqueue"
+source ${OSPL_HOME}/release.com
 
-# Set up the SAL related packages
-setup ts_xml -t current
-setup ts_sal -t current
-setup ts_salobj -t current
-setup ts_scriptqueue -t current
-setup ts_ATDome -t current
-setup ts_ATDomeTrajectory -t current
-setup ts_standardscripts -t current
-setup ts_externalscripts -t current
+export PATH=${WORKDIR}/bin:${PATH}
 
 # Set up the AOS related packages
 LSST_USER_HOME=/home/saluser
 AOS_REPOS=${LSST_USER_HOME}/repos
 
-cd ${AOS_REPOS}/phosim_utils/
-setup -k -r .
+setup phosim_utils -t current
+setup ts_wep -t current
+setup ts_ofc -t current
+setup ts_phosim -t current
+setup ts_MTAOS -t current
 
-cd ${AOS_REPOS}/ts_wep/
-setup -k -r .
-
-cd ${AOS_REPOS}/ts_ofc/
-setup -k -r .
-
-cd ${AOS_REPOS}/ts_phosim/
-setup -k -r .
-
-cd ${AOS_REPOS}/ts_config_mttcs/
-setup -k -r .
-
-cd ${AOS_REPOS}/ts_MTAOS/
-setup -k -r .
-
-# Back to the default directory
-cd ${LSST_USER_HOME}
+echo "#"

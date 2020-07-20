@@ -1,6 +1,7 @@
+ARG deploy_env=lsstts/deploy-env
 ARG deploy_tag=salobj_v5.7.0
 
-FROM lsstts/deploy-env:${deploy_tag}
+FROM ${deploy_env}:${deploy_tag}
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
