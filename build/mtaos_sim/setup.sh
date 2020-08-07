@@ -7,7 +7,7 @@ echo "#"
 echo "# Loading LSST Stack"
 . ${WORKDIR}/loadLSST.bash
 
-source ${HOME}/ospl_env.sh
+source ${WORKDIR}/ospl_env.sh
 
 echo "#"
 echo "# Loading sal environment"

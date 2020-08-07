@@ -26,7 +26,14 @@ USER $LSST_USER
 # Install the lsst_sims and needed packages
 RUN source $LSST_DIR/loadLSST.bash \
     && eups distrib install lsst_sims `eups distrib list lsst_sims | awk '{print $3}'` \
-    && curl -sSL $SHEBANGTRON_URL | python \
+    && curl -sSL $SHEBANGTRON_URL | python 
+
+WORKDIR ${WORKDIR}
+
+USER lsst
+
+# Install the lsst_sims and needed packages
+RUN source ${WORKDIR}/loadLSST.bash \
     && conda install -y scikit-image
 
 # Install the plantUML

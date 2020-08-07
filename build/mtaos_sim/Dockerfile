@@ -18,13 +18,25 @@ RUN chmod a+x ${LSST_USER_HOME}/.checkout_repo.sh && \
     chmod a+x ${LSST_USER_HOME}/setup.sh && \
     chmod a+x ${LSST_USER_HOME}/startup.sh
 
+WORKDIR ${WORKDIR}
+
+USER lsst
+
+ARG ts_idl
+RUN source ${WORKDIR}/loadLSST.bash && \
+    source ${WORKDIR}/ospl_env.sh && \
+    source ${OSPL_HOME}/release.com && \
+    export PATH=${WORKDIR}/bin:${PATH} && \
+    conda install -y -c lsstts ts-idl=${ts_idl}
+
 # Change to LSST user
 USER ${LSST_USER}
 WORKDIR ${LSST_USER_HOME}
 
-ARG ts_idl
-RUN source ${LSST_USER_HOME}/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-idl=${ts_idl} && \
+RUN source ${WORKDIR}/loadLSST.bash && \
+    source ${WORKDIR}/ospl_env.sh && \
+    source ${OSPL_HOME}/release.com && \
+    export PATH=${WORKDIR}/bin:${PATH} && \
     idl_path=$(python -c 'from lsst.ts import idl; import pathlib; print(pathlib.Path(idl.__file__).parents[0])') && \
     eups declare -m none -r ${idl_path} ts_idl ${ts_idl}
 
@@ -33,7 +45,10 @@ ARG mtaos=develop
 ARG ts_config_mttcs
 
 # Download the required repos and checkout correct versions
-RUN source ${LSST_USER_HOME}/.setup_sal_env.sh && \
+RUN source ${WORKDIR}/loadLSST.bash && \
+    source ${WORKDIR}/ospl_env.sh && \
+    source ${OSPL_HOME}/release.com && \
+    export PATH=${WORKDIR}/bin:${PATH} && \
     cd ${AOS_REPOS} \
     && git clone https://github.com/lsst-ts/ts_MTAOS.git \
     && git clone https://github.com/lsst-ts/ts_config_mttcs.git \
