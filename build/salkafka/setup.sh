@@ -25,10 +25,7 @@
 ## make_idl_files.py $CSC_LIST
 #
 
-source ~/miniconda3/bin/activate
-source $OSPL_HOME/release.com
-
-source /home/saluser/.bashrc
+source $HOME/.setup_sal_env.sh
 
 run_salkafka_producer.py --broker  $BROKER_IP:$BROKER_PORT \
                          --registry  $REGISTRY_ADDR \

@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/miniconda3/bin/activate
-source $OSPL_HOME/release.com
-source /home/saluser/.bashrc
+source $HOME/.setup_sal_env.sh
 
 echo "# Starting M2 CSC"
 run_mtm2.py

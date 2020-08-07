@@ -1,6 +1,7 @@
 ARG base_image_tag
+ARG hub=lsstts
 
-FROM lsstts/salobj:$base_image_tag
+FROM ${hub}/salobj:${base_image_tag}
 
 COPY setup.sh /home/saluser/.setup_dev.sh
 
@@ -42,22 +43,22 @@ RUN source /home/saluser/.setup_salobj.sh && \
     done
 
 WORKDIR /home/saluser/
-RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
-    source /home/saluser/repos/ts_sal/setup.env && \
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
     setup ts_sal -t current && \
     setup ts_idl -t current && \
     make_idl_files.py --all
 
 WORKDIR /home/saluser/repos/ts_simactuators
-RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
-    source /home/saluser/repos/ts_sal/setup.env && \
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     eups declare -r . ts_simactuators -t current && setup ts_simactuators -t current && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_ATDome
-RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
-    source /home/saluser/repos/ts_sal/setup.env && \
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
@@ -65,8 +66,8 @@ RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_ATDomeTrajectory
-RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
-    source /home/saluser/repos/ts_sal/setup.env && \
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
@@ -75,8 +76,8 @@ RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_ATMCSSimulator
-RUN  source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
-    source /home/saluser/repos/ts_sal/setup.env && \
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
@@ -85,16 +86,16 @@ RUN  source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_observatory_control
-RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
-    source /home/saluser/repos/ts_sal/setup.env && \
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     eups declare -r . -t current && \
     setup ts_observatory_control -t current && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_standardscripts
-RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
-    source /home/saluser/repos/ts_sal/setup.env && \
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_sal -t current && \
     setup ts_salobj -t current && \
@@ -106,8 +107,8 @@ RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_externalscripts
-RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
-    source /home/saluser/repos/ts_sal/setup.env && \
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_sal -t current && \
     setup ts_salobj -t current && \
@@ -121,8 +122,8 @@ RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
 WORKDIR /home/saluser
 
 WORKDIR /home/saluser/repos/ts_scriptqueue
-RUN source /opt/lsst/software/stack/loadLSST.bash && setup lsst_distrib && \
-    source /home/saluser/repos/ts_sal/setup.env && \
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_sal -t current && \
     setup ts_idl -t current && \

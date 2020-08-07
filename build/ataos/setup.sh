@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
-source /home/saluser/.setup_salobj.sh
 
-setup ts_config_attcs -t current
+source ${WORKDIR}/.setup_sal_env.sh
+
 setup ts_ataos -t current
 
-ataos_csc.py
+echo "# Starting ATAOS CSC"
+
+ataos_csc.py $RUN_ARG && \
+echo "# ATAOS finished." || \
+(echo "# ATAOS failed."; exit 1)
