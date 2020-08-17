@@ -3,5 +3,8 @@
 source $HOME/.setup_sal_env.sh
 
 echo "# Starting MTMount CSC"
-run_mtmount.py $RUN_ARG
-echo "# CSC exited."
+run_mtmount.py $RUN_ARG &
+
+pid="$!"
+
+wait ${pid}

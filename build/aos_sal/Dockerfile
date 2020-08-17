@@ -26,7 +26,7 @@ USER $LSST_USER
 # Install the lsst_sims and needed packages
 RUN source $LSST_DIR/loadLSST.bash \
     && eups distrib install lsst_sims `eups distrib list lsst_sims | awk '{print $3}'` \
-    && curl -sSL $SHEBANGTRON_URL | python 
+    && curl -sSL $SHEBANGTRON_URL | python
 
 WORKDIR ${WORKDIR}
 
@@ -36,12 +36,5 @@ USER lsst
 RUN source ${WORKDIR}/loadLSST.bash \
     && conda install -y scikit-image
 
-# Install the plantUML
-# WORKDIR $LSST_USER_HOME
-# RUN source $LSST_DIR/loadLSST.bash \
-#    && wget https://newcontinuum.dl.sourceforge.net/project/plantuml/plantuml.jar \
-#    && pip install sphinxcontrib-plantuml
-
 # Set the default environment
-SHELL ["/bin/bash", "-lc"]
 WORKDIR $LSST_USER_HOME

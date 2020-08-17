@@ -2,4 +2,8 @@
 
 source $HOME/.setup_sal_env.sh
 
-run_rotator.py $RUN_ARG
+run_hexapod.py $RUN_ARG &
+
+pid="$!"
+
+wait ${pid}
