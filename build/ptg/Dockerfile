@@ -1,20 +1,23 @@
 FROM centos:centos7
 
+LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
-ARG rpm=0:4.1.0-5.0.0.el7.x86_64
-ARG ptg=v2.0.0
+ARG UID=73006
+ARG GID=73006
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ENV USER ${USER:-saluser}
 ENV HOME /home/saluser
+ENV LSST_DDS_DOMAIN=citest
 
 USER root
 
-# Create user and group
-RUN groupadd lsst && adduser -u 1004 -m -g lsst -s /bin/bash saluser
+RUN groupadd --gid ${GID} saluser && \
+    adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
+COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-nexus-private.repo
 
 RUN yum install -y https://repo.ius.io/ius-release-el7.rpm && \
     yum install -y centos-release-scl cmake
@@ -25,25 +28,44 @@ RUN yum -y --enablerepo=extras install epel-release \
     git \
     make \
     wget \
-    OpenSpliceDDS-6.9.0 \
     boost-python \
     boost-python-devel \
     curl-devel \
     yum clean all
 
-RUN yum install -y ATPtg-${rpm} \
+ARG rpm=0:4.1.0-5.0.0.el7.x86_64
+ARG dds_private_version
+ARG dds_private_build
+ARG dds_version
+
+ENV OSPL_HOME=/opt/OpenSpliceDDS/V${dds_version}/HDE/x86_64.linux
+
+RUN if [ -z "${dds_private_version}" ]; then \
+    yum install -y OpenSpliceDDS-6.9.0-8 ATPtg-${rpm} \
+        MTPtg-${rpm} \
+        MTMount-${rpm} \
+        Rotator-${rpm} \
+        Environment-${rpm} \
+        ATMCS-${rpm} \
+        NewMTMount-${rpm} ;\
+  else \
+    yum install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
+    OpenSpliceDDS-${dds_private_version}-${dds_private_build}.el7.x86_64 \
+    ATPtg-${rpm} \
     MTPtg-${rpm} \
     MTMount-${rpm} \
     Rotator-${rpm} \
     Environment-${rpm} \
     ATMCS-${rpm} \
-    NewMTMount-${rpm}
+    NewMTMount-${rpm} ; \
+  fi; \
+  rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
 
-RUN mkdir /home/saluser/.ssh/ && chown saluser:lsst /home/saluser/.ssh/ && chmod 700 /home/saluser/.ssh/
-COPY id_rsa /home/saluser/.ssh/
-COPY known_hosts /home/saluser/.ssh/
-RUN chown saluser:lsst /home/saluser/.ssh/id_rsa && \
-    chown saluser:lsst /home/saluser/.ssh/known_hosts && \
+RUN mkdir /home/saluser/.ssh/ && chown saluser:saluser /home/saluser/.ssh/ && chmod 700 /home/saluser/.ssh/
+COPY ptg/id_rsa /home/saluser/.ssh/
+COPY ptg/known_hosts /home/saluser/.ssh/
+RUN chown saluser:saluser /home/saluser/.ssh/id_rsa && \
+    chown saluser:saluser /home/saluser/.ssh/known_hosts && \
     chmod 400 /home/saluser/.ssh/id_rsa
 
 #RUN mkdir /opt/lsst/ts_sal/lsstsal/ && \
@@ -69,13 +91,14 @@ RUN git clone git@github.com:lsst-ts/tcspk_source_lsst_161203.git && \
  git clone git@github.com:lsst-ts/slalib_source_lsst_161203.git && \
  git clone git@github.com:lsst-ts/ts_pointing_common.git
 
+ARG ptg=v2.0.0
+
 WORKDIR /home/saluser/repos/ts_pointing_common
-RUN git fetch --all && git checkout ${ptg} -b ${ptg} || git checkout ${ptg}
+RUN git fetch --all && git checkout ${ptg} -b ${ptg} || git checkout ${ptg} || git checkout v${ptg} -b v${ptg}
 
 WORKDIR /home/saluser
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
-ENV OSPL_HOME=/opt/OpenSpliceDDS/V6.9.0/HDE/x86_64.linux
 ENV PYTHON_BUILD_VERSION=3.6m
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/miniconda3-4.5.4/
 ENV LSST_DDS_DOMAIN=citest
@@ -99,14 +122,14 @@ RUN mkdir build
 
 WORKDIR /home/saluser/repos/ts_pointing_common/build
 RUN source scl_source enable devtoolset-8 && \
-    source /opt/OpenSpliceDDS/V6.9.0/HDE/x86_64.linux/release.com && \
+    source ${OSPL_HOME}/release.com && \
     cmake -DRPM=ON .. && make && \
     cmake -DRPM=ON -DAT=ON .. && make
 
 RUN mkdir -p $PTG_DATA_DIR && cp $LSST_TOP/src/data/* $PTG_DATA_DIR/
 
 WORKDIR /home/saluser/
-COPY setup.sh /home/saluser/.setup.sh
+COPY ptg/setup.sh /home/saluser/.setup.sh
 
 ENTRYPOINT ["/bin/bash", "--"]
 CMD ["/home/saluser/.setup.sh"]

@@ -2,4 +2,4 @@
 
 source $HOME/.setup_sal_env.sh
 
-run_hexapod.py $RUN_ARG
+run_test_csc.py $RUN_ARG

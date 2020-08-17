@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 
-source ~/miniconda3/bin/activate
-source $OSPL_HOME/release.com
-source /home/saluser/.bashrc
+source ${HOME}/.setup_sal_env.sh
 
-run_atdometrajectory.py
+echo "# Starting ATDomeTrajectory CSC"
+
+run_atdometrajectory.py && \
+echo "# ATDomeTrajectory finished." || \
+(echo "# ATDomeTrajectory failed."; exit 1)

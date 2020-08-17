@@ -2,8 +2,9 @@
 # system software
 
 ARG base_image_tag
+ARG hub=lsstts
 
-FROM lsstts/develop-env:${base_image_tag}
+FROM ${hub}/deploy-sqre:${base_image_tag}
 
 LABEL author="Te-Wei Tsai <ttsai@lsst.org>"
 
@@ -15,7 +16,7 @@ ARG SHEBANGTRON_URL=https://raw.githubusercontent.com/lsst/shebangtron/master/sh
 USER root
 
 # Install the required packages
-RUN yum install -y csh \
+RUN yum install -y csh wget \
     && yum clean all \
     && rm -rf /var/cache/yum
 
@@ -25,14 +26,21 @@ USER $LSST_USER
 # Install the lsst_sims and needed packages
 RUN source $LSST_DIR/loadLSST.bash \
     && eups distrib install lsst_sims `eups distrib list lsst_sims | awk '{print $3}'` \
-    && curl -sSL $SHEBANGTRON_URL | python \
+    && curl -sSL $SHEBANGTRON_URL | python 
+
+WORKDIR ${WORKDIR}
+
+USER lsst
+
+# Install the lsst_sims and needed packages
+RUN source ${WORKDIR}/loadLSST.bash \
     && conda install -y scikit-image
 
 # Install the plantUML
-WORKDIR $LSST_USER_HOME
-RUN source $LSST_DIR/loadLSST.bash \
-    && wget https://newcontinuum.dl.sourceforge.net/project/plantuml/plantuml.jar \
-    && pip install sphinxcontrib-plantuml
+# WORKDIR $LSST_USER_HOME
+# RUN source $LSST_DIR/loadLSST.bash \
+#    && wget https://newcontinuum.dl.sourceforge.net/project/plantuml/plantuml.jar \
+#    && pip install sphinxcontrib-plantuml
 
 # Set the default environment
 SHELL ["/bin/bash", "-lc"]

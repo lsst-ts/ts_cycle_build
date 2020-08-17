@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source ~/miniconda3/bin/activate
-source $OSPL_HOME/release.com
-source /home/saluser/.bashrc
+source $HOME/.setup_sal_env.sh
 
 run_rotator.py $RUN_ARG
