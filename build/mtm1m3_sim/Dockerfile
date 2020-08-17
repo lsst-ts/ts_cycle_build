@@ -2,13 +2,16 @@ FROM centos:centos7
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
+ARG UID=73006
+ARG GID=73006
+
 ENV USER ${USER:-saluser}
 ENV HOME /home/saluser
 
 USER root
 
 # Create user and group
-RUN groupadd lsst && adduser -u 1004 -m -g lsst -s /bin/bash saluser
+RUN groupadd -g ${GID} lsst && adduser -u ${UID} -m -g lsst -s /bin/bash saluser
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-nexus-private.repo
@@ -27,8 +30,6 @@ RUN yum -y --enablerepo=extras install epel-release \
     curl-devel \
     yum clean all
 
-COPY deploy-env/conda/release.com /home/saluser/.release.com
-
 ARG rpm=0:4.1.0-5.0.0.el7.x86_64
 ARG dds_private_version
 ARG dds_private_build
@@ -42,9 +43,6 @@ RUN if [ -z "${dds_private_version}" ]; then \
     yum install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
     OpenSpliceDDS-${dds_private_version}-${dds_private_build}.x86_64 \
     MTMount-${rpm} MTM1M3-${rpm} ; \
-    ls /home/saluser/.release.com ; \
-    ls ${OSPL_HOME}/release.com ; \
-    cp /home/saluser/.release.com ${OSPL_HOME}/release.com ; \
   fi; \
   rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
 

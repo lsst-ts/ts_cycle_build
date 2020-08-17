@@ -20,11 +20,15 @@ ENV RUN_ARG=""
 
 WORKDIR /home/saluser/
 
-RUN source /home/saluser/.setup.sh && \
+RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts ts-atspec=${atspec} ts-idl=${idl}
 
 LABEL ts_atspec=${atspec} \
       ts_idl=${idl} \
       ts_config_latiss=${config}
 
-COPY setup.sh /home/saluser/.setup.sh
+COPY startup.sh /home/saluser/.startup.sh
+USER root
+RUN chown saluser:saluser /home/saluser/.startup.sh && \
+    chmod a+x /home/saluser/.startup.sh
+USER saluser

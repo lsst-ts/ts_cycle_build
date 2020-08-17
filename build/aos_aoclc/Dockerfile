@@ -24,15 +24,16 @@ ARG ts_phosim
 USER $LSST_USER
 
 RUN mkdir -p ${AOS_REPOS} && \
-    cd ${AOS_REPOS} && \
-    git clone https://github.com/lsst-dm/phosim_utils.git && \
-    git clone https://github.com/lsst-ts/ts_wep.git &&  \
-    git clone https://github.com/lsst-ts/ts_ofc.git &&  \
-    git clone https://github.com/lsst-ts/ts_phosim.git
+    mkdir -p ${PHOSIM_DIR} && \
+    mkdir -p ${AOCLC_OUTPUT_PATH}
 
-# Add the PhoSim and output directory
-RUN mkdir -p ${PHOSIM_DIR} \
-    && mkdir -p ${AOCLC_OUTPUT_PATH}
+WORKDIR ${AOS_REPOS}
+
+RUN git clone https://github.com/lsst-dm/phosim_utils.git
+RUN git clone https://github.com/lsst-ts/ts_wep.git
+RUN git clone https://github.com/lsst-ts/ts_ofc.git
+RUN git clone https://github.com/lsst-ts/ts_phosim.git
+
 
 # Set the PhoSim and output environment variables
 ENV PHOSIMPATH "${PHOSIM_DIR}"
@@ -66,11 +67,7 @@ RUN source ${LSST_DIR}/loadLSST.bash \
     && git checkout ${ts_phosim} \
     && eups declare -r . -t current \
     && setup ts_phosim -t current \
-    && scons || echo FAILED
-
-# Copy the file for the start of container with interactive environment
-COPY setup.sh ${LSST_USER_HOME}/.setup.sh
+    && scons
 
 # Set the default environment
-SHELL ["/bin/bash", "-lc"]
 WORKDIR $LSST_USER_HOME

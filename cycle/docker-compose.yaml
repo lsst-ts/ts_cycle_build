@@ -345,8 +345,30 @@ services:
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
-        idl: ${ts_idl}
+        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         salkafka: v${ts_salkafka}
+
+  scriptqueue:
+    image: ${hub}/scriptqueue:${CYCLE}
+    build:
+    build:
+      context: ../build/
+      dockerfile: ./scriptqueue/Dockerfile
+      labels:
+        com.description: "Script queue image for cycle ${CYCLE}."
+      args:
+        hub: ${hub}
+        deploy_tag: ${CYCLE}
+        ts_config_attcs: ${ts_config_attcs}
+        ts_config_ocs: ${ts_config_ocs}
+        ts_observatory_control: ${ts_observatory_control}
+        ts_externalscripts: ${ts_externalscripts}
+        ts_standardscripts: ${ts_standardscripts}
+        ts_scriptqueue: ${ts_scriptqueue}
+        ts_idl: ${ts_idl}
+        ts_atdome: ${ts_ATDome}
+        ts_atdometrajectory: ${ts_ATDomeTrajectory}
+        ts_atmcssimulator: ${ts_ATMCSSimulator}
 
   test:
     image: ${hub}/test:${CYCLE}
@@ -362,6 +384,19 @@ services:
         deploy_tag: ${CYCLE}
         idl: ${ts_idl}_${ts_xml}_${ts_sal}
 
+  watcher:
+    image: ${hub}/watcher:${CYCLE}
+    build:
+      context: ../build/watcher
+      labels:
+        com.description: "Watcher CSC for cycle ${CYCLE}."
+      args:
+        deploy_env: ${hub}/${deploy_env}
+        deploy_tag: ${CYCLE}
+        config_ocs: ${ts_config_ocs}
+        watcher: ${ts_watcher}
+        idl: ${ts_idl}_${ts_xml}_${ts_sal}
+
   ospl-daemon:
     image: ${hub}/ospl-daemon:${CYCLE}
     build:
@@ -374,7 +409,7 @@ services:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
 
-  atmcs-sim:
+  atmcs_sim:
     image: ${hub}/atmcs_sim:${CYCLE}
     build:
       context: ../build/atmcs_sim
@@ -412,7 +447,7 @@ services:
         idl: ${ts_idl}_${ts_xml}_${ts_sal}
         config: ${ts_config_attcs}
 
-  atpneumatics-sim:
+  atpneumatics_sim:
     image: ${hub}/at_pneumatics_sim:${CYCLE}
     build:
       context: ../build/atpneumatics_sim

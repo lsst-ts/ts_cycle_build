@@ -1,0 +1,64 @@
+#!/usr/bin/env groovy
+
+pipeline {
+
+  options {
+    buildDiscarder(
+      logRotator(
+        artifactDaysToKeepStr: '',
+        artifactNumToKeepStr: '',
+        daysToKeepStr: '14',
+        numToKeepStr: '10'
+      ))
+    disableConcurrentBuilds()
+  }
+
+  agent {
+    docker {
+      alwaysPull true
+      image 'docker/compose:latest'
+      // registryUrl 'https://ts-dockerhub.lsst.org/'
+      // registryCredentialsId 'nexus3-lsst_jenkins'
+      args "--entrypoint='' --user root -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
+    }
+  }
+
+  environment {
+    registryCredential = "dockerhub-lssttsadmin"
+  }
+  parameters {
+      booleanParam defaultValue: true, description: "Build/push base deployment image.", name: 'deploy_conda'
+  }
+
+  stages {
+    stage ('Build deploy-conda-private') {
+      when {
+          expression { params.deploy_conda }
+      }
+      steps {
+
+        withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+          sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+        }
+
+      // When using the docker container, we need to change
+      // the HOME path to WORKSPACE to have the authority
+      // to install the packages.
+      // docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push deploy-conda-private
+        withEnv(["HOME=${env.WORKSPACE}"]) {
+          sh """
+          docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build deploy-conda-private
+          """
+        }
+
+        script {
+          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+            sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push deploy-conda-private
+            """
+          }
+        }
+      }
+    }
+  }
+}

@@ -70,10 +70,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
 
 WORKDIR /home/saluser/
 RUN source /home/saluser/.setup_salobj.sh && \
-    [ ! -f "/opt/ts_dds-6.10.4-cp37-cp37m-linux_x86_64.whl" ] && pip install ts-dds==${ts_dds}
-
-WORKDIR /home/saluser/
-RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_sal -t current && \
     setup ts_idl -t current && \
     make_idl_files.py Test Script LOVE && \

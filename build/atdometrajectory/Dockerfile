@@ -9,7 +9,7 @@ ARG atdometrajectory
 ARG idl
 ARG config
 
-RUN source /home/saluser/.setup.sh && \
+RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts ts-atdometrajectory=${atdometrajectory} ts-idl=${idl}
 
 RUN git clone https://github.com/lsst-ts/ts_config_attcs.git
@@ -26,4 +26,8 @@ LABEL ts-atdometrajectory=${atdometrajectory} \
       ts-idl=${idl} \
       ts_config_attcs=${config}
 
-COPY setup.sh /home/saluser/.setup.sh
+COPY startup.sh /home/saluser/.startup.sh
+USER root
+RUN chown saluser:saluser /home/saluser/.startup.sh && \
+    chmod a+x /home/saluser/.startup.sh
+USER saluser
