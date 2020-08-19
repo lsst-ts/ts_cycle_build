@@ -463,3 +463,19 @@ services:
         atspec: ${ts_atspec}
         idl: ${ts_idl}_${ts_xml}_${ts_sal}
         config: ${ts_config_latiss}
+
+  integration-tester:
+    image: ${hub}/integration-tester:${CYCLE}
+    build:
+      context: ../build/integration-tester
+      labels:
+        com.description: "Integration tester for cycle ${CYCLE}."
+        deploy_env: ${deploy_env}
+        deploy_tag: ${CYCLE}
+        idl: ${ts_idl}_${ts_xml}_${ts_sal}
+        ts_observatory_control: ${ts_observatory_control}
+      args:
+        deploy_env: ${hub}/${deploy_env}
+        deploy_tag: ${CYCLE}
+        idl: ${ts_idl}_${ts_xml}_${ts_sal}
+        ts_observatory_control: ${ts_observatory_control}
