@@ -8,16 +8,6 @@ FROM ${hub}/aos_aoclc:${IMAGE_TAG}
 ARG LSST_USER=saluser
 ARG LSST_USER_HOME=/home/${LSST_USER}
 
-USER root
-COPY develop-env/salobj/checkout_repo.sh ${LSST_USER_HOME}/.checkout_repo.sh
-# Copy the file for the start of container with interactive environment
-COPY mtaos_sim/setup.sh ${LSST_USER_HOME}/setup.sh
-COPY mtaos_sim/startup.sh ${LSST_USER_HOME}/startup.sh
-
-RUN chmod a+x ${LSST_USER_HOME}/.checkout_repo.sh && \
-    chmod a+x ${LSST_USER_HOME}/setup.sh && \
-    chmod a+x ${LSST_USER_HOME}/startup.sh
-
 WORKDIR ${WORKDIR}
 
 USER lsst
@@ -65,6 +55,13 @@ LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
       ts_config_mttcs=${ts_config_mttcs}
 
 # Set the default environment
-SHELL ["/bin/bash", "-lc"]
 WORKDIR $LSST_USER_HOME
-CMD ["./startup.sh"]
+
+USER root
+# Copy the file for the start of container with interactive environment
+COPY mtaos_sim/startup.sh ${LSST_USER_HOME}/.startup.sh
+
+RUN chown saluser:saluser ${LSST_USER_HOME}/.startup.sh && \
+    chmod a+x ${LSST_USER_HOME}/.startup.sh
+
+USER ${LSST_USER}

@@ -101,7 +101,8 @@ RUN source ${WORKDIR}/loadLSST.bash && \
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     source ${WORKDIR}/ospl.env && \
-    conda install -y -c conda-forge kafkacat pyqt fontconfig
+    conda install -y --force-reinstall ld_impl_linux-64 && \
+    conda install -y -c conda-forge kafkacat pyqt fontconfig gxx_linux-64 cmake
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     source ${WORKDIR}/ospl.env && \

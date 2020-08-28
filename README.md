@@ -72,3 +72,28 @@ docker-compose -f cycle/docker-compose.yaml --env-file cycle/cycle.env build dev
 ```
 
 Currently (2020/07/27) the develop-env image with the private version of DDS is not working.
+
+# Version History
+
+## Cycle 0009
+
+First use of deployment cycle using xml 6.0.0, sal 4.1.4 and salobj 5.15.0.
+
+## Cycle 0010
+
+Updating deployment to use xml 6.1.0 and salojb 5.17.0.
+Major updates to build and deploy containers with licensed version of OpenSplice and testing shared memory mode.
+See tstn-023 for more details about shared memory mode and this cycle.
+
+## Cycle 0011
+
+Updating deployment to use disposable QoS for telemetry topics.
+This is an experimental feature on sal/salobj to see if we alleviate the system dictionary by making telemetry disposable.
+This experiment is part of a task to obtain a stable DDS deployment.
+
+# Open questions
+
+ * What is the criteria for a cycle build?
+ * What things changing warrant a bump in the cycle build?
+ * How do we handle updates to CSCs that don’t require SAL/XML changes?
+ * How does that affect the cycle build?

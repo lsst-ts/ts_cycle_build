@@ -9,8 +9,12 @@ ARG hexapod=0.1.dev65+ge3a234e
 ARG hexrotcomm=0.5.0
 ARG idl=1.1.3_4.8.0
 
-RUN source /home/saluser/.setup.sh && \
+RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts ts-hexapod=${hexapod} ts-idl=${idl} ts-hexrotcomm=${hexrotcomm}
 
 ENV RUN_ARG=""
-COPY setup.sh /home/saluser/.setup.sh
+COPY startup.sh /home/saluser/.startup.sh
+USER root
+RUN chown saluser:saluser /home/saluser/.startup.sh && \
+    chmod a+x /home/saluser/.startup.sh
+USER saluser

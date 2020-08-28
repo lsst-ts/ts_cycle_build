@@ -59,4 +59,8 @@ LABEL ts_idl=${ts_idl} \
 
 WORKDIR /home/saluser/
 
-COPY setup.sh /home/saluser/.setup.sh
+COPY startup.sh /home/saluser/.startup.sh
+USER root
+RUN chown saluser:saluser /home/saluser/.startup.sh && \
+    chmod a+x /home/saluser/.startup.sh
+USER saluser
