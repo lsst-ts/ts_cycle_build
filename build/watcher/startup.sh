@@ -4,6 +4,8 @@ source $HOME/.setup_sal_env.sh
 
 echo "# Starting Watcher CSC"
 
-run_watcher.py && \
-echo "# Watcher exited ok..." || \
-(echo "# Error in Watcher execution." && exit 1)
+run_watcher.py &
+
+pid="$!"
+
+wait ${pid}
