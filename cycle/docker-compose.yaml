@@ -257,7 +257,7 @@ services:
         xml: ${ts_xml}
         m1m3: ${ts_m1m3support}
       args:
-        rpm: ${ts_sal}-${ts_xml}.el7.x86_64
+        rpm: ${ts_xml}-${ts_sal}.el7.x86_64
         m1m3: ${ts_m1m3support}
         dds_version: ${dds_private_version}
         dds_private_version: ${dds_private_version}
@@ -323,10 +323,10 @@ services:
       dockerfile: ./ptg/Dockerfile
       labels:
         com.description: "Pointing component deployment image for cycle ${CYCLE}."
-        rpm: 0:${ts_sal}-${ts_xml}.el7.x86_64
+        rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
         ptg: ${ts_pointing_common}
       args:
-        rpm: 0:${ts_sal}-${ts_xml}.el7.x86_64
+        rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
         ptg: ${ts_pointing_common}
         dds_version: ${dds_private_version}
         dds_private_version: ${dds_private_version}
@@ -347,6 +347,20 @@ services:
         deploy_tag: ${CYCLE}
         idl: ${ts_idl}_${ts_xml}_${ts_sal}
         salkafka: v${ts_salkafka}
+
+  scheduler:
+    image: ${hub}/scheduler:${CYCLE}
+    build:
+      context: ../build/scheduler
+      labels:
+        com.description: "Scheduler image for cycle ${CYCLE}"
+      args:
+        hub: ${hub}
+        deploy_tag: ${CYCLE}
+        ts_config_ocs: ${ts_config_ocs}
+        ts_idl: ${ts_idl}
+        ts_scriptqueue: ${ts_scriptqueue}
+        ts_scheduler: ${ts_scheduler}
 
   scriptqueue:
     image: ${hub}/scriptqueue:${CYCLE}

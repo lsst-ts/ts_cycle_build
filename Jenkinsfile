@@ -12,7 +12,7 @@ pipeline{
         LTD_PASSWORD="${user_ci_PSW}"
     }
     stages{
-        stage("Build and Upload ATMCS Documentation"){
+        stage("Build and Upload Documentation"){
             steps{
                 sh """
                     source /home/saluser/.setup_dev.sh
