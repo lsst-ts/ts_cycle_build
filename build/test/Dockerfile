@@ -7,7 +7,7 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ARG idl=1.1.3_4.8.0
 
-RUN source /home/saluser/.setup.sh && \
+RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts ts-idl=${idl}
 
 # RUN mkdir /home/saluser/miniconda3/lib/python3.7/schema/
@@ -22,14 +22,14 @@ RUN git clone https://github.com/lsst-ts/ts_config_ocs.git
 ENV TS_CONFIG_OCS_DIR=/home/saluser/ts_config_ocs
 ENV RUN_ARG=1
 ENV OSPL_MASTER_PRIORITY=200
-COPY setup.sh /home/saluser/.setup.sh
-
+COPY startup.sh /home/saluser/.startup.sh
 COPY run_testing.py /home/saluser/run_testing.py
+
 USER root
 
 RUN chown saluser:saluser /home/saluser/run_testing.py && \
-    chown saluser:saluser /home/saluser/.setup.sh && \
+RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/run_testing.py && \
-    chmod a+x /home/saluser/.setup.sh
+    chmod a+x /home/saluser/.startup.sh
 
 USER saluser

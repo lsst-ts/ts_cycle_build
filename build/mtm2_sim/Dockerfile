@@ -9,7 +9,7 @@ ARG m2=0.1.dev9+geb50cc5
 ARG idl=1.1.3_4.8.0
 ARG config=v0.2.0
 
-RUN source /home/saluser/.setup.sh && \
+RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts ts-m2=${m2} ts-idl=${idl}
 
 WORKDIR /home/saluser/
@@ -24,4 +24,8 @@ WORKDIR /home/saluser/
 
 ENV TS_CONFIG_MTTCS_DIR=/home/saluser/ts_config_mttcs
 
-COPY m2_setup.sh /home/saluser/.setup.sh
+COPY startup.sh /home/saluser/.startup.sh
+USER root
+RUN chown saluser:saluser /home/saluser/.startup.sh && \
+    chmod a+x /home/saluser/.startup.sh
+USER saluser

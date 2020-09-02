@@ -8,10 +8,14 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 ARG atpneumatics_sim
 ARG idl
 
-RUN source /home/saluser/.setup.sh && \
+RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts ts-atpneumatics-simulator=${atpneumatics_sim} ts-idl=${idl}
 
 LABEL ts-atpneumatics-simulator=${atpneumatics_sim} \
       ts_idl=${idl}
 
-COPY setup.sh /home/saluser/.setup.sh
+COPY startup.sh /home/saluser/.startup.sh
+USER root
+RUN chown saluser:saluser /home/saluser/.startup.sh && \
+    chmod a+x /home/saluser/.startup.sh
+USER saluser

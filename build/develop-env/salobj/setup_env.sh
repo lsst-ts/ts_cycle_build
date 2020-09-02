@@ -26,4 +26,4 @@ fi
 # Work around for setting LSST_DDS_IP working on most systems
 export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'`
 
-export PATH=/opt/lsst/software/bin:${PATH}
+# export PATH=/opt/lsst/software/bin:${PATH}

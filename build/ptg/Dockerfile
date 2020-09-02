@@ -50,7 +50,7 @@ RUN if [ -z "${dds_private_version}" ]; then \
         NewMTMount-${rpm} ;\
   else \
     yum install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
-    OpenSpliceDDS-${dds_private_version}-${dds_private_build}.el7.x86_64 \
+    OpenSpliceDDS-${dds_private_version}-${dds_private_build}.x86_64 \
     ATPtg-${rpm} \
     MTPtg-${rpm} \
     MTMount-${rpm} \
@@ -127,6 +127,9 @@ RUN source scl_source enable devtoolset-8 && \
     cmake -DRPM=ON -DAT=ON .. && make
 
 RUN mkdir -p $PTG_DATA_DIR && cp $LSST_TOP/src/data/* $PTG_DATA_DIR/
+
+COPY ptg/ATPtg.info /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/MTPtg.info /home/saluser/repos/ts_pointing_common/install/data/
 
 WORKDIR /home/saluser/
 COPY ptg/setup.sh /home/saluser/.setup.sh
