@@ -246,6 +246,32 @@ services:
         ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
         ts_config_mttcs: ${ts_config_mttcs}
 
+  mtdome:
+    image: ${hub}/mtdome:${CYCLE}
+    build:
+      context: ../build/mtdome
+      labels:
+        com.description: "MTDome component for cycle {$CYCLE}"
+      args:
+        cycle: ${CYCLE}
+        hub: ${hub}
+        atdome: ${ts_dome}
+        idl: ${ts_idl}_${ts_xml}_${ts_sal}
+        config: ${ts_config_mttcs}
+
+  mtdometrajectory:
+    image: ${hub}/mtdometrajectory:${CYCLE}
+    build:
+      context: ../build/mtdometrajectory
+      labels:
+        com.description: "MTDomeTrajectory component for cycle {$CYCLE}"
+      args:
+        cycle: ${CYCLE}
+        hub: ${hub}
+        mtdometrajectory: ${ts_mtdometrajectory}
+        idl: ${ts_idl}_${ts_xml}_${ts_sal}
+        config: ${ts_config_mttcs}
+
   mtm1m3_sim:
     image: ${hub}/mtm1m3_sim:${CYCLE}
     build:
@@ -259,6 +285,7 @@ services:
       args:
         rpm: ${ts_xml}-${ts_sal}.el7.x86_64
         m1m3: ${ts_m1m3support}
+        ts_idl: ${ts_idl_git}
         dds_version: ${dds_private_version}
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
@@ -328,6 +355,7 @@ services:
       args:
         rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
         ptg: ${ts_pointing_common}
+        ts_idl: ${ts_idl_git}
         dds_version: ${dds_private_version}
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
@@ -346,7 +374,7 @@ services:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
         idl: ${ts_idl}_${ts_xml}_${ts_sal}
-        salkafka: v${ts_salkafka}
+        salkafka: ${ts_salkafka}
 
   scheduler:
     image: ${hub}/scheduler:${CYCLE}
@@ -477,12 +505,13 @@ services:
     image: ${hub}/ataos:${CYCLE}
     build:
       context: ../build/ataos
+      dockerfile: ./Dockerfile.conda
       labels:
         com.description: "ATAOS component for cycle {$CYCLE}"
       args:
         cycle: ${CYCLE}
         hub: ${hub}
-        ataos: ${ts_ataos}
+        ts_ataos: ${ts_ataos}
         config: ${ts_config_attcs}
         ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
         ts_observatory_control: ${ts_observatory_control}

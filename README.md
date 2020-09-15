@@ -57,11 +57,49 @@ docker-compose -f cycle/docker-compose.yaml --env-file cycle/cycle.env push depl
 ```
 
 Once the base deployment images are built you can build the CSCs that uses those base images.
-WE 
+
+We usually start with those images that use the ``deploy-env`` base image, which is a simple centos7 image with a conda installation.
 
 ```bash
+docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \
+  ataos \
+  atdome \
+  atdometrajectory \
+  athexapod \
+  atmcs_sim \
+  atpneumatics_sim \
+  atspectrograph \
+  hexapod \
+  mtdome \
+  mtdometrajectory \
+  mtm2_sim \
+  mtmount \
+  ospl-daemon \
+  rotator \
+  salkafka \
+  watcher
+
+docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push \
+  ataos \
+  atdome \
+  atdometrajectory \
+  athexapod \
+  atmcs_sim \
+  atpneumatics_sim \
+  atspectrograph \
+  hexapod \
+  mtdome \
+  mtdometrajectory \
+  mtm2_sim \
+  mtmount \
+  ospl-daemon \
+  rotator \
+  salkafka \
+  watcher
 
 ```
+
+Next we build those images that use the ``deploy-sqre`` base image, which is based on ``lsstsqre/centos`` image, thus contains the DM stack with the TSS base software ``eups`` declared but installed as conda packages.
 
 ## Building the development environment
 
@@ -103,6 +141,10 @@ This experiment is part of a task to obtain a stable DDS deployment.
 Updating deployment to use new partitioning schema implemented in salobj 6/sal 5.
 This is also an experimental feature in sal/salobj to try to improve the how data is organized in the DDS Global Data Storage.
 This experiment is part of a task to obtain a stable DDS deployment.
+
+## Cycle c0013
+
+Continuing tests with salobj 6/sal 5.
 
 # Open questions
 

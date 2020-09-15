@@ -134,5 +134,10 @@ COPY ptg/MTPtg.info /home/saluser/repos/ts_pointing_common/install/data/
 WORKDIR /home/saluser/
 COPY ptg/setup.sh /home/saluser/.setup.sh
 
+ARG ts_idl
+RUN git clone --branch ${ts_idl} https://github.com/lsst-ts/ts_idl.git
+
+ENV LSST_DDS_QOS=file:///home/saluser/ts_idl/qos/QoS.xml
+
 ENTRYPOINT ["/bin/bash", "--"]
 CMD ["/home/saluser/.setup.sh"]

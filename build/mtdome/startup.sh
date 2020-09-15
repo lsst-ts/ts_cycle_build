@@ -2,7 +2,7 @@
 
 source $HOME/.setup_sal_env.sh
 
-ataos_csc.py &
+run_dome.py $RUN_ARG &
 
 pid="$!"
 
