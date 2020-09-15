@@ -50,11 +50,18 @@ Once `cycle.env` is prepared and the user has verified that all the packages exi
 The build starts by building the base image.
 
 ```bash
-docker-compose -f cycle/docker-compose.yaml --env-file cycle/cycle.env build deploy-conda-community
 docker-compose -f cycle/docker-compose.yaml --env-file cycle/cycle.env build deploy-conda-private
+docker-compose -f cycle/docker-compose.yaml --env-file cycle/cycle.env push deploy-conda-private
+docker-compose -f cycle/docker-compose.yaml --env-file cycle/cycle.env build deploy-lsstsqre-private
+docker-compose -f cycle/docker-compose.yaml --env-file cycle/cycle.env push deploy-lsstsqre-private
 ```
 
 Once the base deployment images are built you can build the CSCs that uses those base images.
+WE 
+
+```bash
+
+```
 
 ## Building the development environment
 
@@ -89,6 +96,12 @@ See tstn-023 for more details about shared memory mode and this cycle.
 
 Updating deployment to use disposable QoS for telemetry topics.
 This is an experimental feature on sal/salobj to see if we alleviate the system dictionary by making telemetry disposable.
+This experiment is part of a task to obtain a stable DDS deployment.
+
+## Cycle 0012
+
+Updating deployment to use new partitioning schema implemented in salobj 6/sal 5.
+This is also an experimental feature in sal/salobj to try to improve the how data is organized in the DDS Global Data Storage.
 This experiment is part of a task to obtain a stable DDS deployment.
 
 # Open questions

@@ -61,9 +61,7 @@ RUN curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
     source /home/saluser/.setup_sal_env.sh && \
     conda config --add channels conda-forge && \
     conda install -y cython && \
-    conda install -y -c lsstts python=3.7 ts-dds=${ts_dds} && \
-    conda install -y -c lsstts python=3.7 ts-salobj=${ts_salobj} ts-dds=${ts_dds} || \
-    conda install -y -c lsstts/label/dev python=3.7 ts-salobj=${ts_salobj}
+    conda install -y -c lsstts -c lsstts/label/dev python=3.7 ts-salobj=${ts_salobj} ts-dds=${ts_dds} 
 
 WORKDIR /home/saluser/
 
