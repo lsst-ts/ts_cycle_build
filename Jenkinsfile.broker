@@ -59,7 +59,7 @@ pipeline {
                 build wait: false, job: 'salkafka conda package/' + branch
                 build wait: false, job: 'Sim Actuators conda package/' + branch
                 build wait: false, job: 'Standard script conda package/' + branch
-                //build wait: false, job: 'TunableLaser conda package/' + branch
+                build wait: false, job: 'TunableLaser conda package/' + branch
                 build wait: false, job: 'Watcher conda package/' + branch
             }
         }//Trigger
