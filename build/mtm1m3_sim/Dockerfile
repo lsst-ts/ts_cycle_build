@@ -16,9 +16,11 @@ RUN groupadd -g ${GID} lsst && adduser -u ${UID} -m -g lsst -s /bin/bash saluser
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-nexus-private.repo
 
-RUN yum install -y https://repo.ius.io/ius-release-el7.rpm
+RUN yum install -y https://repo.ius.io/ius-release-el7.rpm && \
+    yum install -y centos-release-scl cmake
 
 RUN yum -y --enablerepo=extras install epel-release \
+    devtoolset-8-gcc* \
     wget \
     git \
     make \
@@ -26,7 +28,6 @@ RUN yum -y --enablerepo=extras install epel-release \
     gcc-c++ \
     boost-python \
     boost-python-devel \
-    cmake \
     curl-devel \
     yum clean all
 
@@ -56,12 +57,18 @@ ARG m1m3=DM-24026
 RUN git clone --branch ${m1m3} https://github.com/lsst-ts/ts_m1m3support
 
 WORKDIR /home/saluser/ts_m1m3support/
-RUN source ${OSPL_HOME}/release.com && \
+RUN source scl_source enable devtoolset-8 && \
+    source ${OSPL_HOME}/release.com && \
     make SIMULATOR=1
 
 WORKDIR /home/saluser/
 
 COPY mtm1m3_sim/startup.sh /home/saluser/.setup.sh
+
+ARG ts_idl
+RUN git clone --branch ${ts_idl} https://github.com/lsst-ts/ts_idl.git
+
+ENV LSST_DDS_QOS=file:///home/saluser/ts_idl/qos/QoS.xml
 
 ENTRYPOINT ["/bin/bash", "--"]
 CMD ["/home/saluser/.setup.sh"]
