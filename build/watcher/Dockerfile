@@ -13,15 +13,11 @@ RUN /home/saluser/.checkout_repo.sh ${config_ocs}
 
 WORKDIR /home/saluser/
 
-ARG idl
 ARG watcher
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-idl=${idl} ts-watcher=${watcher}
+    conda install -c lsstts ts-watcher=${watcher}
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org> \
-      environment ${deploy_env} \
-      ts_idl ${idl} \
-      salobj ${deploy_tag} \
       ts_config_ocs ${config_ocs} \
       ts_watcher ${watcher}
 

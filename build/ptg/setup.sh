@@ -1,23 +1,6 @@
 #!/usr/bin/env bash
 
-source $OSPL_HOME/release.com
-source /home/saluser/.bashrc
-
-pid=0
-
-# SIGTERM-handler
-term_handler() {
-  if [ $pid -ne 0 ]; then
-    echo Sending SIGTERM to $pid
-    kill -SIGTERM "$pid"
-    wait "$pid"
-    exit_code=$?
-    echo $pid exited with code ${exit_code}
-  fi
-  exit 143; # 128 + 15 -- SIGTERM
-}
-
-trap 'kill ${!}; term_handler' SIGTERM
+source ${HOME}/.setup_sal_env.sh
 
 if [ "$TELESCOPE" == "MT" ]
 then
@@ -38,6 +21,6 @@ wait ${pid}
 
 exit_code=$?
 
-echo ${TELESCOPE} ptg exited with code ${exit_code}
+echo ${TELESCOPE}Ptg exited with code ${exit_code}
 
 exit 0
