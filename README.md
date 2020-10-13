@@ -146,6 +146,10 @@ This experiment is part of a task to obtain a stable DDS deployment.
 
 Continuing tests with salobj 6/sal 5.
 
+## Cycle c0014
+
+Official release of salobj 6/sal 5 with xml 6.1.0.
+
 # Open questions
 
  * What is the criteria for a cycle build?

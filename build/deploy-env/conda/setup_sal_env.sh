@@ -11,12 +11,10 @@ term_handler() {
   exit 143; # 128 + 15 -- SIGTERM
 }
 
-. ${WORKDIR}/miniconda/bin/activate
-
-source ${HOME}/.ospl_env.sh
-
 # setup handlers
 # on callback, kill the last background process and execute term_handler
 trap 'kill ${!}; term_handler' SIGTERM
 
+source ${WORKDIR}/miniconda/bin/activate
+source ${HOME}/.ospl_env.sh
 source ${OSPL_HOME}/release.com

@@ -1,7 +1,7 @@
 ARG deploy_tag
 ARG hub=lsstts
 
-FROM ${hub}/aos_sal:${deploy_tag}
+FROM ${hub}/lsst_sims:${deploy_tag}
 
 WORKDIR ${WORKDIR}
 

@@ -14,6 +14,7 @@ services:
         dds_community_build: ${dds_community_build_el7}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_community}
+        ts_idl: ${ts_idl}
 
   deploy-conda-private:
     image: ts-dockerhub.lsst.org/deploy-env:${CYCLE}
@@ -29,6 +30,7 @@ services:
         dds_private_build: ${dds_private_build}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_private}
+        ts_idl: ${ts_idl}
 
   deploy-lsstsqre-community:
     image: lsstts/deploy-sqre:${CYCLE}
@@ -97,7 +99,7 @@ services:
       args:
         hub: lsstts
         base_image_tag: ${CYCLE}
-        ts_dds: ${ts_dds_private}
+        ts_dds: ${ts_dds_community}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
         ts_config_mtcalsys: ${ts_config_mtcalsys}
@@ -192,24 +194,23 @@ services:
         phosim_utils: ${phosim_utils}
         ts_wep: ${ts_wep}
         ts_ofc: ${ts_ofc}
-        ts_phosim: ${ts_phosim}
       args:
         hub: ${hub}
         IMAGE_TAG: ${CYCLE}
         phosim_utils: ${phosim_utils}
         ts_wep: ${ts_wep}
         ts_ofc: ${ts_ofc}
-        ts_phosim: ${ts_phosim}
 
-  aos_sal:
-    image: ${hub}/aos_sal:${CYCLE}
+  lsst_sims:
+    image: ${hub}/lsst_sims:${CYCLE}
     build:
-      context: ../build/aos_sal
+      context: ../build/lsst_sims
       labels:
-        com.description: "AOS AOCL image for cycle ${CYCLE}."
+        com.description: "LSST sims image for cycle ${CYCLE}."
       args:
         hub: ${hub}
         base_image_tag: ${CYCLE}
+        lsst_sims: ${lsst_sims}
 
   hexapod:
     image: ${hub}/hexapod:${CYCLE}
@@ -217,16 +218,9 @@ services:
       context: ../build/hexapod
       labels:
         com.description: "Hexapod deployment image for cycle ${CYCLE}."
-        base_image: salobj_${ts_salobj}
-        idl: ${ts_idl}
-        hexrotcomm: ${ts_hexrotcomm}
-        hexapod: ${ts_hexapod}
-        deploy_env: ${deploy_env}
-        deploy_tag: ${CYCLE}
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
-        idl: ${ts_idl}
         hexapod: ${ts_hexapod}
         hexrotcomm: ${ts_hexrotcomm}
 
@@ -256,7 +250,6 @@ services:
         cycle: ${CYCLE}
         hub: ${hub}
         atdome: ${ts_dome}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         config: ${ts_config_mttcs}
 
   mtdometrajectory:
@@ -269,7 +262,6 @@ services:
         cycle: ${CYCLE}
         hub: ${hub}
         mtdometrajectory: ${ts_mtdometrajectory}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         config: ${ts_config_mttcs}
 
   mtm1m3_sim:
@@ -283,12 +275,10 @@ services:
         xml: ${ts_xml}
         m1m3: ${ts_m1m3support}
       args:
+        cycle: ${CYCLE}
+        hub: ${hub}
         rpm: ${ts_xml}-${ts_sal}.el7.x86_64
         m1m3: ${ts_m1m3support}
-        ts_idl: ${ts_idl_git}
-        dds_version: ${dds_private_version}
-        dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build}
 
   mtm2_sim:
     image: ${hub}/m2:${CYCLE}
@@ -296,7 +286,6 @@ services:
       context: ../build/mtm2_sim
       labels:
         com.description: "M2 simulator deployment image for cycle ${CYCLE}."
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         m2: ${ts_m2}
         config: ${ts_config_mttcs}
         deploy_env: ${deploy_env}
@@ -304,7 +293,6 @@ services:
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         m2: ${ts_m2}
         config: v${ts_config_mttcs}
 
@@ -316,12 +304,10 @@ services:
         com.description: "Rotator deployment image for cycle ${CYCLE}."
         deploy_env: ${deploy_env}
         deploy_tag: ${CYCLE}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         rotator: ${ts_rotator}
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         rotator: ${ts_rotator}
         hexrotcomm: ${ts_hexrotcomm}
 
@@ -333,13 +319,11 @@ services:
         com.description: "MTmount deployment image for cycle ${CYCLE}."
         deploy_env: ${deploy_env}
         deploy_tag: ${CYCLE}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         mtmount: ${ts_mtmount}
         config: ${ts_config_mttcs}
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         mtmount: ${ts_mtmount}
         config: v${ts_config_mttcs}
 
@@ -353,12 +337,10 @@ services:
         rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
         ptg: ${ts_pointing_common}
       args:
+        cycle: ${CYCLE}
+        hub: ${hub}
         rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
         ptg: ${ts_pointing_common}
-        ts_idl: ${ts_idl_git}
-        dds_version: ${dds_private_version}
-        dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build}
 
   salkafka:
     image: ${hub}/salkafka:${CYCLE}
@@ -368,12 +350,10 @@ services:
         com.description: "SAL kafka producers deployment image for cycle ${CYCLE}."
         deploy_env: ${deploy_env}
         deploy_tag: ${CYCLE}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         salkafka: ${ts_salkafka}
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         salkafka: ${ts_salkafka}
 
   scheduler:
@@ -420,11 +400,9 @@ services:
         com.description: "Test CSC for cycle ${CYCLE}."
         deploy_env: ${deploy_env}
         deploy_tag: ${CYCLE}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
 
   watcher:
     image: ${hub}/watcher:${CYCLE}
@@ -437,7 +415,6 @@ services:
         deploy_tag: ${CYCLE}
         config_ocs: ${ts_config_ocs}
         watcher: ${ts_watcher}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
 
   ospl-daemon:
     image: ${hub}/ospl-daemon:${CYCLE}
@@ -461,7 +438,6 @@ services:
         cycle: ${CYCLE}
         hub: ${hub}
         atmcs: ${ts_ATMCSSimulator}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
 
   atdome:
     image: ${hub}/atdome:${CYCLE}
@@ -473,7 +449,6 @@ services:
         cycle: ${CYCLE}
         hub: ${hub}
         atdome: ${ts_ATDome}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         config: ${ts_config_attcs}
 
   atdometrajectory:
@@ -486,7 +461,6 @@ services:
         cycle: ${CYCLE}
         hub: ${hub}
         atdometrajectory: ${ts_ATDomeTrajectory}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         config: ${ts_config_attcs}
 
   atpneumatics_sim:
@@ -499,7 +473,6 @@ services:
         cycle: ${CYCLE}
         hub: ${hub}
         atpneumatics_sim: ${ts_ATPneumaticsSimulator}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
 
   ataos:
     image: ${hub}/ataos:${CYCLE}
@@ -513,7 +486,6 @@ services:
         hub: ${hub}
         ts_ataos: ${ts_ataos}
         config: ${ts_config_attcs}
-        ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
         ts_observatory_control: ${ts_observatory_control}
 
   athexapod:
@@ -526,7 +498,6 @@ services:
         cycle: ${CYCLE}
         hub: ${hub}
         athexapod: ${ts_athexapod}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         config: ${ts_config_attcs}
 
   atspectrograph:
@@ -539,5 +510,4 @@ services:
         cycle: ${CYCLE}
         hub: ${hub}
         atspec: ${ts_atspec}
-        idl: ${ts_idl}_${ts_xml}_${ts_sal}
         config: ${ts_config_latiss}

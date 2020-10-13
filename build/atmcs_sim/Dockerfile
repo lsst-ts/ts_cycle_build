@@ -6,13 +6,11 @@ FROM ${hub}/deploy-env:${cycle}
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ARG atmcs
-ARG idl
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-atmcs-simulator=${atmcs} ts-idl=${idl}
+    conda install -c lsstts ts-atmcs-simulator=${atmcs}
 
-LABEL ts-atmcs-simulator=${atmcs} \
-      ts-idl=${idl}
+LABEL ts-atmcs-simulator=${atmcs}
 
 COPY startup.sh /home/saluser/.startup.sh
 USER root
