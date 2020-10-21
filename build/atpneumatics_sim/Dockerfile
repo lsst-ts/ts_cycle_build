@@ -6,13 +6,11 @@ FROM ${hub}/deploy-env:${cycle}
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ARG atpneumatics_sim
-ARG idl
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-atpneumatics-simulator=${atpneumatics_sim} ts-idl=${idl}
+    conda install -c lsstts ts-atpneumatics-simulator=${atpneumatics_sim}
 
-LABEL ts-atpneumatics-simulator=${atpneumatics_sim} \
-      ts_idl=${idl}
+LABEL ts-atpneumatics-simulator=${atpneumatics_sim} 
 
 COPY startup.sh /home/saluser/.startup.sh
 USER root

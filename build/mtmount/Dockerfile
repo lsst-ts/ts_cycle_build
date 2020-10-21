@@ -6,11 +6,10 @@ FROM ${deploy_env}:${deploy_tag}
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ARG mtmount=0.1.dev68+gf5d71b5
-ARG idl=1.1.3_4.8.0
 ARG config=v0.2.0
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-mtmount=${mtmount} ts-idl=${idl}
+    conda install -c lsstts ts-mtmount=${mtmount}
 
 RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
 
@@ -21,6 +20,9 @@ WORKDIR /home/saluser/
 
 ENV TS_CONFIG_MTTCS_DIR=/home/saluser/ts_config_mttcs
 ENV RUN_ARG=""
+
+LABEL mtmount=${mtmount} \
+      config=${config}
 
 COPY startup.sh /home/saluser/.startup.sh
 USER root

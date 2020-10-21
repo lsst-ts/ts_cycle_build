@@ -75,8 +75,11 @@ RUN source /home/saluser/.setup_salobj.sh && \
     make_idl_files.py Test Script LOVE && \
     make_salpy_libs.py Test Script
 
+ARG ts_dds
+
 WORKDIR /home/saluser/repos/ts_salobj
 RUN source /home/saluser/.setup_salobj.sh && \
+    pip install ts-dds==${ts_dds} && \
     setup ts_sal -t current && \
     setup ts_idl -t current && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \

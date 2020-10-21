@@ -6,11 +6,10 @@ FROM ${hub}/deploy-env:${cycle}
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ARG mtdometrajectory
-ARG idl
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-mtdometrajectory=${mtdometrajectory} ts-idl=${idl}
+    conda install -c lsstts -y ts-mtdometrajectory=${mtdometrajectory}
 
 RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
 
@@ -23,7 +22,6 @@ WORKDIR /home/saluser/
 ENV TS_CONFIG_MTTCS_DIR=/home/saluser/ts_config_mttcs
 
 LABEL ts-mtdometrajectory=${mtdometrajectory} \
-      ts-idl=${idl} \
       ts_config_mttcs=${config}
 
 COPY startup.sh /home/saluser/.startup.sh

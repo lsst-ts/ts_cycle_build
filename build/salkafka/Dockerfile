@@ -20,11 +20,12 @@ RUN source /home/saluser/.setup_sal_env.sh && \
     pip install kafkit[aiohttp] aiokafka
 
 ARG salkafka=v1.1.1
-ARG idl=1.1.3_4.8.0
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-salkafka=${salkafka} ts-idl=${idl} python-confluent-kafka
+    conda install -c lsstts ts-salkafka=${salkafka} python-confluent-kafka
 
 COPY m1m3.yaml /home/saluser/m1m3.yaml
+
+LABEL salkafka=${salkafka}
 
 WORKDIR /home/saluser

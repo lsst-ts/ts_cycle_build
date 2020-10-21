@@ -19,18 +19,15 @@ WORKDIR /home/saluser/
 
 ENV TS_CONFIG_ATTCS_DIR=/home/saluser/ts_config_attcs
 
-ARG ts_idl
 ARG ts_observatory_control
 ARG ts_ataos
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts \
     ts-ataos=${ts_ataos} \
-    ts-idl=${ts_idl} \
     ts-observatory-control=${ts_observatory_control}
 
-LABEL ts_idl=${ts_idl} \
-      ts_observatory_control=${ts_observatory_control} \
+LABEL ts_observatory_control=${ts_observatory_control} \
       ts_config_attcs=${config} \
       ts_ataos=${ataos}
 

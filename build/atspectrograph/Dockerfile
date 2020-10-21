@@ -6,7 +6,6 @@ FROM ${hub}/deploy-env:${cycle}
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ARG atspec
-ARG idl
 ARG config
 
 RUN git clone https://github.com/lsst-ts/ts_config_latiss.git
@@ -21,10 +20,9 @@ ENV RUN_ARG=""
 WORKDIR /home/saluser/
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-atspec=${atspec} ts-idl=${idl}
+    conda install -c lsstts ts-atspec=${atspec}
 
 LABEL ts_atspec=${atspec} \
-      ts_idl=${idl} \
       ts_config_latiss=${config}
 
 COPY startup.sh /home/saluser/.startup.sh

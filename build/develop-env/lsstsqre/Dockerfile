@@ -57,7 +57,8 @@ RUN yum -y --enablerepo=extras install epel-release \
   ntp \
   tcpdump \
   graphviz* \
-  tzdata
+  tzdata \
+  libgphoto2-devel
 
 ARG dds_community_version=6.9.0
 ARG dds_community_build=1.el6
@@ -65,19 +66,15 @@ ARG dds_private_version
 ARG dds_private_build
 
 RUN touch ${WORKDIR}/ospl.env && \
-    chmod a+r ${WORKDIR}/ospl.env && \
-    mkdir -p ${WORKDIR}/../bin/ && \
+    chown -R ${UID}:${GID} ${WORKDIR}/ospl.env && \
+    chmod a+x ${WORKDIR}/ospl.env && \
     if [ -z "${dds_private_version}" ]; then \
-      yum install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build}.el6 ; \
+      yum install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} ; \
       echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
     else \
-      yum install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build}.el6 && \
-      cp -v /opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux/bin/idlpp ${WORKDIR}/../bin/ && \
-      cp -v /opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux/etc/config/ospl.xml ${WORKDIR}/ && \
       yum install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
-      OpenSpliceDDS-${dds_private_version}-${dds_private_build}.el6 ; \
+      OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
       echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
-      mv -v ${WORKDIR}/ospl.xml /opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux/etc/config/ ; \
     fi
 
 RUN rm /etc/yum.repos.d/lsst-ts-private.repo
@@ -110,20 +107,15 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     aiokafka confluent_kafka asynccmd aiounittest ipdb wget pytest-subtests \
     pycodestyle aiomisc ipympl ginga pyevents jinja2 ephem gitpython \
     sqlalchemy asynctest lxml pytest-asyncio astroquery ltd-conveyor \
-    moto boto3 black
+    moto boto3 black==19.10b0
 
-RUN source ${WORKDIR}/loadLSST.bash && \
-    source ${WORKDIR}/ospl.env && \
-    source ${OSPL_HOME}/release.com && \
-    cd $OSPL_HOME/tools/python/src/ && pip install .
+RUN source /opt/lsst/software/stack/loadLSST.bash && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+    jupyter labextension install jupyter-matplotlib && \
+    jupyter notebook --generate-config
 
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
-ENV LSST_DDS_DOMAIN=citest
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org> \
-      image_tag=${lsstsqre} \
-      dds_community_version=${dds_community_version} \
-      dds_community_build=${dds_community_build} \
-      dds_private_version=${dds_private_version} \
-      dds_private_build=${dds_private_build} \
+      image_tag=${lsstsqre}
