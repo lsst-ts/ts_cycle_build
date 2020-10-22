@@ -150,6 +150,10 @@ Continuing tests with salobj 6/sal 5.
 
 Official release of salobj 6/sal 5 with xml 6.1.0.
 
+## Cycle c0015
+
+Release of salobj 6/sal 5 with xml 6.2.0.
+
 # Open questions
 
  * What is the criteria for a cycle build?
