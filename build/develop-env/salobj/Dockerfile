@@ -9,19 +9,21 @@ COPY checkout_repo.sh /home/saluser/.checkout_repo.sh
 COPY setup_env.sh /home/saluser/.setup_salobj.sh
 COPY setup.sh /home/saluser/.setup.sh
 
+ENV TSSW_PATH=/opt/lsst/tssw
+
 USER root
 RUN chown saluser:lsst /home/saluser/.setup_salobj.sh && \
     chmod a+x /home/saluser/.setup_salobj.sh && \
     chown saluser:lsst /home/saluser/.checkout_repo.sh && \
     chmod a+x /home/saluser/.checkout_repo.sh && \
     chown saluser:lsst /home/saluser/.setup.sh && \
-    chmod a+x /home/saluser/.setup.sh
+    chmod a+x /home/saluser/.setup.sh && \
+    mkdir ${TSSW_PATH} && \
+    chown saluser:saluser ${TSSW_PATH}
 
 USER saluser
 
-RUN source /home/saluser/.setup_salobj.sh && \
-    mkdir $EUPS_PATH/../tssw && \
-    ln -s $EUPS_PATH/../tssw repos
+RUN ln -s ${TSSW_PATH} /home/saluser/repos
 
 # Arguments for package versions
 ARG ts_dds="6.9.181127"
@@ -32,13 +34,14 @@ ARG ts_config_eas="develop"
 ARG ts_config_latiss="develop"
 ARG ts_config_mttcs="develop"
 ARG ts_config_atcalsys="develop"
+ARG ts_ddsconfig="develop"
 ARG ts_xml="develop"
 ARG ts_idl="develop"
 ARG ts_sal="develop"
 ARG ts_salobj="develop"
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    cd $EUPS_PATH/../tssw && \
+    cd ${TSSW_PATH} && \
     gitsrc="ts_config_ocs:${ts_config_ocs} \
             ts_config_attcs:${ts_config_attcs} \
             ts_config_mtcalsys:${ts_config_mtcalsys} \
@@ -46,6 +49,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
             ts_config_latiss:${ts_config_latiss} \
             ts_config_mttcs:${ts_config_mttcs} \
             ts_config_atcalsys:${ts_config_atcalsys} \
+            ts_ddsconfig:${ts_ddsconfig} \
             ts_xml:${ts_xml} \
             ts_idl:${ts_idl} \
             ts_sal:${ts_sal} \

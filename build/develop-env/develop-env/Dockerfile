@@ -21,7 +21,7 @@ ARG ts_simactuators="develop"
 ARG ts_hexrotcomm="develop"
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    cd $EUPS_PATH/../tssw && \
+    cd ${TSSW_PATH} && \
     gitsrc="ts_scriptqueue:${ts_scriptqueue} \
             ts_observatory_control:${ts_observatory_control} \
             ts_standardscripts:${ts_standardscripts} \

@@ -9,8 +9,21 @@ ARG hexrotcomm=0.5.0
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts ts-hexapod=${hexapod} ts-hexrotcomm=${hexrotcomm}
 
+RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
+
+WORKDIR /home/saluser/ts_config_mttcs
+
+ARG config
+
+RUN /home/saluser/.checkout_repo.sh ${config}
+
+WORKDIR /home/saluser/
+
+ENV TS_CONFIG_MTTCS_DIR=/home/saluser/ts_config_mttcs
+
 LABEL ts_hexapod=${hexapod} \
-      ts_hexrotcomm=${hexrotcomm}
+      ts_hexrotcomm=${hexrotcomm} \
+      ts_config_mttcs=${config}
 
 ENV RUN_ARG=""
 COPY startup.sh /home/saluser/.startup.sh
