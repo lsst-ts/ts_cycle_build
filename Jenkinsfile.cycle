@@ -16,6 +16,7 @@ pipeline {
   agent {
     docker {
       alwaysPull true
+      label 'Node3_4CPU'
       image 'docker/compose:latest'
       // registryUrl 'https://ts-dockerhub.lsst.org/'
       // registryCredentialsId 'nexus3-lsst_jenkins'
@@ -27,7 +28,16 @@ pipeline {
     registryCredential = "dockerhub-lssttsadmin"
   }
   parameters {
-      booleanParam defaultValue: true, description: "Build/push base deployment image.", name: 'deploy_conda'
+      booleanParam defaultValue: false, description: "Build/push base deployment image.", name: 'deploy_conda'
+      booleanParam defaultValue: false, description: "Build/push lsstsqre deployment image.", name: 'deploy_lsstsqre'
+      booleanParam defaultValue: false, description: "Build/push all components based on base deployment image.", name: 'base_components'
+      booleanParam defaultValue: false, description: "Build/push M1M3 simulator image.", name: 'm1m3_sim'
+      booleanParam defaultValue: false, description: "Build/push pointing component deployment image.", name: 'ptg'
+      booleanParam defaultValue: false, description: "Build/push lsst_sims image.", name: 'lsst_sims'
+      booleanParam defaultValue: false, description: "Build/push aos_aoclc image. Intermediate image for mtaos.", name: 'aos_aoclc'
+      booleanParam defaultValue: false, description: "Build/push MTAOS image.", name: 'mtaos'
+      booleanParam defaultValue: false, description: "Build/push scriptqueue image.", name: 'queue'
+      booleanParam defaultValue: false, description: "Build/push scheduler image.", name: 'scheduler'
   }
 
   stages {
@@ -44,7 +54,6 @@ pipeline {
       // When using the docker container, we need to change
       // the HOME path to WORKSPACE to have the authority
       // to install the packages.
-      // docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push deploy-conda-private
         withEnv(["HOME=${env.WORKSPACE}"]) {
           sh """
           docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build deploy-conda-private
@@ -55,6 +64,54 @@ pipeline {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push deploy-conda-private
+            """
+          }
+        }
+      }
+    }
+    stage ('Build deploy-lsstsqre-private') {
+      when {
+          expression { params.deploy_lsstsqre }
+      }
+      steps {
+
+        withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+          sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+        }
+        withEnv(["HOME=${env.WORKSPACE}"]) {
+          sh """
+          docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build deploy-lsstsqre-private
+          """
+        }
+
+        script {
+          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+            sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push deploy-lsstsqre-private
+            """
+          }
+        }
+      }
+    }
+    stage ('Build base components') {
+      when {
+          expression { params.base_components }
+      }
+      steps {
+
+        script{
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+            docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+              sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ataos atdome atdometrajectory athexapod atmcs_sim atpneumatics_sim atspectrograph hexapod mtdome mtdometrajectory mtm2_sim mtmount ospl-daemon rotator salkafka watcher
+              """
+              }
+          }
+        }
+        script {
+          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+            sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push ataos atdome atdometrajectory athexapod atmcs_sim atpneumatics_sim atspectrograph hexapod mtdome mtdometrajectory mtm2_sim mtmount ospl-daemon rotator salkafka watcher
             """
           }
         }

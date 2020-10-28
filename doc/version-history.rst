@@ -10,8 +10,45 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
-v0.4.1
-------
-* Added Jenkinsfile for conda recipe
-* Added conda recipe
-* Incorporated new offset parameters with the option of them being persistent (sticky)
+
+Cycle 0015
+==========
+
+Release of salobj 6/sal 5 with xml 6.2.1.
+
+Cycle 0014
+==========
+
+Official release of salobj 6/sal 5 with xml 6.1.0.
+
+Cycle 0013
+==========
+
+Continuing tests with salobj 6/sal 5.
+
+Cycle 0012
+==========
+
+Updating deployment to use new partitioning schema implemented in salobj 6/sal 5.
+This is also an experimental feature in sal/salobj to try to improve the how data is organized in the DDS Global Data Storage.
+This experiment is part of a task to obtain a stable DDS deployment.
+
+Cycle 0011
+==========
+
+Updating deployment to use disposable QoS for telemetry topics.
+This is an experimental feature on sal/salobj to see if we alleviate the system dictionary by making telemetry disposable.
+This experiment is part of a task to obtain a stable DDS deployment.
+
+Cycle 0010
+==========
+
+Updating deployment to use xml 6.1.0 and salojb 5.17.0.
+Major updates to build and deploy containers with licensed version of OpenSplice and testing shared memory mode.
+See tstn-023 for more details about shared memory mode and this cycle.
+
+
+Cycle 0009
+==========
+
+First use of deployment cycle using xml 6.0.0, sal 4.1.4 and salobj 5.15.0.
