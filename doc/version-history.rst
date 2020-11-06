@@ -15,6 +15,7 @@ Cycle 0015
 ==========
 
 Release of salobj 6/sal 5 with xml 6.2.1.
+Adds Jenkinsfile for development environment build, along with refactored build scripts.
 
 Cycle 0014
 ==========

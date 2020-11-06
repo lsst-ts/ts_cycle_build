@@ -1,0 +1,136 @@
+pipeline {
+    agent {
+      docker {
+        alwaysPull true
+        label 'CSC_Conda_Node'
+        image 'docker/compose:latest'
+        args "--entrypoint='' --user root -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
+      }
+    }
+    environment {
+        registryCredential = "dockerhub-lssttsadmin"
+    }
+    parameters {
+      booleanParam defaultValue: false, description: 'Build master branch for all repos. Ignores All version parameters.', name: 'build_master'
+      booleanParam defaultValue: false, description: 'Build develop branch for all repos. Ignores All version parameters.', name: 'build_develop'
+      booleanParam defaultValue: false, description: 'Build cycle.', name: 'build_cycle'
+      booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/develop build?', name: 'BuildDevEnv_develop'
+      booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/master build?', name: 'BuildDevEnv_master'
+      booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/master build?', name: 'BuildDevEnv_cycle'      
+    }
+    stages {
+        stage("Build/push master") {
+          when {
+              expression { return params.build_master }
+          }
+            steps {
+              withEnv(["HOME=${env.WORKSPACE}"]) {
+                sh """
+                  docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml build --pull salobj-community
+                """
+              }
+              script {
+                docker.withRegistry("", registryCredential) {
+                  sh """
+                    docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml push salobj-community
+                  """
+                }
+              }
+            }
+        }
+        stage("Build/push develop") {
+          when {
+              expression { return params.build_develop }
+          }
+            steps {
+              withEnv(["HOME=${env.WORKSPACE}"]) {
+                sh """
+                  docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull salobj-community
+                """
+              }
+              script {
+                docker.withRegistry("", registryCredential) {
+                  sh """
+                    docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push salobj-community
+                  """
+                }
+              }
+            }
+        }
+        stage("Build/push cycle") {
+          when {
+              expression { return params.build_cycle }
+          }
+            steps {
+              withEnv(["HOME=${env.WORKSPACE}"]) {
+                sh """
+                  docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull salobj-community
+                """
+              }
+              script {
+                docker.withRegistry("", registryCredential) {
+                  sh """
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj-community
+                  """
+                }
+              }
+            }
+        }
+        stage("Trigger the DevelopEnvironment/master job") {
+            when {
+              allOf{
+                expression {
+                    return params.build_master
+                }
+                expression {
+                    return params.BuildDevEnv_master
+                }
+              }
+            }
+            steps {
+                build job: 'DevelopEnvironment', parameters: [booleanParam(name: 'build_master', value: true),
+                    booleanParam(name: 'push_tag', value: false)], wait: false
+            }
+        }
+        stage("Trigger the DevelopEnvironment/develop job") {
+            when {
+              allOf{
+                expression {
+                    return params.build_develop
+                }
+                expression {
+                    return params.BuildDevEnv_develop
+                }
+              }
+            }
+            steps {
+                build job: 'DevelopEnvironment', parameters: [booleanParam(name: 'build_develop', value: true),
+                    booleanParam(name: 'push_tag', value: false)], wait: false
+            }
+        }
+        stage("Trigger the DevelopEnvironment/cycle job") {
+            when {
+              allOf{
+                expression {
+                    return params.build_cycle
+                }
+                expression {
+                    return params.BuildDevEnv_cycle
+                }
+              }
+            }
+            steps {
+                build job: 'DevelopEnvironment', parameters: [booleanParam(name: 'build_cycle', value: true),
+                    booleanParam(name: 'push_tag', value: false)], wait: false
+            }
+        }
+    }
+    post {
+        always {
+            step([$class: 'Mailer',
+                notifyEveryUnstableBuild: false,
+                recipients: "tribeiro@lsst.org",
+                sendToIndividuals: true])
+        }
+    }
+}
