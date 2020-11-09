@@ -41,6 +41,7 @@ RUN yum -y --enablerepo=extras install epel-release \
     sqlite-devel \
     xz \
     xz-devel \
+    qt5-qtbase-devel \
     yum clean all
 
 ARG dds_community_version
@@ -86,13 +87,17 @@ USER saluser
 # Arguments for package versions
 ARG ts_xml="develop"
 ARG ts_sal="develop"
+ARG ts_idl="develop"
+ARG ts_ddsconfig="develop"
 
 WORKDIR ${SALUSER_HOME}
 
 RUN mkdir repos && \
     cd repos && \
     gitsrc="ts_xml:${ts_xml} \
-            ts_sal:${ts_sal}" \
+            ts_sal:${ts_sal} \
+            ts_idl:${ts_idl} \
+            ts_ddsconfig:${ts_ddsconfig}" \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
         r=$(echo ${g} | cut -d ':' -f 1) \
@@ -109,14 +114,16 @@ RUN curl https://pyenv.run | bash &> /tmp/pyenv_output && \
     pyenv install -v 3.7.6
 
 ENV LSST_SDK_INSTALL=${SALUSER_HOME}/repos/ts_sal
-ENV LSST_DDS_DOMAIN=citest
+ENV LSST_DDS_PARTITION_PREFIX=citest
 
 RUN mkdir -p ${SALUSER_HOME}/.empty/
 
 WORKDIR ${SALUSER_HOME}/.empty/
 
 LABEL ts_xml="${ts_xml}" \
-      ts_sal="${ts_sal}"
+      ts_sal="${ts_sal}" \
+      ts_idl="${ts_idl}" \
+      ts_ddsconfig="${ts_ddsconfig}"
 
 ENTRYPOINT ["/bin/bash", "--"]
 CMD ["/home/saluser/.startup.sh"]
