@@ -214,6 +214,17 @@ services:
         base_image_tag: ${CYCLE}
         lsst_sims: ${lsst_sims}
 
+  dsm:
+    image: ${hub}/dsm:${CYCLE}
+    build:
+      context: ../build/dsm
+      labels:
+        com.description: "DSM deployment image for cycle ${CYCLE}."
+      args:
+        hub: ${hub}
+        cycle: ${CYCLE}
+        dsm: ${ts_dsm}
+
   hexapod:
     image: ${hub}/hexapod:${CYCLE}
     build:
