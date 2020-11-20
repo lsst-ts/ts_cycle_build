@@ -99,10 +99,10 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     pip install "documenteer[pipelines]==0.5.8" "kafkit[aiohttp]" \
     confluent_kafka aiounittest aiomisc pyevents ltd-conveyor
 
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-    jupyter labextension install jupyter-matplotlib && \
-    jupyter notebook --generate-config
+# RUN source /opt/lsst/software/stack/loadLSST.bash && \
+#     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+#     jupyter labextension install jupyter-matplotlib && \
+#     jupyter notebook --generate-config
 
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current

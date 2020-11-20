@@ -30,7 +30,7 @@ services:
         dds_private_build: ${dds_private_build}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_private}
-        ts_idl: ${ts_idl}
+        ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
 
   deploy-lsstsqre-community:
     image: lsstts/deploy-sqre:${CYCLE}
@@ -95,6 +95,7 @@ services:
     image: lsstts/salobj:${CYCLE}
     build:
       context: ../build/develop-env/salobj/
+      network: ${build_network}
       labels:
         com.description: LSST Telescope and Site Docker image with SalObj for cycle ${CYCLE}.
       args:
@@ -140,6 +141,7 @@ services:
     image: lsstts/develop-env:${CYCLE}${rev}
     build:
       context: ../build/develop-env/develop-env/
+      network: ${build_network}
       labels:
         com.description: LSST Telescope and Site development environment image for cycle ${CYCLE}..
       args:
@@ -159,6 +161,7 @@ services:
     image: ts-dockerhub.lsst.org/develop-env:${CYCLE}
     build:
       context: ../build/develop-env/develop-env/
+      network: ${build_network}
       labels:
         com.description: LSST Telescope and Site development environment image for cycle ${CYCLE}..
       args:
@@ -214,6 +217,17 @@ services:
         base_image_tag: ${CYCLE}
         lsst_sims: ${lsst_sims}
 
+  dimm:
+    image: ${hub}/dimm:${CYCLE}
+    build:
+      context: ../build/dimm
+      labels:
+        com.description: "DIMM deployment image for cycle ${CYCLE}."
+      args:
+        deploy_env: ${hub}/${deploy_env}
+        deploy_tag: ${CYCLE}
+        dimm: ${ts_dimm}
+        config: ${ts_config_ocs}
   dsm:
     image: ${hub}/dsm:${CYCLE}
     build:
@@ -419,6 +433,18 @@ services:
         deploy_tag: ${CYCLE}
         config_ocs: ${ts_config_ocs}
         watcher: ${ts_watcher}
+
+  weatherstation:
+    image: ${hub}/weatherstation:${CYCLE}
+    build:
+      context: ../build/weatherstation
+      labels:
+        com.description: "Weather Station CSC for cycle ${CYCLE}."
+      args:
+        deploy_env: ${hub}/${deploy_env}
+        deploy_tag: ${CYCLE}
+        config: ${ts_config_ocs}
+        weatherstation: ${ts_weatherstation}
 
   ospl-daemon:
     image: ${hub}/ospl-daemon:${CYCLE}

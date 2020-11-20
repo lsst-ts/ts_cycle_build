@@ -26,7 +26,7 @@ pipeline {
 
   environment {
     registryCredential = "dockerhub-lssttsadmin"
-    CONDA_PACKAGES = "ataos atdome atdometrajectory athexapod atmcs_sim atpneumatics_sim atspectrograph dsm hexapod mtdome mtdometrajectory mtm2_sim mtmount ospl-daemon rotator salkafka watcher"
+    CONDA_PACKAGES = "ataos atdome atdometrajectory athexapod atmcs_sim atpneumatics_sim atspectrograph dimm dsm hexapod mtdome mtdometrajectory mtm2_sim mtmount ospl-daemon rotator salkafka watcher weatherstation"
   }
   parameters {
       booleanParam defaultValue: false, description: "Build/push base deployment image.", name: 'deploy_conda'

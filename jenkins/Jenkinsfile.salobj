@@ -9,6 +9,7 @@ pipeline {
     }
     environment {
         registryCredential = "dockerhub-lssttsadmin"
+        build_network = "n_${BUILD_ID}_${JENKINS_NODE_COOKIE}"
     }
     parameters {
       booleanParam defaultValue: false, description: 'Build master branch for all repos. Ignores All version parameters.', name: 'build_master'
@@ -16,9 +17,18 @@ pipeline {
       booleanParam defaultValue: false, description: 'Build cycle.', name: 'build_cycle'
       booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/develop build?', name: 'BuildDevEnv_develop'
       booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/master build?', name: 'BuildDevEnv_master'
-      booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/master build?', name: 'BuildDevEnv_cycle'      
+      booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/master build?', name: 'BuildDevEnv_cycle'
     }
     stages {
+        stage("Create build network"){
+          steps{
+            script{
+                sh """
+                  docker network create \${build_network}
+                """
+            }
+          }
+        }
         stage("Build/push master") {
           when {
               expression { return params.build_master }
@@ -131,6 +141,11 @@ pipeline {
                 notifyEveryUnstableBuild: false,
                 recipients: "tribeiro@lsst.org",
                 sendToIndividuals: true])
+        }
+        cleanup {
+            sh """
+                docker network rm \${build_network}
+            """
         }
     }
 }
