@@ -1,43 +1,6 @@
-..
-  This is a template for documentation that will accompany each CSC.
-  It consists of a user guide and development guide, however, cross linking between the guides is expected.
-  This template is provided to ensure that the documentation remains similar in look, feel, and contents to users.
-  The headings below are expected to be present for all CSCs, but for many CSCs, additional fields will be required.
-  An example case can be found at https://ts-athexapod.lsst.io/v/develop/
 
-  ** All text in square brackets [] must be re-populated accordingly **
-
-  See https://developer.lsst.io/restructuredtext/style.html
-  for a guide to reStructuredText writing.
-
-  Use the following syntax for sections:
-
-  Sections
-  ========
-
-  and
-
-  Subsections
-  -----------
-
-  and
-
-  Subsubsections
-  ^^^^^^^^^^^^^^
-
-  To add images, add the image file (png, svg or jpeg preferred) to the
-  images/ directory. The reST syntax for adding the image is
-
-  .. figure:: /images/filename.ext
-   :name: fig-label
-
-  Caption text.
-
-  Feel free to delete this instructional comment.
-
-.. Fill out data so contacts section below is auto-populated
-.. |CSC_developer| replace::  *Replace-with-name-and-email*
-.. |CSC_product_owner| replace:: *Replace-with-name-and-email*
+.. |CSC_developer| replace::  Tiago Ribeiro
+.. |CSC_product_owner| replace:: Tiago Ribeiro
 
 .. Note that the "ts_" prefix is omitted from the title
 
@@ -52,20 +15,34 @@ Build Cycle
 .. image:: https://img.shields.io/badge/Jenkins-gray.svg
     :target: https://tssw-ci.lsst.org/job/LSST_Telescope-and-Site/job/ts_cycle_build/
 
-.. TODO: Delete the note when the page becomes populated
-
-.. Warning::
-
-   **This CSC documentation is under development and not ready for active use.**
-
 .. _Overview:
 
 Overview
 ========
 
-[This section is to present an overview of the CSC.
-This should include a top-level description of the primary use-case(s) as well as any pertinent information.
-Example information may be link(s) to the higher-level classes which may be used to operate it, or mention of other CSCs (with links) that it operates in concert with.]
+The Vera Rubin observatory control system is a highly coupled environment that requires strict management of the deployed software.
+At the very least, we must keep an strict control over the core packages versions, to guarantee communication compatibility between components.
+
+The core packages are:
+
+    - ts_xml: Contains the interfaces definition of all components in the system.
+    - ts_sal: Contains the core DDS communication middleware layer.
+    - ts_idl: Contains ancillary files used by ts_salobj and other higher level applications.
+    - ts_salobj: High-level Python library to develop CSCs and SAL Scripts.
+
+In order to avoid conflicts the version of all these packages must be tightly controlled in production and test environments.
+We accomplish this by introducing the concept of "cycle builds".
+Each cycle is composed of a set of well defined software versions.
+Every time a new set of core package versions is released, a new cycle must start.
+In order to support software updates on a cycle, each cycle has a revision.
+Any time a non-core package changes, without changing the version of core packages, a new revision is created.
+Only those components that change in a new revision need to be rebuilt/redeployed.
+
+The package ts_cycle_build is composed of a series of Dockerfiles that contain instructions on how to build the component docker containers.
+The build is managed using docker-compose and an environment file which configures the build accordingly.
+
+Containers are later deployed in a Kubernetes cluster, via puppet or docker-compose.
+Details on deployment can be found elsewhere, this package mainly focuses on building deployment artifacts.
 
 .. note:: If you are interested in viewing other branches of this repository append a `/v` to the end of the url link. For example `https://ts_cycle_build.lsst.io/v/`
 
@@ -75,42 +52,19 @@ Example information may be link(s) to the higher-level classes which may be used
 User Documentation
 ==================
 
-.. This template has the user documentation in a subfolder.
-.. However, in cases where the user documentation is extremely short (<50 lines), one may move that content here and remove the subfolder.
-.. This will require modification of the heading styles and possibly renaming of the labels.
-.. If the content becomes too large, then it must be moved back to a subfolder and reformatted appropriately.
-
 User-level documentation, found at the link below, is aimed at personnel looking to perform the standard use-cases/operations with the Build Cycle.
+In this case, it involves building containers for a new cycle/revision for deployment at the summit or one of the test stands.
 
 .. toctree::
     user-guide/user-guide
     :maxdepth: 2
-
-.. _Configuration:
-
-Configuring the Build Cycle
-=========================================
-.. For CSCs where configuration is not required, this section can contain a single sentence stating so.
-   More introductory information can also be added here (e.g. CSC XYZ requires both a configuration file containing parameters as well as several look-up tables to be operational).
-
-The configuration for the Build Cycle is described at the following link.
-
-.. toctree::
-    configuration/configuration
-    :maxdepth: 1
-
 
 .. _Development_Documentation:
 
 Development Documentation
 =========================
 
-.. This template has the user documentation in a subfolder.
-.. However, in cases where the user documentation is extremely short (<50 lines), one may move that content here and remove the subfolder.
-.. This will require modification of the heading styles and possibly renaming of the labels.
-.. If the content becomes too large, then it must be moved back to a subfolder and reformatted appropriately.
-
-This area of documentation focuses on the classes used, API's, and how to participate to the development of the Build Cycle software packages.
+This area of documentation focuses on the details of the container build scripts, and contains information on how to participate on the development of the Build Cycle.
 
 .. toctree::
     developer-guide/developer-guide
@@ -120,11 +74,6 @@ This area of documentation focuses on the classes used, API's, and how to partic
 
 Version History
 ===============
-
-.. At the time of writing the Version history/release notes are not yet standardized amongst CSCs.
-.. Until then, it is not expected that both a version history and a release_notes be maintained.
-.. It is expected that each CSC link to whatever method of tracking is being used for that CSC until standardization occurs.
-.. No new work should be required in order to complete this section.
 
 The version history of the Build Cycle is found at the following link.
 

@@ -30,7 +30,7 @@ services:
         dds_private_build: ${dds_private_build}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_private}
-        ts_idl: ${ts_idl}
+        ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
 
   deploy-lsstsqre-community:
     image: lsstts/deploy-sqre:${CYCLE}
@@ -74,6 +74,8 @@ services:
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build_el6}
         ts_dds: ${ts_dds_community}
+        UID: ${UID}
+        GID: ${GID}
 
   base-sqre-private:
     image: ts-dockerhub.lsst.org/base-sqre:${CYCLE}
@@ -86,7 +88,6 @@ services:
         image_tag: ${lsstsqre}
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build_el6}
-        ts_dds: ${dds_community_version}
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build_el6}
 
@@ -94,6 +95,7 @@ services:
     image: lsstts/salobj:${CYCLE}
     build:
       context: ../build/develop-env/salobj/
+      network: ${build_network}
       labels:
         com.description: LSST Telescope and Site Docker image with SalObj for cycle ${CYCLE}.
       args:
@@ -107,6 +109,7 @@ services:
         ts_config_latiss: ${ts_config_latiss}
         ts_config_mttcs: ${ts_config_mttcs}
         ts_config_atcalsys: ${ts_config_atcalsys}
+        ts_ddsconfig: ${ts_ddsconfig}
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_sal: ${ts_sal}
@@ -135,9 +138,10 @@ services:
         ts_salobj: ${ts_salobj}
 
   develop-env-community:
-    image: lsstts/develop-env:${CYCLE}
+    image: lsstts/develop-env:${CYCLE}${rev}
     build:
       context: ../build/develop-env/develop-env/
+      network: ${build_network}
       labels:
         com.description: LSST Telescope and Site development environment image for cycle ${CYCLE}..
       args:
@@ -157,6 +161,7 @@ services:
     image: ts-dockerhub.lsst.org/develop-env:${CYCLE}
     build:
       context: ../build/develop-env/develop-env/
+      network: ${build_network}
       labels:
         com.description: LSST Telescope and Site development environment image for cycle ${CYCLE}..
       args:
@@ -212,6 +217,28 @@ services:
         base_image_tag: ${CYCLE}
         lsst_sims: ${lsst_sims}
 
+  dimm:
+    image: ${hub}/dimm:${CYCLE}
+    build:
+      context: ../build/dimm
+      labels:
+        com.description: "DIMM deployment image for cycle ${CYCLE}."
+      args:
+        deploy_env: ${hub}/${deploy_env}
+        deploy_tag: ${CYCLE}
+        dimm: ${ts_dimm}
+        config: ${ts_config_ocs}
+  dsm:
+    image: ${hub}/dsm:${CYCLE}
+    build:
+      context: ../build/dsm
+      labels:
+        com.description: "DSM deployment image for cycle ${CYCLE}."
+      args:
+        hub: ${hub}
+        cycle: ${CYCLE}
+        dsm: ${ts_dsm}
+
   hexapod:
     image: ${hub}/hexapod:${CYCLE}
     build:
@@ -223,6 +250,7 @@ services:
         deploy_tag: ${CYCLE}
         hexapod: ${ts_hexapod}
         hexrotcomm: ${ts_hexrotcomm}
+        config: ${ts_config_mttcs}
 
   mtaos_sim:
     image: ${hub}/mtaos_sim:${CYCLE}
@@ -286,10 +314,6 @@ services:
       context: ../build/mtm2_sim
       labels:
         com.description: "M2 simulator deployment image for cycle ${CYCLE}."
-        m2: ${ts_m2}
-        config: ${ts_config_mttcs}
-        deploy_env: ${deploy_env}
-        deploy_tag: ${CYCLE}
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
@@ -302,14 +326,12 @@ services:
       context: ../build/rotator
       labels:
         com.description: "Rotator deployment image for cycle ${CYCLE}."
-        deploy_env: ${deploy_env}
-        deploy_tag: ${CYCLE}
-        rotator: ${ts_rotator}
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
         rotator: ${ts_rotator}
         hexrotcomm: ${ts_hexrotcomm}
+        config: ${ts_config_mttcs}
 
   mtmount:
     image: ${hub}/mtmount:${CYCLE}
@@ -317,10 +339,6 @@ services:
       context: ../build/mtmount
       labels:
         com.description: "MTmount deployment image for cycle ${CYCLE}."
-        deploy_env: ${deploy_env}
-        deploy_tag: ${CYCLE}
-        mtmount: ${ts_mtmount}
-        config: ${ts_config_mttcs}
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
@@ -415,6 +433,18 @@ services:
         deploy_tag: ${CYCLE}
         config_ocs: ${ts_config_ocs}
         watcher: ${ts_watcher}
+
+  weatherstation:
+    image: ${hub}/weatherstation:${CYCLE}
+    build:
+      context: ../build/weatherstation
+      labels:
+        com.description: "Weather Station CSC for cycle ${CYCLE}."
+      args:
+        deploy_env: ${hub}/${deploy_env}
+        deploy_tag: ${CYCLE}
+        config: ${ts_config_ocs}
+        weatherstation: ${ts_weatherstation}
 
   ospl-daemon:
     image: ${hub}/ospl-daemon:${CYCLE}

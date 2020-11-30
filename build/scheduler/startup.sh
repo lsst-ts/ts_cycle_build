@@ -2,6 +2,7 @@
 
 source ${WORKDIR}/.setup_sal_env.sh
 
+setup lsst_sims
 setup ts_scheduler
 
 echo "# Running Scheduler with index: ${INDEX}"

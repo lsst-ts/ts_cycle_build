@@ -39,7 +39,8 @@ RUN git clone https://github.com/lsst-ts/ts_config_ocs.git && \
     git clone https://github.com/lsst-ts/ts_observatory_model.git && \
     git clone https://github.com/lsst-ts/scheduler_config.git && \
     git clone https://github.com/lsst/sims_skybrightness_data.git && \
-    git clone https://github.com/lsst-ts/ts_scriptqueue.git
+    git clone https://github.com/lsst-ts/ts_scriptqueue.git &&\
+    git clone https://github.com/lsst/sims_almanac.git
 
 WORKDIR /home/saluser/repos/sims_utils
 RUN source /opt/lsst/software/stack/loadLSST.bash && \
@@ -69,6 +70,12 @@ WORKDIR /home/saluser/repos/sims_utils
 RUN source /opt/lsst/software/stack/loadLSST.bash && \
     eups declare -r . -t current && \
     setup sims_utils -t current && \
+    scons
+
+WORKDIR /home/saluser/repos/sims_almanac
+RUN source /opt/lsst/software/stack/loadLSST.bash && \
+    eups declare -r . -t current && \
+    setup sims_almanac -t current && \
     scons
 
 WORKDIR /home/saluser/repos/ephem
@@ -153,6 +160,7 @@ WORKDIR /home/saluser/repos/ts_scheduler
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_scheduler} && \
     eups declare -r . ts_scheduler ${ts_scheduler} -t current && \
+    setup lsst_sims && \
     setup ts_scheduler && \
     py.test
 

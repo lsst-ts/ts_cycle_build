@@ -5,23 +5,23 @@ FROM ${deploy_env}:${deploy_tag}
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
-ARG mtmount=0.1.dev68+gf5d71b5
-ARG config=v0.2.0
+ARG dimm
+ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-mtmount=${mtmount}
+    conda install -c lsstts ts-dimm=${dimm}
 
-RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
+RUN git clone https://github.com/lsst-ts/ts_config_ocs.git
 
-WORKDIR /home/saluser/ts_config_mttcs
+WORKDIR /home/saluser/ts_config_ocs
 RUN /home/saluser/.checkout_repo.sh ${config}
 
 WORKDIR /home/saluser/
 
-ENV TS_CONFIG_MTTCS_DIR=/home/saluser/ts_config_mttcs
+ENV TS_CONFIG_OCS_DIR=/home/saluser/ts_config_ocs
 ENV RUN_ARG=""
 
-LABEL mtmount=${mtmount} \
+LABEL dimm=${dimm} \
       config=${config}
 
 COPY startup.sh /home/saluser/.startup.sh

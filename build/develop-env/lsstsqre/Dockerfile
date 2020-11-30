@@ -19,7 +19,7 @@ RUN if [ $UID -eq 1000 ] && [ $GID -eq 1000 ]; then  \
     else \
          groupadd --gid ${GID} saluser && \
          adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser && \
-         chown ${UID}:${GID} -R /opt/lsst/ ; \
+         usermod -a -G lsst saluser ; \
     fi
 
 RUN curl -sL https://rpm.nodesource.com/setup_10.x | bash - && \
@@ -27,6 +27,7 @@ RUN curl -sL https://rpm.nodesource.com/setup_10.x | bash - && \
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-private.repo
+COPY develop-env/lsstsqre/gitconfig ${HOME}/.gitconfig
 
 RUN yum install -y https://repo.ius.io/ius-release-el7.rpm
 
@@ -66,6 +67,7 @@ ARG dds_private_version
 ARG dds_private_build
 
 RUN touch ${WORKDIR}/ospl.env && \
+    chown -R ${UID}:${GID} ${HOME}/.gitconfig && \
     chown -R ${UID}:${GID} ${WORKDIR}/ospl.env && \
     chmod a+x ${WORKDIR}/ospl.env && \
     if [ -z "${dds_private_version}" ]; then \
@@ -90,29 +92,17 @@ USER saluser
 WORKDIR /home/saluser
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    source ${WORKDIR}/ospl.env && \
-    source ${OSPL_HOME}/release.com && \
-    conda list --explicit > spec_file.txt && \
-    conda create -n $LSST_CONDA_ENV_NAME -y python=3.7.6 && \
-    conda install -y --file spec_file.txt
+    conda install -y -c lsstts ts-develop
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     source ${WORKDIR}/ospl.env && \
-    conda install -y --force-reinstall ld_impl_linux-64 && \
-    conda install -y -c conda-forge kafkacat pyqt fontconfig gxx_linux-64 cmake
+    pip install "documenteer[pipelines]==0.5.8" "kafkit[aiohttp]" \
+    confluent_kafka aiounittest aiomisc pyevents ltd-conveyor
 
-RUN source ${WORKDIR}/loadLSST.bash && \
-    source ${WORKDIR}/ospl.env && \
-    pip install jupyterlab "documenteer[pipelines]==0.5.8" "kafkit[aiohttp]" \
-    aiokafka confluent_kafka asynccmd aiounittest ipdb wget pytest-subtests \
-    pycodestyle aiomisc ipympl ginga pyevents jinja2 ephem gitpython \
-    sqlalchemy asynctest lxml pytest-asyncio astroquery ltd-conveyor \
-    moto boto3 black==19.10b0
-
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-    jupyter labextension install jupyter-matplotlib && \
-    jupyter notebook --generate-config
+# RUN source /opt/lsst/software/stack/loadLSST.bash && \
+#     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+#     jupyter labextension install jupyter-matplotlib && \
+#     jupyter notebook --generate-config
 
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current

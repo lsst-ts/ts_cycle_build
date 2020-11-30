@@ -1,0 +1,115 @@
+pipeline {
+    agent {
+      docker {
+        alwaysPull true
+        label 'CSC_Conda_Node'
+        // label '!Node3_4CPU && !CSC_Conda_Node'
+        image 'docker/compose:latest'
+        args "--entrypoint='' --user root -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
+      }
+    }
+    environment {
+        registryCredential = "dockerhub-lssttsadmin"
+    }
+    parameters {
+        booleanParam defaultValue: false, description: 'Build cycle image?', name: 'build_cycle'
+        booleanParam defaultValue: false, description: 'Trigger the SalObjContainer build?', name: 'BuildSalobjContainer'
+        booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment build?', name: 'BuildDevEnv'
+    }
+    stages {
+        stage("Build cycle") {
+            when {
+                expression { return params.build_cycle }
+            }
+            steps {
+              withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+              }
+
+              withEnv(["HOME=${env.WORKSPACE}"]) {
+                sh """
+                  docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre-community
+                """
+              }
+            }
+        }
+        stage("Push cycle docker image") {
+            when {
+                expression { return params.build_cycle }
+            }
+            steps {
+              script {
+                docker.withRegistry("", registryCredential) {
+                  sh """
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-community
+                  """
+                }
+              }
+            }
+        }
+        stage("Build Docker image") {
+            steps {
+
+              withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+              }
+
+              withEnv(["HOME=${env.WORKSPACE}"]) {
+                sh """
+                  docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre-community
+                  docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml build --pull base-sqre-community
+                """
+              }
+            }
+        }
+        stage("Push Docker image") {
+            steps {
+              script {
+                docker.withRegistry("", registryCredential) {
+                  sh """
+                    docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre-community
+                    docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml push base-sqre-community
+                  """
+                }
+              }
+            }
+        }
+        stage("Trigger the SalObjContainer job") {
+            when {
+                expression {
+                    return params.BuildSalobjContainer
+                }
+            }
+            steps {
+                // Start the SalObjContainer, Develop build.
+                build job: 'SalObjContainer', parameters: [booleanParam(name: 'BuildDevEnv_develop', value: true),
+                    booleanParam(name: 'build_develop', value: true),
+                    booleanParam(name: 'push_tag', value: false)], wait: false
+                // Start the SalObjContainer, Master build.
+                build job: 'SalObjContainer', parameters: [booleanParam(name: 'BuildDevEnv_master', value: true),
+                    booleanParam(name: 'build_master', value: true),
+                    booleanParam(name: 'push_tag', value: false)], wait: false
+            }
+        }
+        stage("Trigger the SalObjContainer/cycle job") {
+            when {
+                expression {
+                    return params.BuildSalobjContainer
+                }
+            }
+            steps {
+                // Start the SalObjContainer, cycle build.
+                build job: 'SalObjContainer', parameters: [booleanParam(name: 'BuildDevEnv_cycle', value: true),
+                    booleanParam(name: 'build_cycle', value: true)], wait: false
+            }
+        }
+    }
+    post {
+        always {
+            step([$class: 'Mailer',
+                notifyEveryUnstableBuild: false,
+                recipients: "tribeiro@lsst.org",
+                sendToIndividuals: true])
+        }
+    }
+}
