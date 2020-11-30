@@ -25,8 +25,8 @@ RUN yum install -y \
       ATPtg-${rpm} \
       MTPtg-${rpm} \
       MTMount-${rpm} \
-      Rotator-${rpm} \
-      Environment-${rpm} \
+      MTRotator-${rpm} \
+      WeatherStation-${rpm} \
       ATMCS-${rpm} \
       NewMTMount-${rpm}
 

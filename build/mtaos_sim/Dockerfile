@@ -56,6 +56,7 @@ LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
 
 # Set the default environment
 WORKDIR $LSST_USER_HOME
+ENV RUN_ARG=""
 
 USER root
 # Copy the file for the start of container with interactive environment
