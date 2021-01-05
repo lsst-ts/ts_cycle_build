@@ -330,6 +330,7 @@ services:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
         mtmount: ${ts_mtmount}
+        hexrotcomm: ${ts_hexrotcomm}        
         config: v${ts_config_mttcs}
 
   mtrotator:
