@@ -2,7 +2,7 @@
 
 source $HOME/.setup_sal_env.sh
 
-run_dsm.py --index=${CSC_INDEX} ${RUN_ARG} &
+run_dsm.py ${CSC_INDEX} ${RUN_ARG} &
 
 pid="$!"
 
