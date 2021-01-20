@@ -86,6 +86,15 @@ RUN mkdir -p $PTG_DATA_DIR && cp $LSST_TOP/src/data/* $PTG_DATA_DIR/
 
 COPY ptg/ATPtg.info /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/MTPtg.info /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/at.mod /home/saluser/repos/ts_pointing_common/install/data/
+
+USER root
+
+RUN chown saluser:saluser /home/saluser/repos/ts_pointing_common/install/data/ATPtg.info && \
+    chown saluser:saluser /home/saluser/repos/ts_pointing_common/install/data/at.mod && \
+    chown saluser:saluser /home/saluser/repos/ts_pointing_common/install/data/MTPtg.info
+
+USER saluser
 
 WORKDIR /home/saluser/
 COPY ptg/setup.sh /home/saluser/.setup.sh
