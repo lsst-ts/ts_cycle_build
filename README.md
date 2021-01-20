@@ -154,6 +154,14 @@ Official release of salobj 6/sal 5 with xml 6.1.0.
 
 Release of salobj 6/sal 5 with xml 6.2.0.
 
+## Cycle c0016
+
+Release of salobj 6/sal 5 with xml 7.0.0.
+
+## Cycle c0017
+
+Release of salobj 6/sal 5 with xml 7.1.0.
+
 # Open questions
 
  * What is the criteria for a cycle build?
