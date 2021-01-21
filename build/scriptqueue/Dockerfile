@@ -11,6 +11,12 @@ WORKDIR  ${SAL_HOME}
 RUN git clone https://github.com/lsst-ts/ts_config_attcs.git && \
     git clone https://github.com/lsst-ts/ts_config_ocs.git && \
     git clone https://github.com/lsst-ts/ts_observatory_control.git && \
+    git clone https://github.com/bxin/cwfs.git && \
+    git clone https://github.com/lsst-dm/Spectractor.git && \
+    git clone https://github.com/lsst/obs_base.git && \
+    git clone https://github.com/lsst/pipe_tasks.git && \
+    git clone https://github.com/lsst-sitcom/rapid_analysis.git && \
+    git clone https://github.com/lsst-dm/atmospec.git && \
     git clone https://github.com/lsst-ts/ts_externalscripts.git && \
     git clone https://github.com/lsst-ts/ts_standardscripts.git && \
     git clone https://github.com/lsst-ts/ts_scriptqueue.git
@@ -36,16 +42,13 @@ WORKDIR ${WORKDIR}
 
 USER lsst
 
-ARG ts_idl
 ARG ts_atdome
 ARG ts_atdometrajectory
 ARG ts_atmcssimulator
 
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     conda install -y asynctest pytest-tornasync astroquery black && \
-    conda install -y -c lsstts ts-idl=${ts_idl} ts-atdome=${ts_atdome} ts-atdometrajectory=${ts_atdometrajectory} ts-atmcs-simulator=${ts_atmcssimulator} && \
-    idl_path=$(python -c 'from lsst.ts import idl; import pathlib; print(pathlib.Path(idl.__file__).parents[0])') && \
-    eups declare -m none -r ${idl_path} ts_idl ${ts_idl} && \
+    conda install -y -c lsstts ts-atdome=${ts_atdome} ts-atdometrajectory=${ts_atdometrajectory} ts-atmcs-simulator=${ts_atmcssimulator} && \
     atdome_path=$(python -c 'from lsst.ts import ATDome; import pathlib; print(pathlib.Path(ATDome.__file__).parents[0])') && \
     eups declare -m none -r ${atdome_path} ts_ATDome ${ts_atdome} && \
     atdometrajectory_path=$(python -c 'from lsst.ts import ATDomeTrajectory; import pathlib; print(pathlib.Path(ATDomeTrajectory.__file__).parents[0])') && \
@@ -61,6 +64,55 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     eups declare -r . ts_observatory_control ${ts_observatory_control} -t current && \
     setup ts_config_ocs && \
     setup ts_observatory_control && \
+    scons
+
+ARG cwfs
+ARG Spectractor
+ARG obs_base
+ARG pipe_tasks
+ARG rapid_analysis
+ARG atmospec
+
+WORKDIR ${SAL_HOME}/cwfs
+RUN source ${WORKDIR}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${cwfs} && \
+    eups declare -r . cwfs ${cwfs} -t current && \
+    setup lsst_distrib && \
+    setup cwfs -t current && \
+    scons
+
+WORKDIR ${SAL_HOME}/Spectractor
+RUN source ${WORKDIR}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${Spectractor} && \
+    pip install -r requirements.txt && \
+    pip install -e .
+
+WORKDIR ${SAL_HOME}/obs_base
+RUN source ${WORKDIR}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${obs_base} && \
+    eups declare -r . obs_base ${obs_base} -t current && \
+    setup obs_base && \
+    scons
+
+WORKDIR ${SAL_HOME}/pipe_tasks
+RUN source ${WORKDIR}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${pipe_tasks} && \
+    eups declare -r . pipe_tasks ${pipe_tasks} -t current && \
+    setup pipe_tasks && \
+    scons
+
+WORKDIR ${SAL_HOME}/rapid_analysis
+RUN source ${WORKDIR}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${rapid_analysis} && \
+    eups declare -r . rapid_analysis ${rapid_analysis} -t current && \
+    setup rapid_analysis && \
+    scons
+
+WORKDIR ${SAL_HOME}/atmospec
+RUN source ${WORKDIR}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${atmospec} && \
+    eups declare -r . atmospec ${atmospec} -t current && \
+    setup atmospec && \
     scons
 
 WORKDIR ${SAL_HOME}/ts_externalscripts

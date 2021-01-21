@@ -61,6 +61,7 @@ services:
         dds_private_build: ${dds_private_build}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_private}
+        ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
 
   base-sqre-community:
     image: lsstts/base-sqre:${CYCLE}
@@ -391,7 +392,6 @@ services:
   scriptqueue:
     image: ${hub}/scriptqueue:${CYCLE}
     build:
-    build:
       context: ../build/
       dockerfile: ./scriptqueue/Dockerfile
       labels:
@@ -409,6 +409,12 @@ services:
         ts_atdome: ${ts_ATDome}
         ts_atdometrajectory: ${ts_ATDomeTrajectory}
         ts_atmcssimulator: ${ts_ATMCSSimulator}
+        cwfs: ${cwfs}
+        Spectractor: ${Spectractor}
+        obs_base: ${obs_base}
+        pipe_tasks: ${pipe_tasks}
+        rapid_analysis: ${rapid_analysis}
+        atmospec: ${atmospec}
 
   test:
     image: ${hub}/test:${CYCLE}

@@ -66,14 +66,16 @@ WORKDIR ${WORKDIR}
 
 ARG ts_salobj
 ARG ts_dds
+ARG ts_idl
 
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     conda config --add channels conda-forge && \
     conda install -y cython && \
-    conda install -y -c lsstts -c lsstts/label/dev ts-dds=${ts_dds} ts-salobj=${ts_salobj} ts-idl && \
+    conda install -y -c lsstts -c lsstts/label/dev ts-dds=${ts_dds} ts-salobj=${ts_salobj} ts-idl=${ts_idl} && \
     salobj_path=$(python -c 'from lsst.ts import salobj; import pathlib; print(pathlib.Path(salobj.__file__).parents[0])') && \
     eups declare -m none -r ${salobj_path} ts_salobj ${ts_salobj} && \
-    conda remove -y ts-idl
+    idl_path=$(python -c 'from lsst.ts import idl; import pathlib; print(pathlib.Path(idl.__file__).parents[0])') && \
+    eups declare -m none -r ${idl_path} ts_idl ${ts_idl} 
 
 USER saluser
 
