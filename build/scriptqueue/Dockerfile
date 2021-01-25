@@ -63,8 +63,7 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_observatory_control} && \
     eups declare -r . ts_observatory_control ${ts_observatory_control} -t current && \
     setup ts_config_ocs && \
-    setup ts_observatory_control && \
-    scons
+    setup ts_observatory_control 
 
 ARG cwfs
 ARG Spectractor
@@ -90,52 +89,49 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
 WORKDIR ${SAL_HOME}/obs_base
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${obs_base} && \
-    eups declare -r . obs_base ${obs_base} -t current && \
-    setup obs_base && \
+    eups declare -r . obs_base -t $USER && \
+    setup obs_base -t $USER && \
     scons
 
 WORKDIR ${SAL_HOME}/pipe_tasks
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${pipe_tasks} && \
-    eups declare -r . pipe_tasks ${pipe_tasks} -t current && \
-    setup pipe_tasks && \
+    eups declare -r . pipe_tasks -t $USER && \
+    setup pipe_tasks -t $USER && \
     scons
 
 WORKDIR ${SAL_HOME}/rapid_analysis
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${rapid_analysis} && \
-    eups declare -r . rapid_analysis ${rapid_analysis} -t current && \
-    setup rapid_analysis && \
-    scons
+    eups declare -r . rapid_analysis -t ${USER} && \
+    setup rapid_analysis -t $USER && \
+    scons || echo "failed"
 
 WORKDIR ${SAL_HOME}/atmospec
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${atmospec} && \
-    eups declare -r . atmospec ${atmospec} -t current && \
-    setup atmospec && \
-    scons
+    eups declare -r . atmospec -t ${USER} && \
+    setup atmospec -t $USER && \
+    scons || echo "failed"
 
 WORKDIR ${SAL_HOME}/ts_externalscripts
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_externalscripts} && \
     eups declare -r . ts_externalscripts ${ts_externalscripts} -t current && \
-    setup ts_externalscripts && \
-    scons || echo FAILED to build ts_externalscripts
+    setup ts_externalscripts 
 
 WORKDIR ${SAL_HOME}/ts_standardscripts
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_standardscripts}  && \
     eups declare -r . ts_standardscripts ${ts_standardscripts} -t current && \
     setup ts_standardscripts && \
-    setup ts_config_attcs && \
-    pytest || pytest --lf -x
+    setup ts_config_attcs 
 
 WORKDIR ${SAL_HOME}/ts_scriptqueue
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_scriptqueue}  && \
     eups declare -r . ts_scriptqueue ${ts_scriptqueue} -t current && \
-    setup ts_scriptqueue && \
-    scons || pytest --lf -x
+    setup ts_scriptqueue 
 
 WORKDIR ${SAL_HOME}
 
@@ -144,6 +140,16 @@ USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 USER saluser
+
+WORKDIR ${SAL_HOME}
+RUN git clone https://github.com/lsst-ts/ts_observing_utilities.git
+
+ARG ts_observing_utilities=tickets/DM-26495
+
+WORKDIR ${SAL_HOME}/ts_observing_utilities
+RUN source ${WORKDIR}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${ts_observing_utilities} && \
+    eups declare -r . -t $USER
 
 ENV RUN_ARG="--verbose 1"
 ENV LSST_DDS_DOMAIN=citest
