@@ -64,16 +64,21 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
 
 WORKDIR ${WORKDIR}
 
-ARG ts_salobj
 ARG ts_dds
+ARG ts_ddsconfig
+ARG ts_idl
+ARG ts_salobj
 
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     conda config --add channels conda-forge && \
     conda install -y cython && \
-    conda install -y -c lsstts -c lsstts/label/dev ts-dds=${ts_dds} ts-salobj=${ts_salobj} ts-idl && \
+    conda install -y -c lsstts -c lsstts/label/dev ts-dds=${ts_dds} ts-ddsconfig=${ts_ddsconfig} ts-salobj=${ts_salobj} ts-idl=${ts_idl} && \
+    ddsconfig_path=$(python -c 'from lsst.ts import ddsconfig; import pathlib; print(pathlib.Path(ddsconfig.__file__).parents[0])') && \
+    eups declare -m none -r ${ddsconfig_path} ts_ddsconfig ${ts_ddsconfig}  && \
     salobj_path=$(python -c 'from lsst.ts import salobj; import pathlib; print(pathlib.Path(salobj.__file__).parents[0])') && \
-    eups declare -m none -r ${salobj_path} ts_salobj ${ts_salobj} && \
-    conda remove -y ts-idl
+    eups declare -m none -r ${salobj_path} ts_salobj ${ts_salobj}  && \
+    idl_path=$(python -c 'from lsst.ts import idl; import pathlib; print(pathlib.Path(idl.__file__).parents[0])') && \
+    eups declare -m none -r ${idl_path} ts_idl ${ts_idl}
 
 USER saluser
 
@@ -83,6 +88,9 @@ LABEL dds_community_version=${dds_community_version} \
       dds_community_build=${dds_community_build} \
       dds_private_version=${dds_private_version} \
       dds_private_build=${dds_private_version} \
+      ts_dds=${ts_dds} \
+      ts_idl=${ts_idl} \
+      ts_ddsconfig=${ts_ddsconfig} \
       ts_salobj=${ts_salobj}
 
 ENTRYPOINT ["/home/saluser/.startup.sh"]
