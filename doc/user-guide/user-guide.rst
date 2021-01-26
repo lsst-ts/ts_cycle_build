@@ -150,6 +150,7 @@ The steps in the build are as follows:
   - deploy_conda: Build base image used by all conda-installable components.
   - deploy_lsstsqre: Build base image used by components that require the DM stack.
   - base_components: Build all components that contains conda packages. This includes the following components.
+
     - ataos
     - atdome
     - atdometrajectory
@@ -166,6 +167,7 @@ The steps in the build are as follows:
     - mtrotator
     - salkafka
     - watcher
+
   - m1m3_sim: Build M1M3 simulator.
   - ptg: Build pointing component. Both AT and MT use the same code base and image.
   - lsst_sims: Build base image with ``lsst_sims``. Use ``deploy_lsstsqre`` as a base image.
@@ -182,7 +184,7 @@ Since ``deploy_conda`` is quicker to build it is, in general, preferable to star
 Once both base images are built the system is ready to build the remaining components.
 Again, given the simplicity and overall time it takes to complete, it is advisable to build the ``base_components`` next.
 This step will build the majority of the systems.
-Specifically, those that uses the ``deploy_conda`` and are built from conda packages.
+Specifically, those that use the ``deploy_conda`` and are built from conda packages.
 
 .. note::
 
