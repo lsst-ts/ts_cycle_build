@@ -2,6 +2,17 @@ version: "3.7"
 
 services:
 
+  conda_builder:
+    image: ts-dockerhub.lsst.org/conda_builder:${CYCLE}
+    build:
+      network: ${build_network}
+      context: ../build/
+      dockerfile: ./conda_builder/Dockerfile
+      labels:
+        com.description: "Conda builder for cycle ${CYCLE}."
+      args:
+        image_tag: ${lsstsqre}
+
   deploy-conda-community:
     image: lsstts/deploy-env:${CYCLE}
     build:
@@ -28,9 +39,10 @@ services:
         dds_community_build: ${dds_community_build_el7}
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
-        ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_private}
+        ts_ddsconfig: ${ts_ddsconfig}
         ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
+        ts_salobj: ${ts_salobj}
 
   deploy-lsstsqre-community:
     image: lsstts/deploy-sqre:${CYCLE}
@@ -61,6 +73,8 @@ services:
         dds_private_build: ${dds_private_build}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_private}
+        ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
+        ts_ddsconfig: ${ts_ddsconfig}
 
   base-sqre-community:
     image: lsstts/base-sqre:${CYCLE}
@@ -90,6 +104,8 @@ services:
         dds_community_build: ${dds_community_build_el6}
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build_el6}
+        UID: ${UID}
+        GID: ${GID}
 
   salobj-community:
     image: lsstts/salobj:${CYCLE}
@@ -132,6 +148,7 @@ services:
         ts_config_latiss: ${ts_config_latiss}
         ts_config_mttcs: ${ts_config_mttcs}
         ts_config_atcalsys: ${ts_config_atcalsys}
+        ts_ddsconfig: ${ts_ddsconfig}
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_sal: ${ts_sal}
@@ -241,8 +258,6 @@ services:
 
   mtaos_sim:
     image: ${hub}/mtaos_sim:${CYCLE}
-    depends_on:
-      - aos_aoclc
     build:
       context: ../build/
       dockerfile: ./mtaos_sim/Dockerfile
@@ -250,9 +265,11 @@ services:
         com.description: "MTAOS simulator deployment image for cycle ${CYCLE}."
       args:
         hub: ${hub}
-        IMAGE_TAG: ${CYCLE}
+        cycle: ${CYCLE}
+        phosim_utils: ${phosim_utils}
+        ts_wep: ${ts_wep}
+        ts_ofc: ${ts_ofc}
         mtaos: ${ts_mtaos}
-        ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
         ts_config_mttcs: ${ts_config_mttcs}
 
   mtdome:
@@ -330,7 +347,7 @@ services:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
         mtmount: ${ts_mtmount}
-        hexrotcomm: ${ts_hexrotcomm}        
+        hexrotcomm: ${ts_hexrotcomm}
         config: v${ts_config_mttcs}
 
   mtrotator:
@@ -402,6 +419,13 @@ services:
         deploy_tag: ${CYCLE}
         ts_config_attcs: ${ts_config_attcs}
         ts_config_ocs: ${ts_config_ocs}
+        cwfs: ${cwfs}
+        Spectractor: ${Spectractor}
+        obs_base: ${obs_base}
+        pipe_tasks: ${pipe_tasks}
+        rapid_analysis: ${rapid_analysis}
+        atmospec: ${atmospec}
+        ts_observing_utilities: ${ts_observing_utilities}
         ts_observatory_control: ${ts_observatory_control}
         ts_externalscripts: ${ts_externalscripts}
         ts_standardscripts: ${ts_standardscripts}

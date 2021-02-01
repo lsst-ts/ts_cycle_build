@@ -55,16 +55,17 @@ USER saluser
 
 WORKDIR ${WORKDIR}
 
-ARG ts_salobj
 ARG ts_dds
+ARG ts_ddsconfig
 ARG ts_idl
+ARG ts_salobj
 
 RUN curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh && \
     chmod +x miniconda.sh && ./miniconda.sh -b -p ${WORKDIR}/miniconda && \
     source /home/saluser/.setup_sal_env.sh && \
     conda config --add channels conda-forge && \
     conda install -y cython && \
-    conda install -y -c lsstts -c lsstts/label/dev python=3.7 ts-salobj=${ts_salobj} ts-dds=${ts_dds} ts-idl=${ts_idl} && \
+    conda install -y -c lsstts -c lsstts/label/dev python=3.7 ts-ddsconfig=${ts_ddsconfig} ts-salobj=${ts_salobj} ts-dds=${ts_dds} ts-idl=${ts_idl} && \
     echo export LSST_DDS_QOS=file://$(python -c "from lsst.ts import idl; print(idl.get_qos_path())") >> ${HOME}/.ospl_env.sh
 
 WORKDIR /home/saluser/
@@ -75,8 +76,9 @@ LABEL dds_community_version=${dds_community_version} \
       dds_community_build=${dds_community_build} \
       dds_private_version=${dds_private_version} \
       dds_private_build=${dds_private_version} \
-      ts_salobj=${ts_salobj} \
       ts_dds=${ts_dds} \
-      ts_idl=${ts_idl}
+      ts_idl=${ts_idl} \
+      ts_ddsconfig=${ts_ddsconfig} \
+      ts_salobj=${ts_salobj}
 
 ENTRYPOINT ["/home/saluser/.startup.sh"]
