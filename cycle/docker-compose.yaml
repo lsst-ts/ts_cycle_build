@@ -239,19 +239,6 @@ services:
         cycle: ${CYCLE}
         dsm: ${ts_dsm}
 
-  hexapod:
-    image: ${hub}/hexapod:${CYCLE}
-    build:
-      context: ../build/hexapod
-      labels:
-        com.description: "Hexapod deployment image for cycle ${CYCLE}."
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
-        hexapod: ${ts_hexapod}
-        hexrotcomm: ${ts_hexrotcomm}
-        config: ${ts_config_mttcs}
-
   mtaos_sim:
     image: ${hub}/mtaos_sim:${CYCLE}
     depends_on:
@@ -277,7 +264,7 @@ services:
       args:
         cycle: ${CYCLE}
         hub: ${hub}
-        atdome: ${ts_dome}
+        mtdome: ${ts_mtdome}
         config: ${ts_config_mttcs}
 
   mtdometrajectory:
@@ -290,6 +277,19 @@ services:
         cycle: ${CYCLE}
         hub: ${hub}
         mtdometrajectory: ${ts_mtdometrajectory}
+        config: ${ts_config_mttcs}
+
+  mthexapod:
+    image: ${hub}/mthexapod:${CYCLE}
+    build:
+      context: ../build/mthexapod
+      labels:
+        com.description: "MTHexapod deployment image for cycle ${CYCLE}."
+      args:
+        deploy_env: ${hub}/${deploy_env}
+        deploy_tag: ${CYCLE}
+        mthexapod: ${ts_mthexapod}
+        hexrotcomm: ${ts_hexrotcomm}
         config: ${ts_config_mttcs}
 
   mtm1m3_sim:
@@ -320,19 +320,6 @@ services:
         m2: ${ts_m2}
         config: v${ts_config_mttcs}
 
-  rotator:
-    image: ${hub}/rotator:${CYCLE}
-    build:
-      context: ../build/rotator
-      labels:
-        com.description: "Rotator deployment image for cycle ${CYCLE}."
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
-        rotator: ${ts_rotator}
-        hexrotcomm: ${ts_hexrotcomm}
-        config: ${ts_config_mttcs}
-
   mtmount:
     image: ${hub}/mtmount:${CYCLE}
     build:
@@ -343,7 +330,21 @@ services:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
         mtmount: ${ts_mtmount}
+        hexrotcomm: ${ts_hexrotcomm}        
         config: v${ts_config_mttcs}
+
+  mtrotator:
+    image: ${hub}/mtrotator:${CYCLE}
+    build:
+      context: ../build/mtrotator
+      labels:
+        com.description: "MTRotator deployment image for cycle ${CYCLE}."
+      args:
+        deploy_env: ${hub}/${deploy_env}
+        deploy_tag: ${CYCLE}
+        mtrotator: ${ts_mtrotator}
+        hexrotcomm: ${ts_hexrotcomm}
+        config: ${ts_config_mttcs}
 
   ptg:
     image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}

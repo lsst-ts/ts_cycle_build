@@ -2,4 +2,4 @@
 
 source $HOME/.setup_sal_env.sh
 
-shutdown_dsm.py --index=${CSC_INDEX} -f
+shutdown_dsm.py ${CSC_INDEX} --state offline

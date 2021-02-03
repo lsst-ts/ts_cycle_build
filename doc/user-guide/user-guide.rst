@@ -107,18 +107,28 @@ The process to create a new cycle/revision build is to clone the repository and 
   git checkout tickets/DM-XXXXX
 
 Then, update the cycle/revision and software versions as needed.
-If any of the :ref:`core packages <Core-packages>` version is updated, the cycle number must be incremented, otherwise just increment the revision number and update the software versions.
 
-Both cycle, revision and all software versions are managed by an environment file located in:
+.. important::
+
+  If any of the :ref:`core packages <Core-packages>` version is updated, the cycle number must be incremented, otherwise just increment the revision number and update the software versions.
+
+Both cycle, revision and all remaining software versions are managed by an environment file located in:
 
 .. prompt:: bash
 
   cycle/cycle.env
 
 At the very top you will find the cycle and revision numbers.
+Since you know what kind of deployment (new cycle or new revision) you are going to be building, it is advisable to start by updating this information first.
+After that, proceed to updating the required versions for each package.
 
-Once this file is updated, you should be ready to start a build.
-For that, commit and push your changes to GitHub.
+For the :ref:`core packages <Core-packages>`, the version will be set in agreement with all the other subsystems.
+Furthermore, one may be interested in updating the DM stack version (``lsstsqre``) as well.
+All the other packages can either be inspected in github for the latest version or confirmed with the main developer.
+In some cases, this process can be a bit time consuming as one needs to verify which version should be deployed with several different sources.
+
+Once ``cycle/cycle.env`` is updated, you should be ready to start a build.
+For that, commit and push your changes to GitHub on a ticket branch.
 Make sure to describe the changes you have made on the commit message and also update the version history.
 
 Once the changes are pushed to GitHub the branch will appear in the `cycle build jenkins job`_.
@@ -134,7 +144,7 @@ Select the branch you are working on in the Branch tab and select Build with Par
    Jenkins build with parameters page.
 
 The build is divided into different steps.
-These steps are designed to maximized reusability of docker layers, minimizing the number of layers in the image and reducing the time it takes to build the system.
+These steps are designed to maximize reusability of docker layers, minimizing the number of layers in the image and reducing the time it takes to build the system.
 The steps in the build are as follows:
 
   - deploy_conda: Build base image used by all conda-installable components.
@@ -147,13 +157,13 @@ The steps in the build are as follows:
     - atmcs_sim
     - atpneumatics_sim
     - atspectrograph
-    - hexapod
+    - mthexapod
     - mtdome
     - mtdometrajectory
     - mtm2_sim
     - mtmount
     - ospl-daemon
-    - rotator
+    - mtrotator
     - salkafka
     - watcher
   - m1m3_sim: Build M1M3 simulator.
@@ -163,3 +173,193 @@ The steps in the build are as follows:
   - mtaos: Build MTAOS.
   - queue: Build ScriptQueue. Both AT and MT use the same code base and image.
   - scheduler: Build Scheduler. Both AT and MT use the same code base and image.
+
+It is important to follow the build steps order.
+Also, we recommend running one step at a time in the Jenkins server, to make sure the image is pushed at the end, avoiding potential push problem at the end.
+The build should always start with the base images; ``deploy_conda`` and ``deploy_lsstsqre``.
+Since ``deploy_conda`` is quicker to build it is, in general, preferable to start with that one.
+
+Once both base images are built the system is ready to build the remaining components.
+Again, given the simplicity and overall time it takes to complete, it is advisable to build the ``base_components`` next.
+This step will build the majority of the systems.
+Specifically, those that uses the ``deploy_conda`` and are built from conda packages.
+
+.. note::
+
+  One of the most common issues in building this step is when the selected version of the conda package for a component (or library) is not available.
+  In this case, make sure to check the conda Jenkins build for the particular package.
+  On some occasions developers release the code before all required dependencies are available (in most cases the idl package) and the release build fails.
+  For most cases, rerunning the build in Jenkins (after making sure the dependencies are available) should be enough to fix the problem.
+  If further issues are encountered with the build for that particular package you can either attempt to fix it yourself (most cases are simple pep8 or black formatting issues) or contact the developer in charge of the component and request a patch.
+
+Once the ``base_components`` are built successfully the natural next phase is to build ``MTM1M3`` simulator and pointing component, ``mtm1m3_sim`` and ``ptg`` respectively.
+These are both C++ components built using the ``deploy_conda`` base image.
+In both cases, the SAL libraries are installed using the rpm packages from the nexus server and the components are compiled at build time.
+
+.. note::
+
+  We do have plans to change how these components are built in the future.
+  The idea is to either build them as conda packages or RPMs.
+  Since the pointing component contains private software and M1M3 is ultimately deployed in an embedded system, it is more likely that RPMs will be used.
+
+The next natural step is then to build the ``ScriptQueue`` container, ``queue`` job.
+This image uses the ``deploy_lsstsqre`` as a base image and uses ``eups`` to install and build the dependencies for the ``ScriptQueue``, which means the step will take some time to finish.
+
+Because both ``Scheduler`` and ``MTAOS`` depends on ``lsst_sims`` they are built from a different base image than the base images above.
+We then proceed to build the ``lsst_sims`` image, which will install ``lsst_sims`` on ``deploy_lsstsqre``.
+Once this step is done, it is also possible to build ``aos_aoclc`` which is another intermediate stage in building ``MTAOS``.
+
+With ``lsst_sims`` and ``aos_aoclc`` built, it is then possible to build ``scheduler`` and ``mtaos`` in any order.
+
+Finally, all systems are ready to be deployed.
+
+.. _The-Development-Environment:
+
+The Development Environment
+===========================
+
+The docker development environment is used is (now) part of the cycle build.
+This docker image is built on top of the DM stack image (``lsstsqre/centos``) and contains all (or most) of the software needed for developing software for Telescope and Site stack.
+The image also ships with the basic Telescope and Site software needed to develop components and ``SAL Scripts`` for the ``ScriptQueue``.
+New packages can be added to the development environment by request.
+In some cases, adding new dependencies may require some discussion and agreement with team members and acceptance by the Software Architect.
+
+There are mainly three different types of development environment images; ``master``, ``develop`` and release cycle/revision tags.
+The first two tags, ``master`` and ``develop``, are updated daily with the ``lsstsqre/centos:w_latest`` base image and all the Telescope and Site software using ``master`` and ``develop`` branches, respectively.
+This process helps guard the system against potential breakages introduced by changes in any of the packages that are part of the image.
+
+The cycle and revision tag images are built from the versions specified in ``cycle/cycle.env``.
+They represent a frozen set of the system where all packages are built from tags.
+For more information see :ref:`Building-a-new-Cycle-or-Revision`.
+
+To pull one of these images simply do;
+
+.. prompt:: bash
+
+  docker pull lsstts/develop-env:<tag>
+
+Where tag can either be ``master``, ``develop`` or ``<cycle>.<rev>``.
+You can check the latest cycle/revision `here <https://github.com/lsst-ts/ts_cycle_build/blob/develop/cycle/cycle.env>`__.
+
+Once the image has been pulled you can verify the version of all the Telescope and Site software in the image by inspecting the image labels.
+The command is;
+
+.. prompt:: bash
+
+  docker inspect -f '{{ range $k, $v := .Config.Labels -}} {{ $k }}={{ $v }} {{ end -}}' lsstts/develop-env:<tag>
+
+For ``master`` and ``develop`` all packages will have labels ``master`` and ``develop``, respectively, whereas cycle/revision images will show the packages tags.
+
+In addition to the Telescope and Site software, the development image also ships with a number of packages used for development, for instance, ``pytest``, ``pytest-asyncio``, ``pytest-black`` and many others.
+There are mainly three categories of software provided with the image, ``yum``, ``conda`` and ``pypi`` packages.
+
+The list of ``yum`` packages available in the image are:
+
+  - dos2unix
+  - emacs
+  - epel-release
+  - gdb
+  - git
+  - gnome-terminal
+  - graphviz*
+  - ifconfig
+  - java-1.8.0-openjdk-devel
+  - libgphoto2-devel
+  - ltrac
+  - mariadb
+  - mariadb-devel
+  - maven
+  - nano
+  - ncurses-libs
+  - net-tools
+  - ntp
+  - strace
+  - swig
+  - tcpdump
+  - tk
+  - tk-devel
+  - tzdata
+  - unzip
+  - wget
+  - which
+  - xorg-x11-fonts-misc
+  - xterm
+
+In addition, ``OpenSpliceDDS`` is also installed using ``yum`` from our nexus repo.
+This library provides the DDS communication middleware, which is the core of all Telescope and Site software.
+The public image (available in the ``lsstts`` docker hub channel), ships with the ``6.9.0`` community edition version of the library built for ``el6``, to be compatible with the conda environment of the base ``lsstsqre/centos`` image.
+
+.. note::
+
+  We have plans to provide a version of this container with the licensed edition of the ``OpenSpliceDDS`` library from our private docker registry (``ts-dockerhub.lsst.org``).
+
+Furthermore, the ``conda`` packages available in the image are managed through the `ts-develop`_ conda metapackage.
+The list of packages are:
+
+  - aiokafka
+  - astroquery
+  - asynctest
+  - black ==19.10b0
+  - boto3
+  - ephem
+  - fontconfig
+  - ginga
+  - gitpython
+  - ipdb
+  - ipympl
+  - jinja2
+  - jsonschema
+  - jupyter
+  - kafkacat
+  - lxml
+  - moto
+  - pre-commit
+  - pycodestyle
+  - pyqt
+  - pytest
+  - pytest-asyncio
+  - pytest-black
+  - pytest-cov
+  - pytest-flake8
+  - pytest-subtests
+  - pytest-tornasync
+  - pyyaml
+  - setuptools
+  - setuptools_scm
+  - sqlalchemy
+  - wget
+
+.. _ts-develop: https://anaconda.org/lsstts/ts-develop
+
+Some dependencies that are not available through conda are added with ``pypi``:
+
+  - aiomisc
+  - aiounittest
+  - confluent_kafka
+  - documenteer[pipelines]==0.5.8
+  - kafkit[aiohttp]
+  - ltd-conveyor
+  - pyevents
+
+Finally, the list of Telescope and Site software that are ``eups`` installed are:
+
+  - ts_ATDome
+  - ts_ATDomeTrajectory
+  - ts_ATMCSSimulator
+  - ts_config_atcalsys
+  - ts_config_attcs
+  - ts_config_eas
+  - ts_config_latiss
+  - ts_config_mtcalsys
+  - ts_config_mttcs
+  - ts_config_ocs
+  - ts_externalscripts
+  - ts_hexrotcomm
+  - ts_idl
+  - ts_observatory_control
+  - ts_sal
+  - ts_salobj
+  - ts_scriptqueue
+  - ts_simactuators
+  - ts_standardscripts
+  - ts_xml

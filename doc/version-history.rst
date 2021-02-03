@@ -1,5 +1,3 @@
-.. _Version_History:
-
 ===============
 Version History
 ===============
@@ -10,6 +8,10 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0016
+==========
+
+Release of xml v7.0.0.
 
 Cycle 0015
 ==========

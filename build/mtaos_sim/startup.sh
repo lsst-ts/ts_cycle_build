@@ -14,7 +14,7 @@ setup ts_ofc -t current
 setup ts_phosim -t current
 setup ts_MTAOS -t current
 
-run_mtaos.py -s &
+run_mtaos.py $RUN_ARG &
 
 pid="$!"
 

@@ -2,7 +2,7 @@
 
 source $HOME/.setup_sal_env.sh
 
-run_dome.py $RUN_ARG &
+run_mtdome.py $RUN_ARG &
 
 pid="$!"
 
