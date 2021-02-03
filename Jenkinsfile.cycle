@@ -32,6 +32,7 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push base deployment image.", name: 'deploy_conda'
       booleanParam defaultValue: false, description: "Build/push lsstsqre deployment image.", name: 'deploy_lsstsqre'
       booleanParam defaultValue: false, description: "Build/push all components based on base deployment image.", name: 'base_components'
+      choice(name: 'component', choices: ["ALL", "ataos", "atdome", "atdometrajectory", "athexapod", "atmcs_sim", "atpneumatics_sim", "atspectrograph", "dimm", "dsm", "mthexapod", "mtdome", "mtdometrajectory", "mtm2_sim", "mtmount", "mtrotator", "ospl-daemon", "salkafka", "watcher", "weatherstation"], description: "Select one component to build.")
       booleanParam defaultValue: false, description: "Build/push M1M3 simulator image.", name: 'build_m1m3_sim'
       booleanParam defaultValue: false, description: "Build/push pointing component deployment image.", name: 'build_ptg'
       booleanParam defaultValue: false, description: "Build/push lsst_sims image.", name: 'build_lsst_sims'
@@ -94,9 +95,12 @@ pipeline {
         }
       }
     }
-    stage ('Build base components') {
+    stage ('Build ALL base components') {
       when {
+        allOf {
           expression { params.base_components }
+          expression { params.component.equals("ALL")}
+        }
       }
       steps {
 
@@ -113,6 +117,32 @@ pipeline {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push \${CONDA_PACKAGES}
+            """
+          }
+        }
+      }
+    }
+    stage ('Build single base component') {
+      when {
+        allOf {
+          expression { params.base_components }
+          not{ expression { params.component.equals("ALL") } }
+        }
+      }
+      steps {
+        script{
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+            docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+              sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${params.component}
+              """
+              }
+          }
+        }
+        script {
+          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+            sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push ${params.component}
             """
           }
         }

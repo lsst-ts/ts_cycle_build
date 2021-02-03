@@ -8,6 +8,16 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0017 Revision 001
+=======================
+
+* Update cycle build to support building one image at a time.
+* Update version of weather station conda package.
+* Update weather station build script to install new conda package.
+* Update hexrotcomm version.
+* Update mthexapod version.
+* Changed M1M3 simulator version to v2.0.1.
+
 Cycle 0017
 ==========
 
