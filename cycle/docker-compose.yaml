@@ -27,6 +27,19 @@ services:
         ts_dds: ${ts_dds_community}
         ts_idl: ${ts_idl}
 
+  deploy-conda-community-aarch64:
+    image: lsstts/deploy-env-aarch64:${CYCLE}
+    build:
+      context: ../build/
+      dockerfile: ./deploy-env/conda-aarch64/Dockerfile
+      labels:
+        com.description: "Base aarch64 deployment image for cycle ${CYCLE}."
+      args:
+        dds_community_version: ${dds_community_version}
+        ts_salobj: ${ts_salobj}
+        ts_dds: ${ts_dds_community}
+        ts_idl: ${ts_idl}
+
   deploy-conda-private:
     image: ts-dockerhub.lsst.org/deploy-env:${CYCLE}
     build:
@@ -200,12 +213,22 @@ services:
       context: ../build/
       dockerfile: ./develop-env/bare-centos/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base centos7 image for cycle ${CYCLE}."
+        com.description: "LSST Telescope and Site base CentOS 7 image for cycle ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build_el7}
         ts_xml: ${ts_xml}
         ts_sal: ${ts_sal}
+
+  bare-centos-community-aarch64:
+    image: lsstts/centos7-aarch64:${CYCLE}
+    build:
+      context: ../build/
+      dockerfile: ./develop-env/conda_package_builder_aarch64/Dockerfile
+      labels:
+        com.description: "LSST Telescope and Site base CentOS 7 aarch64 image for cycle ${CYCLE}."
+      args:
+        dds_community_version: ${dds_community_version}
 
   aos_aoclc:
     image: ${hub}/aos_aoclc:${CYCLE}
@@ -408,7 +431,6 @@ services:
 
   scriptqueue:
     image: ${hub}/scriptqueue:${CYCLE}
-    build:
     build:
       context: ../build/
       dockerfile: ./scriptqueue/Dockerfile
