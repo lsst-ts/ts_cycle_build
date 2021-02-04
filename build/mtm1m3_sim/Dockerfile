@@ -6,18 +6,14 @@ FROM ${hub}/deploy-env:${cycle}
 USER root
 
 RUN yum install -y https://repo.ius.io/ius-release-el7.rpm && \
-    yum install -y centos-release-scl cmake
+    yum install -y centos-release-scl
 
 RUN yum -y --enablerepo=extras install epel-release \
     devtoolset-8-gcc* \
-    wget \
     git \
     make \
-    wget \
     gcc-c++ \
-    boost-python \
-    boost-python-devel \
-    curl-devel \
+    boost-devel \
     yum clean all
 
 ARG rpm
