@@ -37,7 +37,7 @@ instrument_location "Nasmyth left"
     instrument_alignment_angle 0.0
 }
 
-focal_length 100000.0;              ; mm
+focal_length 21600.0;              ; mm
 rnogo 3600.0                          ; arcsec
 pointing_model at.mod
 
