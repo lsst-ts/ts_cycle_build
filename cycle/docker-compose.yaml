@@ -7,7 +7,7 @@ services:
     build:
       network: ${build_network}
       context: ../build/
-      dockerfile: ./conda_builder/Dockerfile
+      dockerfile: ./conda_builder/centos7/Dockerfile
       labels:
         com.description: "Conda builder for cycle ${CYCLE}."
       args:
@@ -99,7 +99,7 @@ services:
       args:
         image_tag: ${lsstsqre}
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el6}
+        dds_community_build: ${dds_community_build}
         ts_dds: ${ts_dds_community}
         UID: ${UID}
         GID: ${GID}
@@ -114,9 +114,9 @@ services:
       args:
         image_tag: ${lsstsqre}
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el6}
+        dds_community_build: ${dds_community_build}
         dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build_el6}
+        dds_private_build: ${dds_private_build}
         UID: ${UID}
         GID: ${GID}
 
@@ -130,7 +130,7 @@ services:
       args:
         hub: lsstts
         base_image_tag: ${CYCLE}
-        ts_dds: ${ts_dds_community}
+        ts_dds: ${ts_dds_community}=${ts_dds_community_conda_build}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
         ts_config_mtcalsys: ${ts_config_mtcalsys}
@@ -220,15 +220,38 @@ services:
         ts_xml: ${ts_xml}
         ts_sal: ${ts_sal}
 
-  bare-centos-community-aarch64:
+  conda-builder-aarch64-community:
     image: lsstts/centos7-aarch64:${CYCLE}
     build:
       context: ../build/
-      dockerfile: ./develop-env/conda_package_builder_aarch64/Dockerfile
+      dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
         com.description: "LSST Telescope and Site base CentOS 7 aarch64 image for cycle ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
+
+  conda-builder-community:
+    image: lsstts/conda_package_builder:${CYCLE}
+    build:
+      context: ../build/
+      dockerfile: ./conda_builder/linux64/Dockerfile
+      labels:
+        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
+      args:
+        dds_community_version: ${dds_community_version}
+
+  conda-builder-private:
+    image: ${hub}/conda_package_builder:${CYCLE}
+    build:
+      context: ../build/
+      dockerfile: ./conda_builder/linux64/Dockerfile
+      labels:
+        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
+      args:
+        dds_community_version: ${dds_community_version}
+        dds_community_build: ${dds_community_build_el7}
+        dds_private_version: ${dds_private_version}
+        dds_private_build: ${dds_private_build}
 
   aos_aoclc:
     image: ${hub}/aos_aoclc:${CYCLE}
