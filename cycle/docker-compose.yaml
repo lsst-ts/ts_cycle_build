@@ -2,24 +2,13 @@ version: "3.7"
 
 services:
 
-  conda_builder:
-    image: ts-dockerhub.lsst.org/conda_builder:${CYCLE}
-    build:
-      network: ${build_network}
-      context: ../build/
-      dockerfile: ./conda_builder/centos7/Dockerfile
-      labels:
-        com.description: "Conda builder for cycle ${CYCLE}."
-      args:
-        image_tag: ${lsstsqre}
-
   deploy-conda-community:
     image: lsstts/deploy-env:${CYCLE}
     build:
       context: ../build/
       dockerfile: ./deploy-env/conda/Dockerfile
       labels:
-        com.description: "Base deployment image for cycle ${CYCLE}."
+        com.description: "Base deployment image for cycle/revision ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build_el7}
@@ -33,7 +22,7 @@ services:
       context: ../build/
       dockerfile: ./deploy-env/conda-aarch64/Dockerfile
       labels:
-        com.description: "Base aarch64 deployment image for cycle ${CYCLE}."
+        com.description: "Base aarch64 deployment image for cycle/revision ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
         ts_salobj: ${ts_salobj}
@@ -95,7 +84,7 @@ services:
       context: ../build/
       dockerfile: ./develop-env/lsstsqre/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base development for cycle ${CYCLE}."
+        com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
         image_tag: ${lsstsqre}
         dds_community_version: ${dds_community_version}
@@ -110,7 +99,7 @@ services:
       context: ../build/
       dockerfile: ./develop-env/lsstsqre/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base development for cycle ${CYCLE}."
+        com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
         image_tag: ${lsstsqre}
         dds_community_version: ${dds_community_version}
@@ -121,12 +110,12 @@ services:
         GID: ${GID}
 
   salobj-community:
-    image: lsstts/salobj:${CYCLE}
+    image: lsstts/salobj:${CYCLE}${rev}
     build:
       context: ../build/develop-env/salobj/
       network: ${build_network}
       labels:
-        com.description: LSST Telescope and Site Docker image with SalObj for cycle ${CYCLE}.
+        com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
       args:
         hub: lsstts
         base_image_tag: ${CYCLE}
@@ -145,11 +134,11 @@ services:
         ts_salobj: ${ts_salobj}
 
   salobj-private:
-    image: ts-dockerhub.lsst.org/salobj:${CYCLE}
+    image: ts-dockerhub.lsst.org/salobj:${CYCLE}${rev}
     build:
       context: ../build/develop-env/salobj/
       labels:
-        com.description: LSST Telescope and Site Docker image with SalObj for cycle ${CYCLE}.
+        com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
       args:
         hub: ts-dockerhub.lsst.org
         base_image_tag: ${CYCLE}
@@ -168,15 +157,15 @@ services:
         ts_salobj: ${ts_salobj}
 
   develop-env-community:
-    image: lsstts/develop-env:${CYCLE}${rev}
+    image: lsstts/develop-env:${CYCLE}${rev}${rev}
     build:
       context: ../build/develop-env/develop-env/
       network: ${build_network}
       labels:
-        com.description: LSST Telescope and Site development environment image for cycle ${CYCLE}..
+        com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args:
         hub: lsstts
-        base_image_tag: ${CYCLE}
+        base_image_tag: ${CYCLE}${rev}
         ts_scriptqueue: ${ts_scriptqueue}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
@@ -188,15 +177,15 @@ services:
         ts_hexrotcomm: ${ts_hexrotcomm}
 
   develop-env-private:
-    image: ts-dockerhub.lsst.org/develop-env:${CYCLE}
+    image: ts-dockerhub.lsst.org/develop-env:${CYCLE}${rev}
     build:
       context: ../build/develop-env/develop-env/
       network: ${build_network}
       labels:
-        com.description: LSST Telescope and Site development environment image for cycle ${CYCLE}..
+        com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args:
         hub: ts-dockerhub.lsst.org
-        base_image_tag: ${CYCLE}
+        base_image_tag: ${CYCLE}${rev}
         ts_scriptqueue: ${ts_scriptqueue}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
@@ -254,61 +243,61 @@ services:
         dds_private_build: ${dds_private_build}
 
   aos_aoclc:
-    image: ${hub}/aos_aoclc:${CYCLE}
+    image: ${hub}/aos_aoclc:${CYCLE}${rev}
     build:
       context: ../build/aos_aoclc
       labels:
-        com.description: "AOS AOCL image for cycle ${CYCLE}."
+        com.description: "AOS AOCL image for cycle/revision ${CYCLE}${rev}."
         phosim_utils: ${phosim_utils}
         ts_wep: ${ts_wep}
         ts_ofc: ${ts_ofc}
       args:
         hub: ${hub}
-        IMAGE_TAG: ${CYCLE}
+        IMAGE_TAG: ${CYCLE}${rev}
         phosim_utils: ${phosim_utils}
         ts_wep: ${ts_wep}
         ts_ofc: ${ts_ofc}
 
   lsst_sims:
-    image: ${hub}/lsst_sims:${CYCLE}
+    image: ${hub}/lsst_sims:${CYCLE}${rev}
     build:
       context: ../build/lsst_sims
       labels:
-        com.description: "LSST sims image for cycle ${CYCLE}."
+        com.description: "LSST sims image for cycle/revision ${CYCLE}${rev}."
       args:
         hub: ${hub}
-        base_image_tag: ${CYCLE}
+        base_image_tag: ${CYCLE}${rev}
         lsst_sims: ${lsst_sims}
 
   dimm:
-    image: ${hub}/dimm:${CYCLE}
+    image: ${hub}/dimm:${CYCLE}${rev}
     build:
       context: ../build/dimm
       labels:
-        com.description: "DIMM deployment image for cycle ${CYCLE}."
+        com.description: "DIMM deployment image for cycle/revision ${CYCLE}${rev}."
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
         dimm: ${ts_dimm}
         config: ${ts_config_ocs}
   dsm:
-    image: ${hub}/dsm:${CYCLE}
+    image: ${hub}/dsm:${CYCLE}${rev}
     build:
       context: ../build/dsm
       labels:
-        com.description: "DSM deployment image for cycle ${CYCLE}."
+        com.description: "DSM deployment image for cycle/revision ${CYCLE}${rev}."
       args:
         hub: ${hub}
         cycle: ${CYCLE}
         dsm: ${ts_dsm}
 
   mtaos_sim:
-    image: ${hub}/mtaos_sim:${CYCLE}
+    image: ${hub}/mtaos_sim:${CYCLE}${rev}
     build:
       context: ../build/
       dockerfile: ./mtaos_sim/Dockerfile
       labels:
-        com.description: "MTAOS simulator deployment image for cycle ${CYCLE}."
+        com.description: "MTAOS simulator deployment image for cycle/revision ${CYCLE}${rev}."
       args:
         hub: ${hub}
         cycle: ${CYCLE}
@@ -319,7 +308,7 @@ services:
         ts_config_mttcs: ${ts_config_mttcs}
 
   mtdome:
-    image: ${hub}/mtdome:${CYCLE}
+    image: ${hub}/mtdome:${CYCLE}${rev}
     build:
       context: ../build/mtdome
       labels:
@@ -331,7 +320,7 @@ services:
         config: ${ts_config_mttcs}
 
   mtdometrajectory:
-    image: ${hub}/mtdometrajectory:${CYCLE}
+    image: ${hub}/mtdometrajectory:${CYCLE}${rev}
     build:
       context: ../build/mtdometrajectory
       labels:
@@ -343,11 +332,11 @@ services:
         config: ${ts_config_mttcs}
 
   mthexapod:
-    image: ${hub}/mthexapod:${CYCLE}
+    image: ${hub}/mthexapod:${CYCLE}${rev}
     build:
       context: ../build/mthexapod
       labels:
-        com.description: "MTHexapod deployment image for cycle ${CYCLE}."
+        com.description: "MTHexapod deployment image for cycle/revision ${CYCLE}${rev}."
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
@@ -356,12 +345,12 @@ services:
         config: ${ts_config_mttcs}
 
   mtm1m3_sim:
-    image: ${hub}/mtm1m3_sim:${CYCLE}
+    image: ${hub}/mtm1m3_sim:${CYCLE}${rev}
     build:
       context: ../build/
       dockerfile: ./mtm1m3_sim/Dockerfile
       labels:
-        com.description: "M1M3 simulator deployment image for cycle ${CYCLE}."
+        com.description: "M1M3 simulator deployment image for cycle/revision ${CYCLE}${rev}."
         sal: ${ts_sal}
         xml: ${ts_xml}
         m1m3: ${ts_m1m3support}
@@ -372,11 +361,11 @@ services:
         m1m3: ${ts_m1m3support}
 
   mtm2_sim:
-    image: ${hub}/m2:${CYCLE}
+    image: ${hub}/m2:${CYCLE}${rev}
     build:
       context: ../build/mtm2_sim
       labels:
-        com.description: "M2 simulator deployment image for cycle ${CYCLE}."
+        com.description: "M2 simulator deployment image for cycle/revision ${CYCLE}${rev}."
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
@@ -384,11 +373,11 @@ services:
         config: v${ts_config_mttcs}
 
   mtmount:
-    image: ${hub}/mtmount:${CYCLE}
+    image: ${hub}/mtmount:${CYCLE}${rev}
     build:
       context: ../build/mtmount
       labels:
-        com.description: "MTmount deployment image for cycle ${CYCLE}."
+        com.description: "MTmount deployment image for cycle/revision ${CYCLE}${rev}."
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
@@ -397,11 +386,11 @@ services:
         config: v${ts_config_mttcs}
 
   mtrotator:
-    image: ${hub}/mtrotator:${CYCLE}
+    image: ${hub}/mtrotator:${CYCLE}${rev}
     build:
       context: ../build/mtrotator
       labels:
-        com.description: "MTRotator deployment image for cycle ${CYCLE}."
+        com.description: "MTRotator deployment image for cycle/revision ${CYCLE}${rev}."
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
@@ -410,12 +399,12 @@ services:
         config: ${ts_config_mttcs}
 
   ptg:
-    image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}
+    image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}${rev}
     build:
       context: ../build/
       dockerfile: ./ptg/Dockerfile
       labels:
-        com.description: "Pointing component deployment image for cycle ${CYCLE}."
+        com.description: "Pointing component deployment image for cycle/revision ${CYCLE}${rev}."
         rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
         ptg: ${ts_pointing_common}
       args:
@@ -425,11 +414,11 @@ services:
         ptg: ${ts_pointing_common}
 
   salkafka:
-    image: ${hub}/salkafka:${CYCLE}
+    image: ${hub}/salkafka:${CYCLE}${rev}
     build:
       context: ../build/salkafka
       labels:
-        com.description: "SAL kafka producers deployment image for cycle ${CYCLE}."
+        com.description: "SAL kafka producers deployment image for cycle/revision ${CYCLE}${rev}."
         deploy_env: ${deploy_env}
         deploy_tag: ${CYCLE}
         salkafka: ${ts_salkafka}
@@ -439,11 +428,11 @@ services:
         salkafka: ${ts_salkafka}
 
   scheduler:
-    image: ${hub}/scheduler:${CYCLE}
+    image: ${hub}/scheduler:${CYCLE}${rev}
     build:
       context: ../build/scheduler
       labels:
-        com.description: "Scheduler image for cycle ${CYCLE}"
+        com.description: "Scheduler image for cycle/revision ${CYCLE}${rev}"
       args:
         hub: ${hub}
         deploy_tag: ${CYCLE}
@@ -453,12 +442,12 @@ services:
         ts_scheduler: ${ts_scheduler}
 
   scriptqueue:
-    image: ${hub}/scriptqueue:${CYCLE}
+    image: ${hub}/scriptqueue:${CYCLE}${rev}
     build:
       context: ../build/
       dockerfile: ./scriptqueue/Dockerfile
       labels:
-        com.description: "Script queue image for cycle ${CYCLE}."
+        com.description: "Script queue image for cycle/revision ${CYCLE}${rev}."
       args:
         hub: ${hub}
         deploy_tag: ${CYCLE}
@@ -481,11 +470,11 @@ services:
         ts_atmcssimulator: ${ts_ATMCSSimulator}
 
   test:
-    image: ${hub}/test:${CYCLE}
+    image: ${hub}/test:${CYCLE}${rev}
     build:
       context: ../build/test
       labels:
-        com.description: "Test CSC for cycle ${CYCLE}."
+        com.description: "Test CSC for cycle/revision ${CYCLE}${rev}."
         deploy_env: ${deploy_env}
         deploy_tag: ${CYCLE}
       args:
@@ -493,11 +482,11 @@ services:
         deploy_tag: ${CYCLE}
 
   watcher:
-    image: ${hub}/watcher:${CYCLE}
+    image: ${hub}/watcher:${CYCLE}${rev}
     build:
       context: ../build/watcher
       labels:
-        com.description: "Watcher CSC for cycle ${CYCLE}."
+        com.description: "Watcher CSC for cycle/revision ${CYCLE}${rev}."
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
@@ -505,11 +494,11 @@ services:
         watcher: ${ts_watcher}
 
   weatherstation:
-    image: ${hub}/weatherstation:${CYCLE}
+    image: ${hub}/weatherstation:${CYCLE}${rev}
     build:
       context: ../build/weatherstation
       labels:
-        com.description: "Weather Station CSC for cycle ${CYCLE}."
+        com.description: "Weather Station CSC for cycle/revision ${CYCLE}${rev}."
       args:
         deploy_env: ${hub}/${deploy_env}
         deploy_tag: ${CYCLE}
@@ -517,11 +506,11 @@ services:
         weatherstation: ${ts_weatherstation}
 
   ospl-daemon:
-    image: ${hub}/ospl-daemon:${CYCLE}
+    image: ${hub}/ospl-daemon:${CYCLE}${rev}
     build:
       context: ../build/ospl-daemon
       labels:
-        com.description: "OSPL Daemon for cycle ${CYCLE}."
+        com.description: "OSPL Daemon for cycle/revision ${CYCLE}${rev}."
         deploy_env: ${deploy_env}
         deploy_tag: ${CYCLE}
       args:
@@ -529,7 +518,7 @@ services:
         deploy_tag: ${CYCLE}
 
   atmcs_sim:
-    image: ${hub}/atmcs_sim:${CYCLE}
+    image: ${hub}/atmcs_sim:${CYCLE}${rev}
     build:
       context: ../build/atmcs_sim
       labels:
@@ -540,7 +529,7 @@ services:
         atmcs: ${ts_ATMCSSimulator}
 
   atdome:
-    image: ${hub}/atdome:${CYCLE}
+    image: ${hub}/atdome:${CYCLE}${rev}
     build:
       context: ../build/atdome
       labels:
@@ -552,7 +541,7 @@ services:
         config: ${ts_config_attcs}
 
   atdometrajectory:
-    image: ${hub}/atdometrajectory:${CYCLE}
+    image: ${hub}/atdometrajectory:${CYCLE}${rev}
     build:
       context: ../build/atdometrajectory
       labels:
@@ -564,7 +553,7 @@ services:
         config: ${ts_config_attcs}
 
   atpneumatics_sim:
-    image: ${hub}/at_pneumatics_sim:${CYCLE}
+    image: ${hub}/at_pneumatics_sim:${CYCLE}${rev}
     build:
       context: ../build/atpneumatics_sim
       labels:
@@ -575,7 +564,7 @@ services:
         atpneumatics_sim: ${ts_ATPneumaticsSimulator}
 
   ataos:
-    image: ${hub}/ataos:${CYCLE}
+    image: ${hub}/ataos:${CYCLE}${rev}
     build:
       context: ../build/ataos
       dockerfile: ./Dockerfile.conda
@@ -589,7 +578,7 @@ services:
         ts_observatory_control: ${ts_observatory_control}
 
   athexapod:
-    image: ${hub}/athexapod:${CYCLE}
+    image: ${hub}/athexapod:${CYCLE}${rev}
     build:
       context: ../build/athexapod
       labels:
@@ -601,7 +590,7 @@ services:
         config: ${ts_config_attcs}
 
   atspectrograph:
-    image: ${hub}/atspec:${CYCLE}
+    image: ${hub}/atspec:${CYCLE}${rev}
     build:
       context: ../build/atspectrograph
       labels:
