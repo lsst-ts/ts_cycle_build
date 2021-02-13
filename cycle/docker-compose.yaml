@@ -1,3 +1,339 @@
+x-aos_aoclc: &base-aos_aoclc
+  build:
+    context: ../build/aos_aoclc
+    labels:
+      com.description: "AOS AOCL image for cycle/revision ${CYCLE}${rev}."
+      phosim_utils: ${phosim_utils}
+      ts_wep: ${ts_wep}
+      ts_ofc: ${ts_ofc}
+    args:
+      hub: ${hub}
+      IMAGE_TAG: ${CYCLE}${rev}
+      phosim_utils: ${phosim_utils}
+      ts_wep: ${ts_wep}
+      ts_ofc: ${ts_ofc}
+
+x-lsst_sims: &base-lsst_sims
+  build:
+    context: ../build/lsst_sims
+    labels:
+      com.description: "LSST sims image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      base_image_tag: ${CYCLE}${rev}
+      lsst_sims: ${lsst_sims}
+
+x-dimm: &base-dimm
+  build:
+    context: ../build/dimm
+    labels:
+      com.description: "DIMM deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+      dimm: ${ts_dimm}
+      config: ${ts_config_ocs}
+
+x-dsm: &base-dsm
+  build:
+    context: ../build/dsm
+    labels:
+      com.description: "DSM deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      dsm: ${ts_dsm}
+
+x-mtaos_sim: &base-mtaos_sim
+  build:
+    context: ../build/
+    dockerfile: ./mtaos_sim/Dockerfile
+    labels:
+      com.description: "MTAOS simulator deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      phosim_utils: ${phosim_utils}
+      ts_wep: ${ts_wep}
+      ts_ofc: ${ts_ofc}
+      mtaos: ${ts_mtaos}
+      ts_config_mttcs: ${ts_config_mttcs}
+
+x-mtdome: &base-mtdome
+  build:
+    context: ../build/mtdome
+    labels:
+      com.description: "MTDome component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      mtdome: ${ts_mtdome}
+      config: ${ts_config_mttcs}
+
+x-mtdometrajectory: &base-mtdometrajectory
+  build:
+    context: ../build/mtdometrajectory
+    labels:
+      com.description: "MTDomeTrajectory component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      mtdometrajectory: ${ts_mtdometrajectory}
+      config: ${ts_config_mttcs}
+
+x-mthexapod: &base-mthexapod
+  build:
+    context: ../build/mthexapod
+    labels:
+      com.description: "MTHexapod deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+      mthexapod: ${ts_mthexapod}
+      hexrotcomm: ${ts_hexrotcomm}
+      config: ${ts_config_mttcs}
+
+x-mtm1m3_sim: &base-mtm1m3_sim
+  build:
+    context: ../build/
+    dockerfile: ./mtm1m3_sim/Dockerfile
+    labels:
+      com.description: "M1M3 simulator deployment image for cycle/revision ${CYCLE}${rev}."
+      sal: ${ts_sal}
+      xml: ${ts_xml}
+      m1m3: ${ts_m1m3support}
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      rpm: ${ts_xml}-${ts_sal}.el7.x86_64
+      m1m3: ${ts_m1m3support}
+
+x-mtm2_sim: &base-mtm2_sim
+  build:
+    context: ../build/mtm2_sim
+    labels:
+      com.description: "M2 simulator deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+      m2: ${ts_m2}
+      config: v${ts_config_mttcs}
+
+x-mtmount: &base-mtmount
+  build:
+    context: ../build/mtmount
+    labels:
+      com.description: "MTmount deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+      mtmount: ${ts_mtmount}
+      hexrotcomm: ${ts_hexrotcomm}
+      config: v${ts_config_mttcs}
+
+x-mtrotator: &base-mtrotator
+  build:
+    context: ../build/mtrotator
+    labels:
+      com.description: "MTRotator deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+      mtrotator: ${ts_mtrotator}
+      hexrotcomm: ${ts_hexrotcomm}
+      config: ${ts_config_mttcs}
+
+x-ospl-daemon: &base-ospl-daemon
+  build:
+    context: ../build/ospl-daemon
+    labels:
+      com.description: "OSPL Daemon for cycle ${CYCLE}."
+      deploy_env: ${deploy_env}
+      deploy_tag: ${CYCLE}
+    args:
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+
+x-ptg: &base-ptg
+  build:
+    context: ../build/
+    dockerfile: ./ptg/Dockerfile
+    labels:
+      com.description: "Pointing component deployment image for cycle/revision ${CYCLE}${rev}."
+      rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
+      ptg: ${ts_pointing_common}
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
+      ptg: ${ts_pointing_common}
+
+x-salkafka: &base-salkafka
+  build:
+    context: ../build/salkafka
+    labels:
+      com.description: "SAL kafka producers deployment image for cycle/revision ${CYCLE}${rev}."
+      deploy_env: ${deploy_env}
+      deploy_tag: ${CYCLE}
+      salkafka: ${ts_salkafka}
+    args:
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+      salkafka: ${ts_salkafka}
+
+x-scheduler: &base-scheduler
+  build:
+    context: ../build/scheduler
+    labels:
+      com.description: "Scheduler image for cycle/revision ${CYCLE}${rev}"
+    args:
+      hub: ${hub}
+      deploy_tag: ${CYCLE}
+      ts_config_ocs: ${ts_config_ocs}
+      ts_idl: ${ts_idl}
+      ts_scriptqueue: ${ts_scriptqueue}
+      ts_scheduler: ${ts_scheduler}
+
+x-scriptqueue: &base-scriptqueue
+  build:
+    context: ../build/
+    dockerfile: ./scriptqueue/Dockerfile
+    labels:
+      com.description: "Script queue image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      deploy_tag: ${CYCLE}
+      ts_config_attcs: ${ts_config_attcs}
+      ts_config_ocs: ${ts_config_ocs}
+      cwfs: ${cwfs}
+      Spectractor: ${Spectractor}
+      obs_base: ${obs_base}
+      pipe_tasks: ${pipe_tasks}
+      rapid_analysis: ${rapid_analysis}
+      atmospec: ${atmospec}
+      ts_observing_utilities: ${ts_observing_utilities}
+      ts_observatory_control: ${ts_observatory_control}
+      ts_externalscripts: ${ts_externalscripts}
+      ts_standardscripts: ${ts_standardscripts}
+      ts_scriptqueue: ${ts_scriptqueue}
+      ts_idl: ${ts_idl}
+      ts_atdome: ${ts_ATDome}
+      ts_atdometrajectory: ${ts_ATDomeTrajectory}
+      ts_atmcssimulator: ${ts_ATMCSSimulator}
+
+x-test: &base-test
+  build:
+    context: ../build/test
+    labels:
+      com.description: "Test CSC for cycle/revision ${CYCLE}${rev}."
+      deploy_env: ${deploy_env}
+      deploy_tag: ${CYCLE}
+    args:
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+
+x-watcher: &base-watcher
+  build:
+    context: ../build/watcher
+    labels:
+      com.description: "Watcher CSC for cycle/revision ${CYCLE}${rev}."
+    args:
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+      config_ocs: ${ts_config_ocs}
+      watcher: ${ts_watcher}
+
+x-weatherstation: &base-weatherstation
+  build:
+    context: ../build/weatherstation
+    labels:
+      com.description: "Weather Station CSC for cycle/revision ${CYCLE}${rev}."
+    args:
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+      config: ${ts_config_ocs}
+      weatherstation: ${ts_weatherstation}
+
+x-atmcs_sim: &base-atmcs_sim
+  build:
+    context: ../build/atmcs_sim
+    labels:
+      com.description: "ATMCS simulator for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      atmcs: ${ts_ATMCSSimulator}
+
+x-atdome: &base-atdome
+  build:
+    context: ../build/atdome
+    labels:
+      com.description: "ATDome component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      atdome: ${ts_ATDome}
+      config: ${ts_config_attcs}
+
+x-atdometrajectory: &base-atdometrajectory
+  build:
+    context: ../build/atdometrajectory
+    labels:
+      com.description: "ATDomeTrajectory component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      atdometrajectory: ${ts_ATDomeTrajectory}
+      config: ${ts_config_attcs}
+
+x-atpneumatics_sim: &base-atpneumatics_sim
+  build:
+    context: ../build/atpneumatics_sim
+    labels:
+      com.description: "ATPneumatics simulator for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      atpneumatics_sim: ${ts_ATPneumaticsSimulator}
+
+x-ataos: &base-ataos
+  build:
+    context: ../build/ataos
+    dockerfile: ./Dockerfile.conda
+    labels:
+      com.description: "ATAOS component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      ts_ataos: ${ts_ataos}
+      config: ${ts_config_attcs}
+      ts_observatory_control: ${ts_observatory_control}
+
+x-athexapod: &base-athexapod
+  build:
+    context: ../build/athexapod
+    labels:
+      com.description: "ATHexapod component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      athexapod: ${ts_athexapod}
+      config: ${ts_config_attcs}
+
+x-atspectrograph: &base-atspectrograph
+  build:
+    context: ../build/atspectrograph
+    labels:
+      com.description: "ATSpectrograph component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      atspec: ${ts_atspec}
+      config: ${ts_config_latiss}
+
+
+
+
 version: "3.7"
 
 services:
@@ -242,361 +578,214 @@ services:
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
 
+  ospl-daemon:
+    image: ${hub}/ospl-daemon:${CYCLE}
+    <<: *base-ospl-daemon
+
+  ospl-daemon_c:
+    image: ${hub}/ospl-daemon:${CYCLE}
+    <<: *base-ospl-daemon
+
   aos_aoclc:
     image: ${hub}/aos_aoclc:${CYCLE}${rev}
-    build:
-      context: ../build/aos_aoclc
-      labels:
-        com.description: "AOS AOCL image for cycle/revision ${CYCLE}${rev}."
-        phosim_utils: ${phosim_utils}
-        ts_wep: ${ts_wep}
-        ts_ofc: ${ts_ofc}
-      args:
-        hub: ${hub}
-        IMAGE_TAG: ${CYCLE}${rev}
-        phosim_utils: ${phosim_utils}
-        ts_wep: ${ts_wep}
-        ts_ofc: ${ts_ofc}
+    <<: *base-aos_aoclc
+
+  aos_aoclc_c:
+    image: ${hub}/aos_aoclc:${CYCLE}
+    <<: *base-aos_aoclc
 
   lsst_sims:
     image: ${hub}/lsst_sims:${CYCLE}${rev}
-    build:
-      context: ../build/lsst_sims
-      labels:
-        com.description: "LSST sims image for cycle/revision ${CYCLE}${rev}."
-      args:
-        hub: ${hub}
-        base_image_tag: ${CYCLE}${rev}
-        lsst_sims: ${lsst_sims}
+    <<: *base-lsst_sims
+
+  lsst_sims_c:
+    image: ${hub}/lsst_sims:${CYCLE}
+    <<: *base-lsst_sims
 
   dimm:
     image: ${hub}/dimm:${CYCLE}${rev}
-    build:
-      context: ../build/dimm
-      labels:
-        com.description: "DIMM deployment image for cycle/revision ${CYCLE}${rev}."
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
-        dimm: ${ts_dimm}
-        config: ${ts_config_ocs}
+    <<: *base-dimm
+
+  dimm_c:
+    image: ${hub}/dimm:${CYCLE}
+    <<: *base-dimm
+
   dsm:
     image: ${hub}/dsm:${CYCLE}${rev}
-    build:
-      context: ../build/dsm
-      labels:
-        com.description: "DSM deployment image for cycle/revision ${CYCLE}${rev}."
-      args:
-        hub: ${hub}
-        cycle: ${CYCLE}
-        dsm: ${ts_dsm}
+    <<: *base-dsm
+
+  dsm_c:
+    image: ${hub}/dsm:${CYCLE}
+    <<: *base-dsm
 
   mtaos_sim:
     image: ${hub}/mtaos_sim:${CYCLE}${rev}
-    build:
-      context: ../build/
-      dockerfile: ./mtaos_sim/Dockerfile
-      labels:
-        com.description: "MTAOS simulator deployment image for cycle/revision ${CYCLE}${rev}."
-      args:
-        hub: ${hub}
-        cycle: ${CYCLE}
-        phosim_utils: ${phosim_utils}
-        ts_wep: ${ts_wep}
-        ts_ofc: ${ts_ofc}
-        mtaos: ${ts_mtaos}
-        ts_config_mttcs: ${ts_config_mttcs}
+    <<: *base-mtaos_sim
+
+  mtaos_sim_c:
+    image: ${hub}/mtaos_sim:${CYCLE}
+    <<: *base-mtaos_sim
 
   mtdome:
     image: ${hub}/mtdome:${CYCLE}${rev}
-    build:
-      context: ../build/mtdome
-      labels:
-        com.description: "MTDome component for cycle {$CYCLE}"
-      args:
-        cycle: ${CYCLE}
-        hub: ${hub}
-        mtdome: ${ts_mtdome}
-        config: ${ts_config_mttcs}
+    <<: *base-mtdome
+
+  mtdome_c:
+    image: ${hub}/mtdome:${CYCLE}
+    <<: *base-mtdome
 
   mtdometrajectory:
     image: ${hub}/mtdometrajectory:${CYCLE}${rev}
-    build:
-      context: ../build/mtdometrajectory
-      labels:
-        com.description: "MTDomeTrajectory component for cycle {$CYCLE}"
-      args:
-        cycle: ${CYCLE}
-        hub: ${hub}
-        mtdometrajectory: ${ts_mtdometrajectory}
-        config: ${ts_config_mttcs}
+    <<: *base-mtdometrajectory
+
+  mtdometrajectory_c:
+    image: ${hub}/mtdometrajectory:${CYCLE}
+    <<: *base-mtdometrajectory
 
   mthexapod:
     image: ${hub}/mthexapod:${CYCLE}${rev}
-    build:
-      context: ../build/mthexapod
-      labels:
-        com.description: "MTHexapod deployment image for cycle/revision ${CYCLE}${rev}."
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
-        mthexapod: ${ts_mthexapod}
-        hexrotcomm: ${ts_hexrotcomm}
-        config: ${ts_config_mttcs}
+    <<: *base-mthexapod
+
+  mthexapod_c:
+    image: ${hub}/mthexapod:${CYCLE}
+    <<: *base-mthexapod
 
   mtm1m3_sim:
     image: ${hub}/mtm1m3_sim:${CYCLE}${rev}
-    build:
-      context: ../build/
-      dockerfile: ./mtm1m3_sim/Dockerfile
-      labels:
-        com.description: "M1M3 simulator deployment image for cycle/revision ${CYCLE}${rev}."
-        sal: ${ts_sal}
-        xml: ${ts_xml}
-        m1m3: ${ts_m1m3support}
-      args:
-        cycle: ${CYCLE}
-        hub: ${hub}
-        rpm: ${ts_xml}-${ts_sal}.el7.x86_64
-        m1m3: ${ts_m1m3support}
+    <<: *base-mtm1m3_sim
+
+  mtm1m3_sim_c:
+    image: ${hub}/mtm1m3_sim:${CYCLE}
+    <<: *base-mtm1m3_sim
 
   mtm2_sim:
     image: ${hub}/m2:${CYCLE}${rev}
-    build:
-      context: ../build/mtm2_sim
-      labels:
-        com.description: "M2 simulator deployment image for cycle/revision ${CYCLE}${rev}."
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
-        m2: ${ts_m2}
-        config: v${ts_config_mttcs}
+    <<: *base-mtm2_sim
 
   mtmount:
     image: ${hub}/mtmount:${CYCLE}${rev}
-    build:
-      context: ../build/mtmount
-      labels:
-        com.description: "MTmount deployment image for cycle/revision ${CYCLE}${rev}."
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
-        mtmount: ${ts_mtmount}
-        hexrotcomm: ${ts_hexrotcomm}
-        config: v${ts_config_mttcs}
+    <<: *base-mtmount
+
+  mtmount_c:
+    image: ${hub}/mtmount:${CYCLE}
+    <<: *base-mtmount
 
   mtrotator:
     image: ${hub}/mtrotator:${CYCLE}${rev}
-    build:
-      context: ../build/mtrotator
-      labels:
-        com.description: "MTRotator deployment image for cycle/revision ${CYCLE}${rev}."
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
-        mtrotator: ${ts_mtrotator}
-        hexrotcomm: ${ts_hexrotcomm}
-        config: ${ts_config_mttcs}
+    <<: *base-mtrotator
+
+  mtrotator_c:
+    image: ${hub}/mtrotator:${CYCLE}
+    <<: *base-mtrotator
 
   ptg:
     image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}${rev}
-    build:
-      context: ../build/
-      dockerfile: ./ptg/Dockerfile
-      labels:
-        com.description: "Pointing component deployment image for cycle/revision ${CYCLE}${rev}."
-        rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
-        ptg: ${ts_pointing_common}
-      args:
-        cycle: ${CYCLE}
-        hub: ${hub}
-        rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
-        ptg: ${ts_pointing_common}
+    <<: *base-ptg
+
+  ptg_c:
+    image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}
+    <<: *base-ptg
 
   salkafka:
     image: ${hub}/salkafka:${CYCLE}${rev}
-    build:
-      context: ../build/salkafka
-      labels:
-        com.description: "SAL kafka producers deployment image for cycle/revision ${CYCLE}${rev}."
-        deploy_env: ${deploy_env}
-        deploy_tag: ${CYCLE}
-        salkafka: ${ts_salkafka}
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
-        salkafka: ${ts_salkafka}
+    <<: *base-salkafka
+
+  salkafka_c:
+    image: ${hub}/salkafka:${CYCLE}
+    <<: *base-salkafka
 
   scheduler:
     image: ${hub}/scheduler:${CYCLE}${rev}
-    build:
-      context: ../build/scheduler
-      labels:
-        com.description: "Scheduler image for cycle/revision ${CYCLE}${rev}"
-      args:
-        hub: ${hub}
-        deploy_tag: ${CYCLE}
-        ts_config_ocs: ${ts_config_ocs}
-        ts_idl: ${ts_idl}
-        ts_scriptqueue: ${ts_scriptqueue}
-        ts_scheduler: ${ts_scheduler}
+    <<: *base-scheduler
+
+  scheduler_c:
+    image: ${hub}/scheduler:${CYCLE}
+    <<: *base-scheduler
 
   scriptqueue:
     image: ${hub}/scriptqueue:${CYCLE}${rev}
-    build:
-      context: ../build/
-      dockerfile: ./scriptqueue/Dockerfile
-      labels:
-        com.description: "Script queue image for cycle/revision ${CYCLE}${rev}."
-      args:
-        hub: ${hub}
-        deploy_tag: ${CYCLE}
-        ts_config_attcs: ${ts_config_attcs}
-        ts_config_ocs: ${ts_config_ocs}
-        cwfs: ${cwfs}
-        Spectractor: ${Spectractor}
-        obs_base: ${obs_base}
-        pipe_tasks: ${pipe_tasks}
-        rapid_analysis: ${rapid_analysis}
-        atmospec: ${atmospec}
-        ts_observing_utilities: ${ts_observing_utilities}
-        ts_observatory_control: ${ts_observatory_control}
-        ts_externalscripts: ${ts_externalscripts}
-        ts_standardscripts: ${ts_standardscripts}
-        ts_scriptqueue: ${ts_scriptqueue}
-        ts_idl: ${ts_idl}
-        ts_atdome: ${ts_ATDome}
-        ts_atdometrajectory: ${ts_ATDomeTrajectory}
-        ts_atmcssimulator: ${ts_ATMCSSimulator}
+    <<: *base-scriptqueue
+
+  scriptqueue_c:
+    image: ${hub}/scriptqueue:${CYCLE}
+    <<: *base-scriptqueue
 
   test:
     image: ${hub}/test:${CYCLE}${rev}
-    build:
-      context: ../build/test
-      labels:
-        com.description: "Test CSC for cycle/revision ${CYCLE}${rev}."
-        deploy_env: ${deploy_env}
-        deploy_tag: ${CYCLE}
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
+    <<: *base-test
+
+  test_c:
+    image: ${hub}/test:${CYCLE}
+    <<: *base-test
 
   watcher:
     image: ${hub}/watcher:${CYCLE}${rev}
-    build:
-      context: ../build/watcher
-      labels:
-        com.description: "Watcher CSC for cycle/revision ${CYCLE}${rev}."
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
-        config_ocs: ${ts_config_ocs}
-        watcher: ${ts_watcher}
+    <<: *base-watcher
+
+  watcher_c:
+    image: ${hub}/watcher:${CYCLE}
+    <<: *base-watcher
 
   weatherstation:
     image: ${hub}/weatherstation:${CYCLE}${rev}
-    build:
-      context: ../build/weatherstation
-      labels:
-        com.description: "Weather Station CSC for cycle/revision ${CYCLE}${rev}."
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
-        config: ${ts_config_ocs}
-        weatherstation: ${ts_weatherstation}
+    <<: *base-weatherstation
 
-  ospl-daemon:
-    image: ${hub}/ospl-daemon:${CYCLE}${rev}
-    build:
-      context: ../build/ospl-daemon
-      labels:
-        com.description: "OSPL Daemon for cycle/revision ${CYCLE}${rev}."
-        deploy_env: ${deploy_env}
-        deploy_tag: ${CYCLE}
-      args:
-        deploy_env: ${hub}/${deploy_env}
-        deploy_tag: ${CYCLE}
+  weatherstation_c:
+    image: ${hub}/weatherstation:${CYCLE}
+    <<: *base-weatherstation
 
   atmcs_sim:
     image: ${hub}/atmcs_sim:${CYCLE}${rev}
-    build:
-      context: ../build/atmcs_sim
-      labels:
-        com.description: "ATMCS simulator for cycle {$CYCLE}"
-      args:
-        cycle: ${CYCLE}
-        hub: ${hub}
-        atmcs: ${ts_ATMCSSimulator}
+    <<: *base-atmcs_sim
+
+  atmcs_sim_c:
+    image: ${hub}/atmcs_sim:${CYCLE}
+    <<: *base-atmcs_sim
 
   atdome:
     image: ${hub}/atdome:${CYCLE}${rev}
-    build:
-      context: ../build/atdome
-      labels:
-        com.description: "ATDome component for cycle {$CYCLE}"
-      args:
-        cycle: ${CYCLE}
-        hub: ${hub}
-        atdome: ${ts_ATDome}
-        config: ${ts_config_attcs}
+    <<: *base-atdome
+
+  atdome_c:
+    image: ${hub}/atdome:${CYCLE}
+    <<: *base-atdome
 
   atdometrajectory:
     image: ${hub}/atdometrajectory:${CYCLE}${rev}
-    build:
-      context: ../build/atdometrajectory
-      labels:
-        com.description: "ATDomeTrajectory component for cycle {$CYCLE}"
-      args:
-        cycle: ${CYCLE}
-        hub: ${hub}
-        atdometrajectory: ${ts_ATDomeTrajectory}
-        config: ${ts_config_attcs}
+    <<: *base-atdometrajectory
+
+  atdometrajectory_c:
+    image: ${hub}/atdometrajectory:${CYCLE}
+    <<: *base-atdometrajectory
 
   atpneumatics_sim:
     image: ${hub}/at_pneumatics_sim:${CYCLE}${rev}
-    build:
-      context: ../build/atpneumatics_sim
-      labels:
-        com.description: "ATPneumatics simulator for cycle {$CYCLE}"
-      args:
-        cycle: ${CYCLE}
-        hub: ${hub}
-        atpneumatics_sim: ${ts_ATPneumaticsSimulator}
+    <<: *base-atpneumatics_sim
+
+  atpneumatics_sim_c:
+    image: ${hub}/at_pneumatics_sim:${CYCLE}
+    <<: *base-atpneumatics_sim
 
   ataos:
     image: ${hub}/ataos:${CYCLE}${rev}
-    build:
-      context: ../build/ataos
-      dockerfile: ./Dockerfile.conda
-      labels:
-        com.description: "ATAOS component for cycle {$CYCLE}"
-      args:
-        cycle: ${CYCLE}
-        hub: ${hub}
-        ts_ataos: ${ts_ataos}
-        config: ${ts_config_attcs}
-        ts_observatory_control: ${ts_observatory_control}
+    <<: *base-ataos
+
+  ataos_c:
+    image: ${hub}/ataos:${CYCLE}
+    <<: *base-ataos
 
   athexapod:
     image: ${hub}/athexapod:${CYCLE}${rev}
-    build:
-      context: ../build/athexapod
-      labels:
-        com.description: "ATHexapod component for cycle {$CYCLE}"
-      args:
-        cycle: ${CYCLE}
-        hub: ${hub}
-        athexapod: ${ts_athexapod}
-        config: ${ts_config_attcs}
+    <<: *base-athexapod
+
+  athexapod_c:
+    image: ${hub}/athexapod:${CYCLE}
+    <<: *base-athexapod
 
   atspectrograph:
     image: ${hub}/atspec:${CYCLE}${rev}
-    build:
-      context: ../build/atspectrograph
-      labels:
-        com.description: "ATSpectrograph component for cycle {$CYCLE}"
-      args:
-        cycle: ${CYCLE}
-        hub: ${hub}
-        atspec: ${ts_atspec}
-        config: ${ts_config_latiss}
+    <<: *base-atspectrograph
+
+  atspectrograph_c:
+    image: ${hub}/atspec:${CYCLE}
+    <<: *base-atspectrograph
