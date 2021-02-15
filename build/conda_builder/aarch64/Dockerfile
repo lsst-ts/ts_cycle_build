@@ -16,8 +16,8 @@ RUN groupadd --gid ${GID} saluser && \
     adduser -u ${UID} -m -g ${GID} -G wheel,dialout -s /bin/bash saluser
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
-COPY develop-env/conda_package_builder_aarch64/startup.sh /home/saluser/.startup.sh
-COPY develop-env/conda_package_builder_aarch64/setup_sal_env.sh /home/saluser/.setup_sal_env.sh
+COPY conda_builder/aarch64/startup.sh /home/saluser/.startup.sh
+COPY conda_builder/aarch64/setup_sal_env.sh /home/saluser/.setup_sal_env.sh
 COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
 
 # Create user and group

@@ -8,7 +8,6 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 ENV USER ${USER:-saluser}
 ENV HOME /home/saluser
 ENV WORKDIR /opt/lsst/software/stack
-ENV LSST_DDS_DOMAIN=citest
 
 USER root
 
