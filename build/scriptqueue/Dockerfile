@@ -108,6 +108,7 @@ ARG atmospec
 WORKDIR ${SAL_HOME}/atmospec
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${atmospec} && \
+    setup lsst_distrib && \
     eups declare -r . atmospec -t ${USER} && \
     setup atmospec -t $USER && \
     scons || echo "failed"
