@@ -10,10 +10,7 @@ USER lsst
 ARG ts_idl
 
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
-    conda install -y asynctest pytest-tornasync && \
-    conda install -y -c lsstts ts-idl=${ts_idl} && \
-    idl_path=$(python -c 'from lsst.ts import idl; import pathlib; print(pathlib.Path(idl.__file__).parents[0])') && \
-    eups declare -m none -r ${idl_path} ts_idl ${ts_idl}
+    conda install -y asynctest pytest-tornasync
 
 USER saluser
 
@@ -108,6 +105,11 @@ RUN source /opt/lsst/software/stack/loadLSST.bash && \
     eups declare -r . -t current && \
     setup sims_skybrightness_pre -t current && \
     scons
+
+WORKDIR /home/saluser/repos
+RUN mkdir python && \
+    source /opt/lsst/software/stack/loadLSST.bash && \
+    eups declare -r python/ -m none python -t current
 
 WORKDIR /home/saluser/repos/ts_dateloc
 RUN source /opt/lsst/software/stack/loadLSST.bash && \

@@ -19,7 +19,7 @@ RUN chown saluser:lsst /home/saluser/.setup_salobj.sh && \
     chown saluser:lsst /home/saluser/.setup.sh && \
     chmod a+x /home/saluser/.setup.sh && \
     mkdir ${TSSW_PATH} && \
-    chown saluser:saluser ${TSSW_PATH}
+    chown saluser:lsst ${TSSW_PATH}
 
 USER saluser
 
@@ -99,6 +99,7 @@ LABEL ts_config_ocs="${ts_config_ocs}" \
       ts_config_latiss="${ts_config_latiss}" \
       ts_config_mttcs="${ts_config_mttcs}" \
       ts_config_atcalsys="${ts_config_atcalsys}" \
+      ts_ddsconfig="${ts_ddsconfig}" \
       ts_xml="${ts_xml}" \
       ts_idl="${ts_idl}" \
       ts_sal="${ts_sal}" \
