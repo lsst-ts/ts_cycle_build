@@ -149,7 +149,7 @@ The steps in the build are as follows:
 
   - deploy_conda: Build base image used by all conda-installable components.
   - deploy_lsstsqre: Build base image used by components that require the DM stack.
-  - base_components: Build all components that contains conda packages. This includes the following components.
+  - base_components: Build either ALL or an individual component from conda packages. This includes the following components.
 
     - ataos
     - atdome

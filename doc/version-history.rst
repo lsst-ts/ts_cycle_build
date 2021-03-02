@@ -8,6 +8,32 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0017 Revision 002
+=======================
+
+* Updates done during the AT run SUMMIT-4829.
+  * Fix script queue build.
+  * Update version of ts_observatory_control
+  * Update version of ts_ataos
+  * Update version of obs_base
+  * Update version of pipe_tasks
+  * Update version of atmospec
+  * Update version of ts_observing_utilities
+  * Update version of ts_config_attcs
+ * General fixes to develop-env build.
+  * Install ltd-conveyor using pip.
+
+
+Cycle 0017 Revision 001
+=======================
+
+* Update cycle build to support building one image at a time.
+* Update version of weather station conda package.
+* Update weather station build script to install new conda package.
+* Update hexrotcomm version.
+* Update mthexapod version.
+* Changed M1M3 simulator version to v2.0.1.
+
 Cycle 0017
 ==========
 

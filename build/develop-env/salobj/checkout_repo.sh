@@ -7,7 +7,7 @@ else
     echo "Got $# positional parameters."
 fi
 
-git fetch --all
+git fetch --all -p
 git pull
 
 while [ "$1" != "" ]; do

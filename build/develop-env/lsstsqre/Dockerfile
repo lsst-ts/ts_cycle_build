@@ -92,12 +92,10 @@ USER saluser
 WORKDIR /home/saluser
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    conda install -y -c lsstts ts-develop
+   conda install -y -c lsstts ts-develop=${ts_develop}
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    source ${WORKDIR}/ospl.env && \
-    pip install "documenteer[pipelines]==0.5.8" "kafkit[aiohttp]" \
-    confluent_kafka aiounittest aiomisc pyevents ltd-conveyor
+    pip install "documenteer[pipelines]>=0.6" ltd-conveyor
 
 # RUN source /opt/lsst/software/stack/loadLSST.bash && \
 #     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
