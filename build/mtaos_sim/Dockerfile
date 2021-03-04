@@ -2,13 +2,14 @@
 
 ARG cycle
 ARG hub
+ARG ts_conda_build
 
 FROM ${hub}/deploy-sqre:${cycle}
 
 USER lsst
 RUN cd && \
     source ${WORKDIR}/loadLSST.bash && \
-    conda install -c lsstts ts-conda-build=0.1.2
+    conda install -c lsstts ts-conda-build=${ts_conda_build}
 
 ARG LSST_USER=saluser
 ARG LSST_USER_HOME=/home/${LSST_USER}
