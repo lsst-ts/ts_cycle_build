@@ -8,6 +8,19 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0017 Revision 004
+=======================
+
+* Update ataos version.
+* Fix mtrotator build script.
+* Update Jenkins build with parameters screen shot and minor tweaks to the documentation.
+* Update pointing model file.
+
+Cycle 0017 Revision 003
+=======================
+
+* Update m1m3 version.
+
 Cycle 0017 Revision 002
 =======================
 
