@@ -64,8 +64,8 @@ RUN curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
     source /home/saluser/.setup_sal_env.sh && \
     conda config --add channels conda-forge && \
     conda install -y cython && \
-    conda install -y -c lsstts -c lsstts/label/dev python=3.7 ts-ddsconfig=${ts_ddsconfig} ts-salobj=${ts_salobj} ts-dds=${ts_dds} ts-idl=${ts_idl} && \
-    echo export LSST_DDS_QOS=file://$(python -c "from lsst.ts import idl; print(idl.get_qos_path())") >> ${HOME}/.ospl_env.sh
+    conda install -y -c lsstts -c lsstts/label/dev python=3.8 ts-ddsconfig=${ts_ddsconfig} ts-salobj=${ts_salobj} ts-dds=${ts_dds} ts-idl=${ts_idl} && \
+    echo export LSST_DDS_QOS=file://$(python -c "from lsst.ts import ddsconfig; print(ddsconfig.get_qos_path())") >> ${HOME}/.ospl_env.sh
 
 WORKDIR /home/saluser/
 
