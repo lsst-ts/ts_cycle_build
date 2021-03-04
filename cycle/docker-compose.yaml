@@ -53,6 +53,7 @@ x-mtaos_sim: &base-mtaos_sim
     args:
       hub: ${hub}
       cycle: ${CYCLE}
+      ts_conda_build: ${ts_conda_build}
       phosim_utils: ${phosim_utils}
       ts_wep: ${ts_wep}
       ts_ofc: ${ts_ofc}
@@ -660,6 +661,10 @@ services:
 
   mtm2_sim:
     image: ${hub}/m2:${CYCLE}${rev}
+    <<: *base-mtm2_sim
+
+  mtm2_sim_c:
+    image: ${hub}/m2:${CYCLE}
     <<: *base-mtm2_sim
 
   mtmount:

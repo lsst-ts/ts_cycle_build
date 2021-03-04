@@ -1,12 +1,9 @@
 """Sphinx configuration file for TSSW package"""
 
-from documenteer.sphinxconfig.stackconf import build_package_configs
+from documenteer.conf.pipelinespkg import *  # noqa
 
-
-_g = globals()
-_g.update(build_package_configs(
-    project_name='ts_cycle_build',
-    version=""
-))
-
-intersphinx_mapping["ts_xml"] = ("https://ts-xml.lsst.io", None)
+project = "ts_cycle_build"
+html_theme_options["logotext"] = project  # noqa
+html_title = project
+html_short_title = project
+doxylink = {}  # Avoid warning: Could not find tag file _doxygen/doxygen.tag

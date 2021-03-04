@@ -60,7 +60,7 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
     conda install -y -c lsstts ts-dds && \
     conda install -y -c lsstts ts-idl=${ts_idl} && \
     conda install -y -c lsstts ts-salobj=${ts_salobj} && \
-    echo export LSST_DDS_QOS=file://$(python -c "from lsst.ts import idl; print(idl.get_qos_path())") >> ${HOME}/.ospl_env.sh
+    echo export LSST_DDS_QOS=file://$(python -c "from lsst.ts import ddsconfig; print(ddsconfig.get_qos_path())") >> ${HOME}/.ospl_env.sh
 
 WORKDIR /home/saluser/
 
