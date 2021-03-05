@@ -20,7 +20,7 @@ x-lsst_sims: &base-lsst_sims
       com.description: "LSST sims image for cycle/revision ${CYCLE}${rev}."
     args:
       hub: ${hub}
-      base_image_tag: ${CYCLE}${rev}
+      base_image_tag: ${CYCLE}
       lsst_sims: ${lsst_sims}
 
 x-dimm: &base-dimm
@@ -494,7 +494,7 @@ services:
         ts_salobj: ${ts_salobj}
 
   develop-env-community:
-    image: lsstts/develop-env:${CYCLE}${rev}${rev}
+    image: lsstts/develop-env:${CYCLE}${rev}
     build:
       context: ../build/develop-env/develop-env/
       network: ${build_network}
