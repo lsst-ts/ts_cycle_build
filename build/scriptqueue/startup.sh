@@ -4,8 +4,8 @@ source ${WORKDIR}/.setup_sal_env.sh
 
 setup lsst_distrib
 setup cwfs -t current
-setup obs_base -t $USER
-setup pipe_tasks -t $USER
+# setup obs_base -t $USER
+# setup pipe_tasks -t $USER
 setup rapid_analysis -t $USER
 setup atmospec -t $USER
 setup ts_observing_utilities -t $USER
