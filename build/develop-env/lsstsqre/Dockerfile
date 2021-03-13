@@ -95,9 +95,11 @@ RUN source ${WORKDIR}/loadLSST.bash && \
    conda install -y -c lsstts ts-develop=${ts_develop}
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    pip install "documenteer[pipelines]>=0.6" ltd-conveyor
+    pip install "documenteer[pipelines]>=0.6" ltd-conveyor aiohttp
 
-# RUN source /opt/lsst/software/stack/loadLSST.bash && \
+RUN source /opt/lsst/software/stack/loadLSST.bash && \
+    conda install -y jupyterlab
+
 #     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
 #     jupyter labextension install jupyter-matplotlib && \
 #     jupyter notebook --generate-config

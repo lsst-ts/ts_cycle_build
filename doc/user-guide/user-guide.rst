@@ -132,7 +132,7 @@ For that, commit and push your changes to GitHub on a ticket branch.
 Make sure to describe the changes you have made on the commit message and also update the version history.
 
 Once the changes are pushed to GitHub the branch will appear in the `cycle build jenkins job`_.
-Select the branch you are working on in the Branch tab and select Build with Parameters on the left-hand side, which will that you to the :ref:`fig-jenkins-build-with-parameters`.
+Select the branch you are working on in the Branch tab and select Build with Parameters on the left-hand side, which will take you to the :ref:`fig-jenkins-build-with-parameters`.
 
 .. _cycle build jenkins job: https://tssw-ci.lsst.org/view/CSC_Docker/job/cycleBuild/
 
@@ -149,7 +149,8 @@ The steps in the build are as follows:
 
   - deploy_conda: Build base image used by all conda-installable components.
   - deploy_lsstsqre: Build base image used by components that require the DM stack.
-  - base_components: Build either ALL or an individual component from conda packages. This includes the following components.
+  - base_components: Build either ALL or an individual component from conda packages.
+    This includes the following components:
 
     - ataos
     - atdome
