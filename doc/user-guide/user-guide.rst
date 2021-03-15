@@ -42,6 +42,7 @@ In order to facilitate management of the build and deployment structure in these
 Basically the cycle build is subdivided in two levels; cycle and revision.
 
 Anytime a version of a core package changes a new cycle must be created.
+Every new cycle starts with revision 0.
 If the version of an individual package or dependency library changed, outside of the core packages, a new revision is created.
 The build is then tagged accordingly;
 

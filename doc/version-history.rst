@@ -8,10 +8,17 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0018
+=======================
+
+* Release of xml v8.0.0.
+* Updated Python version to 3.8
+
 Cycle 0017 Revision 002
 =======================
 
 * Updates done during the AT run SUMMIT-4829.
+
   * Fix script queue build.
   * Update version of ts_observatory_control
   * Update version of ts_ataos
@@ -20,7 +27,9 @@ Cycle 0017 Revision 002
   * Update version of atmospec
   * Update version of ts_observing_utilities
   * Update version of ts_config_attcs
+
  * General fixes to develop-env build.
+
   * Install ltd-conveyor using pip.
 
 

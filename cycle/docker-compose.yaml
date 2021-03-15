@@ -20,7 +20,7 @@ x-lsst_sims: &base-lsst_sims
       com.description: "LSST sims image for cycle/revision ${CYCLE}${rev}."
     args:
       hub: ${hub}
-      base_image_tag: ${CYCLE}${rev}
+      base_image_tag: ${CYCLE}
       lsst_sims: ${lsst_sims}
 
 x-dimm: &base-dimm
@@ -53,6 +53,7 @@ x-mtaos_sim: &base-mtaos_sim
     args:
       hub: ${hub}
       cycle: ${CYCLE}
+      ts_conda_build: ${ts_conda_build}
       phosim_utils: ${phosim_utils}
       ts_wep: ${ts_wep}
       ts_ofc: ${ts_ofc}
@@ -493,7 +494,7 @@ services:
         ts_salobj: ${ts_salobj}
 
   develop-env-community:
-    image: lsstts/develop-env:${CYCLE}${rev}${rev}
+    image: lsstts/develop-env:${CYCLE}${rev}
     build:
       context: ../build/develop-env/develop-env/
       network: ${build_network}
@@ -660,6 +661,10 @@ services:
 
   mtm2_sim:
     image: ${hub}/m2:${CYCLE}${rev}
+    <<: *base-mtm2_sim
+
+  mtm2_sim_c:
+    image: ${hub}/m2:${CYCLE}
     <<: *base-mtm2_sim
 
   mtmount:

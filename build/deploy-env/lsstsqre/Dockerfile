@@ -55,13 +55,6 @@ RUN if [ -z "${dds_private_version}" ]; then \
 RUN rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
 
 USER lsst
-
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
-    conda list --explicit > spec_file.txt && \
-    conda create -n $LSST_CONDA_ENV_NAME -y python=3.7.6 && \
-    conda install -y --file spec_file.txt && \
-    conda install -y --force-reinstall ld_impl_linux-64
-
 WORKDIR ${WORKDIR}
 
 ARG ts_dds
