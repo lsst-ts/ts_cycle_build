@@ -88,6 +88,7 @@ COPY ptg/MTPtg.info /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/at.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/at_20200219_fauto.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/at_20200219_manual.mod /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/at_20200314_fauto.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/startup.sh /home/saluser/.startup.sh
 
 USER root
