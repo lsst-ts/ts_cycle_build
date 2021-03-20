@@ -95,7 +95,7 @@ RUN source ${WORKDIR}/loadLSST.bash && \
    conda install -y -c lsstts ts-develop=${ts_develop}
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    pip install "documenteer[pipelines]>=0.6" ltd-conveyor aiohttp
+    pip install "documenteer[pipelines]>=0.6" ltd-conveyor kafkit[aiohttp] confluent_kafka
 
 RUN source /opt/lsst/software/stack/loadLSST.bash && \
     conda install -y jupyterlab
