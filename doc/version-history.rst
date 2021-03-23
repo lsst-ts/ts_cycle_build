@@ -8,11 +8,40 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
-Cycle 0018
+Cycle 0018 Revision 001
 =======================
+
+* Update develop-env/lsstsqre to install kafkit and confluent_kafka with pypi.
+* Update lsstsqre weekly to w_2021_12.
+* Update ts_observatory_control to 0.7.4
+* Update MTAOS to 0.5.3
+* Update Scheduler to 1.5.2
+* Update ATPtg configuration to limit nasmyth rotator angles to -40:-170 degrees due to issue with the mount.
+* In MTAOS build ignore errors building wep.
+  There are a couple of flake-8 errors when running scons.
+  This needs to be fixed future releases.
+* Add files to split script and scriptqueue producers into sub producers.
+* On m1m3 producer configuration add sub producer for logMessage.
+* Fix version history
+
+Cycle 0018
+==========
 
 * Release of xml v8.0.0.
 * Updated Python version to 3.8
+
+Cycle 0017 Revision 004
+=======================
+
+* Update ataos version.
+* Fix mtrotator build script.
+* Update Jenkins build with parameters screen shot and minor tweaks to the documentation.
+* Update pointing model file.
+
+Cycle 0017 Revision 003
+=======================
+
+* Update m1m3 version.
 
 Cycle 0017 Revision 002
 =======================
