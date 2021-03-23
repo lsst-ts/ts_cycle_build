@@ -46,8 +46,8 @@ horizon_limit 15.0
 elevation_tracking_high_limit 86.0
 azimuth_low_limit -270.0
 azimuth_high_limit 270.0
-rotator_low_limit -175.0
-rotator_high_limit 175.0
+rotator_low_limit -170.0
+rotator_high_limit -40.0
 
 ; Additional margin when slewing to a new target
 slew_limit_margin 1.0
