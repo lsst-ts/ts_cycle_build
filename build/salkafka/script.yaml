@@ -1,0 +1,13 @@
+component: Script
+queue_len: 1000
+topic_sets:
+  - events:
+      - logMessage
+  - events:
+      - heartbeat
+  - events:
+      - checkpoints
+  - events:
+      - description
+  - events:
+      - state

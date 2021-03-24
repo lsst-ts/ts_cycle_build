@@ -2,6 +2,8 @@ component: MTM1M3
 queue_len: 1000
 topic_sets:
   - events:
+      - logMessage
+  - events:
       - appliedCylinderForces
   - events:
       - hardpointActuatorWarning
