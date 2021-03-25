@@ -548,7 +548,7 @@ services:
         ts_sal: ${ts_sal}
 
   conda-builder-aarch64-community:
-    image: lsstts/centos7-aarch64:${CYCLE}
+    image: lsstts/conda_package_builder_aarch64:${CYCLE}
     build:
       context: ../build/
       dockerfile: ./conda_builder/aarch64/Dockerfile
