@@ -56,13 +56,14 @@ pipeline {
                 build wait: false, job: 'MTDomeTrajectory conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
                 build wait: false, job: 'MTEEC conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
                 build wait: false, job: 'MTMount conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
-                build wait: false, job: 'Observatory Control conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
-                build wait: false, job: 'Rotator conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
                 build wait: false, job: 'salkafka conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
                 build wait: false, job: 'Sim Actuators conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
                 build wait: false, job: 'Standard script conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
                 build wait: false, job: 'TunableLaser conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
                 build wait: false, job: 'Watcher conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
+                // The following jobs are resource intensive.  They are prone to fail when running concurrently with other builds.  As such, they are triggered last, with delays, to ensure a quieter node when running.
+                build quietPeriod: 300, wait: false, job: 'Rotator conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
+                build quietPeriod: 900, wait: false, job: 'Observatory Control conda package/' + branch, parameters: [string(name: 'idl_version', value: idl_version), string(name: 'salobj_version', value: salobj_version)]
             }
         }//Trigger
     }//stages
