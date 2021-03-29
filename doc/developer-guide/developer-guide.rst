@@ -69,6 +69,8 @@ Building
 In general users should rely on the `cycle build jenkins job`_ to execute builds.
 Nevertheless, in some cases one may need to execute those locally for development, maintenance or customization purposes.
 
+.. _cycle build jenkins job: https://tssw-ci.lsst.org/job/LSST_Telescope-and-Site/job/ts_cycle_build/
+
 For instance, to build the ``deploy-conda-private`` locally one would do;
 
 .. prompt:: bash
