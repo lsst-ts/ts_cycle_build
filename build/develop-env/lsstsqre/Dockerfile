@@ -91,6 +91,8 @@ USER saluser
 
 WORKDIR /home/saluser
 
+ARG ts_develop
+
 RUN source ${WORKDIR}/loadLSST.bash && \
    conda install -y -c lsstts ts-develop=${ts_develop}
 
