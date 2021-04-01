@@ -44,7 +44,9 @@ USER saluser
 
 WORKDIR ${WORKDIR}
 
-ENV numpy=1.20
+ARG numpy=1.20
+ARG ts_idl
+ARG ts_salobj
 
 ENV OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/aarch64.linux
 
