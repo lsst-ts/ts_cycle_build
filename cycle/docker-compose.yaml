@@ -378,7 +378,7 @@ services:
         dds_community_build: ${dds_community_build_el7}
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
-        ts_dds: ${ts_dds_private}
+        ts_dds: ${ts_dds_private}=${ts_dds_private_conda_build}
         ts_ddsconfig: ${ts_ddsconfig}
         ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
         ts_salobj: ${ts_salobj}
@@ -426,7 +426,6 @@ services:
         image_tag: ${lsstsqre}
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build}
-        ts_dds: ${ts_dds_community}
         ts_develop: ${ts_develop}
         UID: ${UID}
         GID: ${GID}
@@ -444,6 +443,7 @@ services:
         dds_community_build: ${dds_community_build}
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
+        ts_develop: ${ts_develop}
         UID: ${UID}
         GID: ${GID}
 
@@ -480,7 +480,7 @@ services:
       args:
         hub: ts-dockerhub.lsst.org
         base_image_tag: ${CYCLE}
-        ts_dds: ${ts_dds_private}
+        ts_dds: ${ts_dds_private}=${ts_dds_private_conda_build}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
         ts_config_mtcalsys: ${ts_config_mtcalsys}
@@ -566,6 +566,7 @@ services:
         com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
+        dds_community_build: ${dds_community_build}
 
   conda-builder-private:
     image: ${hub}/conda_package_builder:${CYCLE}
@@ -576,7 +577,7 @@ services:
         com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
+        dds_community_build: ${dds_community_build}
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
 
