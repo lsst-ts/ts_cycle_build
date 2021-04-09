@@ -8,6 +8,13 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0018 Revision 002
+=======================
+
+* Update ATPtg configuration to remove restricted rotator limits.
+* Update version of ATSpectrograph.
+* Initial support for the ESS.
+
 Cycle 0018 Revision 001
 =======================
 
