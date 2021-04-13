@@ -43,4 +43,6 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 USER saluser
 
+ENV RUN_ARG=""
+
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
