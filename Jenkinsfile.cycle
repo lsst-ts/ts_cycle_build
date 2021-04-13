@@ -180,6 +180,9 @@ pipeline {
       steps {
 
         script{
+          withCredentials([sshUserPrivateKey(credentialsId: 'RubinObsWorkerSSHKey', keyFileVariable: 'github_cred')]) {
+            sh "cp \$github_cred ${env.WORKSPACE}/build/ptg/id_rsa"
+          }
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
