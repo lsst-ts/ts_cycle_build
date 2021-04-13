@@ -8,6 +8,15 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0018 Revision 003
+=======================
+
+* Update MTAOS build script to ditch simulator tag, since the CSC is no longer a simulator.
+* Update m1m3_sim build script and startup file to accept a `RUN_ARG` environment variable to control arguments.
+* Update Ptg build to support building with Jenkins.
+* Update Jenkinsfile.conda to be able to build ptg.
+* Update OpenSplice setup configuration in develop and master builds to use OpenSplice build 16.
+
 Cycle 0018 Revision 002
 =======================
 
