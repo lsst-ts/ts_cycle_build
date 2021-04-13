@@ -6,6 +6,7 @@ ARG ts_conda_build
 
 FROM ${hub}/deploy-sqre:${cycle}
 
+WORKDIR ${WORKDIR}
 USER lsst
 RUN cd && \
     source ${WORKDIR}/loadLSST.bash && \
@@ -71,7 +72,7 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     source ${WORKDIR}/ospl_env.sh && \
     source ${OSPL_HOME}/release.com && \
     setup ts_wep -t current && \
-    scons || echo FAILED! Ignore and move on... 
+    scons || echo FAILED! Ignore and move on...
 
 # ofc
 WORKDIR ${AOS_REPOS}/ts_ofc
@@ -102,7 +103,7 @@ ENV RUN_ARG=""
 
 USER root
 # Copy the file for the start of container with interactive environment
-COPY mtaos_sim/startup.sh ${LSST_USER_HOME}/.startup.sh
+COPY mtaos/startup.sh ${LSST_USER_HOME}/.startup.sh
 
 RUN chown saluser:saluser ${LSST_USER_HOME}/.startup.sh && \
     chmod a+x ${LSST_USER_HOME}/.startup.sh
