@@ -44,12 +44,12 @@ x-dsm: &base-dsm
       cycle: ${CYCLE}
       dsm: ${ts_dsm}
 
-x-mtaos_sim: &base-mtaos_sim
+x-mtaos: &base-mtaos
   build:
     context: ../build/
-    dockerfile: ./mtaos_sim/Dockerfile
+    dockerfile: ./mtaos/Dockerfile
     labels:
-      com.description: "MTAOS simulator deployment image for cycle/revision ${CYCLE}${rev}."
+      com.description: "MTAOS deployment image for cycle/revision ${CYCLE}${rev}."
     args:
       hub: ${hub}
       cycle: ${CYCLE}
@@ -621,13 +621,13 @@ services:
     image: ${hub}/dsm:${CYCLE}
     <<: *base-dsm
 
-  mtaos_sim:
-    image: ${hub}/mtaos_sim:${CYCLE}${rev}
-    <<: *base-mtaos_sim
+  mtaos:
+    image: ${hub}/mtaos:${CYCLE}${rev}
+    <<: *base-mtaos
 
-  mtaos_sim_c:
-    image: ${hub}/mtaos_sim:${CYCLE}
-    <<: *base-mtaos_sim
+  mtaos_c:
+    image: ${hub}/mtaos:${CYCLE}
+    <<: *base-mtaos
 
   mtdome:
     image: ${hub}/mtdome:${CYCLE}${rev}

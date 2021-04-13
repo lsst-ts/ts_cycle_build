@@ -259,7 +259,7 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build mtaos_sim mtaos_sim_c
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build mtaos mtaos_c
               """
               }
           }
@@ -267,7 +267,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push mtaos_sim mtaos_sim_c
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push mtaos mtaos_c
             """
           }
         }
