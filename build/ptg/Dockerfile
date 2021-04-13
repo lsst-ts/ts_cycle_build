@@ -31,10 +31,12 @@ RUN yum install -y \
 
 RUN mkdir /home/saluser/.ssh/ && chown saluser:saluser /home/saluser/.ssh/ && chmod 700 /home/saluser/.ssh/
 COPY ptg/id_rsa /home/saluser/.ssh/
-COPY ptg/known_hosts /home/saluser/.ssh/
+
 RUN chown saluser:saluser /home/saluser/.ssh/id_rsa && \
+    ssh-keyscan -H github.com >> /home/saluser/.ssh/known_hosts && \
     chown saluser:saluser /home/saluser/.ssh/known_hosts && \
-    chmod 400 /home/saluser/.ssh/id_rsa
+    chmod 400 /home/saluser/.ssh/id_rsa && \
+    chmod 644 /home/saluser/.ssh/known_hosts
 
 USER saluser
 WORKDIR /home/saluser
@@ -44,8 +46,8 @@ RUN mkdir repos
 WORKDIR /home/saluser/repos
 
 RUN git clone git@github.com:lsst-ts/tcspk_source_lsst_161203.git && \
- git clone git@github.com:lsst-ts/slalib_source_lsst_161203.git && \
- git clone git@github.com:lsst-ts/ts_pointing_common.git
+    git clone git@github.com:lsst-ts/slalib_source_lsst_161203.git && \
+    git clone git@github.com:lsst-ts/ts_pointing_common.git
 
 WORKDIR /home/saluser/repos/ts_pointing_common
 
