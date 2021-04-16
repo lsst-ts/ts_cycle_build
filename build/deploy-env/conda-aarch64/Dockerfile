@@ -37,8 +37,8 @@ RUN mkdir -p ${WORKDIR} && \
     chown -R saluser:saluser ${HOME}/.ospl_env.sh && \
     chmod a+x ${HOME}/.ospl_env.sh && \
     yum install -y git make gcc-c++ && \
-    yum install -y OpenSpliceDDS ;\
-    echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/aarch64.linux" >> ${SALUSER_HOME}/.ospl.env \
+    yum install -y OpenSpliceDDS && \
+    echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/aarch64.linux" >> ${SALUSER_HOME}/.ospl.env
 
 USER saluser
 
