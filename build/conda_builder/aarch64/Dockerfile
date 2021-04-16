@@ -27,11 +27,11 @@ RUN chown saluser:saluser /home/saluser/.setup.sh && \
     chmod a+x /home/saluser/.setup.sh && \
     chmod a+x /home/saluser/.checkout_repo.sh && \
     touch ${HOME}/.ospl_env.sh && \
-    chown -R saluser:saluser ${HOME}/.ospl_env.sh && \
+    chown saluser:saluser ${HOME}/.ospl_env.sh && \
     chmod a+x ${HOME}/.ospl_env.sh && \
     yum install -y git make gcc-c++ && \
     yum install -y OpenSpliceDDS && \
-    echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/aarch64.linux" >> ${SALUSER_HOME}/.ospl.env
+    echo export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/aarch64.linux >> ${SALUSER_HOME}/.ospl.env
 
 USER saluser
 
@@ -42,12 +42,10 @@ ENV OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/aarch64.linux
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh -o miniforge.sh && \
     chmod +x miniforge.sh && ./miniforge.sh -b -p ${PYTHON_BUILD_LOCATION} && \
     source ~/miniconda3/bin/activate && \
-    conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
+    conda install -y numpy=1.20 && \
     conda install -y conda-build anaconda-client setuptools_scm ts-ddsconfig && \
     conda init bash
-
-COPY conda_builder/aarch64/setup.sh /home/saluser/.setup.sh
 
 ENTRYPOINT ["/bin/bash", "--"]
 
