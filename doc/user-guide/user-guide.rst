@@ -173,7 +173,6 @@ The steps in the build are as follows:
   - m1m3_sim: Build M1M3 simulator.
   - ptg: Build pointing component. Both AT and MT use the same code base and image.
   - lsst_sims: Build base image with ``lsst_sims``. Use ``deploy_lsstsqre`` as a base image.
-  - aos_aoclc: Build base image for MTAOS. This adds a couple of dependencies used by MTAOS.
   - mtaos: Build MTAOS.
   - queue: Build ScriptQueue. Both AT and MT use the same code base and image.
   - scheduler: Build Scheduler. Both AT and MT use the same code base and image.
@@ -211,9 +210,8 @@ This image uses the ``deploy_lsstsqre`` as a base image and uses ``eups`` to ins
 
 Because both ``Scheduler`` and ``MTAOS`` depends on ``lsst_sims`` they are built from a different base image than the base images above.
 We then proceed to build the ``lsst_sims`` image, which will install ``lsst_sims`` on ``deploy_lsstsqre``.
-Once this step is done, it is also possible to build ``aos_aoclc`` which is another intermediate stage in building ``MTAOS``.
 
-With ``lsst_sims`` and ``aos_aoclc`` built, it is then possible to build ``scheduler`` and ``mtaos`` in any order.
+With ``lsst_sims`` built, it is then possible to build ``scheduler`` and ``mtaos`` in any order.
 
 Finally, all systems are ready to be deployed.
 

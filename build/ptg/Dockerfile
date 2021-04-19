@@ -27,7 +27,8 @@ RUN yum install -y \
       MTMount-${rpm} \
       MTRotator-${rpm} \
       WeatherStation-${rpm} \
-      ATMCS-${rpm}
+      ATMCS-${rpm} \
+      Guider-${rpm}
 
 RUN mkdir /home/saluser/.ssh/ && chown saluser:saluser /home/saluser/.ssh/ && chmod 700 /home/saluser/.ssh/
 COPY ptg/id_rsa /home/saluser/.ssh/

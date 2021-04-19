@@ -1,18 +1,3 @@
-x-aos_aoclc: &base-aos_aoclc
-  build:
-    context: ../build/aos_aoclc
-    labels:
-      com.description: "AOS AOCL image for cycle/revision ${CYCLE}${rev}."
-      phosim_utils: ${phosim_utils}
-      ts_wep: ${ts_wep}
-      ts_ofc: ${ts_ofc}
-    args:
-      hub: ${hub}
-      IMAGE_TAG: ${CYCLE}${rev}
-      phosim_utils: ${phosim_utils}
-      ts_wep: ${ts_wep}
-      ts_ofc: ${ts_ofc}
-
 x-lsst_sims: &base-lsst_sims
   build:
     context: ../build/lsst_sims
@@ -588,14 +573,6 @@ services:
   ospl-daemon_c:
     image: ${hub}/ospl-daemon:${CYCLE}
     <<: *base-ospl-daemon
-
-  aos_aoclc:
-    image: ${hub}/aos_aoclc:${CYCLE}${rev}
-    <<: *base-aos_aoclc
-
-  aos_aoclc_c:
-    image: ${hub}/aos_aoclc:${CYCLE}
-    <<: *base-aos_aoclc
 
   lsst_sims:
     image: ${hub}/lsst_sims:${CYCLE}${rev}
