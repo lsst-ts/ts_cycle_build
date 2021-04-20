@@ -53,6 +53,7 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     atmcssimulator_path=$(python -c 'from lsst.ts import ATMCSSimulator; import pathlib; print(pathlib.Path(ATMCSSimulator.__file__).parents[0])') && \
     eups declare -m none -r ${atmcssimulator_path} ts_ATMCSSimulator ${ts_atmcssimulator}
 
+ARG ts_conda_build
 WORKDIR ${WORKDIR}
 USER lsst
 RUN cd && \
