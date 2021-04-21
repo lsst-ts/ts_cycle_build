@@ -8,6 +8,15 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0019
+==========
+
+* Release of XML 9.0.0
+* Updated the Dockerfiles of ptg and scriptqueue
+* Removed unnecessary container aos_aoclc.
+* Updated conda-builder for arch64
+* Updated deploy-env for arch64
+
 Cycle 0018 Revision 003
 =======================
 

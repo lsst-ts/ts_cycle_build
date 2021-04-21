@@ -211,7 +211,7 @@ This image uses the ``deploy_lsstsqre`` as a base image and uses ``eups`` to ins
 Because both ``Scheduler`` and ``MTAOS`` depends on ``lsst_sims`` they are built from a different base image than the base images above.
 We then proceed to build the ``lsst_sims`` image, which will install ``lsst_sims`` on ``deploy_lsstsqre``.
 
-With ``lsst_sims`` built, it is then possible to build ``scheduler`` and ``mtaos`` in any order.
+With ``lsst_sims`` built, it is then possible to build ``scheduler``.
 
 Finally, all systems are ready to be deployed.
 
