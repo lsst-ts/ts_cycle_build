@@ -4,7 +4,7 @@ This is the software environment for the MTAOS software simulator.
 
 ## Overview
 
-This docker is based off the [lsstts/aos_aoclc](https://hub.docker.com/repository/docker/lsstts/aos_aoclc) image with everything required to run the MTAOS software. When building the container (docker build), assign `IMAGE_TAG` with --build-arg command line argument.
+This docker is based off the [lsstts/deploy-sqre](https://hub.docker.com/repository/docker/lsstts/deploy-sqre) image with everything required to run the MTAOS software. When building the container (docker build), assign `IMAGE_TAG` with --build-arg command line argument.
 
 Container executes `run_mtaos.py -s` to run the MTAOS simulator.
 

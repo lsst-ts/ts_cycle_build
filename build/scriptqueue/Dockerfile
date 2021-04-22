@@ -53,6 +53,13 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     atmcssimulator_path=$(python -c 'from lsst.ts import ATMCSSimulator; import pathlib; print(pathlib.Path(ATMCSSimulator.__file__).parents[0])') && \
     eups declare -m none -r ${atmcssimulator_path} ts_ATMCSSimulator ${ts_atmcssimulator}
 
+ARG ts_conda_build
+WORKDIR ${WORKDIR}
+USER lsst
+RUN cd && \
+    source ${WORKDIR}/loadLSST.bash && \
+    conda install -c lsstts ts-conda-build=${ts_conda_build}
+
 USER ${USER}
 
 ARG ts_observatory_control
@@ -131,25 +138,19 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     scons || echo FAILED to build ts_externalscripts
 
 ARG ts_standardscripts
-# FIXME: REMOVING tests/test_black.py because sqre image comes with wrong
-# version of black
 WORKDIR ${SAL_HOME}/ts_standardscripts
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_standardscripts}  && \
     eups declare -r . ts_standardscripts ${ts_standardscripts} -t current && \
     setup ts_standardscripts && \
     setup ts_config_attcs && \
-    rm -rf tests/test_black.py && \
     pytest || pytest --lf -x
 
 ARG ts_scriptqueue
-# FIXME: REMOVING tests/test_black.py because sqre image comes with wrong
-# version of black
 WORKDIR ${SAL_HOME}/ts_scriptqueue
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_scriptqueue}  && \
     eups declare -r . ts_scriptqueue ${ts_scriptqueue} -t current && \
-    rm -rf tests/test_black.py && \
     setup ts_scriptqueue && \
     scons || pytest --lf -x
 
