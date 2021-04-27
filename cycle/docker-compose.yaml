@@ -433,6 +433,37 @@ services:
         UID: ${UID}
         GID: ${GID}
 
+  sal-sciplat:
+    image: lsstts/sal-sciplat:${lsstsqre}_${CYCLE}${rev}
+    build:
+      context: ../build/
+      dockerfile: ./sal-sciplat/Dockerfile
+      args:
+        image_tag: ${lsstsqre}
+        java_v: ${java_v}
+        osplice_v: ${dds_community_version}
+        osplice_build: ${dds_community_build}
+        osplice_py: ${ts_dds_community_conda_build}
+        black_v: ${black_v}
+        ts_config_ocs: ${ts_config_ocs}
+        ts_config_attcs: ${ts_config_attcs}
+        ts_config_mtcalsys: ${ts_config_mtcalsys}
+        ts_config_eas: ${ts_config_eas}
+        ts_config_latiss: ${ts_config_latiss}
+        ts_config_mttcs: ${ts_config_mttcs}
+        ts_config_atcalsys: ${ts_config_atcalsys}
+        ts_ddsconfig: ${ts_ddsconfig}
+        ts_xml: ${ts_xml}
+        ts_idl: ${ts_idl}
+        ts_sal: ${ts_sal}
+        ts_salobj: ${ts_salobj}
+        ts_observatory_control: ${ts_observatory_control}
+        ts_standardscripts: ${ts_standardscripts}
+        ts_externalscripts: ${ts_externalscripts}
+        ts_atmcssimulator: ${ts_ATMCSSimulator}
+        ts_atdome: ${ts_ATDome}
+        ts_atdometrajectory: ${ts_ATDomeTrajectory}
+
   salobj-community:
     image: lsstts/salobj:${CYCLE}${rev}
     build:
