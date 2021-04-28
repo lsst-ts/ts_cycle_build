@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0019 Revision 0001
+========================
+
+* Update ts_observatory_control version.
+* Update ts_atspec version.
+* Update ts_mthexapod version.
+* Add sal-sciplat build scripts.
+  This image add the basic TSSW layer into a regular DM stack image.
+  It should be usable by SQuaRE to build the nublado images.
+* Update Jenkinsfile.cycle to add option to build sal-sciplat recommended.
+* Add Jenkinsfile.sciplat to build daily and weekly versions of sal-sciplat.
+
 Cycle 0019
 ==========
 
