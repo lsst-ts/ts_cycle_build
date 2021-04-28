@@ -26,6 +26,7 @@ pipeline {
 
   environment {
     registryCredential = "dockerhub-lssttsadmin"
+    pub_registryCredential = "dockerhub-lssttsadmin"
     CONDA_PACKAGES = "ataos atdome atdometrajectory athexapod atmcs_sim atpneumatics_sim atspectrograph dimm dsm mthexapod mtdome mtdometrajectory mtm2_sim mtmount mtrotator ospl-daemon salkafka watcher weatherstation"
     CONDA_PACKAGES_C = "ataos_c atdome_c atdometrajectory_c athexapod_c atmcs_sim_c atpneumatics_sim_c atspectrograph_c dimm_c dsm_c mthexapod_c mtdome_c mtdometrajectory_c mtm2_sim_c mtmount_c mtrotator_c salkafka_c watcher_c weatherstation_c"
   }
@@ -40,6 +41,7 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push MTAOS image.", name: 'build_mtaos'
       booleanParam defaultValue: false, description: "Build/push scriptqueue image.", name: 'build_scriptqueue'
       booleanParam defaultValue: false, description: "Build/push scheduler image.", name: 'build_scheduler'
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image?", name: 'build_sciplat'
   }
 
   stages {
@@ -290,6 +292,28 @@ pipeline {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push scheduler scheduler_c
+            """
+          }
+        }
+      }
+    }
+    stage ('Build Sal Sciplat (nublado) recommended image') {
+      when {
+          expression { params.build_sciplat }
+      }
+      steps {
+
+        script{
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+            sh """
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat
+            """
+          }
+        }
+        script {
+          docker.withRegistry("", pub_registryCredential) {
+            sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat
             """
           }
         }

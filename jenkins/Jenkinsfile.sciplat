@@ -1,0 +1,64 @@
+pipeline {
+    agent {
+      docker {
+        alwaysPull true
+        label 'CSC_Conda_Node'
+        image 'docker/compose:latest'
+        args "--entrypoint='' --user root -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
+      }
+    }
+    environment {
+        registryCredential = "dockerhub-lssttsadmin"
+    }
+    stages {
+        stage("Build/push daily sal-sciplat") {
+          steps {
+            withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=d_latest"]) {
+              script {
+                docker.withRegistry("", registryCredential) {
+                  sh """
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull sal-sciplat
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat
+                  """
+                }
+              }
+            }
+          }
+        }
+        stage("Build/push weekly sal-sciplat") {
+          steps {
+            withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=w_latest"]) {
+            script {
+              docker.withRegistry("", registryCredential) {
+                sh """
+                  docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull sal-sciplat
+                  docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat
+                """
+              }
+            }
+          }
+        }
+      }
+    }
+    post {
+        always {
+            step([$class: 'Mailer',
+                notifyEveryUnstableBuild: false,
+                recipients: "tribeiro@lsst.org",
+                sendToIndividuals: true])
+        }
+        regression {
+            script {
+                def userId = "U72CH91L2"
+                slackSend(color: "danger", message: "<@$userId> ${JOB_NAME} has suffered a regression ${BUILD_URL}", channel: "#jenkins-builds, @$userId")
+            }
+
+        }
+        fixed {
+            script {
+                def userId = "U72CH91L2"
+                slackSend(color: "good", message: "<@$userId> ${JOB_NAME} has been fixed ${BUILD_URL}", channel: "#jenkins-builds, @$userId")
+            }
+        }
+    }
+}
