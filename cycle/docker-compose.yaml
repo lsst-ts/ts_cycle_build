@@ -434,7 +434,7 @@ services:
         GID: ${B_GID}
 
   sal-sciplat:
-    image: lsstts/sal-sciplat:${lsstsqre}_${CYCLE}${rev}
+    image: lsstts/sal-sciplat:${stack}_${CYCLE}${rev}
     build:
       context: ../build/
       dockerfile: ./sal-sciplat/Dockerfile
