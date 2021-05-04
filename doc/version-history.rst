@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0020
+==========
+
+* Rollback version of OpenSpliceDDS.
+* Additional work to support building sal-sciplat-lab images in-house (from cycle build definition).
+  The work is still in progress and mainly in experimental phase.
+
+Cycle 0019 Revision 0002
+========================
+
+* Update hexrotcomm version.
+
 Cycle 0019 Revision 0001
 ========================
 
