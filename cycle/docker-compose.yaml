@@ -413,8 +413,8 @@ services:
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build}
         ts_develop: ${ts_develop}
-        UID: ${UID}
-        GID: ${GID}
+        UID: ${B_UID}
+        GID: ${B_GID}
 
   base-sqre-private:
     image: ts-dockerhub.lsst.org/base-sqre:${CYCLE}
@@ -430,8 +430,8 @@ services:
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
         ts_develop: ${ts_develop}
-        UID: ${UID}
-        GID: ${GID}
+        UID: ${B_UID}
+        GID: ${B_GID}
 
   sal-sciplat:
     image: lsstts/sal-sciplat:${lsstsqre}_${CYCLE}${rev}
