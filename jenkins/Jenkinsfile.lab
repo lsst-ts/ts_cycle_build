@@ -1,0 +1,208 @@
+pipeline{
+    agent{
+      label 'Node3_4CPU'
+    }
+
+    parameters {
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image for NTS?", name: 'build_sciplat_lab_nts'
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image for summit?", name: 'build_sciplat_lab_summit'
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image for Base (BTS)?", name: 'build_sciplat_lab_bts'
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab daily image?", name: 'build_sciplat_lab_d'
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab weekly image?", name: 'build_sciplat_lab_w'
+    }
+
+    stages{
+
+      stage ('Cloning Repos') {
+          steps {
+              dir(env.WORKSPACE + '/nublado') {
+                  git branch: 'master', url: 'https://github.com/lsst-sqre/nublado.git'
+              }
+          }
+      }
+
+      stage ('Build Sal Sciplat Lab recommended image for NTS') {
+        when {
+          allOf{
+            expression { params.build_sciplat_lab_nts }
+            expression { params.build_sciplat_lab_d == false }
+            expression { params.build_sciplat_lab_w == false }
+          }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat \${stack}_\${CYCLE}\${rev}
+              docker tag lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} lsstts/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+              docker push lsstts/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+      stage ('Build Sal Sciplat Lab recommended image for BTS') {
+        when {
+          allOf{
+            expression { params.build_sciplat_lab_bts }
+            expression { params.build_sciplat_lab_d == false }
+            expression { params.build_sciplat_lab_w == false }
+          }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat \${stack}_\${CYCLE}\${rev}
+              docker tag lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} lsstts/bts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+              docker push lsstts/bts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+      stage ('Build Sal Sciplat Lab recommended image for Summit') {
+        when {
+          allOf{
+            expression { params.build_sciplat_lab_summit }
+            expression { params.build_sciplat_lab_d == false }
+            expression { params.build_sciplat_lab_w == false }
+
+          }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat \${stack}_\${CYCLE}\${rev}
+              docker tag lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} lsstts/summit-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+              docker push lsstts/summit-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+
+      stage ('Build Sal Sciplat Lab daily image for NTS') {
+        when {
+          allOf{
+            expression { params.build_sciplat_lab_nts }
+            expression { params.build_sciplat_lab_d}
+          }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat d_latest_\${CYCLE}\${rev}
+              docker tag lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} lsstts/nts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
+              docker push lsstts/nts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+      stage ('Build Sal Sciplat Lab daily image for BTS') {
+        when {
+          allOf{
+            expression { params.build_sciplat_lab_bts }
+            expression { params.build_sciplat_lab_d }
+          }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat d_latest_\${CYCLE}\${rev}
+              docker tag lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} lsstts/bts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
+              docker push lsstts/bts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+      stage ('Build Sal Sciplat Lab daily image for Summit') {
+        when {
+          allOf{
+            expression { params.build_sciplat_lab_summit }
+            expression { params.build_sciplat_lab_d }
+          }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat d_latest_\${CYCLE}\${rev}
+              docker tag lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} lsstts/summit-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
+              docker push lsstts/summit-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+
+      stage ('Build Sal Sciplat Lab weekly image for NTS') {
+        when {
+          allOf{
+            expression { params.build_sciplat_lab_nts }
+            expression { params.build_sciplat_lab_w}
+          }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat w_latest_\${CYCLE}\${rev}
+              docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/nts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
+              docker push lsstts/nts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+      stage ('Build Sal Sciplat Lab weekly image for BTS') {
+        when {
+          allOf{
+            expression { params.build_sciplat_lab_bts }
+            expression { params.build_sciplat_lab_w }
+          }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat w_latest_\${CYCLE}\${rev}
+              docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/bts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
+              docker push lsstts/bts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+      stage ('Build Sal Sciplat Lab weekly image for Summit') {
+        when {
+          allOf{
+            expression { params.build_sciplat_lab_summit }
+            expression { params.build_sciplat_lab_w }
+          }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat w_latest_\${CYCLE}\${rev}
+              docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/summit-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
+              docker push lsstts/summit-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+
+    }
+    post{
+       cleanup {
+            deleteDir()
+        }
+    }
+}
