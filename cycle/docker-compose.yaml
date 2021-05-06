@@ -318,6 +318,16 @@ x-atspectrograph: &base-atspectrograph
       atspec: ${ts_atspec}
       config: ${ts_config_latiss}
 
+x-dmocps: &base-dmocps
+  build:
+    context: ../build/dmocps
+    labels:
+      com.description: "OCPS component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      dmocps: ${dm_OCPS}
+      config: ${dm_config_ocps}
 
 
 
@@ -805,3 +815,7 @@ services:
   atspectrograph_c:
     image: ${hub}/atspec:${CYCLE}
     <<: *base-atspectrograph
+
+  dmocps:
+    image: ${hub}/dmocps:${CYCLE}
+    <<: *base-dmocps
