@@ -27,14 +27,14 @@ pipeline {
   environment {
     registryCredential = "dockerhub-lssttsadmin"
     pub_registryCredential = "dockerhub-lssttsadmin"
-    CONDA_PACKAGES = "ataos atdome atdometrajectory athexapod atmcs_sim atpneumatics_sim atspectrograph dimm dsm mthexapod mtdome mtdometrajectory mtm2_sim mtmount mtrotator ospl-daemon salkafka watcher weatherstation"
-    CONDA_PACKAGES_C = "ataos_c atdome_c atdometrajectory_c athexapod_c atmcs_sim_c atpneumatics_sim_c atspectrograph_c dimm_c dsm_c mthexapod_c mtdome_c mtdometrajectory_c mtm2_sim_c mtmount_c mtrotator_c salkafka_c watcher_c weatherstation_c"
+    CONDA_PACKAGES = "ataos atdome atdometrajectory athexapod atmcs_sim atpneumatics_sim atspectrograph dimm dmocps dsm mthexapod mtdome mtdometrajectory mtm2_sim mtmount mtrotator ospl-daemon salkafka watcher weatherstation"
+    CONDA_PACKAGES_C = "ataos_c atdome_c atdometrajectory_c athexapod_c atmcs_sim_c atpneumatics_sim_c atspectrograph_c dimm_c dmocps_c dsm_c mthexapod_c mtdome_c mtdometrajectory_c mtm2_sim_c mtmount_c mtrotator_c salkafka_c watcher_c weatherstation_c"
   }
   parameters {
       booleanParam defaultValue: false, description: "Build/push base deployment image.", name: 'deploy_conda'
       booleanParam defaultValue: false, description: "Build/push lsstsqre deployment image.", name: 'deploy_lsstsqre'
       booleanParam defaultValue: false, description: "Build/push all components based on base deployment image.", name: 'base_components'
-      choice(name: 'component', choices: ["ALL", "ataos", "atdome", "atdometrajectory", "athexapod", "atmcs_sim", "atpneumatics_sim", "atspectrograph", "dimm", "dsm", "mthexapod", "mtdome", "mtdometrajectory", "mtm2_sim", "mtmount", "mtrotator", "ospl-daemon", "salkafka", "watcher", "weatherstation"], description: "Select one component to build.")
+      choice(name: 'component', choices: ["ALL", "ataos", "atdome", "atdometrajectory", "athexapod", "atmcs_sim", "atpneumatics_sim", "atspectrograph", "dimm", "dmocps", "dsm", "mthexapod", "mtdome", "mtdometrajectory", "mtm2_sim", "mtmount", "mtrotator", "ospl-daemon", "salkafka", "watcher", "weatherstation"], description: "Select one component to build.")
       booleanParam defaultValue: false, description: "Build/push M1M3 simulator image.", name: 'build_m1m3_sim'
       booleanParam defaultValue: false, description: "Build/push pointing component deployment image.", name: 'build_ptg'
       booleanParam defaultValue: false, description: "Build/push lsst_sims image.", name: 'build_lsst_sims'

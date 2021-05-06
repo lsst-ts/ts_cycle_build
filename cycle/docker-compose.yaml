@@ -817,5 +817,9 @@ services:
     <<: *base-atspectrograph
 
   dmocps:
+    image: ${hub}/dmocps:${CYCLE}${rev}
+    <<: *base-dmocps
+
+  dmocps_c:
     image: ${hub}/dmocps:${CYCLE}
     <<: *base-dmocps
