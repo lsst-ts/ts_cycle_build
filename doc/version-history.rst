@@ -8,6 +8,17 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0019 Revision 0003
+========================
+
+* Update hexrotcomm
+* Update mthexapod
+
+Cycle 0019 Revision 0002
+========================
+
+* Update hexrotcomm version.
+
 Cycle 0019 Revision 0001
 ========================
 
