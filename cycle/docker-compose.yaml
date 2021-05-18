@@ -423,6 +423,7 @@ services:
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build}
         ts_develop: ${ts_develop}
+        gphoto2: ${gphoto2}
         UID: ${B_UID}
         GID: ${B_GID}
 
@@ -440,6 +441,7 @@ services:
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
         ts_develop: ${ts_develop}
+        gphoto2: ${gphoto2}
         UID: ${B_UID}
         GID: ${B_GID}
 

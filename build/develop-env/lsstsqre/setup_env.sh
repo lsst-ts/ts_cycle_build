@@ -2,9 +2,9 @@
 
 # Source this file when starting the container to set it up
 
-source ${WORKDIR}/loadLSST.bash
+source /opt/lsst/software/stack/loadLSST.bash
 
-source ${WORKDIR}/ospl.env
+source /opt/lsst/software/stack/ospl.env
 
 if [ -f "/home/saluser/repos/ts_sal/setup.env" ]; then
     source /home/saluser/repos/ts_sal/setup.env
@@ -25,5 +25,8 @@ export PYTHON_INCLUDE_DIR
 
 # Work around for setting LSST_DDS_IP working on most systems
 export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'`
+
+# Needed for Python-GPhoto2
+export LDFLAGS="-L/usr/local/lib -L/usr/local/lib/libgphoto2/${gphoto2} -L/usr/local/lib/libgphoto2_port/0.12.0"
 
 # export PATH=/opt/lsst/software/bin:${PATH}
