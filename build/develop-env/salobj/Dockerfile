@@ -6,15 +6,12 @@ FROM ${hub}/base-sqre:$base_image_tag
 USER saluser
 
 COPY checkout_repo.sh /home/saluser/.checkout_repo.sh
-COPY setup_env.sh /home/saluser/.setup_salobj.sh
 COPY setup.sh /home/saluser/.setup.sh
 
 ENV TSSW_PATH=/opt/lsst/tssw
 
 USER root
-RUN chown saluser:lsst /home/saluser/.setup_salobj.sh && \
-    chmod a+x /home/saluser/.setup_salobj.sh && \
-    chown saluser:lsst /home/saluser/.checkout_repo.sh && \
+RUN chown saluser:lsst /home/saluser/.checkout_repo.sh && \
     chmod a+x /home/saluser/.checkout_repo.sh && \
     chown saluser:lsst /home/saluser/.setup.sh && \
     chmod a+x /home/saluser/.setup.sh && \
