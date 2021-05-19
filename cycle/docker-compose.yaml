@@ -40,6 +40,16 @@ x-dsm: &base-dsm
       cycle: ${CYCLE}
       dsm: ${ts_dsm}
 
+x-love-commander: &base-love-commander
+  build:
+    context: ../build/love/commander
+    labels:
+      com.description: "LOVE commander for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      love_commander: ${love_commander}
+
 x-mtaos: &base-mtaos
   build:
     context: ../build/
@@ -660,6 +670,14 @@ services:
   dsm_c:
     image: ${hub}/dsm:${CYCLE}
     <<: *base-dsm
+
+  love-commander:
+    image: ${hub}/love-commander:${CYCLE}${rev}
+    <<: *base-love-commander
+
+  love-commander_c:
+    image: ${hub}/love-commander:${CYCLE}
+    <<: *base-love-commander
 
   mtaos:
     image: ${hub}/mtaos:${CYCLE}${rev}
