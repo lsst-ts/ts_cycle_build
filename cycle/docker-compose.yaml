@@ -58,6 +58,22 @@ x-love-frontend: &base-love-frontend
     args:
       love_frontend: ${love_frontend}
 
+x-love-manager: &base-love-manager
+  build:
+    context: ../build/love/manager
+    labels:
+      com.description: "LOVE manager for cycle/revision ${CYCLE}${rev}."
+    args:
+      love_manager: ${love_manager}
+
+x-love-manager-static: &base-love-manager-static
+  build:
+    context: ../build/love/manager-static
+    labels:
+      com.description: "LOVE manager static for cycle/revision ${CYCLE}${rev}."
+    args:
+      love_manager: ${love_manager}
+
 x-love-producer: &base-love-producer
   build:
     context: ../build/love/producer
@@ -704,6 +720,22 @@ services:
   love-frontend_c:
     image: ${hub}/love-frontend:${CYCLE}
     <<: *base-love-frontend
+
+  love-manager:
+    image: ${hub}/love-manager:${CYCLE}${rev}
+    <<: *base-love-manager
+
+  love-manager_c:
+    image: ${hub}/love-manager:${CYCLE}
+    <<: *base-love-manager
+
+  love-manager-static:
+    image: ${hub}/love-manager-static:${CYCLE}${rev}
+    <<: *base-love-manager-static
+
+  love-manager-static_c:
+    image: ${hub}/love-manager-static:${CYCLE}
+    <<: *base-love-manager-static
 
   love-producer:
     image: ${hub}/love-producer:${CYCLE}${rev}
