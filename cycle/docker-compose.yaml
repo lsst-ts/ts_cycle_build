@@ -50,6 +50,16 @@ x-love-commander: &base-love-commander
       cycle: ${CYCLE}
       love_commander: ${love_commander}
 
+x-love-producer: &base-love-producer
+  build:
+    context: ../build/love/producer
+    labels:
+      com.description: "LOVE producer for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      love_producer: ${love_producer}
+
 x-mtaos: &base-mtaos
   build:
     context: ../build/
@@ -678,6 +688,14 @@ services:
   love-commander_c:
     image: ${hub}/love-commander:${CYCLE}
     <<: *base-love-commander
+
+  love-producer:
+    image: ${hub}/love-producer:${CYCLE}${rev}
+    <<: *base-love-producer
+
+  love-producer_c:
+    image: ${hub}/love-producer:${CYCLE}
+    <<: *base-love-producer
 
   mtaos:
     image: ${hub}/mtaos:${CYCLE}${rev}
