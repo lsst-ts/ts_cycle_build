@@ -50,6 +50,14 @@ x-love-commander: &base-love-commander
       cycle: ${CYCLE}
       love_commander: ${love_commander}
 
+x-love-frontend: &base-love-frontend
+  build:
+    context: ../build/love/frontend
+    labels:
+      com.description: "LOVE frontend for cycle/revision ${CYCLE}${rev}."
+    args:
+      love_frontend: ${love_frontend}
+
 x-love-producer: &base-love-producer
   build:
     context: ../build/love/producer
@@ -688,6 +696,14 @@ services:
   love-commander_c:
     image: ${hub}/love-commander:${CYCLE}
     <<: *base-love-commander
+
+  love-frontend:
+    image: ${hub}/love-frontend:${CYCLE}${rev}
+    <<: *base-love-frontend
+
+  love-frontend_c:
+    image: ${hub}/love-frontend:${CYCLE}
+    <<: *base-love-frontend
 
   love-producer:
     image: ${hub}/love-producer:${CYCLE}${rev}
