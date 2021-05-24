@@ -8,6 +8,31 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0020 revision 002
+=======================
+
+* Add adam-sensors CSC build to the cycle.
+* Update MTAOS version.
+* Add love commander build.
+* Add love-producer build.
+* Add love-frontend build.
+* Add love manager and love manager-static build.
+* Update version of ts_develop to be less restringing.
+* Fix sciplat build tagging.
+* Fix Jenkinsfile.lab
+
+Cycle 0020 revision 001
+=======================
+
+* Add OCPS and its config.
+* Update versions of:
+  * ts_hexrotcomm
+  * ts_mthexapod
+  * ts_mtaos
+  * ts_ofc
+  * ts_config_mttcs
+* Made sure that LibGPhoto2, GPhoto2 and Python-GPhoto2 get installed in the base sqre development Docker images.
+
 Cycle 0020
 ==========
 
