@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage("Build/push daily sal-sciplat") {
           steps {
-            withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=d_latest"]) {
+            withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=d_latest", "stack=d_latest"]) {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
@@ -27,7 +27,7 @@ pipeline {
         }
         stage("Build/push weekly sal-sciplat") {
           steps {
-            withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=w_latest"]) {
+            withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=w_latest", "stack=w_latest"]) {
             script {
               docker.withRegistry("", registryCredential) {
                 sh """

@@ -8,6 +8,17 @@ x-lsst_sims: &base-lsst_sims
       base_image_tag: ${CYCLE}
       lsst_sims: ${lsst_sims}
 
+x-adam-sensors: &base-adam-sensors
+  build:
+    context: ../build/adam-sensors
+    labels:
+      com.description: "Adam Sensors CSC deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      ts_adamSensors: ${ts_adamSensors}
+      config: ${ts_config_eas}
+
 x-dimm: &base-dimm
   build:
     context: ../build/dimm
@@ -28,6 +39,50 @@ x-dsm: &base-dsm
       hub: ${hub}
       cycle: ${CYCLE}
       dsm: ${ts_dsm}
+
+x-love-commander: &base-love-commander
+  build:
+    context: ../build/love/commander
+    labels:
+      com.description: "LOVE commander for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      love_commander: ${love_commander}
+
+x-love-frontend: &base-love-frontend
+  build:
+    context: ../build/love/frontend
+    labels:
+      com.description: "LOVE frontend for cycle/revision ${CYCLE}${rev}."
+    args:
+      love_frontend: ${love_frontend}
+
+x-love-manager: &base-love-manager
+  build:
+    context: ../build/love/manager
+    labels:
+      com.description: "LOVE manager for cycle/revision ${CYCLE}${rev}."
+    args:
+      love_manager: ${love_manager}
+
+x-love-manager-static: &base-love-manager-static
+  build:
+    context: ../build/love/manager-static
+    labels:
+      com.description: "LOVE manager static for cycle/revision ${CYCLE}${rev}."
+    args:
+      love_manager: ${love_manager}
+
+x-love-producer: &base-love-producer
+  build:
+    context: ../build/love/producer
+    labels:
+      com.description: "LOVE producer for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      love_producer: ${love_producer}
 
 x-mtaos: &base-mtaos
   build:
@@ -626,6 +681,14 @@ services:
     image: ${hub}/lsst_sims:${CYCLE}
     <<: *base-lsst_sims
 
+  adam-sensors:
+    image: ${hub}/adam-sensors:${CYCLE}${rev}
+    <<: *base-adam-sensors
+
+  adam-sensors_c:
+    image: ${hub}/adam-sensors:${CYCLE}
+    <<: *base-adam-sensors
+
   dimm:
     image: ${hub}/dimm:${CYCLE}${rev}
     <<: *base-dimm
@@ -641,6 +704,46 @@ services:
   dsm_c:
     image: ${hub}/dsm:${CYCLE}
     <<: *base-dsm
+
+  love-commander:
+    image: ${hub}/love-commander:${CYCLE}${rev}
+    <<: *base-love-commander
+
+  love-commander_c:
+    image: ${hub}/love-commander:${CYCLE}
+    <<: *base-love-commander
+
+  love-frontend:
+    image: ${hub}/love-frontend:${CYCLE}${rev}
+    <<: *base-love-frontend
+
+  love-frontend_c:
+    image: ${hub}/love-frontend:${CYCLE}
+    <<: *base-love-frontend
+
+  love-manager:
+    image: ${hub}/love-manager:${CYCLE}${rev}
+    <<: *base-love-manager
+
+  love-manager_c:
+    image: ${hub}/love-manager:${CYCLE}
+    <<: *base-love-manager
+
+  love-manager-static:
+    image: ${hub}/love-manager-static:${CYCLE}${rev}
+    <<: *base-love-manager-static
+
+  love-manager-static_c:
+    image: ${hub}/love-manager-static:${CYCLE}
+    <<: *base-love-manager-static
+
+  love-producer:
+    image: ${hub}/love-producer:${CYCLE}${rev}
+    <<: *base-love-producer
+
+  love-producer_c:
+    image: ${hub}/love-producer:${CYCLE}
+    <<: *base-love-producer
 
   mtaos:
     image: ${hub}/mtaos:${CYCLE}${rev}
