@@ -34,7 +34,7 @@ pipeline{
             sh """
               source cycle/cycle.env
               cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat \${stack}_\${CYCLE}\${rev}
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" \${stack}_\${CYCLE}\${rev}
               docker tag lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} lsstts/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
               docker push lsstts/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
             """
@@ -54,7 +54,7 @@ pipeline{
             sh """
               source cycle/cycle.env
               cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat \${stack}_\${CYCLE}\${rev}
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" \${stack}_\${CYCLE}\${rev}
               docker tag lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} lsstts/bts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
               docker push lsstts/bts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
             """
@@ -75,7 +75,7 @@ pipeline{
             sh """
               source cycle/cycle.env
               cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat \${stack}_\${CYCLE}\${rev}
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" \${stack}_\${CYCLE}\${rev}
               docker tag lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} lsstts/summit-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
               docker push lsstts/summit-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
             """
@@ -95,7 +95,7 @@ pipeline{
             sh """
               source cycle/cycle.env
               cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat d_latest_\${CYCLE}\${rev}
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" d_latest_\${CYCLE}\${rev}
               docker tag lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} lsstts/nts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
               docker push lsstts/nts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
             """
@@ -114,7 +114,7 @@ pipeline{
             sh """
               source cycle/cycle.env
               cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat d_latest_\${CYCLE}\${rev}
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" d_latest_\${CYCLE}\${rev}
               docker tag lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} lsstts/bts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
               docker push lsstts/bts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
             """
@@ -133,7 +133,7 @@ pipeline{
             sh """
               source cycle/cycle.env
               cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat d_latest_\${CYCLE}\${rev}
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" d_latest_\${CYCLE}\${rev}
               docker tag lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} lsstts/summit-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
               docker push lsstts/summit-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
             """
@@ -153,7 +153,7 @@ pipeline{
             sh """
               source cycle/cycle.env
               cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat w_latest_\${CYCLE}\${rev}
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" w_latest_\${CYCLE}\${rev}
               docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/nts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
               docker push lsstts/nts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
             """
@@ -172,7 +172,7 @@ pipeline{
             sh """
               source cycle/cycle.env
               cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat w_latest_\${CYCLE}\${rev}
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" w_latest_\${CYCLE}\${rev}
               docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/bts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
               docker push lsstts/bts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
             """
@@ -191,7 +191,7 @@ pipeline{
             sh """
               source cycle/cycle.env
               cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat w_latest_\${CYCLE}\${rev}
+              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" w_latest_\${CYCLE}\${rev}
               docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/summit-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
               docker push lsstts/summit-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
             """
