@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0020 revision 003
+=======================
+
+* Update versions of:
+  * ts_mtaos
+  * phosim_utils
+  * ts_wep
+  * ts_ofc
+  * ts_phosim
+  * ts_config_latiss
+  * ts_observatory_control
+
 Cycle 0020 revision 002
 =======================
 
