@@ -364,4 +364,5 @@ Finally, the list of Telescope and Site software that are ``eups`` installed are
   - ts_scriptqueue
   - ts_simactuators
   - ts_standardscripts
+  - ts_tcpip
   - ts_xml

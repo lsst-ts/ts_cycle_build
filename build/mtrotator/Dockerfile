@@ -7,6 +7,7 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ARG mtrotator=0.1.dev51+gad1edcb
 ARG hexrotcomm=0.5.0
+ARG tcpip
 
 RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
 
@@ -21,10 +22,11 @@ WORKDIR /home/saluser/
 ENV TS_CONFIG_MTTCS_DIR=/home/saluser/ts_config_mttcs
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-mtrotator=${mtrotator} ts-hexrotcomm=${hexrotcomm}
+    conda install -c lsstts ts-mtrotator=${mtrotator} ts-hexrotcomm=${hexrotcomm} ts-tcpip=${tcpip}
 
 LABEL mtrotator=${mtrotator} \
       hexrotcomm=${hexrotcomm} \
+      tcpip=${tcpip} \
       ts_config_mttcs=${config}
 
 ENV RUN_ARG=""
