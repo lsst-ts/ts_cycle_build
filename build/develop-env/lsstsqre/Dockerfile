@@ -82,7 +82,7 @@ RUN touch ${WORKDIR}/ospl.env && \
     chown -R ${UID}:${GID} ${WORKDIR}/ospl.env && \
     chmod a+x ${WORKDIR}/ospl.env && \
     chown ${UID}:${GID} /home/saluser/.setup_salobj.sh && \
-    chmod a+x /home/saluser/.setup_salobj.sh
+    chmod a+x /home/saluser/.setup_salobj.sh && \
     if [ -z "${dds_private_version}" ]; then \
       yum install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} ; \
       echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
