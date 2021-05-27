@@ -6,11 +6,11 @@ FROM ${deploy_env}:${deploy_tag}
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ARG mtmount
-ARG hexrotcomm
+ARG tcpip
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-mtmount=${mtmount} ts-hexrotcomm=${hexrotcomm}
+    conda install -c lsstts ts-mtmount=${mtmount} ts-tcpip=${tcpip}
 
 RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
 
@@ -23,7 +23,7 @@ ENV TS_CONFIG_MTTCS_DIR=/home/saluser/ts_config_mttcs
 ENV RUN_ARG=""
 
 LABEL mtmount=${mtmount} \
-      hexrotcomm=${hexrotcomm} \
+      tcpip=${tcpip} \
       config=${config}
 
 COPY startup.sh /home/saluser/.startup.sh
