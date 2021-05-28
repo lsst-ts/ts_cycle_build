@@ -19,6 +19,7 @@ Cycle 0020 revision 003
   * ts_phosim
   * ts_config_latiss
   * ts_observatory_control
+  * ts_dsm
 
 Cycle 0020 revision 002
 =======================
