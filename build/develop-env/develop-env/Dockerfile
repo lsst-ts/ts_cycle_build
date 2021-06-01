@@ -19,6 +19,7 @@ ARG ts_ATDome="develop"
 ARG ts_ATDomeTrajectory="develop"
 ARG ts_simactuators="develop"
 ARG ts_hexrotcomm="develop"
+ARG ts_tcpip="develop"
 
 RUN source /home/saluser/.setup_salobj.sh && \
     cd ${TSSW_PATH} && \
@@ -30,7 +31,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
             ts_ATDome:${ts_ATDome} \
             ts_ATDomeTrajectory:${ts_ATDomeTrajectory} \
             ts_simactuators:${ts_simactuators} \
-            ts_hexrotcomm:${ts_hexrotcomm}" && \
+            ts_hexrotcomm:${ts_hexrotcomm} \
+            ts_tcpip:${ts_tcpip}" && \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
         r=$(echo ${g} | cut -d ':' -f 1) \
@@ -142,7 +144,8 @@ LABEL ts_scriptqueue="${ts_scriptqueue}" \
       ts_ATDome="${ts_ATDome}" \
       ts_ATDomeTrajectory="${ts_ATDomeTrajectory}" \
       ts_simactuators="${ts_simactuators}" \
-      ts_hexrotcomm="${ts_hexrotcomm}"
+      ts_hexrotcomm="${ts_hexrotcomm}" \
+      ts_tcpip="${ts_tcpip}"
 
 ENTRYPOINT ["/bin/bash", "--"]
 CMD ["/home/saluser/.setup_dev.sh"]

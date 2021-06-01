@@ -5,9 +5,10 @@ FROM ${deploy_env}:${deploy_tag}
 
 ARG mthexapod
 ARG hexrotcomm
+ARG tcpip
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-mthexapod=${mthexapod} ts-hexrotcomm=${hexrotcomm}
+    conda install -c lsstts ts-mthexapod=${mthexapod} ts-hexrotcomm=${hexrotcomm} ts-tcpip=${tcpip}
 
 RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
 
@@ -23,6 +24,7 @@ ENV TS_CONFIG_MTTCS_DIR=/home/saluser/ts_config_mttcs
 
 LABEL ts_mthexapod=${hexapod} \
       ts_hexrotcomm=${hexrotcomm} \
+      ts_tcpip=${tcpip} \
       ts_config_mttcs=${config}
 
 ENV RUN_ARG=""
