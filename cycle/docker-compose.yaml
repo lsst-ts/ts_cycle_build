@@ -386,6 +386,17 @@ x-dmocps: &base-dmocps
       dmocps: ${dm_OCPS}
       config: ${dm_config_ocps}
 
+x-genericcamera: &base-genericcamera
+  build:
+    context: ../build/genericcamera
+    labels:
+      com.description: "GenericCamera component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      genericcamera: ${ts_GenericCamera}
+      config: ${ts_config_ocs}
+      gphoto2: ${gphoto2}
 
 
 version: "3.7"
@@ -932,3 +943,11 @@ services:
   dmocps_c:
     image: ${hub}/dmocps:${CYCLE}
     <<: *base-dmocps
+
+  genericcamera:
+    image: ${hub}/genericcamera:${CYCLE}${rev}
+    <<: *base-genericcamera
+
+  genericcamera_c:
+    image: ${hub}/genericcamera:${CYCLE}
+    <<: *base-genericcamera
