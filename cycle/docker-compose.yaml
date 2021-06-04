@@ -232,8 +232,8 @@ x-scheduler: &base-scheduler
     args:
       hub: ${hub}
       deploy_tag: ${CYCLE}
+      ts_conda_build: ${ts_conda_build}
       ts_config_ocs: ${ts_config_ocs}
-      ts_idl: ${ts_idl}
       ts_scriptqueue: ${ts_scriptqueue}
       ts_scheduler: ${ts_scheduler}
 

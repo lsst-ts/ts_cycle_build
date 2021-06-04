@@ -7,10 +7,11 @@ WORKDIR ${WORKDIR}
 
 USER lsst
 
-ARG ts_idl
+ARG ts_conda_build
 
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
-    conda install -y asynctest pytest-tornasync
+    conda install -y asynctest pytest-tornasync && \
+    conda install -c lsstts ts-conda-build=${ts_conda_build}
 
 USER saluser
 
