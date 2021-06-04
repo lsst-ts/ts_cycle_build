@@ -21,7 +21,7 @@ Cycle 0020 revision 004
   * MTMount
   * Scheduler
   * LOVE-commander
-
+* Add GenericCamera.
 
 Cycle 0020 revision 003
 =======================

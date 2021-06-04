@@ -165,7 +165,7 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     eups declare -r . ts_scheduler ${ts_scheduler} -t current && \
     setup lsst_sims && \
     setup ts_scheduler && \
-    py.test
+    scons || py.test
 
 WORKDIR ${SAL_HOME}
 
