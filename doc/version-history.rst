@@ -14,7 +14,14 @@ Cycle 0020 revision 004
 
 * Add ts_tcpip to the develop env Dockerfile.
 * Add tcpip to MTHexapod, MTRotator and MTMount.
-* Update the versions of MTHexapod, MTRotator and MTMount.
+* Minor fixes to scheduler build.
+* Updated versions:
+  * MTHexapod
+  * MTRotator
+  * MTMount
+  * Scheduler
+  * LOVE-commander
+
 
 Cycle 0020 revision 003
 =======================
