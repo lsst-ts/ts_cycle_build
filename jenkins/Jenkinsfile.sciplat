@@ -7,9 +7,15 @@ pipeline {
         args "--entrypoint='' --user root -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
       }
     }
+
+    triggers {
+            cron(env.BRANCH_NAME == 'master' ? '0 4 * * *' : '')
+    }
+
     environment {
         registryCredential = "dockerhub-lssttsadmin"
     }
+
     stages {
         stage("Build/push daily sal-sciplat") {
           steps {
@@ -37,6 +43,11 @@ pipeline {
               }
             }
           }
+        }
+      }
+      stage("Trigger lab build") {
+        steps {
+            build job: 'SalSciplatLab', parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: false)], wait: false
         }
       }
     }
