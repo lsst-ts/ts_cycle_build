@@ -160,6 +160,7 @@ The steps in the build are as follows:
     - atmcs_sim
     - atpneumatics_sim
     - atspectrograph
+    - genericcamera
     - mthexapod
     - mtdome
     - mtdometrajectory
