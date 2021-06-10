@@ -63,7 +63,7 @@ pipeline{
               source cycle/cycle.env
               cd nublado/jupyterlab/
               ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" w_latest_\${CYCLE}\${rev}
-              EUPS_TAG=\$(docker image inspect -f {{.Config.Labels.EUPS_TAG}} lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev})
+              EUPS_TAG=\$(docker image inspect -f {{.Config.Labels.EUPS_TAG}} lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev})
               docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
               docker push lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
               docker push lsstts/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
