@@ -397,6 +397,19 @@ x-genericcamera: &base-genericcamera
       genericcamera: ${ts_GenericCamera}
       config: ${ts_config_ocs}
       gphoto2: ${gphoto2}
+x-pmd: &base-pmd
+  build:
+    context: ../build/pmd
+    labels:
+      com.description: "PMD component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      pmd: ${ts_pmd}
+      config: ${ts_config_ocs}
+  devices:
+    - /dev/ttyUSB0:/dev/ttyUSB0
+
 
 
 version: "3.7"
@@ -951,3 +964,11 @@ services:
   genericcamera_c:
     image: ${hub}/genericcamera:${CYCLE}
     <<: *base-genericcamera
+  
+  pmd:
+    image: ${hub}/pmd:${CYCLE}${rev}
+    <<: *base-pmd
+
+  pmd_c:
+    image: ${hub}/pmd:${CYCLE}
+    <<: *base-pmd
