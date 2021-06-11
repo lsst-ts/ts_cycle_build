@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0020 revision 006
+=======================
+
+* Fix lab build for weekly.
+* When building love front-end, support cloning tag when there is a "v" in front of the version.
+* Update pointing limits.
+* Update Jenkinfile.lab to tag images according to latest agreement with square folks.
+* Update Jenkinsfile.cycle to take into account changes in Jenkinfile.lab.
+* Update Jenkinsfile.sciplat to build daily at 4am and to trigger lab build.
+* Add new pointing models for AT.
+* Revision 006, update versions of the following packages:
+  * ts_pointing_common
+  * ts_observatory_control
+  * ts_ataos
+  * love-frontend
+
 Cycle 0020 revision 005
 =======================
 

@@ -3,7 +3,7 @@ FROM alpine/git as cloner
 
 WORKDIR /usr/src/love
 ARG love_frontend
-RUN git clone --branch ${love_frontend} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-frontend.git
+RUN git clone --branch ${love_frontend} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-frontend.git || git clone --branch v${love_frontend} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-frontend.git
 
 # Build artifacts
 FROM node:12.16.1-alpine as builder

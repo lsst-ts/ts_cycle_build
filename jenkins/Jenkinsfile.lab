@@ -4,11 +4,7 @@ pipeline{
     }
 
     parameters {
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image for NTS?", name: 'build_sciplat_lab_nts'
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image for summit?", name: 'build_sciplat_lab_summit'
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image for Base (BTS)?", name: 'build_sciplat_lab_bts'
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab daily image?", name: 'build_sciplat_lab_d'
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab weekly image?", name: 'build_sciplat_lab_w'
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image?", name: 'build_sciplat_lab_recommended'
     }
 
     stages{
@@ -23,11 +19,7 @@ pipeline{
 
       stage ('Build Sal Sciplat Lab recommended image for NTS') {
         when {
-          allOf{
-            expression { params.build_sciplat_lab_nts }
-            expression { params.build_sciplat_lab_d == false }
-            expression { params.build_sciplat_lab_w == false }
-          }
+          expression { params.build_sciplat_lab_recommended }
         }
         steps {
           script{
@@ -41,54 +33,10 @@ pipeline{
           }
         }
       }
-      stage ('Build Sal Sciplat Lab recommended image for BTS') {
-        when {
-          allOf{
-            expression { params.build_sciplat_lab_bts }
-            expression { params.build_sciplat_lab_d == false }
-            expression { params.build_sciplat_lab_w == false }
-          }
-        }
-        steps {
-          script{
-            sh """
-              source cycle/cycle.env
-              cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" \${stack}_\${CYCLE}\${rev}
-              docker tag lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} lsstts/bts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
-              docker push lsstts/bts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
-            """
-          }
-        }
-      }
-      stage ('Build Sal Sciplat Lab recommended image for Summit') {
-        when {
-          allOf{
-            expression { params.build_sciplat_lab_summit }
-            expression { params.build_sciplat_lab_d == false }
-            expression { params.build_sciplat_lab_w == false }
 
-          }
-        }
-        steps {
-          script{
-            sh """
-              source cycle/cycle.env
-              cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" \${stack}_\${CYCLE}\${rev}
-              docker tag lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} lsstts/summit-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
-              docker push lsstts/summit-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
-            """
-          }
-        }
-      }
-
-      stage ('Build Sal Sciplat Lab daily image for NTS') {
+      stage ('Build Sal Sciplat Lab daily image') {
         when {
-          allOf{
-            expression { params.build_sciplat_lab_nts }
-            expression { params.build_sciplat_lab_d}
-          }
+          expression { params.build_sciplat_lab_recommended == false }
         }
         steps {
           script{
@@ -96,57 +44,18 @@ pipeline{
               source cycle/cycle.env
               cd nublado/jupyterlab/
               ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" d_latest_\${CYCLE}\${rev}
-              docker tag lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} lsstts/nts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
-              docker push lsstts/nts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
-            """
-          }
-        }
-      }
-      stage ('Build Sal Sciplat Lab daily image for BTS') {
-        when {
-          allOf{
-            expression { params.build_sciplat_lab_bts }
-            expression { params.build_sciplat_lab_d }
-          }
-        }
-        steps {
-          script{
-            sh """
-              source cycle/cycle.env
-              cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" d_latest_\${CYCLE}\${rev}
-              docker tag lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} lsstts/bts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
-              docker push lsstts/bts-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
-            """
-          }
-        }
-      }
-      stage ('Build Sal Sciplat Lab daily image for Summit') {
-        when {
-          allOf{
-            expression { params.build_sciplat_lab_summit }
-            expression { params.build_sciplat_lab_d }
-          }
-        }
-        steps {
-          script{
-            sh """
-              source cycle/cycle.env
-              cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" d_latest_\${CYCLE}\${rev}
-              docker tag lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} lsstts/summit-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
-              docker push lsstts/summit-sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
+              EUPS_TAG=\$(docker image inspect -f {{.Config.Labels.EUPS_TAG}} lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev})
+              docker tag lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} lsstts/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
+              docker push lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
+              docker push lsstts/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
             """
           }
         }
       }
 
-      stage ('Build Sal Sciplat Lab weekly image for NTS') {
+      stage ('Build Sal Sciplat Lab weekly image') {
         when {
-          allOf{
-            expression { params.build_sciplat_lab_nts }
-            expression { params.build_sciplat_lab_w}
-          }
+          expression { params.build_sciplat_lab_recommended == false }
         }
         steps {
           script{
@@ -154,51 +63,14 @@ pipeline{
               source cycle/cycle.env
               cd nublado/jupyterlab/
               ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" w_latest_\${CYCLE}\${rev}
-              docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/nts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
-              docker push lsstts/nts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
+              EUPS_TAG=\$(docker image inspect -f {{.Config.Labels.EUPS_TAG}} lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev})
+              docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
+              docker push lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
+              docker push lsstts/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
             """
           }
         }
       }
-      stage ('Build Sal Sciplat Lab weekly image for BTS') {
-        when {
-          allOf{
-            expression { params.build_sciplat_lab_bts }
-            expression { params.build_sciplat_lab_w }
-          }
-        }
-        steps {
-          script{
-            sh """
-              source cycle/cycle.env
-              cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" w_latest_\${CYCLE}\${rev}
-              docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/bts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
-              docker push lsstts/bts-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
-            """
-          }
-        }
-      }
-      stage ('Build Sal Sciplat Lab weekly image for Summit') {
-        when {
-          allOf{
-            expression { params.build_sciplat_lab_summit }
-            expression { params.build_sciplat_lab_w }
-          }
-        }
-        steps {
-          script{
-            sh """
-              source cycle/cycle.env
-              cd nublado/jupyterlab/
-              ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" w_latest_\${CYCLE}\${rev}
-              docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/summit-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
-              docker push lsstts/summit-sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
-            """
-          }
-        }
-      }
-
     }
     post{
        cleanup {

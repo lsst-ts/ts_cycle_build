@@ -42,9 +42,7 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push scriptqueue image.", name: 'build_scriptqueue'
       booleanParam defaultValue: false, description: "Build/push scheduler image.", name: 'build_scheduler'
       booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image?", name: 'build_sciplat'
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image for NTS?", name: 'build_sciplat_lab_nts'
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image for summit?", name: 'build_sciplat_lab_summit'
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image for Base (BTS)?", name: 'build_sciplat_lab_bts'
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image?", name: 'build_sciplat_lab_recommended'      
   }
 
   stages {
@@ -322,28 +320,12 @@ pipeline {
         }
       }
     }
-    stage ('Build Sal Sciplat Lab recommended image for NTS') {
+    stage ('Build Sal Sciplat Lab recommended image') {
       when {
-          expression { params.build_sciplat_lab_nts }
+          expression { params.build_sciplat_lab_recommended }
       }
       steps {
-          build job: 'SalSciplatLab', parameters: [booleanParam(name: 'build_sciplat_lab_nts', value: true)], wait: false
-      }
-    }
-    stage ('Build Sal Sciplat Lab recommended image for Base (BTS)') {
-      when {
-          expression { params.build_sciplat_lab_bts }
-      }
-      steps {
-          build job: 'SalSciplatLab', parameters: [booleanParam(name: 'build_sciplat_lab_bts', value: true)], wait: false
-      }
-    }
-    stage ('Build Sal Sciplat Lab recommended image for Summit') {
-      when {
-          expression { params.build_sciplat_lab_summit }
-      }
-      steps {
-          build job: 'SalSciplatLab', parameters: [booleanParam(name: 'build_sciplat_lab_summit', value: true)], wait: false
+          build job: 'SalSciplatLab', parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: true)], wait: false
       }
     }
   }
