@@ -8,6 +8,36 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 0021
+==========
+
+* Update versions of:
+  * xml
+  * ddsconfig
+  * salobj
+  * idl
+  * DM stack version
+  * atdome
+  * mtrotator
+  * salkafka
+  * observatory_control
+  * standardscripts
+  * externalscripts
+  * m2
+  * mtaos
+  * mtdometrajectory
+  * tcpip
+  * pmd
+  * ts_config_mttcs
+  * love_commander
+  * love_producer
+  * dmocps
+* Fix launching SalSciplatLab in Jenkinsfile.cycle.
+* In Jenkinsfile.sciplat:
+  * Fix triggering SalSciplatLab.
+  * Only trigger SalSciplat if building master branch.
+* Add LOVE CSC build scripts.
+
 Cycle 0020 revision 006
 =======================
 
