@@ -325,7 +325,7 @@ pipeline {
           expression { params.build_sciplat_lab_recommended }
       }
       steps {
-          build job: 'SalSciplatLab', parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: true)], wait: false
+          build job: "SalSciplatLab/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: true)], wait: false
       }
     }
   }
