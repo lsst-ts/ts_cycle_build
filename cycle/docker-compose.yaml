@@ -84,6 +84,16 @@ x-love-producer: &base-love-producer
       cycle: ${CYCLE}
       love_producer: ${love_producer}
 
+x-love-csc: &base-love-csc
+  build:
+    context: ../build/love/csc
+    labels:
+      com.description: "LOVE CSC for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      love_producer: ${love_producer}
+
 x-mtaos: &base-mtaos
   build:
     context: ../build/
@@ -773,6 +783,14 @@ services:
     image: ${hub}/love-producer:${CYCLE}
     <<: *base-love-producer
 
+  love-csc:
+    image: ${hub}/love-csc:${CYCLE}${rev}
+    <<: *base-love-csc
+
+  love-csc_c:
+    image: ${hub}/love-csc:${CYCLE}
+    <<: *base-love-csc
+
   mtaos:
     image: ${hub}/mtaos:${CYCLE}${rev}
     <<: *base-mtaos
@@ -964,7 +982,7 @@ services:
   genericcamera_c:
     image: ${hub}/genericcamera:${CYCLE}
     <<: *base-genericcamera
-  
+
   pmd:
     image: ${hub}/pmd:${CYCLE}${rev}
     <<: *base-pmd

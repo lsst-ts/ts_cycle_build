@@ -46,8 +46,11 @@ pipeline {
         }
       }
       stage("Trigger lab build") {
+        when {
+            expression { env.BRANCH_NAME == 'master' }
+        }
         steps {
-            build job: 'SalSciplatLab', parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: false)], wait: false
+            build job: 'SalSciplatLab/master', parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: false)], wait: false
         }
       }
     }
