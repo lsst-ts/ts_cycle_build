@@ -8,6 +8,13 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 21 revision 1
+===================
+
+* Update versions of the following packages:
+  * ts_mtmount
+  * love_producer
+
 Cycle 0021
 ==========
 
