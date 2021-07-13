@@ -241,11 +241,13 @@ x-scheduler: &base-scheduler
       com.description: "Scheduler image for cycle/revision ${CYCLE}${rev}"
     args:
       hub: ${hub}
-      deploy_tag: ${CYCLE}
-      ts_conda_build: ${ts_conda_build}
-      ts_config_ocs: ${ts_config_ocs}
-      ts_scriptqueue: ${ts_scriptqueue}
+      cycle: ${CYCLE}
+      config: ${ts_config_ocs}
       ts_scheduler: ${ts_scheduler}
+      ts_observatory_model: ${ts_observatory_model}
+      ts_astrosky_model: ${ts_astrosky_model}
+      ts_dateloc: ${ts_dateloc}
+      rubin_sim: ${rubin_sim}
 
 x-scriptqueue: &base-scriptqueue
   build:

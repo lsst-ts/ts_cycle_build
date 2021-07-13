@@ -1,185 +1,53 @@
-ARG deploy_tag
-ARG hub=lsstts
+ARG cycle
+ARG hub
 
-FROM ${hub}/lsst_sims:${deploy_tag}
+FROM ${hub}/deploy-env:${cycle}
 
-WORKDIR ${WORKDIR}
-
-USER lsst
-
-ARG ts_conda_build
-
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
-    conda install -y asynctest pytest-tornasync && \
-    conda install -c lsstts ts-conda-build=${ts_conda_build}
-
-USER saluser
+LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 WORKDIR /home/saluser/
 
-RUN mkdir repos/
+ARG config
 
-WORKDIR /home/saluser/repos/
+RUN git clone https://github.com/lsst-ts/ts_config_ocs.git
 
-RUN git clone https://github.com/lsst-ts/ts_config_ocs.git && \
-    git clone https://github.com/lsst-ts/ts_scheduler.git && \
-    git clone https://github.com/lsst/sims_seeingModel.git && \
-    git clone https://github.com/lsst/sims_cloudModel.git && \
-    git clone https://github.com/lsst/sims_downtimeModel.git && \
-    git clone https://github.com/lsst/sims_utils.git && \
-    git clone https://github.com/lsst/ephem.git && \
-    git clone https://github.com/lsst/throughputs.git && \
-    git clone https://github.com/lsst/sims_photUtils.git && \
-    git clone https://github.com/lsst/sims_skybrightness.git && \
-    git clone https://github.com/lsst/sims_skybrightness_pre.git && \
-    git clone https://github.com/lsst-ts/ts_dateloc.git && \
-    git clone https://github.com/lsst-ts/ts_astrosky_model.git && \
-    git clone https://github.com/lsst-ts/ts_observatory_model.git && \
-    git clone https://github.com/lsst-ts/scheduler_config.git && \
-    git clone https://github.com/lsst/sims_skybrightness_data.git && \
-    git clone https://github.com/lsst-ts/ts_scriptqueue.git &&\
-    git clone https://github.com/lsst/sims_almanac.git
+WORKDIR /home/saluser/ts_config_ocs
 
-WORKDIR /home/saluser/repos/sims_utils
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup sims_utils -t current && \
-    scons
+RUN /home/saluser/.checkout_repo.sh ${config}
 
-WORKDIR /home/saluser/repos/sims_cloudModel
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup sims_cloudModel -t current && \
-    scons
+WORKDIR /home/saluser/
 
-WORKDIR /home/saluser/repos/sims_downtimeModel
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup sims_downtimeModel -t current && \
-    scons
-
-WORKDIR /home/saluser/repos/sims_seeingModel
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup sims_seeingModel -t current && \
-    scons
-
-WORKDIR /home/saluser/repos/sims_utils
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup sims_utils -t current && \
-    scons
-
-WORKDIR /home/saluser/repos/sims_almanac
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup sims_almanac -t current && \
-    scons
-
-WORKDIR /home/saluser/repos/ephem
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    pip install pyephem && \
-    eups declare -r . -t current
-
-WORKDIR /home/saluser/repos/throughputs
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current
-
-WORKDIR /home/saluser/repos/sims_photUtils
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup sims_photUtils -t current && \
-    scons
-
-WORKDIR /home/saluser/repos/sims_skybrightness_data
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current
-
-WORKDIR /home/saluser/repos/sims_skybrightness
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup sims_skybrightness -t current && \
-    scons
-
-WORKDIR /home/saluser/repos/sims_skybrightness_pre
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup sims_skybrightness_pre -t current && \
-    scons
-
-WORKDIR /home/saluser/repos
-RUN mkdir python && \
-    source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r python/ -m none python -t current
-
-WORKDIR /home/saluser/repos/ts_dateloc
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup ts_dateloc -t current && \
-    scons
-
-WORKDIR /home/saluser/repos/ts_astrosky_model
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup ts_astrosky_model -t current && \
-    scons
-
-WORKDIR /home/saluser/repos/ts_observatory_model
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current && \
-    setup ts_observatory_model -t current && \
-    scons
-
-WORKDIR /home/saluser/repos/scheduler_config
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    eups declare -r . -t current
-
-# Work around for deprecated/unneeded packages. Remove when dependency fixed
-WORKDIR /home/saluser/repos/
-
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    mkdir python_future && \
-    eups declare -m none -r /home/saluser/repos/python_future python_future git
-
-ARG ts_config_ocs
-
-WORKDIR /home/saluser/repos/ts_config_ocs
-
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
-    /home/saluser/.checkout_repo.sh ${ts_config_ocs} && \
-    eups declare -r . ts_config_ocs ${ts_config_ocs} -t current
-
-ARG ts_scriptqueue
-
-WORKDIR /home/saluser/repos/ts_scriptqueue
-
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
-    /home/saluser/.checkout_repo.sh ${ts_scriptqueue}  && \
-    eups declare -r . ts_scriptqueue ${ts_scriptqueue} -t current
+ENV TS_CONFIG_OCS_DIR=/home/saluser/ts_config_ocs
 
 ARG ts_scheduler
+ARG ts_observatory_model
+ARG ts_astrosky_model
+ARG ts_dateloc
+ARG rubin_sim
 
-WORKDIR /home/saluser/repos/ts_scheduler
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
-    /home/saluser/.checkout_repo.sh ${ts_scheduler} && \
-    eups declare -r . ts_scheduler ${ts_scheduler} -t current && \
-    setup lsst_sims && \
-    setup ts_scheduler && \
-    scons || py.test
+RUN source /home/saluser/.setup_sal_env.sh && \
+    conda install -c lsstts \
+    ts-scheduler=${ts_scheduler} \
+    ts-observatory-model=${ts_observatory_model} \
+    ts-astrosky-model=${ts_astrosky_model} \
+    ts-dateloc=${ts_dateloc} \
+    rubin-sim=${rubin_sim}
 
-WORKDIR ${SAL_HOME}
+LABEL ts-scheduler=${ts_scheduler} \
+  ts-scheduler=${ts_scheduler} \
+  ts-observatory-model=${ts_observatory_model} \
+  ts-astrosky-model=${ts_astrosky_model} \
+  ts-dateloc=${ts_dateloc} \
+  rubin-sim=${rubin_sim} \
+  ts_config_ocs=${config}
+
+
+WORKDIR /home/saluser/
+
+ENV INDEX=1
 
 COPY startup.sh /home/saluser/.startup.sh
 USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 USER saluser
-
-ENV INDEX=1
-
-LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
-      palpy=${palpy}  \
-      sims_data=${sims_data} \
-      sims_survey_fields=${sims_survey_fields} \
-      ts_scheduler=${ts_scheduler} \
-      ts_config_ocs=${ts_config_ocs}
