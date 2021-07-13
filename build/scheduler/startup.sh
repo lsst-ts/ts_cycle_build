@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-source ${WORKDIR}/.setup_sal_env.sh
-
-setup lsst_sims
-setup ts_scheduler
+source $HOME/.setup_sal_env.sh
 
 echo "# Running Scheduler with index: ${INDEX}"
 
