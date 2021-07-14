@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 21 revision 2
+===================
+
+* Update Scheduler build scripts to use conda package.
+* Add Scheduler to base components list instead of having separate build step.
+* Remove lsst_sims step, this was replaced by the rubin-sim conda package.
+* Add new dependencies (for scheduler):
+  * ts_observatory_model
+  * ts_astrosky_model
+  * ts_dateloc
+  * rubin_sim
+* Update version of the following packages:
+  * love_producer
+  * ts_scheduler
+
+
 Cycle 21 revision 1
 ===================
 
