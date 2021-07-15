@@ -169,14 +169,13 @@ The steps in the build are as follows:
     - ospl-daemon
     - mtrotator
     - salkafka
+    - scheduler
     - watcher
 
   - m1m3_sim: Build M1M3 simulator.
   - ptg: Build pointing component. Both AT and MT use the same code base and image.
-  - lsst_sims: Build base image with ``lsst_sims``. Use ``deploy_lsstsqre`` as a base image.
   - mtaos: Build MTAOS.
   - queue: Build ScriptQueue. Both AT and MT use the same code base and image.
-  - scheduler: Build Scheduler. Both AT and MT use the same code base and image.
 
 It is important to follow the build steps order.
 Also, we recommend running one step at a time in the Jenkins server, to make sure the image is pushed at the end, avoiding potential push problem at the end.
@@ -209,12 +208,9 @@ In both cases, the SAL libraries are installed using the rpm packages from the n
 The next natural step is then to build the ``ScriptQueue`` container, ``queue`` job.
 This image uses the ``deploy_lsstsqre`` as a base image and uses ``eups`` to install and build the dependencies for the ``ScriptQueue``, which means the step will take some time to finish.
 
-Because both ``Scheduler`` and ``MTAOS`` depends on ``lsst_sims`` they are built from a different base image than the base images above.
-We then proceed to build the ``lsst_sims`` image, which will install ``lsst_sims`` on ``deploy_lsstsqre``.
+Finally we can build the ``MTAOS`` component, which is built on top of  ``deploy_lsstsqre``, due to its dependency to the DM stack.
 
-With ``lsst_sims`` built, it is then possible to build ``scheduler``.
-
-Finally, all systems are ready to be deployed.
+With this, all systems are ready to be deployed.
 
 .. _The-Development-Environment:
 
