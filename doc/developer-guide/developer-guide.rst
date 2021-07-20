@@ -61,7 +61,150 @@ The ``deploy-env`` image is a simple ``centos`` image with all the prerequisites
 
 (To be continued...)
 
-.. _Building:
+.. _Developer_Guide_Adding_New_Components:
+
+Adding New Components
+=====================
+
+The first step in adding a new component to the cycle build is to develop a ``Dockerfile`` with the instructions on how to build the container.
+
+The process starts by selecting what kind of base image the component will be built on top of.
+If the component contains a conda package, and does not have any dependency on the DM stack, then it should be built on top of the ``deploy-env`` image.
+In this case the ``Dockerfile`` will start with the following lines:
+
+.. code-block:: text
+
+  ARG cycle
+  ARG hub
+
+  FROM ${hub}/deploy-env:${cycle}
+
+If, on the other hand, the component is an ``eups`` package and/or has dependencies on the DM stack, it needs to be built on top of ``deploy-sqre``.
+In this case the ``Dockerfile`` will start with the following lines:
+
+.. code-block:: text
+
+  ARG cycle
+  ARG hub
+
+  FROM ${hub}/deploy-sqre:${cycle}
+
+In both cases, the instructions should be added to install the component in the container.
+
+Finally, the component needs to be setup to run when the container runs.
+Both base images are already pre-setup to run, with some additional steps to ensure that components attached to DDS daemons will not corrupt them when terminating.
+
+To take advantage of this setup, users must first add a ``startup.sh`` file to their build directory.
+This file must have the following format:
+
+.. code-block:: text
+
+  #!/usr/bin/env bash
+
+  source $HOME/.setup_sal_env.sh
+
+  <start_component_script> &
+
+  pid="$!"
+
+  wait ${pid}
+
+Replacing ``<start_component_script>`` with the command that will start the component.
+If the component needs additional setup it can be done in the same script, though the steps shown above are all mandatory and cannot be modified.
+
+If the component requires input arguments we recommend adding the following to the ``Dockerfile``;
+
+.. code-block:: text
+
+  ENV RUN_ARG=""
+
+and the following modification to the ``startup.sh`` script;
+
+.. code-block:: text
+
+  ...
+
+  <start_component_script> ${RUN_ARG} &
+
+  ...
+
+To make the ``startup.sh`` file available in the container, add the following to the bottom of the ``Dockerfile``;
+
+
+.. code-block:: text
+
+  COPY startup.sh /home/saluser/.startup.sh
+  USER root
+  RUN chown saluser:saluser /home/saluser/.startup.sh && \
+      chmod a+x /home/saluser/.startup.sh
+  USER saluser
+
+Both the ``Dockerfile`` and ``startup.sh`` file should be added to a directory with the name of the component (in lower case), in the ``build`` directory.
+If it is a multi-stage build, create a directory tree inside the ``build`` directory.
+For example, the ``LOVE`` system contains six different builds.
+The build scripts are located in;
+
+.. code-block:: text
+
+  build/love
+  ├── commander
+  │   ├── Dockerfile
+  │   └── startup.sh
+  ├── csc
+  │   ├── Dockerfile
+  │   └── startup.sh
+  ├── frontend
+  │   └── Dockerfile
+  ├── manager
+  │   └── Dockerfile
+  ├── manager-static
+  │   └── Dockerfile
+  └── producer
+    ├── Dockerfile
+    └── startup.sh
+
+Once the build scripts are created, the next step is to add the docker-compose build configuration.
+The configuration is hosted in the ``cycle/docker-compose.yaml`` file.
+
+For each component 2 identical images are built; one receives a ``cycle`` tag and the other a ``cycle.revision``.
+In order to avoid duplication we create a template build configuration and add 2 components with different tagging schema.
+
+At the top of the compose file, add the build configuration with the following format:
+
+.. code-block:: text
+
+  x-<component-name>: &base-<component-name>
+    build:
+      context: ../build/<component-name>
+      labels:
+        com.description: "<component-name> deployment image for cycle/revision ${CYCLE}${rev}."
+      args:
+        cycle: ${CYCLE}
+        hub: ${hub}
+        ....
+
+Make sure to add all the required versions in the args sections above.
+
+At the bottom of the compose file, add the following:
+
+.. code-block:: text
+
+  <component-name>:
+    image: ${hub}/<component-name>:${CYCLE}${rev}
+    <<: *base-<component-name>
+
+  <component-name>_c:
+    image: ${hub}/<component-name>:${CYCLE}
+    <<: *base-<component-name>
+
+Next add the components dependency versions to the cycle file in ``cycle/cycle.env``.
+
+Finally, add the component to a build step in the ``Jenkinsfile.cycle`` file.
+If the component is build on top of the ``deploy_env`` image, then add it to the list of base components in ``CONDA_PACKAGES`` and ``CONDA_PACKAGES_C`` and as an option in the parameter choice of ``base_components``.
+They must have the same name as that added in the docker-compose file above.
+
+
+.. _Developer_Guide_Building:
 
 Building
 ========
@@ -80,7 +223,7 @@ For instance, to build the ``deploy-conda-private`` locally one would do;
   docker-compose -f cycle/docker-compose.yaml --env-file cycle/cycle.env build deploy-conda-private
 
 
-.. _Dependencies:
+.. _Developer_Guide_Dependencies:
 
 Dependencies
 ============
@@ -88,7 +231,7 @@ Dependencies
 * docker
 * docker-compose
 
-.. _Contributing:
+.. _Developer_Guide_Contributing:
 
 Contributing
 ============

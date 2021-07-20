@@ -22,6 +22,7 @@ Cycle 21 revision 2
 * Update version of the following packages:
   * love_producer
   * ts_scheduler
+* Update documentation.
 
 
 Cycle 21 revision 1

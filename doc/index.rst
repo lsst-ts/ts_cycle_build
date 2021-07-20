@@ -25,10 +25,11 @@ At the very least, we must keep an strict control over the core packages version
 
 The core packages are:
 
-    - ts_xml: Contains the interfaces definition of all components in the system.
-    - ts_sal: Contains the core DDS communication middleware layer.
-    - ts_idl: Contains ancillary files used by ts_salobj and other higher level applications.
-    - ts_salobj: High-level Python library to develop CSCs and SAL Scripts.
+  - ts_ddsconfig: Contains DDS Quality of Service (QoS) configuration and various sanctioned OpenSplice configuration options for running systems in shared memory, single process and unit testing.
+  - ts_xml: Contains the interfaces definition of all components in the system.
+  - ts_sal: Contains the core DDS communication middleware layer.
+  - ts_idl: Contains ancillary files used by ts_salobj and other higher level applications.
+  - ts_salobj: High-level Python library to develop CSCs and SAL Scripts.
 
 In order to avoid conflicts the version of all these packages must be tightly controlled in production and test environments.
 We accomplish this by introducing the concept of "cycle builds".
@@ -44,7 +45,9 @@ The build is managed using docker-compose and an environment file which configur
 Containers are later deployed in a Kubernetes cluster, via puppet or docker-compose.
 Details on deployment can be found elsewhere, this package mainly focuses on building deployment artifacts.
 
-.. note:: If you are interested in viewing other branches of this repository append a `/v` to the end of the url link. For example `https://ts_cycle_build.lsst.io/v/`
+.. note::
+  
+  If you are interested in viewing other branches of this repository append a `/v` to the end of the url link. For example `https://ts_cycle_build.lsst.io/v/`
 
 
 .. _User_Documentation:
