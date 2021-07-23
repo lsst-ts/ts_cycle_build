@@ -221,6 +221,17 @@ x-ptg: &base-ptg
       rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
       ptg: ${ts_pointing_common}
 
+x-base-rubintv-broadcaster: &base-rubintv-broadcaster
+  build:
+    context: ../build/rubintv-broadcaster
+    labels:
+      com.description: "RubinTV broadcaster image for cycle/revision ${CYCLE}${rev}."
+    args:
+      image_tag: ${lsstsqre}
+      spectractor_work_branch: ${Spectractor}
+      atmospec_work_branch: ${atmospec}
+      rapid_analysis_work_branch: ${rapid_analysis}
+
 x-salkafka: &base-salkafka
   build:
     context: ../build/salkafka
@@ -856,6 +867,14 @@ services:
   mtrotator_c:
     image: ${hub}/mtrotator:${CYCLE}
     <<: *base-mtrotator
+
+  rubintv-broadcaster:
+    image: ${hub}/rubintv-broadcaster:${CYCLE}${rev}
+    <<: *base-rubintv-broadcaster
+
+  rubintv-broadcaster_c:
+    image: ${hub}/rubintv-broadcaster:${CYCLE}
+    <<: *base-rubintv-broadcaster
 
   ptg:
     image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}${rev}

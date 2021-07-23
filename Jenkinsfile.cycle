@@ -41,6 +41,7 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push scriptqueue image.", name: 'build_scriptqueue'
       booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image?", name: 'build_sciplat'
       booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image?", name: 'build_sciplat_lab_recommended'
+      booleanParam defaultValue: false, description: "Build/push RubinTV broadcaster.", name: 'rubintv_broadcaster'
   }
 
   stages {
@@ -276,6 +277,29 @@ pipeline {
       }
       steps {
           build job: "SalSciplatLab/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: true)], wait: false
+      }
+    }
+    stage ('Build RubinTV Broadcaster') {
+      when {
+          expression { params.rubintv_broadcaster }
+      }
+      steps {
+
+        script{
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+            sh """
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build rubintv-broadcaster rubintv-broadcaster_c
+            """
+          }
+        }
+
+        script {
+          docker.withRegistry("", pub_registryCredential) {
+            sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push rubintv-broadcaster rubintv-broadcaster_c
+            """
+          }
+        }
       }
     }
   }
