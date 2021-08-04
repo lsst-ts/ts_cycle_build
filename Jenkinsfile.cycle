@@ -248,30 +248,6 @@ pipeline {
         }
       }
     }
-    stage ('Build scheduler') {
-      when {
-          expression { params.build_scheduler }
-      }
-      steps {
-
-        script{
-          withEnv(["HOME=${env.WORKSPACE}"]) {
-            docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-              sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build scheduler scheduler_c
-              """
-              }
-          }
-        }
-        script {
-          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-            sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push scheduler scheduler_c
-            """
-          }
-        }
-      }
-    }
     stage ('Build Sal Sciplat (nublado) recommended image') {
       when {
           expression { params.build_sciplat }
