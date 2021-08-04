@@ -8,6 +8,17 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 21 revision 3
+===================
+
+* Update version of the following packages:
+  * ts_ofc
+  * ts_externalscripts
+  * ts_dimm
+  * ts_config_ocs
+  * love-frontend
+* Remove deprecated scheduler build step. This is now part of the conda packages build.
+
 Cycle 21 revision 2
 ===================
 
