@@ -157,7 +157,7 @@ WORKDIR /tmp
 RUN source /home/saluser/.setup_salobj.sh && \
     git clone https://github.com/jim-easterbrook/python-gphoto2.git && \
     cd python-gphoto2 && \
-    python setup.py build_swig && \
+    python developer/build_swig.py && \
     python setup.py build && \
     python setup.py install
 
