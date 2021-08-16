@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 21 revision 4
+===================
+
+* Update version of the following packages:
+  * ts_config_attcs
+  * ts_config_mttcs
+  * ts_MTAOS
+  * ts_mtmount (special version that communicates with the ccw controller in level 3)
+  * ts_hexrotcomm (needed for mtmount to communicate with ccw controller in level 3)
+  * ts_m2
+* Add rubintv-broadcaster
+
 Cycle 21 revision 3
 ===================
 
