@@ -12,6 +12,8 @@ else
     source ${OSPL_HOME}/release.com
 fi
 
+export LD_LIBRARY_PATH=${CONDA_PREFIX}/lib:${LD_LIBRARY_PATH}
+
 PYTHON_BUILD_VERSION=$(find /opt/lsst/software/stack -name Python.h \
                         2>/dev/null | head -1 | xargs dirname | \
                         xargs basename | sed 's/python//')
