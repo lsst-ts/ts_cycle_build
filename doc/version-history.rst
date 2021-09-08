@@ -16,6 +16,8 @@ Cycle 21 revision 5
   * ts_config_attcs
   * ts_dimm
   * love-frontend
+* Add ts_utils to develop-env, deploy-env conda, deploy-env arch64 and sal-sciplat builds.
+* In `Jenkinsfile.lab` Fix name of the branch (master -> prod) .
 
 Cycle 21 revision 4
 ===================
