@@ -18,14 +18,14 @@ ARG  osplice_build
 ARG  osplice_py
 
 RUN  yum install -y --enablerepo=extras \
-      dos2unix \
-      iproute \
-      iptables \
-      libmnl \
-      libnfnetlink \
-      libnetfilter_conntrack \
-      "java-${java_v}-openjdk-devel" \
-      "OpenSpliceDDS-${osplice_v}-${osplice_build}"
+    dos2unix \
+    iproute \
+    iptables \
+    libmnl \
+    libnfnetlink \
+    libnetfilter_conntrack \
+    "java-${java_v}-openjdk-devel" \
+    "OpenSpliceDDS-${osplice_v}-${osplice_build}"
 
 WORKDIR /usr/share/zoneinfo
 
@@ -34,10 +34,10 @@ RUN curl https://www.ietf.org/timezones/data/leap-seconds.list -o leap-seconds.l
 ENV LOADSTACK=/opt/lsst/software/stack/loadLSST.bash
 
 RUN source ${LOADSTACK} && \
-     conda install -c conda-forge -y \
-      librdkafka aiokafka astroquery asynctest \
-      ephem kafkacat pre-commit pytest-tornasync \
-      setuptools_scm pytest-black
+    conda install -c conda-forge -y \
+    librdkafka aiokafka astroquery asynctest \
+    ephem kafkacat pre-commit pytest-tornasync \
+    setuptools_scm pytest-black
 
 
 ENV SRCDIR=/opt/lsst/src
@@ -51,7 +51,7 @@ COPY sal-sciplat/salbldsteps.bash /opt/lsst/sal
 #### Clear the astropy download cache
 RUN source ${LOADSTACK} && \
     python3 -c 'from astropy.utils.data import clear_download_cache; \
-                clear_download_cache()'
+    clear_download_cache()'
 
 ARG black_v
 
@@ -66,6 +66,7 @@ ARG ts_ddsconfig
 ARG ts_xml
 ARG ts_idl
 ARG ts_sal
+ARG ts_utils
 ARG ts_salobj
 ARG ts_atdome
 ARG ts_atdometrajectory
@@ -79,9 +80,12 @@ RUN source ${SALSTACK} && \
     ts-salobj=${ts_salobj} \
     ts-atdome=${ts_atdome} \
     ts-atdometrajectory=${ts_atdometrajectory} \
-    ts-atmcs-simulator=${ts_atmcssimulator} && \
+    ts-atmcs-simulator=${ts_atmcssimulator} \
+    ts-utils=${ts_utils} && \
     ddsconfig_path=$(python -c 'from lsst.ts import ddsconfig; import pathlib; print(pathlib.Path(ddsconfig.__file__).parents[0])') && \
     eups declare -m none -r ${ddsconfig_path} ts_ddsconfig ${ts_ddsconfig}  && \
+    utils_path=$(python -c 'from lsst.ts import utils; import pathlib; print(pathlib.Path(utils.__file__).parents[0])') && \
+    eups declare -m none -r ${utils_path} ts_utils ${ts_utils}  && \
     salobj_path=$(python -c 'from lsst.ts import salobj; import pathlib; print(pathlib.Path(salobj.__file__).parents[0])') && \
     eups declare -m none -r ${salobj_path} ts_salobj ${ts_salobj}  && \
     idl_path=$(python -c 'from lsst.ts import idl; import pathlib; print(pathlib.Path(idl.__file__).parents[0])') && \
@@ -109,25 +113,25 @@ ARG ts_externalscripts
 WORKDIR ${SRCDIR}
 RUN source ${LOADSTACK} && \
     gitsrc="ts_config_ocs:${ts_config_ocs} \
-            ts_config_attcs:${ts_config_attcs} \
-            ts_config_mtcalsys:${ts_config_mtcalsys} \
-            ts_config_eas:${ts_config_eas} \
-            ts_config_latiss:${ts_config_latiss} \
-            ts_config_mttcs:${ts_config_mttcs} \
-            ts_config_atcalsys:${ts_config_atcalsys} \
-            ts_observatory_control:${ts_observatory_control} \
-            ts_standardscripts:${ts_standardscripts} \
-            ts_externalscripts:${ts_externalscripts}" && \
+    ts_config_attcs:${ts_config_attcs} \
+    ts_config_mtcalsys:${ts_config_mtcalsys} \
+    ts_config_eas:${ts_config_eas} \
+    ts_config_latiss:${ts_config_latiss} \
+    ts_config_mttcs:${ts_config_mttcs} \
+    ts_config_atcalsys:${ts_config_atcalsys} \
+    ts_observatory_control:${ts_observatory_control} \
+    ts_standardscripts:${ts_standardscripts} \
+    ts_externalscripts:${ts_externalscripts}" && \
     rb="https://github.com/lsst-ts" && \
     set -e && \
     for g in $gitsrc ; do \
-        r=$(echo ${g} | cut -d ':' -f 1) \
-        t=$(echo ${g} | cut -d ':' -f 2) ;\
-        git clone --branch v${t} --depth 1 --single-branch ${rb}/${r}.git ; \
-        cd ${r} ; \
-        git checkout -b ${t} ; \
-        eups declare -r . -t current ${r} ${t}; \
-        cd .. ; \
+    r=$(echo ${g} | cut -d ':' -f 1) \
+    t=$(echo ${g} | cut -d ':' -f 2) ;\
+    git clone --branch v${t} --depth 1 --single-branch ${rb}/${r}.git ; \
+    cd ${r} ; \
+    git checkout -b ${t} ; \
+    eups declare -r . -t current ${r} ${t}; \
+    cd .. ; \
     done
 
 # Building eups packages
