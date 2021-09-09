@@ -449,6 +449,7 @@ services:
       args:
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build_el7}
+        ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_community}
         ts_idl: ${ts_idl}
@@ -462,6 +463,7 @@ services:
         com.description: "Base aarch64 deployment image for cycle/revision ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
+        ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_community}
         ts_idl: ${ts_idl}
@@ -481,6 +483,7 @@ services:
         ts_dds: ${ts_dds_private}=${ts_dds_private_conda_build}
         ts_ddsconfig: ${ts_ddsconfig}
         ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
+        ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
 
   deploy-lsstsqre-community:
@@ -494,6 +497,7 @@ services:
         image_tag: ${lsstsqre}
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build_el7}
+        ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_community}
 
@@ -510,6 +514,7 @@ services:
         dds_community_build: ${dds_community_build_el7}
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
+        ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_private}
         ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
@@ -571,6 +576,7 @@ services:
         ts_ddsconfig: ${ts_ddsconfig}
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
+        ts_utils: ${ts_utils}
         ts_sal: ${ts_sal}
         ts_salobj: ${ts_salobj}
         ts_observatory_control: ${ts_observatory_control}
@@ -602,6 +608,7 @@ services:
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_sal: ${ts_sal}
+        ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
 
   salobj-private:
@@ -625,6 +632,7 @@ services:
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_sal: ${ts_sal}
+        ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
 
   develop-env-community:

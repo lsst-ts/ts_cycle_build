@@ -12,7 +12,7 @@ pipeline{
       stage ('Cloning Repos') {
           steps {
               dir(env.WORKSPACE + '/nublado') {
-                  git branch: 'master', url: 'https://github.com/lsst-sqre/nublado.git'
+                  git branch: 'prod', url: 'https://github.com/lsst-sqre/nublado.git'
               }
           }
       }

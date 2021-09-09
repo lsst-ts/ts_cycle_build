@@ -8,6 +8,17 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 21 revision 5
+===================
+
+* Update version of the following packages:
+  * ts_ataos
+  * ts_config_attcs
+  * ts_dimm
+  * love-frontend
+* Add ts_utils to develop-env, deploy-env conda, deploy-env arch64 and sal-sciplat builds.
+* In `Jenkinsfile.lab` Fix name of the branch (master -> prod) .
+
 Cycle 21 revision 4
 ===================
 

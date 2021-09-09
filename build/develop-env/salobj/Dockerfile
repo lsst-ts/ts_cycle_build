@@ -35,31 +35,33 @@ ARG ts_ddsconfig="develop"
 ARG ts_xml="develop"
 ARG ts_idl="develop"
 ARG ts_sal="develop"
+ARG ts_utils="develop"
 ARG ts_salobj="develop"
 
 RUN source /home/saluser/.setup_salobj.sh && \
     cd ${TSSW_PATH} && \
     gitsrc="ts_config_ocs:${ts_config_ocs} \
-            ts_config_attcs:${ts_config_attcs} \
-            ts_config_mtcalsys:${ts_config_mtcalsys} \
-            ts_config_eas:${ts_config_eas} \
-            ts_config_latiss:${ts_config_latiss} \
-            ts_config_mttcs:${ts_config_mttcs} \
-            ts_config_atcalsys:${ts_config_atcalsys} \
-            ts_ddsconfig:${ts_ddsconfig} \
-            ts_xml:${ts_xml} \
-            ts_idl:${ts_idl} \
-            ts_sal:${ts_sal} \
-            ts_salobj:${ts_salobj}" && \
+    ts_config_attcs:${ts_config_attcs} \
+    ts_config_mtcalsys:${ts_config_mtcalsys} \
+    ts_config_eas:${ts_config_eas} \
+    ts_config_latiss:${ts_config_latiss} \
+    ts_config_mttcs:${ts_config_mttcs} \
+    ts_config_atcalsys:${ts_config_atcalsys} \
+    ts_ddsconfig:${ts_ddsconfig} \
+    ts_xml:${ts_xml} \
+    ts_idl:${ts_idl} \
+    ts_sal:${ts_sal} \
+    ts_utils:${ts_utils} \
+    ts_salobj:${ts_salobj}" && \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
-        r=$(echo ${g} | cut -d ':' -f 1) \
-        t=$(echo ${g} | cut -d ':' -f 2) ;\
-        git clone ${rb}/${r}.git ; \
-        cd ${r} ; \
-        /home/saluser/.checkout_repo.sh ${t} ; \
-        eups declare -r . -t current ; \
-        cd .. ; \
+    r=$(echo ${g} | cut -d ':' -f 1) \
+    t=$(echo ${g} | cut -d ':' -f 2) ;\
+    git clone ${rb}/${r}.git ; \
+    cd ${r} ; \
+    /home/saluser/.checkout_repo.sh ${t} ; \
+    eups declare -r . -t current ; \
+    cd .. ; \
     done
 
 WORKDIR /home/saluser/repos/ts_sal
@@ -76,6 +78,11 @@ RUN source /home/saluser/.setup_salobj.sh && \
     make_idl_files.py Test Script LOVE && \
     make_salpy_libs.py Test Script
 
+WORKDIR /home/saluser/repos/ts_utils
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup ts_utils -t current && \
+    scons
+
 ARG ts_dds
 
 WORKDIR /home/saluser/repos/ts_salobj
@@ -90,17 +97,17 @@ RUN source /home/saluser/.setup_salobj.sh && \
 WORKDIR /home/saluser/
 
 LABEL ts_config_ocs="${ts_config_ocs}" \
-      ts_config_attcs="${ts_config_attcs}" \
-      ts_config_mtcalsys="${ts_config_mtcalsys}" \
-      ts_config_eas="${ts_config_eas}" \
-      ts_config_latiss="${ts_config_latiss}" \
-      ts_config_mttcs="${ts_config_mttcs}" \
-      ts_config_atcalsys="${ts_config_atcalsys}" \
-      ts_ddsconfig="${ts_ddsconfig}" \
-      ts_xml="${ts_xml}" \
-      ts_idl="${ts_idl}" \
-      ts_sal="${ts_sal}" \
-      ts_salobj="${ts_salobj}"
+    ts_config_attcs="${ts_config_attcs}" \
+    ts_config_mtcalsys="${ts_config_mtcalsys}" \
+    ts_config_eas="${ts_config_eas}" \
+    ts_config_latiss="${ts_config_latiss}" \
+    ts_config_mttcs="${ts_config_mttcs}" \
+    ts_config_atcalsys="${ts_config_atcalsys}" \
+    ts_ddsconfig="${ts_ddsconfig}" \
+    ts_xml="${ts_xml}" \
+    ts_idl="${ts_idl}" \
+    ts_sal="${ts_sal}" \
+    ts_salobj="${ts_salobj}"
 
 ENTRYPOINT ["/bin/bash", "--"]
 CMD ["/home/saluser/.setup.sh"]

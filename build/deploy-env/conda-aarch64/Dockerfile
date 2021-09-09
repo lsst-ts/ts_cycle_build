@@ -46,6 +46,7 @@ WORKDIR ${WORKDIR}
 
 ARG numpy=1.20
 ARG ts_idl
+ARG ts_utils
 ARG ts_salobj
 
 ENV OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/aarch64.linux
@@ -59,6 +60,7 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
     conda install -y -c lsstts numpy=${numpy} && \
     conda install -y -c lsstts ts-dds && \
     conda install -y -c lsstts ts-idl=${ts_idl} && \
+    conda install -y -c lsstts ts-utils=${ts_utils} && \
     conda install -y -c lsstts ts-salobj=${ts_salobj} && \
     echo export LSST_DDS_QOS=file://$(python -c "from lsst.ts import ddsconfig; print(ddsconfig.get_qos_path())") >> ${HOME}/.ospl_env.sh
 
@@ -67,11 +69,12 @@ WORKDIR /home/saluser/
 ENV OSPL_MASTER_PRIORITY=5
 
 LABEL dds_community_version=${dds_community_version} \
-      dds_community_build=${dds_community_build} \
-      dds_private_version=${dds_private_version} \
-      dds_private_build=${dds_private_version} \
-      ts_salobj=${ts_salobj} \
-      ts_dds=${ts_dds} \
-      ts_idl=${ts_idl}
+    dds_community_build=${dds_community_build} \
+    dds_private_version=${dds_private_version} \
+    dds_private_build=${dds_private_version} \
+    ts_utils=${ts_utils} \
+    ts_salobj=${ts_salobj} \
+    ts_dds=${ts_dds} \
+    ts_idl=${ts_idl}
 
 ENTRYPOINT ["/home/saluser/.startup.sh"]
