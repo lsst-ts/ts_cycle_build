@@ -8,6 +8,17 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 21 revision 6
+===================
+
+* Cycle 21 rev 6. Update versions of the following packages:
+- ts_config_attcs
+- ts_hexrotcomm
+- ts_mtrotator
+- DM stack version on cycle build.
+- ts_observatory_control
+- ts_mthexapod.
+
 Cycle 21 revision 5
 ===================
 

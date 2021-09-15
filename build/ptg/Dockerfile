@@ -9,26 +9,26 @@ RUN yum install -y https://repo.ius.io/ius-release-el7.rpm && \
     yum install -y centos-release-scl cmake
 
 RUN yum -y --enablerepo=extras install epel-release \
-      devtoolset-8-gcc* \
-      wget \
-      git \
-      make \
-      wget \
-      boost-python \
-      boost-python-devel \
-      curl-devel && \
+    devtoolset-8-gcc* \
+    wget \
+    git \
+    make \
+    wget \
+    boost-python \
+    boost-python-devel \
+    curl-devel && \
     yum clean all
 
 ARG rpm
 
 RUN yum install -y \
-      ATPtg-${rpm} \
-      MTPtg-${rpm} \
-      MTMount-${rpm} \
-      MTRotator-${rpm} \
-      WeatherStation-${rpm} \
-      ATMCS-${rpm} \
-      Guider-${rpm}
+    ATPtg-${rpm} \
+    MTPtg-${rpm} \
+    MTMount-${rpm} \
+    MTRotator-${rpm} \
+    WeatherStation-${rpm} \
+    ATMCS-${rpm} \
+    Guider-${rpm}
 
 RUN mkdir /home/saluser/.ssh/ && chown saluser:saluser /home/saluser/.ssh/ && chmod 700 /home/saluser/.ssh/
 COPY ptg/id_rsa /home/saluser/.ssh/
@@ -94,6 +94,10 @@ COPY ptg/at_20200219_manual.mod /home/saluser/repos/ts_pointing_common/install/d
 COPY ptg/at_20200314_fauto.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/at_20210323.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/at_202103_multi_run_fit.mod /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/at_20210817_fauto_corr_full.mod /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/at_20210817_fauto_corr.mod /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/at_20210817_ia_ie_ca_an_aw_tf_corr_full.mod /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/at_20210817_ia_ie_ca_an_aw_tf_corr_outlier_rej.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/startup.sh /home/saluser/.startup.sh
 
 USER root
