@@ -17,7 +17,7 @@ pipeline{
           }
       }
 
-      stage ('Build Sal Sciplat Lab recommended image for NTS') {
+      stage ('Build Sal Sciplat Lab community-edition recommended image for NTS') {
         when {
           expression { params.build_sciplat_lab_recommended }
         }
@@ -34,7 +34,24 @@ pipeline{
         }
       }
 
-      stage ('Build Sal Sciplat Lab daily image') {
+      stage ('Build Sal Sciplat Lab licensed-edition recommended image for NTS') {
+        when {
+          expression { params.build_sciplat_lab_recommended }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n ts-dockerhub.lsst.org/sal-sciplat-lab -b ts-dockerhub.lsst.org/sal-sciplat -t "" \${stack}_\${CYCLE}\${rev}
+              docker tag ts-dockerhub.lsst.org/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} ts-dockerhub.lsst.org/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+
+      stage ('Build Sal Sciplat Lab community-edition daily image') {
         when {
           expression { params.build_sciplat_lab_recommended == false }
         }
@@ -53,7 +70,26 @@ pipeline{
         }
       }
 
-      stage ('Build Sal Sciplat Lab weekly image') {
+      stage ('Build Sal Sciplat Lab licensed-edition daily image') {
+        when {
+          expression { params.build_sciplat_lab_recommended == false }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n ts-dockerhub.lsst.org/sal-sciplat-lab -b ts-dockerhub.lsst.org/sal-sciplat -t "" d_latest_\${CYCLE}\${rev}
+              EUPS_TAG=\$(docker image inspect -f {{.Config.Labels.EUPS_TAG}} ts-dockerhub.lsst.org/sal-sciplat-lab:d_latest_\${CYCLE}\${rev})
+              docker tag ts-dockerhub.lsst.org/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} ts-dockerhub.lsst.org/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+
+      stage ('Build Sal Sciplat Lab community-edition weekly image') {
         when {
           expression { params.build_sciplat_lab_recommended == false }
         }
@@ -67,6 +103,25 @@ pipeline{
               docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
               docker push lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
               docker push lsstts/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
+            """
+          }
+        }
+      }
+
+      stage ('Build Sal Sciplat Lab licensed-edition weekly image') {
+        when {
+          expression { params.build_sciplat_lab_recommended == false }
+        }
+        steps {
+          script{
+            sh """
+              source cycle/cycle.env
+              cd nublado/jupyterlab/
+              ./bld -n ts-dockerhub.lsst.org/sal-sciplat-lab -b ts-dockerhub.lsst.org/sal-sciplat -t "" w_latest_\${CYCLE}\${rev}
+              EUPS_TAG=\$(docker image inspect -f {{.Config.Labels.EUPS_TAG}} ts-dockerhub.lsst.org/sal-sciplat-lab:w_latest_\${CYCLE}\${rev})
+              docker tag ts-dockerhub.lsst.org/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} ts-dockerhub.lsst.org/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
             """
           }
         }

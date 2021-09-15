@@ -23,8 +23,11 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull sal-sciplat
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-community opensplice-lsstsqre-licensed
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-community
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-community
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-licensed
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-licensed
                   """
                 }
               }
@@ -37,8 +40,11 @@ pipeline {
             script {
               docker.withRegistry("", registryCredential) {
                 sh """
-                  docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull sal-sciplat
-                  docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-community opensplice-lsstsqre-licensed
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-community
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-community
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-licensed
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-licensed
                 """
               }
             }
