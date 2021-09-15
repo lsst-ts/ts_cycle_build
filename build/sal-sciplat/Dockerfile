@@ -1,31 +1,6 @@
 ARG image_tag
 
-FROM lsstsqre/centos:${image_tag}
-
-USER root
-
-SHELL ["/bin/bash", "-lc"]
-
-WORKDIR /tmp
-
-RUN yum install -y https://repo.ius.io/ius-release-el7.rpm
-
-COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
-
-ARG  java_v
-ARG  osplice_v
-ARG  osplice_build
-ARG  osplice_py
-
-RUN  yum install -y --enablerepo=extras \
-    dos2unix \
-    iproute \
-    iptables \
-    libmnl \
-    libnfnetlink \
-    libnetfilter_conntrack \
-    "java-${java_v}-openjdk-devel" \
-    "OpenSpliceDDS-${osplice_v}-${osplice_build}"
+FROM opensplice-lsstsqre:${image_tag}
 
 WORKDIR /usr/share/zoneinfo
 
@@ -42,7 +17,6 @@ RUN source ${LOADSTACK} && \
 
 ENV SRCDIR=/opt/lsst/src
 ENV SALSTACK=/opt/lsst/sal/salbldsteps.bash
-ENV OSPL_HOME=/opt/OpenSpliceDDS/V${osplice_v}/HDE/x86_64.linux
 ENV TZ="UTC"
 
 RUN mkdir -p /opt/lsst/sal
@@ -52,12 +26,6 @@ COPY sal-sciplat/salbldsteps.bash /opt/lsst/sal
 RUN source ${LOADSTACK} && \
     python3 -c 'from astropy.utils.data import clear_download_cache; \
     clear_download_cache()'
-
-ARG black_v
-
-# If we are pinning back black, we need to explicitly downgrade it.
-RUN source ${LOADSTACK} && \
-    conda install -c conda-forge -y black=${black_v}
 
 # Conda install TSSW packages that are frozen. These are seldom changed by
 # users during operations.
@@ -134,29 +102,11 @@ RUN source ${LOADSTACK} && \
     cd .. ; \
     done
 
-# Building eups packages
-WORKDIR ${SRCDIR}/ts_observatory_control
+# Check that packages can be imported.
 RUN source ${SALSTACK} && \
-    export LSST_DDS_DOMAIN_ID=$(( RANDOM % 230 )) && \
-    export OSPL_URI=$(python -c "from lsst.ts import ddsconfig; print( (ddsconfig.get_config_dir() / 'ospl-std.xml').as_uri())") && \
-    setup ts_config_ocs && \
-    setup ts_observatory_control && \
-    scons
-
-WORKDIR ${SRCDIR}/ts_standardscripts
-RUN source ${SALSTACK} && \
-    export LSST_DDS_DOMAIN_ID=$(( RANDOM % 230 )) && \
-    export OSPL_URI=$(python -c "from lsst.ts import ddsconfig; print( (ddsconfig.get_config_dir() / 'ospl-std.xml').as_uri())") && \
-    setup ts_config_attcs && \
-    setup ts_standardscripts && \
-    scons
-
-WORKDIR ${SRCDIR}/ts_externalscripts
-RUN source ${SALSTACK} && \
-    export LSST_DDS_DOMAIN_ID=$(( RANDOM % 230 )) && \
-    export OSPL_URI=$(python -c "from lsst.ts import ddsconfig; print( (ddsconfig.get_config_dir() / 'ospl-std.xml').as_uri())") && \
-    setup ts_externalscripts && \
-    scons || echo FAILED to build ts_externalscripts
+    python -c "from lsst.ts.observatory import control" && \
+    python -c "from lsst.ts import standardscripts" && \
+    python -c "from lsst.ts import externalscripts"
 
 USER lsst
 WORKDIR /opt/lsst/software/stack/

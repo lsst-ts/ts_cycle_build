@@ -554,17 +554,65 @@ services:
         UID: ${B_UID}
         GID: ${B_GID}
 
-  sal-sciplat:
-    image: lsstts/sal-sciplat:${stack}_${CYCLE}${rev}
+  opensplice-lsstsqre-community:
+    image: opensplice-lsstsqre:community
     build:
       context: ../build/
-      dockerfile: ./sal-sciplat/Dockerfile
+      dockerfile: ./opensplice/lsstsqre-community/Dockerfile
       args:
         image_tag: ${lsstsqre}
         java_v: ${java_v}
         osplice_v: ${dds_community_version}
         osplice_build: ${dds_community_build}
         osplice_py: ${ts_dds_community_conda_build}
+
+  opensplice-lsstsqre-licensed:
+    image: opensplice-lsstsqre:licensed
+    build:
+      context: ../build/
+      dockerfile: ./opensplice/lsstsqre-licensed/Dockerfile
+      args:
+        image_tag: ${lsstsqre}
+        java_v: ${java_v}
+        osplice_v: ${dds_private_version}
+        osplice_build: ${dds_private_build}
+        osplice_py: ${ts_dds_private_conda_build}
+
+  sal-sciplat-community:
+    image: lsstts/sal-sciplat:${stack}_${CYCLE}${rev}
+    build:
+      context: ../build/
+      dockerfile: ./sal-sciplat/Dockerfile
+      args:
+        image_tag: community
+        black_v: ${black_v}
+        ts_config_ocs: ${ts_config_ocs}
+        ts_config_attcs: ${ts_config_attcs}
+        ts_config_mtcalsys: ${ts_config_mtcalsys}
+        ts_config_eas: ${ts_config_eas}
+        ts_config_latiss: ${ts_config_latiss}
+        ts_config_mttcs: ${ts_config_mttcs}
+        ts_config_atcalsys: ${ts_config_atcalsys}
+        ts_ddsconfig: ${ts_ddsconfig}
+        ts_xml: ${ts_xml}
+        ts_idl: ${ts_idl}
+        ts_utils: ${ts_utils}
+        ts_sal: ${ts_sal}
+        ts_salobj: ${ts_salobj}
+        ts_observatory_control: ${ts_observatory_control}
+        ts_standardscripts: ${ts_standardscripts}
+        ts_externalscripts: ${ts_externalscripts}
+        ts_atmcssimulator: ${ts_ATMCSSimulator}
+        ts_atdome: ${ts_ATDome}
+        ts_atdometrajectory: ${ts_ATDomeTrajectory}
+
+  sal-sciplat-licensed:
+    image: ts-dockerhub.lsst.org/sal-sciplat:${stack}_${CYCLE}${rev}
+    build:
+      context: ../build/
+      dockerfile: ./sal-sciplat/Dockerfile
+      args:
+        image_tag: licensed
         black_v: ${black_v}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
