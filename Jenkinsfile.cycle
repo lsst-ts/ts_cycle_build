@@ -258,17 +258,40 @@ pipeline {
         script{
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build opensplice-lsstsqre-community
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-community
             """
           }
         }
+
         script {
           docker.withRegistry("", pub_registryCredential) {
             sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-community
             """
           }
         }
+
+        withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+          sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+        }
+
+        script{
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+            sh """
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build opensplice-lsstsqre-licensed
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-licensed
+            """
+          }
+        }
+      
+        script {
+          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+            sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-licensed
+            """
+          }
+        }      
       }
     }
     stage ('Build Sal Sciplat Lab recommended image') {
