@@ -8,6 +8,46 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 22
+========
+* Update versions of:
+  * ddsconfig
+  * xml
+  * sal
+  * idl
+  * salobj
+  * DM stack version
+  * develop
+  * ATMCSSimulator
+  * atspec
+  * mtrotator
+  * mthexapod
+  * salkafka
+  * scriptqueue
+  * mtmount
+  * m1m3support
+  * mtaos
+  * wep
+  * ofc
+  * phosim
+  * scheduler
+  * mtdome
+  * dsm
+  * dimm
+  * conda_build
+  * OPCS
+  * tcpip
+  * genericcamera
+  * pmd
+  * config_mttcs
+  * config_ocs
+  * config_ocps
+  * love_frontend
+  * love_manager
+  * rubin_sim
+* Add ESS and HVAC CSC build scripts.
+* Add utils version.
+
 Cycle 21 revision 7
 ===================
 
