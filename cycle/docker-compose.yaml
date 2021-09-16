@@ -420,6 +420,7 @@ x-genericcamera: &base-genericcamera
       genericcamera: ${ts_GenericCamera}
       config: ${ts_config_ocs}
       gphoto2: ${gphoto2}
+
 x-pmd: &base-pmd
   build:
     context: ../build/pmd
@@ -432,6 +433,29 @@ x-pmd: &base-pmd
       config: ${ts_config_ocs}
   devices:
     - /dev/ttyUSB0:/dev/ttyUSB0
+
+x-ess: &base-ess
+  build:
+    context: ../build/ess
+    labels:
+      com.description: "ESS component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      ess: ${ts_ess_csc}
+      common: ${ts_ess_common}
+      config: ${ts_config_ocs}
+
+x-hvac: &base-hvac
+  build:
+    context: ../build/hvac
+    labels:
+      com.description: "HVAC component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      hvac: ${ts_hvac}
+      config: ${ts_config_ocs}
 
 
 
@@ -1067,3 +1091,20 @@ services:
   pmd_c:
     image: ${hub}/pmd:${CYCLE}
     <<: *base-pmd
+
+  ess:
+    image: ${hub}/ess:${CYCLE}${rev}
+    <<: *base-ess
+
+  ess_c:
+    image: ${hub}/ess:${CYCLE}
+    <<: *base-ess
+
+  hvac:
+    image: ${hub}/hvac:${CYCLE}${rev}
+    <<: *base-hvac
+
+  hvac_c:
+    image: ${hub}/hvac:${CYCLE}
+    <<: *base-hvac
+
