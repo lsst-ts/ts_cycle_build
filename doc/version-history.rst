@@ -14,6 +14,15 @@ Cycle 21 revision 7
 * Update versions of the following packages:
   * ts_atspec
   * ts_config_latiss
+* In Jenkinsfile.cycle:
+  * Improve description parameters on Jenkinsfile.cycle.
+  * Implement safeguards against building base conda image and ALL CSCs when building revisions.
+* Update Jenkisfiles.
+* Update sal-sciplat build to use new `opensplice/lsstsqre` intermediate stage containers.
+* Update compose file to build new `opensplice/lsstsqre` and sal-sciplat`.
+* Add new build, `opensplice/lsstsqre-licensed`
+* Add new build, `opensplice/lsstsqre-community`
+
 
 Cycle 21 revision 6
 ===================
