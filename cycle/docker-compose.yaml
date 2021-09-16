@@ -154,11 +154,13 @@ x-mtm1m3_sim: &base-mtm1m3_sim
       sal: ${ts_sal}
       xml: ${ts_xml}
       m1m3: ${ts_m1m3support}
+      crio_cpp: ${ts_cRIOcpp}
     args:
       cycle: ${CYCLE}
       hub: ${hub}
       rpm: ${ts_xml}-${ts_sal}.el7.x86_64
       m1m3: ${ts_m1m3support}
+      crio_cpp: ${ts_cRIOcpp}
 
 x-mtm2_sim: &base-mtm2_sim
   build:

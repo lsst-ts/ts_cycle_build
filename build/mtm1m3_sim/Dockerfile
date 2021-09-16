@@ -13,7 +13,10 @@ RUN yum -y --enablerepo=extras install epel-release \
     git \
     make \
     gcc-c++ \
-    boost-devel \
+    catch-devel \
+    boost169-devel \
+    readline-devel \
+    yaml-cpp-devel && \
     yum clean all
 
 ARG rpm
@@ -21,19 +24,28 @@ ARG rpm
 RUN yum install -y MTMount-${rpm} MTM1M3-${rpm}
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
+ENV SAL_WORK_DIR=/opt/lsst/ts_sal
 
 USER saluser
 WORKDIR /home/saluser/
 
-ARG m1m3=DM-24026
+ARG m1m3
+ARG crio_cpp
 
-RUN git clone https://github.com/lsst-ts/ts_m1m3support
+RUN git clone https://github.com/lsst-ts/ts_m1m3support && \
+    git clone https://github.com/lsst-ts/ts_cRIOcpp
+
+WORKDIR /home/saluser/ts_cRIOcpp/
+RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
+    source /home/saluser/.setup_sal_env.sh && \
+    source scl_source enable devtoolset-8 && \
+    make
 
 WORKDIR /home/saluser/ts_m1m3support/
 RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
     source /home/saluser/.setup_sal_env.sh && \
     source scl_source enable devtoolset-8 && \
-    make SIMULATOR=1
+    make simulator
 
 WORKDIR /home/saluser/
 
