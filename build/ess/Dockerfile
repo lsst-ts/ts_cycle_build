@@ -26,8 +26,8 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-ess-common=${common} ts-ess-csc=${ess}
+    conda install -c lsstts ts-ess-common=${common} ts-ess=${ess}
 
-LABEL ts-ess-csc=${ess} \
+LABEL ts-ess=${ess} \
       ts-ess-common=${common} \
       ts_config_ocs=${config}
