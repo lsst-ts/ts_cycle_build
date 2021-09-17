@@ -31,10 +31,10 @@ pipeline {
     CONDA_PACKAGES_C = "adam-sensors_c ataos_c atdome_c atdometrajectory_c athexapod_c atmcs_sim_c atpneumatics_sim_c atspectrograph_c dimm_c genericcamera_c love-commander_c love-csc_c love-frontend_c love-manager_c love-manager-static_c love-producer_c dmocps_c dsm_c mthexapod_c mtdome_c mtdometrajectory_c mtm2_sim_c mtmount_c mtrotator_c pmd_c salkafka_c scheduler_c watcher_c weatherstation_c"
   }
   parameters {
-      booleanParam defaultValue: false, description: "Build/push base deployment image.", name: 'deploy_conda'
-      booleanParam defaultValue: false, description: "Build/push lsstsqre deployment image.", name: 'deploy_lsstsqre'
+      booleanParam defaultValue: false, description: "Build/push base deployment image (only run this if you are building revision 0).", name: 'deploy_conda'
+      booleanParam defaultValue: false, description: "Build/push lsstsqre deployment image (only run this if you are building revision 0 or updating the DM stack version).", name: 'deploy_lsstsqre'
       booleanParam defaultValue: false, description: "Build/push all components based on base deployment image.", name: 'base_components'
-      choice(name: 'component', choices: ["ALL", "adam-sensors", "ataos", "atdome", "atdometrajectory", "athexapod", "atmcs_sim", "atpneumatics_sim", "atspectrograph", "dimm", "dmocps", "dsm", "genericcamera", "love-commander", "love-csc", "love-frontend", "love-manager", "love-manager-static", "love-producer", "mthexapod", "mtdome", "mtdometrajectory", "mtm2_sim", "mtmount", "mtrotator", "ospl-daemon", "pmd", "salkafka", "scheduler", "watcher", "weatherstation"], description: "Select one component to build.")
+      choice(name: 'component', choices: ["ALL", "adam-sensors", "ataos", "atdome", "atdometrajectory", "athexapod", "atmcs_sim", "atpneumatics_sim", "atspectrograph", "dimm", "dmocps", "dsm", "genericcamera", "love-commander", "love-csc", "love-frontend", "love-manager", "love-manager-static", "love-producer", "mthexapod", "mtdome", "mtdometrajectory", "mtm2_sim", "mtmount", "mtrotator", "ospl-daemon", "pmd", "salkafka", "scheduler", "watcher", "weatherstation"], description: "Select one component to build. Building all components is only allowed when building revision 0.")
       booleanParam defaultValue: false, description: "Build/push M1M3 simulator image.", name: 'build_m1m3_sim'
       booleanParam defaultValue: false, description: "Build/push pointing component deployment image.", name: 'build_ptg'
       booleanParam defaultValue: false, description: "Build/push MTAOS image.", name: 'build_mtaos'
@@ -50,6 +50,14 @@ pipeline {
           expression { params.deploy_conda }
       }
       steps {
+
+        withEnv(["HOME=${env.WORKSPACE}"]) {
+          sh """
+          export \$(cat cycle/cycle.env | grep rev | sed  's/#.*//g' | xargs)
+          export \$(cat cycle/cycle.env | grep CYCLE | sed  's/#.*//g' | xargs)
+          if [ "\$rev" != ".000" ]; then echo "FAILED: base conda image can only be built when building revision 0."; exit(1); else echo "BUILDING CYCLE \${CYCLE}\${rev}";fi
+          """
+        }
 
         withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
           sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
@@ -105,6 +113,14 @@ pipeline {
         }
       }
       steps {
+
+        withEnv(["HOME=${env.WORKSPACE}"]) {
+          sh """
+          export \$(cat cycle/cycle.env | grep rev | sed  's/#.*//g' | xargs)
+          export \$(cat cycle/cycle.env | grep CYCLE | sed  's/#.*//g' | xargs)
+          if [ "\$rev" != ".000" ]; then echo "FAILED: Building ALL components only allowed when building revision 0."; exit(1); else echo "BUILDING CYCLE \${CYCLE}\${rev}";fi
+          """
+        }
 
         script{
           withEnv(["HOME=${env.WORKSPACE}"]) {
@@ -258,17 +274,40 @@ pipeline {
         script{
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build opensplice-lsstsqre-community
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-community
             """
           }
         }
+
         script {
           docker.withRegistry("", pub_registryCredential) {
             sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-community
             """
           }
         }
+
+        withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+          sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+        }
+
+        script{
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+            sh """
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build opensplice-lsstsqre-licensed
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-licensed
+            """
+          }
+        }
+      
+        script {
+          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+            sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-licensed
+            """
+          }
+        }      
       }
     }
     stage ('Build Sal Sciplat Lab recommended image') {
