@@ -17,6 +17,13 @@ pipeline {
     }
 
     stages {
+        stage("Copy credentials"){
+          steps{
+            withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+              sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+            }
+          }
+        }
         stage("Build/push daily sal-sciplat") {
           steps {
             withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=d_latest", "stack=d_latest"]) {
