@@ -39,8 +39,8 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push pointing component deployment image.", name: 'build_ptg'
       booleanParam defaultValue: false, description: "Build/push MTAOS image.", name: 'build_mtaos'
       booleanParam defaultValue: false, description: "Build/push scriptqueue image.", name: 'build_scriptqueue'
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image?", name: 'build_sciplat'
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image?", name: 'build_sciplat_lab_recommended'
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image? This adds Telescope and Site layer to a lsstsqre/centos image in prepartion for building nublado images.", name: 'build_sciplat'
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image? Adds SQuaRe layer to sal-sciplat to produce a nublado-ready image.", name: 'build_sciplat_lab_recommended'
       booleanParam defaultValue: false, description: "Build/push RubinTV broadcaster.", name: 'rubintv_broadcaster'
   }
 
@@ -265,7 +265,7 @@ pipeline {
         }
       }
     }
-    stage ('Build Sal Sciplat (nublado) recommended image') {
+    stage ('Build Sal Sciplat (pre-nublado) recommended image') {
       when {
           expression { params.build_sciplat }
       }
@@ -310,7 +310,7 @@ pipeline {
         }      
       }
     }
-    stage ('Build Sal Sciplat Lab recommended image') {
+    stage ('Build Sal Sciplat Lab (nublado) recommended image') {
       when {
           expression { params.build_sciplat_lab_recommended }
       }
