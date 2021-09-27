@@ -8,6 +8,63 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 22
+========
+
+* Update versions of:
+  * ddsconfig
+  * xml
+  * sal
+  * idl
+  * salobj
+  * ataos
+  * DM stack version
+  * develop
+  * ATMCSSimulator
+  * atspec
+  * mtrotator
+  * mthexapod
+  * salkafka
+  * scriptqueue
+  * mtmount
+  * m1m3support
+  * mtaos
+  * wep
+  * ofc
+  * phosim
+  * scheduler
+  * mtdome
+  * dsm
+  * dimm
+  * conda_build
+  * OPCS
+  * tcpip
+  * genericcamera
+  * pmd
+  * config_mttcs
+  * config_ocs
+  * config_ocps
+  * love_frontend
+  * love_manager
+  * ts_observatory_control
+  * rubin_sim
+* Add ESS and HVAC CSC build scripts.
+* Add utils version.
+* In ScriptQueue build script, install git-lfs and checkout lfs files when building ts_observatory_control.
+* In the develop-env build script, checkout lfs files when building ts_observatory_control.
+* Add git-lfs to `develop-env/lsstsqre` image.
+* Update version of 
+* Fix athexapod CSC startup script.
+* In `Jenkinsfile.cycle`, update description and stage names for sal-sciplat and sal-sciplat-lab to be more explicit about their meaning.
+* Update m1m3 startup script.
+* Add slack notification on Jenkinsfile.lab.
+* Fix Jenkisfile.lab to pass in docker credentials.
+* Split building/pushing images in jenkinsfile.sciplat lab to deal with docker credentials.
+* In `Jenkinsfile.sciplat` make nexus3 credentials available to build licensed version.
+* Add RUN_ARG to watcher statup script.
+* Update m1m3 simulator build script.
+* Update version of m1m3 and add new dependency cRIOcpp.
+
 Cycle 21 revision 7
 ===================
 

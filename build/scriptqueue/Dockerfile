@@ -5,6 +5,10 @@ ARG hub=lsstts
 
 FROM ${hub}/deploy-sqre:${deploy_tag}
 
+USER root
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash 
+RUN yum install -y git-lfs bzip2
+
 USER ${USER}
 
 WORKDIR  ${SAL_HOME}
@@ -66,6 +70,9 @@ ARG ts_observatory_control
 WORKDIR ${SAL_HOME}/ts_observatory_control
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_observatory_control} && \
+    git lfs install && \
+    git lfs fetch --all && \
+    git lfs checkout && \
     eups declare -r . ts_observatory_control ${ts_observatory_control} -t current && \
     setup ts_config_ocs && \
     setup ts_observatory_control && \
@@ -166,21 +173,21 @@ ENV RUN_ARG="--verbose 1"
 ENV LSST_DDS_DOMAIN=citest
 
 LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
-      ts_config_attcs=${ts_config_attcs} \
-      ts_config_ocs=${ts_config_ocs} \
-      ts_idl=${ts_idl} \
-      ts_atdome=${ts_atdome} \
-      ts_atdometrajectory=${ts_atdometrajectory} \
-      ts_atmcssimulator=${ts_atmcssimulator} \
-      ts_config_attcs=${ts_config_attcs} \
-      cwfs=${cwfs} \
-      Spectractor=${Spectractor} \
-      obs_base=${obs_base} \
-      pipe_tasks=${pipe_tasks} \
-      rapid_analysis=${rapid_analysis} \
-      atmospec=${atmospec} \
-      ts_observing_utilities=${ts_observing_utilities} \
-      ts_observatory_control=${ts_observatory_control} \
-      ts_externalscripts=${ts_externalscripts} \
-      ts_standardscripts=${ts_standardscripts} \
-      ts_scriptqueue=${ts_scriptqueue}
+    ts_config_attcs=${ts_config_attcs} \
+    ts_config_ocs=${ts_config_ocs} \
+    ts_idl=${ts_idl} \
+    ts_atdome=${ts_atdome} \
+    ts_atdometrajectory=${ts_atdometrajectory} \
+    ts_atmcssimulator=${ts_atmcssimulator} \
+    ts_config_attcs=${ts_config_attcs} \
+    cwfs=${cwfs} \
+    Spectractor=${Spectractor} \
+    obs_base=${obs_base} \
+    pipe_tasks=${pipe_tasks} \
+    rapid_analysis=${rapid_analysis} \
+    atmospec=${atmospec} \
+    ts_observing_utilities=${ts_observing_utilities} \
+    ts_observatory_control=${ts_observatory_control} \
+    ts_externalscripts=${ts_externalscripts} \
+    ts_standardscripts=${ts_standardscripts} \
+    ts_scriptqueue=${ts_scriptqueue}

@@ -24,24 +24,24 @@ ARG ts_tcpip="develop"
 RUN source /home/saluser/.setup_salobj.sh && \
     cd ${TSSW_PATH} && \
     gitsrc="ts_scriptqueue:${ts_scriptqueue} \
-            ts_observatory_control:${ts_observatory_control} \
-            ts_standardscripts:${ts_standardscripts} \
-            ts_externalscripts:${ts_externalscripts} \
-            ts_ATMCSSimulator:${ts_ATMCSSimulator} \
-            ts_ATDome:${ts_ATDome} \
-            ts_ATDomeTrajectory:${ts_ATDomeTrajectory} \
-            ts_simactuators:${ts_simactuators} \
-            ts_hexrotcomm:${ts_hexrotcomm} \
-            ts_tcpip:${ts_tcpip}" && \
+    ts_observatory_control:${ts_observatory_control} \
+    ts_standardscripts:${ts_standardscripts} \
+    ts_externalscripts:${ts_externalscripts} \
+    ts_ATMCSSimulator:${ts_ATMCSSimulator} \
+    ts_ATDome:${ts_ATDome} \
+    ts_ATDomeTrajectory:${ts_ATDomeTrajectory} \
+    ts_simactuators:${ts_simactuators} \
+    ts_hexrotcomm:${ts_hexrotcomm} \
+    ts_tcpip:${ts_tcpip}" && \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
-        r=$(echo ${g} | cut -d ':' -f 1) \
-        t=$(echo ${g} | cut -d ':' -f 2) ;\
-        git clone ${rb}/${r}.git ; \
-        cd ${r} ; \
-        /home/saluser/.checkout_repo.sh ${t} ; \
-        eups declare -r . -t current ; \
-        cd .. ; \
+    r=$(echo ${g} | cut -d ':' -f 1) \
+    t=$(echo ${g} | cut -d ':' -f 2) ;\
+    git clone ${rb}/${r}.git ; \
+    cd ${r} ; \
+    /home/saluser/.checkout_repo.sh ${t} ; \
+    eups declare -r . -t current ; \
+    cd .. ; \
     done
 
 WORKDIR /home/saluser/
@@ -91,6 +91,9 @@ WORKDIR /home/saluser/repos/ts_observatory_control
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
+    git lfs install && \
+    git lfs fetch --all && \
+    git lfs checkout && \
     eups declare -r . -t current && \
     setup ts_observatory_control -t current && \
     scons || pytest --color=no --last-failed
@@ -137,15 +140,15 @@ RUN source /home/saluser/.setup_salobj.sh && \
 WORKDIR /home/saluser/
 
 LABEL ts_scriptqueue="${ts_scriptqueue}" \
-      ts_observatory_control="${ts_observatory_control}" \
-      ts_standardscripts="${ts_standardscripts}" \
-      ts_externalscripts="${ts_externalscripts}" \
-      ts_ATMCSSimulator="${ts_ATMCSSimulator}" \
-      ts_ATDome="${ts_ATDome}" \
-      ts_ATDomeTrajectory="${ts_ATDomeTrajectory}" \
-      ts_simactuators="${ts_simactuators}" \
-      ts_hexrotcomm="${ts_hexrotcomm}" \
-      ts_tcpip="${ts_tcpip}"
+    ts_observatory_control="${ts_observatory_control}" \
+    ts_standardscripts="${ts_standardscripts}" \
+    ts_externalscripts="${ts_externalscripts}" \
+    ts_ATMCSSimulator="${ts_ATMCSSimulator}" \
+    ts_ATDome="${ts_ATDome}" \
+    ts_ATDomeTrajectory="${ts_ATDomeTrajectory}" \
+    ts_simactuators="${ts_simactuators}" \
+    ts_hexrotcomm="${ts_hexrotcomm}" \
+    ts_tcpip="${ts_tcpip}"
 
 ENTRYPOINT ["/bin/bash", "--"]
 CMD ["/home/saluser/.setup_dev.sh"]
