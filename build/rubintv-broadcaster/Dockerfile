@@ -23,12 +23,15 @@ RUN if [ $UID -eq 1000 ] && [ $GID -eq 1000 ]; then  \
 
 USER saluser
 
+RUN source ${WORKDIR}/loadLSST.bash && \
+    pip install google-cloud-storage lsst-efd-client
+
 RUN mkdir -p ${SAL_HOME}/repos
 
 WORKDIR ${SAL_HOME}/repos
 
 # Clone all repos
-RUN git clone https://github.com/lsst-dm/Spectractor.git && \
+RUN git clone https://github.com/lsst/Spectractor.git && \
     git clone https://github.com/lsst-dm/atmospec.git && \
     git clone https://github.com/lsst-sitcom/rapid_analysis.git
 
@@ -79,4 +82,7 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
 
 USER saluser
 
-WORKDIR ${SAL_HOME}/repos/rapid_analysis/lsst/rapid_analysis/scripts
+WORKDIR ${SAL_HOME}/repos/rapid_analysis/scripts
+
+ENTRYPOINT ["/bin/bash", "--"]
+CMD ["/home/saluser/.startup.sh"]
