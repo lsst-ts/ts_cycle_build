@@ -8,6 +8,27 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 22 revision 1
+===================
+
+*Update version of the following packages:
+  * ts_hexrotcomm
+  * ts_mtrotator
+  * ts_mtmount
+  * ts_ess_csc
+  * ts_standardscripts
+  * ts_externalscripts
+  * ts_ataos
+  * ts_mtaos
+  * Spectractor
+  * rapid_analysis
+* Add git-lfs to conda_builder image.
+* Fix lsstsqre gphoto build step.
+* Fix rubintv-broadcaster Dockerfile:
+  * Add ENTRYPOINT/CMD sections
+  * Update Spectractor GitHub URL
+  * Install missing packages
+
 Cycle 22
 ========
 
