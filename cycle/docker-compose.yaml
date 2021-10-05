@@ -225,7 +225,8 @@ x-ptg: &base-ptg
 
 x-base-rubintv-broadcaster: &base-rubintv-broadcaster
   build:
-    context: ../build/rubintv-broadcaster
+    context: ../build/
+    dockerfile: ./rubintv-broadcaster/Dockerfile
     labels:
       com.description: "RubinTV broadcaster image for cycle/revision ${CYCLE}${rev}."
     args:

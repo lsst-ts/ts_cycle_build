@@ -21,6 +21,11 @@ RUN if [ $UID -eq 1000 ] && [ $GID -eq 1000 ]; then  \
     adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser ; \
     fi
 
+COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
+
+RUN chown saluser:saluser /home/saluser/.checkout_repo.sh && \
+    chmod a+x /home/saluser/.checkout_repo.sh
+
 USER saluser
 
 RUN source ${WORKDIR}/loadLSST.bash && \
@@ -40,9 +45,7 @@ WORKDIR ${SAL_HOME}/repos/Spectractor
 ARG spectractor_work_branch
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    git fetch --all && \
-    git reset --hard origin/${spectractor_work_branch} && \
-    git pull && \
+    /home/saluser/.checkout_repo.sh ${spectractor_work_branch} && \
     pip install -r requirements.txt && \
     pip install -e .
 
@@ -51,20 +54,18 @@ WORKDIR ${SAL_HOME}/repos/atmospec
 ARG atmospec_work_branch
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    git fetch --all && \
-    git reset --hard origin/${atmospec_work_branch} && \
+    /home/saluser/.checkout_repo.sh ${atmospec_work_branch} && \
     eups declare -r . -t current && \
     setup lsst_distrib && \
     setup atmospec -j -t current && \
-    scons opt=3 -j 4
+    scons opt=3
 
 WORKDIR ${SAL_HOME}/repos/rapid_analysis
 
 ARG rapid_analysis_work_branch
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    git fetch --all && \
-    git reset --hard origin/${rapid_analysis_work_branch} && \
+    /home/saluser/.checkout_repo.sh ${rapid_analysis_work_branch} && \
     eups declare -r . -t current && \
     setup lsst_distrib && \
     setup atmospec -j -t current && \
@@ -73,7 +74,7 @@ RUN source ${WORKDIR}/loadLSST.bash && \
 
 ENV RUN_ARG="-v"
 
-COPY startup.sh /home/saluser/.startup.sh
+COPY rubintv-broadcaster/startup.sh /home/saluser/.startup.sh
 
 USER root
 
