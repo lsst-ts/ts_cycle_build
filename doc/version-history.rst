@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 22 revision 2
+===================
+
+* Update version of the following packages:
+  * lsstsqre
+  * ts_scheduler
+  * rubin_sim
+  * ts_config_ocs
+* Change scheduler build to make it more reusable.
+* Add environment variable to point scheduler to full sky brightness data.
+* Updates for rubintv-broadcaster.
+
 Cycle 22 revision 1
 ===================
 
