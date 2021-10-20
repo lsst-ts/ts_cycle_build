@@ -296,11 +296,9 @@ x-test: &base-test
     context: ../build/test
     labels:
       com.description: "Test CSC for cycle/revision ${CYCLE}${rev}."
-      deploy_env: ${deploy_env}
-      deploy_tag: ${CYCLE}
     args:
-      deploy_env: ${hub}/${deploy_env}
-      deploy_tag: ${CYCLE}
+      hub: ${hub}
+      cycle: ${CYCLE}
 
 x-watcher: &base-watcher
   build:
