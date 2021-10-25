@@ -8,6 +8,15 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 22 revision 3
+===================
+
+* Update version of the following packages:
+  * ts_externalscripts
+  * ts_standardscripts
+* Update test CSC container.
+* Update develop environment setup script to setup PKG_CONFIG_PATH.
+
 Cycle 22 revision 2
 ===================
 
