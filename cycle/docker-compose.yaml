@@ -435,6 +435,16 @@ x-pmd: &base-pmd
   devices:
     - /dev/ttyUSB0:/dev/ttyUSB0
 
+x-integrationtests: &base-integrationtests
+  build:
+    context: ../build/integrationtests
+    labels:
+      com.description: "Integration tests for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      integrationtests: ${ts_integrationtests}
+
 x-ess: &base-ess
   build:
     context: ../build/ess
@@ -1092,6 +1102,14 @@ services:
   pmd_c:
     image: ${hub}/pmd:${CYCLE}
     <<: *base-pmd
+
+  integrationtests:
+    image: ${hub}/integrationtests:${CYCLE}${rev}
+    <<: *base-integrationtests
+
+  integrationtests_c:
+    image: ${hub}/integrationtests:${CYCLE}
+    <<: *base-integrationtests
 
   ess:
     image: ${hub}/ess:${CYCLE}${rev}
