@@ -8,6 +8,11 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 22 revision 4
+===================
+
+* Add integrationtests build scripts.
+
 Cycle 22 revision 3
 ===================
 
