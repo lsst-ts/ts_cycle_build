@@ -98,6 +98,10 @@ COPY ptg/at_20210817_fauto_corr_full.mod /home/saluser/repos/ts_pointing_common/
 COPY ptg/at_20210817_fauto_corr.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/at_20210817_ia_ie_ca_an_aw_tf_corr_full.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/at_20210817_ia_ie_ca_an_aw_tf_corr_outlier_rej.mod /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/AT_point_data_20210906_tw004_fauto.mod /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/AT_point_data_20210906_tw004_ia_ie_ca_an_aw_tf.mod /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/AT_point_data_20210906_tw004_corr_fauto.mod /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/AT_point_data_20210906_tw004_corr_ia_ie_ca_an_aw_tf.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/startup.sh /home/saluser/.startup.sh
 
 USER root
