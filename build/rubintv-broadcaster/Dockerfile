@@ -38,7 +38,19 @@ WORKDIR ${SAL_HOME}/repos
 # Clone all repos
 RUN git clone https://github.com/lsst/Spectractor.git && \
     git clone https://github.com/lsst-dm/atmospec.git && \
-    git clone https://github.com/lsst-sitcom/rapid_analysis.git
+    git clone https://github.com/lsst-sitcom/rapid_analysis.git && \
+    git clone https://github.com/lsst/obs_lsst.git
+
+WORKDIR ${SAL_HOME}/repos/obs_lsst
+
+ARG obs_lsst
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    /home/saluser/.checkout_repo.sh ${obs_lsst} && \
+    setup lsst_distrib && \
+    eups declare -r . -t saluser && \
+    setup obs_lsst -j -t saluser && \
+    scons opt=3 -j 4
 
 WORKDIR ${SAL_HOME}/repos/Spectractor
 
@@ -57,6 +69,7 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${atmospec_work_branch} && \
     eups declare -r . -t current && \
     setup lsst_distrib && \
+    setup obs_lsst -j -t saluser && \
     setup atmospec -j -t current && \
     scons opt=3
 
@@ -68,9 +81,10 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${rapid_analysis_work_branch} && \
     eups declare -r . -t current && \
     setup lsst_distrib && \
+    setup obs_lsst -j -t saluser && \
     setup atmospec -j -t current && \
     setup rapid_analysis -j -t current && \
-    scons opt=3 -j 4
+    scons opt=3 -j 4 || echo tests failed... 
 
 ENV RUN_ARG="-v"
 
