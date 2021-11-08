@@ -17,7 +17,7 @@ pipeline {
         booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment build?', name: 'BuildDevEnv'
     }
     stages {
-        stage("Build cycle") {
+        stage("Build cycle - community") {
             when {
                 expression { return params.build_cycle }
             }
@@ -33,7 +33,7 @@ pipeline {
               }
             }
         }
-        stage("Push cycle docker image") {
+        stage("Push cycle docker image - community") {
             when {
                 expression { return params.build_cycle }
             }
@@ -47,7 +47,38 @@ pipeline {
               }
             }
         }
-        stage("Build Docker image") {
+        stage("Build cycle - private") {
+            when {
+                expression { return params.build_cycle }
+            }
+            steps {
+              withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+              }
+
+              withEnv(["HOME=${env.WORKSPACE}"]) {
+                sh """
+                  docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre-private
+                """
+              }
+            }
+        }
+        stage("Push cycle docker image - private") {
+            when {
+                expression { return params.build_cycle }
+            }
+            steps {
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-private
+                  """
+                }
+              }
+            }
+        }
+
+        stage("Build Docker image - community") {
             steps {
 
               withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
@@ -62,13 +93,40 @@ pipeline {
               }
             }
         }
-        stage("Push Docker image") {
+        stage("Push Docker image - community") {
             steps {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre-community
                     docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml push base-sqre-community
+                  """
+                }
+              }
+            }
+        }
+        stage("Build Docker image - private") {
+            steps {
+
+              withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+              }
+
+              withEnv(["HOME=${env.WORKSPACE}"]) {
+                sh """
+                  docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre-private
+                  docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml build --pull base-sqre-private
+                """
+              }
+            }
+        }
+        stage("Push Docker image - private") {
+            steps {
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
+                    docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre-private
+                    docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml push base-sqre-private
                   """
                 }
               }
