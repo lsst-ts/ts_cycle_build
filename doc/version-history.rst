@@ -8,6 +8,23 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 22 revision 5
+===================
+
+* Update version of the following packages:
+  * ts_pointing_common
+  * ts_scheduler
+  * ts_integrationtests
+  * rapid_analysis
+  * obs_lsst (new)
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+  * rubin_sim
+* Update rubintv-broadcaster to include local version of obs_lsst.
+* Update pointing component configuration, and pointing model.
+* Update Scheduler build to install lsst-efd-client.
+
 Cycle 22 revision 4
 ===================
 
