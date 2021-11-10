@@ -22,7 +22,7 @@ RUN if [ $UID -eq 1000 ] && [ $GID -eq 1000 ]; then  \
     usermod -a -G lsst saluser ; \
     fi
 
-RUN curl -sL https://rpm.nodesource.com/setup_10.x | bash - && \
+RUN curl -sL https://rpm.nodesource.com/setup_current.x | bash - && \
     yum install -y nodejs && node --version
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
