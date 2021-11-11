@@ -29,15 +29,19 @@ pipeline {
             }
           }
         }
-        stage("Build/push master") {
+        stage("Build/push master - community") {
           when {
               expression { return params.build_master }
           }
             steps {
               withEnv(["HOME=${env.WORKSPACE}"]) {
-                sh """
-                  docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml build --pull salobj-community
-                """
+                script {
+                  docker.withRegistry("", registryCredential) {
+                    sh """
+                      docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml build --pull salobj-community
+                    """
+                  }
+                }
               }
               script {
                 docker.withRegistry("", registryCredential) {
@@ -48,15 +52,19 @@ pipeline {
               }
             }
         }
-        stage("Build/push develop") {
+        stage("Build/push develop - community") {
           when {
               expression { return params.build_develop }
           }
             steps {
               withEnv(["HOME=${env.WORKSPACE}"]) {
-                sh """
-                  docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull salobj-community
-                """
+                script {
+                  docker.withRegistry("", registryCredential) {
+                    sh """
+                      docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull salobj-community
+                    """
+                  }
+                }
               }
               script {
                 docker.withRegistry("", registryCredential) {
@@ -67,20 +75,93 @@ pipeline {
               }
             }
         }
-        stage("Build/push cycle") {
+        stage("Build/push cycle - community") {
           when {
               expression { return params.build_cycle }
           }
             steps {
               withEnv(["HOME=${env.WORKSPACE}"]) {
-                sh """
-                  docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull salobj-community
-                """
+                script {
+                  docker.withRegistry("", registryCredential) {
+                    sh """
+                      docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull salobj-community
+                    """
+                  }
+                }
               }
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj-community
+                  """
+                }
+              }
+            }
+        }
+        stage("Build/push master - private") {
+          when {
+              expression { return params.build_master }
+          }
+            steps {
+              withEnv(["HOME=${env.WORKSPACE}"]) {
+                script {
+                  docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                    sh """
+                      docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml build --pull salobj-private
+                    """
+                  }
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
+                    docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml push salobj-private
+                  """
+                }
+              }
+            }
+        }
+        stage("Build/push develop - private") {
+          when {
+              expression { return params.build_develop }
+          }
+            steps {
+              withEnv(["HOME=${env.WORKSPACE}"]) {
+                script {
+                  docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                    sh """
+                      docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull salobj-private
+                    """
+                  }
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
+                    docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push salobj-private
+                  """
+                }
+              }
+            }
+        }
+        stage("Build/push cycle - private") {
+          when {
+              expression { return params.build_cycle }
+          }
+            steps {
+              withEnv(["HOME=${env.WORKSPACE}"]) {
+                script {
+                  docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                    sh """
+                      docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull salobj-private
+                    """
+                  }
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
+                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj-private
                   """
                 }
               }

@@ -8,6 +8,15 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 22 revision 6
+===================
+
+* Fix entry in cycle.env for `MTDomeTrajectory`.
+* Update develop-env/lsstsqre image to install "current" version of node.
+* Update Jenkins build scripts to build the licensed version of develop-env.
+* Cycle 22 revision 6. Update version of the following packages:
+  * love-frontend.
+
 Cycle 22 revision 5
 ===================
 
