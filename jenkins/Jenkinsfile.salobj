@@ -215,6 +215,14 @@ pipeline {
                     booleanParam(name: 'push_tag', value: false)], wait: false
             }
         }
+        stage('Trigger the SAL Multi-Language tests job') {
+            when {
+                expression { return params.build_develop }
+            }
+            steps {
+                build wait: false, job: 'LSST_Telescope-and-Site/ts_SalMultiLanguageTests/master', parameters: [string(name: 'image_version', value: 'develop')]
+            }
+        }//TriggerSALMulti
     }
     post {
         always {
