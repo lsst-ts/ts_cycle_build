@@ -236,13 +236,16 @@ The steps in the build are as follows:
     - dimm
     - dmocps
     - dsm
+    - ess
     - genericcamera
+    - hvac
     - love-commander
     - love-csc
     - love-frontend
     - love-manager
     - love-manager-static
     - love-producer
+    - m1m3_sim
     - mthexapod
     - mtdome
     - mtdometrajectory
