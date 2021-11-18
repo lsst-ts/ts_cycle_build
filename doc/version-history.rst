@@ -8,6 +8,44 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 23
+========
+
+* Update versions of:
+  * xml
+  * sal
+  * idl
+  * salobj
+  * hexrotcomm
+  * simactuators
+  * ATPneumaticsSimulator
+  * mtrotator
+  * mthexapod
+  * salkafka
+  * observatory_control
+  * scriptqueue
+  * ataos
+  * m2
+  * mtmount
+  * mtaos
+  * wep
+  * phosim
+  * watcher
+  * scheduler
+  * mtdome
+  * mtdometrajectory
+  * ess_common
+  * ess_csc
+  * tcpip
+  * hvac
+  * utils
+  * config_latiss
+  * config_mttcs
+  * config_ocs
+* Updated Jenkinsfile.cycle to work on newer versions of bash.
+* Updated the recipe for building python-gphoto2.
+* Updated the user guide to contain a more complete list of base components.
+
 Cycle 22 revision 6
 ===================
 
@@ -126,7 +164,7 @@ Cycle 22
 * In ScriptQueue build script, install git-lfs and checkout lfs files when building ts_observatory_control.
 * In the develop-env build script, checkout lfs files when building ts_observatory_control.
 * Add git-lfs to `develop-env/lsstsqre` image.
-* Update version of 
+* Update version of
 * Fix athexapod CSC startup script.
 * In `Jenkinsfile.cycle`, update description and stage names for sal-sciplat and sal-sciplat-lab to be more explicit about their meaning.
 * Update m1m3 startup script.

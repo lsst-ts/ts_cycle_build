@@ -55,7 +55,7 @@ pipeline {
           sh """
           export \$(cat cycle/cycle.env | grep rev | sed  's/#.*//g' | xargs)
           export \$(cat cycle/cycle.env | grep CYCLE | sed  's/#.*//g' | xargs)
-          if [ "\$rev" != ".000" ]; then echo "FAILED: base conda image can only be built when building revision 0."; exit(1); else echo "BUILDING CYCLE \${CYCLE}\${rev}";fi
+          if [ "\$rev" != ".000" ]; then echo "FAILED: base conda image can only be built when building revision 0."; exit 1; else echo "BUILDING CYCLE \${CYCLE}\${rev}";fi
           """
         }
 
@@ -118,7 +118,7 @@ pipeline {
           sh """
           export \$(cat cycle/cycle.env | grep rev | sed  's/#.*//g' | xargs)
           export \$(cat cycle/cycle.env | grep CYCLE | sed  's/#.*//g' | xargs)
-          if [ "\$rev" != ".000" ]; then echo "FAILED: Building ALL components only allowed when building revision 0."; exit(1); else echo "BUILDING CYCLE \${CYCLE}\${rev}";fi
+          if [ "\$rev" != ".000" ]; then echo "FAILED: Building ALL components only allowed when building revision 0."; exit 1 ; else echo "BUILDING CYCLE \${CYCLE}\${rev}";fi
           """
         }
 
@@ -300,14 +300,14 @@ pipeline {
             """
           }
         }
-      
+
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-licensed
             """
           }
-        }      
+        }
       }
     }
     stage ('Build Sal Sciplat Lab (nublado) recommended image') {

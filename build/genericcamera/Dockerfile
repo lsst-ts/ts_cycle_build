@@ -76,9 +76,9 @@ WORKDIR /tmp
 RUN source /home/saluser/.setup_sal_env.sh && \
     git clone https://github.com/jim-easterbrook/python-gphoto2.git && \
     cd python-gphoto2 && \
-    python developer/build_swig.py && \
-    python setup.py build && \
-    python setup.py install
+    python3 developer/build_swig.py system && \
+    pip3 wheel . -v && \
+    pip3 install gphoto2-*.whl
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts ts-genericcamera=${genericcamera}
