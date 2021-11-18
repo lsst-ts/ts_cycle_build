@@ -8,6 +8,13 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 22 revision 7
+===================
+
+* Update version of mtm2.
+* Added a stage to Jenkinsfile.salobj to trigger the SAL Multi-Language integration tests. 
+  The tests build off the private version of the SalObj Docker image.
+
 Cycle 22 revision 6
 ===================
 
