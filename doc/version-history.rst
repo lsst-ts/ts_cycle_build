@@ -42,6 +42,7 @@ Cycle 23
   * config_latiss
   * config_mttcs
   * config_ocs
+  * electrometer
 * Updated Jenkinsfile.cycle to work on newer versions of bash.
 * Updated the recipe for building python-gphoto2.
 * Updated the user guide to contain a more complete list of base components.
