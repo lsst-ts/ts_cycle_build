@@ -97,11 +97,11 @@ To deal with this process in a more comprehensive way, this repository uses a di
   - For the cycle build we adopt ``master`` as the main branch, and also the branch that tracks what is running in the production environment.
 
   - To start a new cycle, users must create a new branch that, initially, tracks the ``master`` branch.
-    The branch name must be named ``cycle/####``.
+    The branch must be named ``cycle/####``.
     For instance, when starting cycle 21, users will create a branch ``cycle/0021`` that tracks ``master`` at the time.
 
   - This branch should not receive any direct commits.
-    Instead, users should create a "ticket branch", with the name of the ticket they are working on.
+    Instead, users should create "ticket branches", with the name of the ticket they are working on.
     Note that the repository is setup so all ``cycle/*`` branches are automatically protected against direct commits.
 
     For instance, if the ticket you created to track the work to build cycle 21 is ``DM-12345``, you will create a ``tickets/DM-12345`` branch, based on the ``cycle/0021`` branch, to work with.
@@ -118,8 +118,12 @@ To deal with this process in a more comprehensive way, this repository uses a di
 
   - If new revisions to the new cycle are needed, before the new cycle is officially released, ticket branches out of the new cycle branch should be created (e.g. ``cycle/0021``) and PRs must be opened and merged **back to the cycle branch**.
 
-  - Once the new cycle is deployed at the summit, a PR should be opened to merge the cycle branch back to master.
-    Once the PR is merged, the master branch receives a tag with the cycle and revision number (``cycle.revision``, e.g. ``c0021.000``).
+  - Once the new cycle is deployed at the summit and certified, a PR should be opened to merge the cycle branch back to master.
+    The procedure is as follows:
+      - Create a new branch out of the new cycle branch (e.g. ``cycle/0021``) pre-pending ``release/`` to the name (e.g. ``release/cycle/0021``).
+        Rebase the ``release`` branch to ``master`` and open a PR to merge the ``release`` branch to master.
+        The ``cycle`` branch will remain unchanged for historical purposes.
+    - Once the PR is merged, the master branch receives a tag with the cycle and revision number (``cycle.revision``, e.g. ``c0021.000``).
 
   - From this point on, new PRs will be made directly to ``master``, until a new cycle is created.
 
