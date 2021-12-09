@@ -281,6 +281,7 @@ x-scriptqueue: &base-scriptqueue
       pipe_tasks: ${pipe_tasks}
       rapid_analysis: ${rapid_analysis}
       atmospec: ${atmospec}
+      ts_utils: ${ts_utils}
       ts_observing_utilities: ${ts_observing_utilities}
       ts_observatory_control: ${ts_observatory_control}
       ts_externalscripts: ${ts_externalscripts}

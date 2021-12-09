@@ -43,13 +43,16 @@ WORKDIR ${WORKDIR}
 
 USER lsst
 
+ARG ts_utils
 ARG ts_atdome
 ARG ts_atdometrajectory
 ARG ts_atmcssimulator
 
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     conda install -y asynctest pytest-tornasync astroquery black && \
-    conda install -y -c lsstts ts-atdome=${ts_atdome} ts-atdometrajectory=${ts_atdometrajectory} ts-atmcs-simulator=${ts_atmcssimulator} && \
+    conda install -y -c lsstts ts-atdome=${ts_atdome} ts-atdometrajectory=${ts_atdometrajectory} ts-atmcs-simulator=${ts_atmcssimulator} ts-utils=${ts_utils} && \
+    utils_path=$(python -c 'from lsst.ts import utils; import pathlib; print(pathlib.Path(utils.__file__).parents[0])') && \
+    eups declare -m none -r ${utils_path} ts_utils ${ts_utils} && \
     atdome_path=$(python -c 'from lsst.ts import ATDome; import pathlib; print(pathlib.Path(ATDome.__file__).parents[0])') && \
     eups declare -m none -r ${atdome_path} ts_ATDome ${ts_atdome} && \
     atdometrajectory_path=$(python -c 'from lsst.ts import ATDomeTrajectory; import pathlib; print(pathlib.Path(ATDomeTrajectory.__file__).parents[0])') && \
@@ -176,6 +179,7 @@ LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
     ts_config_attcs=${ts_config_attcs} \
     ts_config_ocs=${ts_config_ocs} \
     ts_idl=${ts_idl} \
+    ts_utils=${ts_utils} \
     ts_atdome=${ts_atdome} \
     ts_atdometrajectory=${ts_atdometrajectory} \
     ts_atmcssimulator=${ts_atmcssimulator} \
