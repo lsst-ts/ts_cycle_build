@@ -281,6 +281,7 @@ x-scriptqueue: &base-scriptqueue
       pipe_tasks: ${pipe_tasks}
       rapid_analysis: ${rapid_analysis}
       atmospec: ${atmospec}
+      ts_utils: ${ts_utils}
       ts_observing_utilities: ${ts_observing_utilities}
       ts_observatory_control: ${ts_observatory_control}
       ts_externalscripts: ${ts_externalscripts}
@@ -469,6 +470,16 @@ x-hvac: &base-hvac
       hvac: ${ts_hvac}
       config: ${ts_config_ocs}
 
+x-electrometer: &base-electrometer
+  build:
+    context: ../build/electrometer
+    labels:
+      com.description: "Electrometer component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      electrometer: ${ts_electrometer}
+      config: ${ts_config_ocs}
 
 
 version: "3.7"
@@ -1128,3 +1139,10 @@ services:
     image: ${hub}/hvac:${CYCLE}
     <<: *base-hvac
 
+  electrometer:
+    image: ${hub}/electrometer:${CYCLE}${rev}
+    <<: *base-electrometer
+
+  electrometer_c:
+    image: ${hub}/electrometer:${CYCLE}
+    <<: *base-electrometer

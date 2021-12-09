@@ -22,8 +22,9 @@ WORKDIR /home/saluser/
 ENV TS_CONFIG_MTTCS_DIR=/home/saluser/ts_config_mttcs
 
 LABEL ts_m2=${m2} \
-      ts_config_mttcs=${config}
+    ts_config_mttcs=${config}
 
+ENV RUN_ARG=""
 COPY startup.sh /home/saluser/.startup.sh
 USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
