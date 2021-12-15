@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 23 revision 1
+===================
+
+* Update versions of:
+  * ts_mtrotator
+  * ts_mthexapod
+  * ts_observatory_control
+  * ts_m2
+  * ts_mtmount
+  * ts_ess_common
+  * ts_ess_csc
+  * obs_lsst
+  * ts_config_mttcs
+  * ts_config_ocs
+* Update MTAOS build to use custom obs_lsst branch.
+
 Cycle 23
 ========
 
