@@ -1,4 +1,5 @@
-x-lsst_sims: &base-lsst_sims
+x-lsst_sims:
+  &base-lsst_sims
   build:
     context: ../build/lsst_sims
     labels:
@@ -8,7 +9,8 @@ x-lsst_sims: &base-lsst_sims
       base_image_tag: ${CYCLE}
       lsst_sims: ${lsst_sims}
 
-x-adam-sensors: &base-adam-sensors
+x-adam-sensors:
+  &base-adam-sensors
   build:
     context: ../build/adam-sensors
     labels:
@@ -19,7 +21,8 @@ x-adam-sensors: &base-adam-sensors
       ts_adamSensors: ${ts_adamSensors}
       config: ${ts_config_eas}
 
-x-dimm: &base-dimm
+x-dimm:
+  &base-dimm
   build:
     context: ../build/dimm
     labels:
@@ -30,7 +33,8 @@ x-dimm: &base-dimm
       dimm: ${ts_dimm}
       config: ${ts_config_ocs}
 
-x-dsm: &base-dsm
+x-dsm:
+  &base-dsm
   build:
     context: ../build/dsm
     labels:
@@ -40,7 +44,8 @@ x-dsm: &base-dsm
       cycle: ${CYCLE}
       dsm: ${ts_dsm}
 
-x-love-commander: &base-love-commander
+x-love-commander:
+  &base-love-commander
   build:
     context: ../build/love/commander
     labels:
@@ -50,7 +55,8 @@ x-love-commander: &base-love-commander
       cycle: ${CYCLE}
       love_commander: ${love_commander}
 
-x-love-frontend: &base-love-frontend
+x-love-frontend:
+  &base-love-frontend
   build:
     context: ../build/love/frontend
     labels:
@@ -58,7 +64,8 @@ x-love-frontend: &base-love-frontend
     args:
       love_frontend: ${love_frontend}
 
-x-love-manager: &base-love-manager
+x-love-manager:
+  &base-love-manager
   build:
     context: ../build/love/manager
     labels:
@@ -66,7 +73,8 @@ x-love-manager: &base-love-manager
     args:
       love_manager: ${love_manager}
 
-x-love-manager-static: &base-love-manager-static
+x-love-manager-static:
+  &base-love-manager-static
   build:
     context: ../build/love/manager-static
     labels:
@@ -74,7 +82,8 @@ x-love-manager-static: &base-love-manager-static
     args:
       love_manager: ${love_manager}
 
-x-love-producer: &base-love-producer
+x-love-producer:
+  &base-love-producer
   build:
     context: ../build/love/producer
     labels:
@@ -84,7 +93,8 @@ x-love-producer: &base-love-producer
       cycle: ${CYCLE}
       love_producer: ${love_producer}
 
-x-love-csc: &base-love-csc
+x-love-csc:
+  &base-love-csc
   build:
     context: ../build/love/csc
     labels:
@@ -94,7 +104,8 @@ x-love-csc: &base-love-csc
       cycle: ${CYCLE}
       love_producer: ${love_producer}
 
-x-mtaos: &base-mtaos
+x-mtaos:
+  &base-mtaos
   build:
     context: ../build/
     dockerfile: ./mtaos/Dockerfile
@@ -104,13 +115,15 @@ x-mtaos: &base-mtaos
       hub: ${hub}
       cycle: ${CYCLE}
       ts_conda_build: ${ts_conda_build}
+      obs_lsst: ${obs_lsst}
       phosim_utils: ${phosim_utils}
       ts_wep: ${ts_wep}
       ts_ofc: ${ts_ofc}
       mtaos: ${ts_mtaos}
       ts_config_mttcs: ${ts_config_mttcs}
 
-x-mtdome: &base-mtdome
+x-mtdome:
+  &base-mtdome
   build:
     context: ../build/mtdome
     labels:
@@ -121,7 +134,8 @@ x-mtdome: &base-mtdome
       mtdome: ${ts_mtdome}
       config: ${ts_config_mttcs}
 
-x-mtdometrajectory: &base-mtdometrajectory
+x-mtdometrajectory:
+  &base-mtdometrajectory
   build:
     context: ../build/mtdometrajectory
     labels:
@@ -132,7 +146,8 @@ x-mtdometrajectory: &base-mtdometrajectory
       mtdometrajectory: ${ts_mtdometrajectory}
       config: ${ts_config_mttcs}
 
-x-mthexapod: &base-mthexapod
+x-mthexapod:
+  &base-mthexapod
   build:
     context: ../build/mthexapod
     labels:
@@ -145,7 +160,8 @@ x-mthexapod: &base-mthexapod
       tcpip: ${ts_tcpip}
       config: ${ts_config_mttcs}
 
-x-mtm1m3_sim: &base-mtm1m3_sim
+x-mtm1m3_sim:
+  &base-mtm1m3_sim
   build:
     context: ../build/
     dockerfile: ./mtm1m3_sim/Dockerfile
@@ -162,7 +178,8 @@ x-mtm1m3_sim: &base-mtm1m3_sim
       m1m3: ${ts_m1m3support}
       crio_cpp: ${ts_cRIOcpp}
 
-x-mtm2_sim: &base-mtm2_sim
+x-mtm2_sim:
+  &base-mtm2_sim
   build:
     context: ../build/mtm2_sim
     labels:
@@ -173,7 +190,8 @@ x-mtm2_sim: &base-mtm2_sim
       m2: ${ts_m2}
       config: v${ts_config_mttcs}
 
-x-mtmount: &base-mtmount
+x-mtmount:
+  &base-mtmount
   build:
     context: ../build/mtmount
     labels:
@@ -185,7 +203,8 @@ x-mtmount: &base-mtmount
       tcpip: ${ts_tcpip}
       config: v${ts_config_mttcs}
 
-x-mtrotator: &base-mtrotator
+x-mtrotator:
+  &base-mtrotator
   build:
     context: ../build/mtrotator
     labels:
@@ -198,7 +217,8 @@ x-mtrotator: &base-mtrotator
       tcpip: ${ts_tcpip}
       config: ${ts_config_mttcs}
 
-x-ospl-daemon: &base-ospl-daemon
+x-ospl-daemon:
+  &base-ospl-daemon
   build:
     context: ../build/ospl-daemon
     labels:
@@ -209,7 +229,8 @@ x-ospl-daemon: &base-ospl-daemon
       deploy_env: ${hub}/${deploy_env}
       deploy_tag: ${CYCLE}
 
-x-ptg: &base-ptg
+x-ptg:
+  &base-ptg
   build:
     context: ../build/
     dockerfile: ./ptg/Dockerfile
@@ -223,7 +244,8 @@ x-ptg: &base-ptg
       rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
       ptg: ${ts_pointing_common}
 
-x-base-rubintv-broadcaster: &base-rubintv-broadcaster
+x-base-rubintv-broadcaster:
+  &base-rubintv-broadcaster
   build:
     context: ../build/
     dockerfile: ./rubintv-broadcaster/Dockerfile
@@ -236,7 +258,8 @@ x-base-rubintv-broadcaster: &base-rubintv-broadcaster
       rapid_analysis_work_branch: ${rapid_analysis}
       obs_lsst: ${obs_lsst}
 
-x-salkafka: &base-salkafka
+x-salkafka:
+  &base-salkafka
   build:
     context: ../build/salkafka
     labels:
@@ -249,7 +272,8 @@ x-salkafka: &base-salkafka
       deploy_tag: ${CYCLE}
       salkafka: ${ts_salkafka}
 
-x-scheduler: &base-scheduler
+x-scheduler:
+  &base-scheduler
   build:
     context: ../build/scheduler
     labels:
@@ -264,7 +288,8 @@ x-scheduler: &base-scheduler
       ts_dateloc: ${ts_dateloc}
       rubin_sim: ${rubin_sim}
 
-x-scriptqueue: &base-scriptqueue
+x-scriptqueue:
+  &base-scriptqueue
   build:
     context: ../build/
     dockerfile: ./scriptqueue/Dockerfile
@@ -293,7 +318,8 @@ x-scriptqueue: &base-scriptqueue
       ts_atmcssimulator: ${ts_ATMCSSimulator}
       ts_conda_build: ${ts_conda_build}
 
-x-test: &base-test
+x-test:
+  &base-test
   build:
     context: ../build/test
     labels:
@@ -302,7 +328,8 @@ x-test: &base-test
       hub: ${hub}
       cycle: ${CYCLE}
 
-x-watcher: &base-watcher
+x-watcher:
+  &base-watcher
   build:
     context: ../build/watcher
     labels:
@@ -313,7 +340,8 @@ x-watcher: &base-watcher
       config_ocs: ${ts_config_ocs}
       watcher: ${ts_watcher}
 
-x-weatherstation: &base-weatherstation
+x-weatherstation:
+  &base-weatherstation
   build:
     context: ../build/weatherstation
     labels:
@@ -324,7 +352,8 @@ x-weatherstation: &base-weatherstation
       config: ${ts_config_ocs}
       weatherstation: ${ts_weatherstation}
 
-x-atmcs_sim: &base-atmcs_sim
+x-atmcs_sim:
+  &base-atmcs_sim
   build:
     context: ../build/atmcs_sim
     labels:
@@ -334,7 +363,8 @@ x-atmcs_sim: &base-atmcs_sim
       hub: ${hub}
       atmcs: ${ts_ATMCSSimulator}
 
-x-atdome: &base-atdome
+x-atdome:
+  &base-atdome
   build:
     context: ../build/atdome
     labels:
@@ -345,7 +375,8 @@ x-atdome: &base-atdome
       atdome: ${ts_ATDome}
       config: ${ts_config_attcs}
 
-x-atdometrajectory: &base-atdometrajectory
+x-atdometrajectory:
+  &base-atdometrajectory
   build:
     context: ../build/atdometrajectory
     labels:
@@ -356,7 +387,8 @@ x-atdometrajectory: &base-atdometrajectory
       atdometrajectory: ${ts_ATDomeTrajectory}
       config: ${ts_config_attcs}
 
-x-atpneumatics_sim: &base-atpneumatics_sim
+x-atpneumatics_sim:
+  &base-atpneumatics_sim
   build:
     context: ../build/atpneumatics_sim
     labels:
@@ -366,7 +398,8 @@ x-atpneumatics_sim: &base-atpneumatics_sim
       hub: ${hub}
       atpneumatics_sim: ${ts_ATPneumaticsSimulator}
 
-x-ataos: &base-ataos
+x-ataos:
+  &base-ataos
   build:
     context: ../build/ataos
     dockerfile: ./Dockerfile.conda
@@ -379,7 +412,8 @@ x-ataos: &base-ataos
       config: ${ts_config_attcs}
       ts_observatory_control: ${ts_observatory_control}
 
-x-athexapod: &base-athexapod
+x-athexapod:
+  &base-athexapod
   build:
     context: ../build/athexapod
     labels:
@@ -390,7 +424,8 @@ x-athexapod: &base-athexapod
       athexapod: ${ts_athexapod}
       config: ${ts_config_attcs}
 
-x-atspectrograph: &base-atspectrograph
+x-atspectrograph:
+  &base-atspectrograph
   build:
     context: ../build/atspectrograph
     labels:
@@ -401,7 +436,8 @@ x-atspectrograph: &base-atspectrograph
       atspec: ${ts_atspec}
       config: ${ts_config_latiss}
 
-x-dmocps: &base-dmocps
+x-dmocps:
+  &base-dmocps
   build:
     context: ../build/dmocps
     labels:
@@ -412,7 +448,8 @@ x-dmocps: &base-dmocps
       dmocps: ${dm_OCPS}
       config: ${dm_config_ocps}
 
-x-genericcamera: &base-genericcamera
+x-genericcamera:
+  &base-genericcamera
   build:
     context: ../build/genericcamera
     labels:
@@ -424,7 +461,8 @@ x-genericcamera: &base-genericcamera
       config: ${ts_config_ocs}
       gphoto2: ${gphoto2}
 
-x-pmd: &base-pmd
+x-pmd:
+  &base-pmd
   build:
     context: ../build/pmd
     labels:
@@ -437,7 +475,8 @@ x-pmd: &base-pmd
   devices:
     - /dev/ttyUSB0:/dev/ttyUSB0
 
-x-integrationtests: &base-integrationtests
+x-integrationtests:
+  &base-integrationtests
   build:
     context: ../build/integrationtests
     labels:
@@ -447,7 +486,8 @@ x-integrationtests: &base-integrationtests
       hub: ${hub}
       integrationtests: ${ts_integrationtests}
 
-x-ess: &base-ess
+x-ess:
+  &base-ess
   build:
     context: ../build/ess
     labels:
@@ -459,7 +499,8 @@ x-ess: &base-ess
       common: ${ts_ess_common}
       config: ${ts_config_ocs}
 
-x-hvac: &base-hvac
+x-hvac:
+  &base-hvac
   build:
     context: ../build/hvac
     labels:
@@ -470,7 +511,8 @@ x-hvac: &base-hvac
       hvac: ${ts_hvac}
       config: ${ts_config_ocs}
 
-x-electrometer: &base-electrometer
+x-electrometer:
+  &base-electrometer
   build:
     context: ../build/electrometer
     labels:
@@ -480,7 +522,6 @@ x-electrometer: &base-electrometer
       hub: ${hub}
       electrometer: ${ts_electrometer}
       config: ${ts_config_ocs}
-
 
 version: "3.7"
 
@@ -687,7 +728,8 @@ services:
       context: ../build/develop-env/salobj/
       network: ${build_network}
       labels:
-        com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
+        com.description: LSST Telescope and Site Docker image with SalObj for
+          cycle/revision ${CYCLE}${rev}.
       args:
         hub: lsstts
         base_image_tag: ${CYCLE}
@@ -711,7 +753,8 @@ services:
     build:
       context: ../build/develop-env/salobj/
       labels:
-        com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
+        com.description: LSST Telescope and Site Docker image with SalObj for
+          cycle/revision ${CYCLE}${rev}.
       args:
         hub: ts-dockerhub.lsst.org
         base_image_tag: ${CYCLE}
@@ -736,7 +779,8 @@ services:
       context: ../build/develop-env/develop-env/
       network: ${build_network}
       labels:
-        com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
+        com.description: LSST Telescope and Site development environment image for
+          cycle/revision ${CYCLE}${rev}..
       args:
         hub: lsstts
         base_image_tag: ${CYCLE}${rev}
@@ -757,7 +801,8 @@ services:
       context: ../build/develop-env/develop-env/
       network: ${build_network}
       labels:
-        com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
+        com.description: LSST Telescope and Site development environment image for
+          cycle/revision ${CYCLE}${rev}..
       args:
         hub: ts-dockerhub.lsst.org
         base_image_tag: ${CYCLE}${rev}
@@ -791,7 +836,8 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base CentOS 7 aarch64 image for cycle ${CYCLE}."
+        com.description: "LSST Telescope and Site base CentOS 7 aarch64 image for cycle
+          ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
 
@@ -801,7 +847,8 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/linux64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
+        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle
+          ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build}
@@ -812,7 +859,8 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/linux64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
+        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle
+          ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build}
