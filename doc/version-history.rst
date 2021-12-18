@@ -8,6 +8,14 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 23 revision 2
+===================
+
+* Update version of the following packages:
+  * ts_mtaos
+  * ts_config_mttcs
+* Replace all references and use of master by main.
+
 Cycle 23 revision 1
 ===================
 
