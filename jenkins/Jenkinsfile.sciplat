@@ -9,7 +9,7 @@ pipeline {
     }
 
     triggers {
-            cron(env.BRANCH_NAME == 'master' ? '0 4 * * *' : '')
+            cron(env.BRANCH_NAME == 'main' ? '0 4 * * *' : '')
     }
 
     environment {
@@ -86,10 +86,10 @@ pipeline {
       }
       stage("Trigger lab build") {
         when {
-            expression { env.BRANCH_NAME == 'master' }
+            expression { env.BRANCH_NAME == 'main' }
         }
         steps {
-            build job: 'SalSciplatLab/master', parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: false)], wait: false
+            build job: 'SalSciplatLab/main', parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: false)], wait: false
         }
       }
     }

@@ -12,12 +12,12 @@ pipeline {
         build_network = "n_${BUILD_ID}_${JENKINS_NODE_COOKIE}"
     }
     parameters {
-      booleanParam defaultValue: false, description: 'Build master branch for all repos. Ignores All version parameters.', name: 'build_master'
+      booleanParam defaultValue: false, description: 'Build main branch for all repos. Ignores All version parameters.', name: 'build_main'
       booleanParam defaultValue: false, description: 'Build develop branch for all repos. Ignores All version parameters.', name: 'build_develop'
       booleanParam defaultValue: false, description: 'Build cycle.', name: 'build_cycle'
       booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/develop build?', name: 'BuildDevEnv_develop'
-      booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/master build?', name: 'BuildDevEnv_master'
-      booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/master build?', name: 'BuildDevEnv_cycle'
+      booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/main build?', name: 'BuildDevEnv_main'
+      booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment/main build?', name: 'BuildDevEnv_cycle'
     }
     stages {
         stage("Create build network"){
@@ -29,16 +29,16 @@ pipeline {
             }
           }
         }
-        stage("Build/push master - community") {
+        stage("Build/push main - community") {
           when {
-              expression { return params.build_master }
+              expression { return params.build_main }
           }
             steps {
               withEnv(["HOME=${env.WORKSPACE}"]) {
                 script {
                   docker.withRegistry("", registryCredential) {
                     sh """
-                      docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml build --pull salobj-community
+                      docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull salobj-community
                     """
                   }
                 }
@@ -46,7 +46,7 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml push salobj-community
+                    docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml push salobj-community
                   """
                 }
               }
@@ -98,16 +98,16 @@ pipeline {
               }
             }
         }
-        stage("Build/push master - private") {
+        stage("Build/push main - private") {
           when {
-              expression { return params.build_master }
+              expression { return params.build_main }
           }
             steps {
               withEnv(["HOME=${env.WORKSPACE}"]) {
                 script {
                   docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                     sh """
-                      docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml build --pull salobj-private
+                      docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull salobj-private
                     """
                   }
                 }
@@ -115,7 +115,7 @@ pipeline {
               script {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
-                    docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml push salobj-private
+                    docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml push salobj-private
                   """
                 }
               }
@@ -167,19 +167,19 @@ pipeline {
               }
             }
         }
-        stage("Trigger the DevelopEnvironment/master job") {
+        stage("Trigger the DevelopEnvironment/main job") {
             when {
               allOf{
                 expression {
-                    return params.build_master
+                    return params.build_main
                 }
                 expression {
-                    return params.BuildDevEnv_master
+                    return params.BuildDevEnv_main
                 }
               }
             }
             steps {
-                build job: 'DevelopEnvironment', parameters: [booleanParam(name: 'build_master', value: true),
+                build job: 'DevelopEnvironment', parameters: [booleanParam(name: 'build_main', value: true),
                     booleanParam(name: 'push_tag', value: false)], wait: false
             }
         }
@@ -220,7 +220,7 @@ pipeline {
                 expression { return params.build_develop }
             }
             steps {
-                build wait: false, job: 'LSST_Telescope-and-Site/ts_SalMultiLanguageTests/master', parameters: [string(name: 'image_version', value: 'develop')]
+                build wait: false, job: 'LSST_Telescope-and-Site/ts_SalMultiLanguageTests/main', parameters: [string(name: 'image_version', value: 'develop')]
             }
         }//TriggerSALMulti
     }

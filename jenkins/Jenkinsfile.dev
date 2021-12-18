@@ -12,7 +12,7 @@ pipeline {
         build_network = "n_${BUILD_ID}_${JENKINS_NODE_COOKIE}"
     }
     parameters {
-      booleanParam defaultValue: false, description: 'Build master branch for all repos. Ignores All version parameters.', name: 'build_master'
+      booleanParam defaultValue: false, description: 'Build main branch for all repos. Ignores All version parameters.', name: 'build_main'
       booleanParam defaultValue: false, description: 'Build develop branch for all repos. Ignores All version parameters.', name: 'build_develop'
       booleanParam defaultValue: false, description: 'Build cycle.', name: 'build_cycle'
     }
@@ -26,16 +26,16 @@ pipeline {
             }
           }
         }
-        stage("Build/push master - community") {
+        stage("Build/push main - community") {
           when {
-              expression { return params.build_master }
+              expression { return params.build_main }
           }
             steps {
               withEnv(["HOME=${env.WORKSPACE}"]) {
                 script {
                   docker.withRegistry("", registryCredential) {
                     sh """
-                      docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml build --pull develop-env-community
+                      docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull develop-env-community
                     """
                   }
                 }
@@ -43,7 +43,7 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml push develop-env-community
+                    docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml push develop-env-community
                   """
                 }
               }
@@ -95,16 +95,16 @@ pipeline {
               }
             }
         }
-        stage("Build/push master - private") {
+        stage("Build/push main - private") {
           when {
-              expression { return params.build_master }
+              expression { return params.build_main }
           }
             steps {
               withEnv(["HOME=${env.WORKSPACE}"]) {
                 script {
                   docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                     sh """
-                      docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml build --pull develop-env-private
+                      docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull develop-env-private
                     """
                   }
                 }
@@ -112,7 +112,7 @@ pipeline {
               script {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
-                    docker-compose --env-file cycle/master.env -f cycle/docker-compose.yaml push develop-env-private
+                    docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml push develop-env-private
                   """
                 }
               }
