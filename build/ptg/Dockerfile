@@ -86,9 +86,10 @@ RUN /home/saluser/.checkout_repo.sh ${ptg} && \
 
 RUN mkdir -p $PTG_DATA_DIR && cp $LSST_TOP/src/data/* $PTG_DATA_DIR/
 
+COPY ptg/startup.sh /home/saluser/.startup.sh
+
 COPY ptg/ATPtg.info /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/MTPtg.info /home/saluser/repos/ts_pointing_common/install/data/
-COPY ptg/at.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/at_20200219_fauto.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/at_20200219_manual.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/at_20200314_fauto.mod /home/saluser/repos/ts_pointing_common/install/data/
@@ -102,7 +103,8 @@ COPY ptg/AT_point_data_20210906_tw004_fauto.mod /home/saluser/repos/ts_pointing_
 COPY ptg/AT_point_data_20210906_tw004_ia_ie_ca_an_aw_tf.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/AT_point_data_20210906_tw004_corr_fauto.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/AT_point_data_20210906_tw004_corr_ia_ie_ca_an_aw_tf.mod /home/saluser/repos/ts_pointing_common/install/data/
-COPY ptg/startup.sh /home/saluser/.startup.sh
+COPY ptg/at_202111_ia_ie_ca_an_aw_tf_tx10.mod /home/saluser/repos/ts_pointing_common/install/data/at_202111_ia_ie_ca_an_aw_tf_tx10.mod
+COPY ptg/at.mod /home/saluser/repos/ts_pointing_common/install/data/
 
 USER root
 RUN chown -R saluser:saluser /home/saluser/repos/ts_pointing_common/install/data/ && \
