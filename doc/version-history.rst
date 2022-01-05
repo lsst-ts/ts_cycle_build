@@ -8,6 +8,17 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 23 revision 3
+===================
+
+* Update versions of the following packages:
+  * ts_mtaos
+  * Spectractor
+  * obs_base
+  * pipe_tasks
+  * ts_config_mttcs
+* Update AT pointing model.
+
 Cycle 23 revision 2
 ===================
 
