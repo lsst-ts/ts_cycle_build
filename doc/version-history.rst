@@ -8,6 +8,13 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 23 revision 4
+===================
+
+* On develop and main builds update build number of the dds python bindings.
+* Update version of the following packages:
+  * ts_hexrotcomm
+
 Cycle 23 revision 3
 ===================
 
