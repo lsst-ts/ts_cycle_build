@@ -8,6 +8,13 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 23 revision 5
+===================
+
+* Update versions of the following packages:
+  * ts_mthexapod
+  * ts_config_ocs
+
 Cycle 23 revision 4
 ===================
 
