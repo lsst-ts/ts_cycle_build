@@ -8,6 +8,15 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+
+Cycle 23 revision 6
+===================
+
+* Update develop environment:
+  * add labjack library.
+  * add conda-build package.
+  * add mamba (better and faster conda). 
+
 Cycle 23 revision 5
 ===================
 

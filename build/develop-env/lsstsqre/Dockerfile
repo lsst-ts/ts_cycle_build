@@ -130,14 +130,56 @@ RUN curl -sSL https://github.com/gphoto/gphoto2/releases/download/v${gphoto2}/gp
     make && \
     make install
 
+# Install labjack
+ARG labjack_file_version
+ARG labjack_python_file_version
+# The desired architecture, as described in the C library installer's file name
+ARG labjack_arch
+# The version of the C library in the above file.
+# To find this information:
+# * Download and expand the installer.
+#   curl -O https://labjack.com/sites/default/files/software/labjack_ljm_software_${labjack_file_version}_${labjack_arch}.tar.gz
+#   tar -xzf labjack_ljm_software_${labjack_file_version}_${labjack_arch}.tar.gz
+# * cd into the new directory.
+#   cd labjack_ljm_software_${labjack_file_version}_${labjack_arch}
+# * Run labjack_ljm_installer.run (a self-extracting archive) to expand the library code:
+#   ./labjack_ljm_installer.run --keep --noexec
+# Look in labjack_ljm_software for the library.
+ARG labjack_c_version
+# Python wrapper version
+ARG labjack_python_version
+
+RUN curl -O https://labjack.com/sites/default/files/software/labjack_ljm_software_${labjack_file_version}_${labjack_arch}.tar.gz  && \
+    tar -xzf labjack_ljm_software_${labjack_file_version}_${labjack_arch}.tar.gz && \
+    cd labjack_ljm_software_${labjack_file_version}_${labjack_arch} && \
+    ./labjack_ljm_installer.run || echo "Expected failure! can't restart rules on docker." && \
+    cd ../ && \
+    rm -rf labjack_ljm_software_${labjack_file_version}_${labjack_arch}.tar.gz && \
+    rm -rf labjack_ljm_software_${labjack_file_version}_${labjack_arch}
+
 USER saluser
+
+WORKDIR /tmp
+RUN source ${WORKDIR}/loadLSST.bash && \
+    curl -O https://labjack.com/sites/default/files/software/Python_LJM_${labjack_python_file_version}.zip && \
+    unzip Python_LJM_${labjack_python_file_version}.zip && \
+    cd Python_LJM_${labjack_python_file_version}/ && \
+    python -m pip install . -vv && \
+    cd ../ && \
+    rm -rf Python_LJM_${labjack_python_file_version}.zip && \
+    rm -rf Python_LJM_${labjack_python_file_version}/
 
 WORKDIR /home/saluser
 
 ARG ts_develop
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    conda install -y -c lsstts ts-develop=${ts_develop}
+    conda config --add channels conda-forge && \
+    conda install -y mamba && \
+    mamba install -y conda-build anaconda-client setuptools_scm    
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    mamba install -y -c lsstts ts-develop=${ts_develop}
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     pip install "documenteer[pipelines]>=0.6" ltd-conveyor kafkit[aiohttp] confluent_kafka
@@ -166,4 +208,11 @@ ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org> \
-    image_tag=${lsstsqre}
+    image_tag=${lsstsqre} \
+    ts_develop=${ts_develop} \
+    gphoto2=${gphoto2}\
+    labjack_file_version=${labjack_file_version} \
+    labjack_python_file_version=${labjack_python_file_version} \
+    labjack_arch=${labjack_arch} \
+    labjack_c_version=${labjack_c_version} \
+    labjack_python_version=${labjack_python_version}
