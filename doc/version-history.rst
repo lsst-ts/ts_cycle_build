@@ -9,6 +9,12 @@ Version History
 .. Below is an example of a version history format.
 
 
+Cycle 23 revision 7
+===================
+
+* In the develop-env, install maven (and java) using conda instead of yum to get a more recent version.
+
+
 Cycle 23 revision 6
 ===================
 
