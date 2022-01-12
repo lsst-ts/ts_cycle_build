@@ -64,6 +64,10 @@ RUN source /home/saluser/.setup_salobj.sh && \
     cd .. ; \
     done
 
+RUN source /home/saluser/.setup_salobj.sh && \
+    mkdir -p ${JAVA_HOME}/jre/lib/amd64/ && \
+    ln -s ${JAVA_HOME}/lib/libjsig.so ${JAVA_HOME}/jre/lib/amd64/libjsig.so
+
 WORKDIR /home/saluser/repos/ts_sal
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_idl -t current && \

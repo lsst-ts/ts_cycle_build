@@ -44,8 +44,6 @@ RUN yum -y --enablerepo=extras install epel-release \
     ncurses-libs \
     xterm \
     xorg-x11-fonts-misc \
-    java-1.8.0-openjdk-devel \
-    maven \
     which \
     gnome-terminal \
     mariadb \
@@ -176,20 +174,16 @@ ARG ts_develop
 RUN source ${WORKDIR}/loadLSST.bash && \
     conda config --add channels conda-forge && \
     conda install -y mamba && \
-    mamba install -y conda-build anaconda-client setuptools_scm    
+    mamba install -y conda-build anaconda-client setuptools_scm maven 
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     mamba install -y -c lsstts ts-develop=${ts_develop}
 
+RUN source /opt/lsst/software/stack/loadLSST.bash && \
+    mamba install -y jupyterlab
+
 RUN source ${WORKDIR}/loadLSST.bash && \
     pip install "documenteer[pipelines]>=0.6" ltd-conveyor kafkit[aiohttp] confluent_kafka
-
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    conda install -y jupyterlab
-
-#     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-#     jupyter labextension install jupyter-matplotlib && \
-#     jupyter notebook --generate-config
 
 # Needed for Python-GPhoto2
 RUN source /opt/lsst/software/stack/loadLSST.bash && \
