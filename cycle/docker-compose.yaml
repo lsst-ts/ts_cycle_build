@@ -626,6 +626,8 @@ services:
         labjack_arch: ${labjack_arch}
         labjack_c_version: ${labjack_c_version}
         labjack_python_version: ${labjack_python_version}
+        maven: ${maven}
+        openjdk: ${openjdk}
         UID: ${B_UID}
         GID: ${B_GID}
 
@@ -649,6 +651,8 @@ services:
         labjack_arch: ${labjack_arch}
         labjack_c_version: ${labjack_c_version}
         labjack_python_version: ${labjack_python_version}
+        maven: ${maven}
+        openjdk: ${openjdk}
         UID: ${B_UID}
         GID: ${B_GID}
 

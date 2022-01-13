@@ -170,11 +170,15 @@ RUN source ${WORKDIR}/loadLSST.bash && \
 WORKDIR /home/saluser
 
 ARG ts_develop
+ARG maven
+ARG openjdk
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     conda config --add channels conda-forge && \
-    conda install -y mamba && \
-    mamba install -y conda-build anaconda-client setuptools_scm maven 
+    conda install -y mamba
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    mamba install -y conda-build anaconda-client setuptools_scm maven=${maven} openjdk=${openjdk} 
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     mamba install -y -c lsstts ts-develop=${ts_develop}
