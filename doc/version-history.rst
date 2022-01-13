@@ -9,6 +9,11 @@ Version History
 .. Below is an example of a version history format.
 
 
+Cycle 23 revision 8
+===================
+
+* pin version of maven and openjdk in develop-env build.
+
 Cycle 23 revision 7
 ===================
 
