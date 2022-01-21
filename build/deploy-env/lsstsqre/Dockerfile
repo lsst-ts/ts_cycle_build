@@ -65,8 +65,11 @@ ARG ts_salobj
 
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
   conda config --add channels conda-forge && \
-  conda install -y cython && \
-  conda install -y -c lsstts -c lsstts/label/dev ts-dds=${ts_dds} ts-ddsconfig=${ts_ddsconfig} ts-salobj=${ts_salobj} ts-idl=${ts_idl} ts-utils=${ts_utils} && \
+  conda install -y mamba && \
+  conda install -y cython
+
+RUN source ${WORKDIR}/.setup_sal_env.sh && \  
+  mamba install -y -c lsstts -c lsstts/label/dev ts-dds=${ts_dds} ts-ddsconfig=${ts_ddsconfig} ts-salobj=${ts_salobj} ts-idl=${ts_idl} ts-utils=${ts_utils} && \
   ddsconfig_path=$(python -c 'from lsst.ts import ddsconfig; import pathlib; print(pathlib.Path(ddsconfig.__file__).parents[0])') && \
   eups declare -m none -r ${ddsconfig_path} ts_ddsconfig ${ts_ddsconfig}  && \
   salobj_path=$(python -c 'from lsst.ts import salobj; import pathlib; print(pathlib.Path(salobj.__file__).parents[0])') && \
