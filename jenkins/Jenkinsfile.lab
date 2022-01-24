@@ -16,7 +16,7 @@ pipeline{
       stage ('Cloning Repos') {
           steps {
               dir(env.WORKSPACE + '/nublado') {
-                  git branch: 'prod', url: 'https://github.com/lsst-sqre/nublado.git'
+                  git branch: 'prod', url: 'https://github.com/lsst-sqre/sciplat-lab.git'
               }
           }
       }
@@ -30,8 +30,8 @@ pipeline{
             docker.withRegistry("", registryCredential) {
               sh """
                 source cycle/cycle.env
-                cd nublado/jupyterlab/
-                ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" \${stack}_\${CYCLE}\${rev}
+                cd nublado/
+                make build supplementary="" tag=\${stack}_\${CYCLE}\${rev} input=lsstts/sal-sciplat: image=lsstts/sal-sciplat-lab
                 docker tag lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} lsstts/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
                 docker push lsstts/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
               """
@@ -49,8 +49,8 @@ pipeline{
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
                 source cycle/cycle.env
-                cd nublado/jupyterlab/
-                ./bld -n ts-dockerhub.lsst.org/sal-sciplat-lab -b ts-dockerhub.lsst.org/sal-sciplat -t "" \${stack}_\${CYCLE}\${rev}
+                cd nublado/
+                make build supplementary="" tag=\${stack}_\${CYCLE}\${rev} input=ts-dockerhub.lsst.org/sal-sciplat: image=ts-dockerhub.lsst.org/sal-sciplat-lab
                 docker tag ts-dockerhub.lsst.org/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} ts-dockerhub.lsst.org/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
                 docker push ts-dockerhub.lsst.org/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
               """
@@ -68,8 +68,8 @@ pipeline{
             docker.withRegistry("", registryCredential) {
               sh """
                 source cycle/cycle.env
-                cd nublado/jupyterlab/
-                ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" d_latest_\${CYCLE}\${rev}
+                cd nublado/
+                make build supplementary="" tag=d_latest_\${CYCLE}\${rev} input=lsstts/sal-sciplat: image=lsstts/sal-sciplat-lab
                 EUPS_TAG=\$(docker image inspect -f {{.Config.Labels.EUPS_TAG}} lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev})
                 docker tag lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} lsstts/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
                 docker push lsstts/sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
@@ -89,8 +89,8 @@ pipeline{
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
                 source cycle/cycle.env
-                cd nublado/jupyterlab/
-                ./bld -n ts-dockerhub.lsst.org/sal-sciplat-lab -b ts-dockerhub.lsst.org/sal-sciplat -t "" d_latest_\${CYCLE}\${rev}
+                cd nublado/
+                make build supplementary="" tag=d_latest_\${CYCLE}\${rev} input=ts-dockerhub.lsst.org/sal-sciplat: image=ts-dockerhub.lsst.org/sal-sciplat-lab
                 EUPS_TAG=\$(docker image inspect -f {{.Config.Labels.EUPS_TAG}} ts-dockerhub.lsst.org/sal-sciplat-lab:d_latest_\${CYCLE}\${rev})
                 docker tag ts-dockerhub.lsst.org/sal-sciplat-lab:d_latest_\${CYCLE}\${rev} ts-dockerhub.lsst.org/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
                 docker push ts-dockerhub.lsst.org/sal-sciplat-lab:d_latest_\${CYCLE}\${rev}
@@ -110,8 +110,8 @@ pipeline{
             docker.withRegistry("", registryCredential) {
               sh """
                 source cycle/cycle.env
-                cd nublado/jupyterlab/
-                ./bld -n lsstts/sal-sciplat-lab -b lsstts/sal-sciplat -t "" w_latest_\${CYCLE}\${rev}
+                cd nublado/
+                make build supplementary="" tag=w_latest_\${CYCLE}\${rev} input=lsstts/sal-sciplat: image=lsstts/sal-sciplat-lab
                 EUPS_TAG=\$(docker image inspect -f {{.Config.Labels.EUPS_TAG}} lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev})
                 docker tag lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} lsstts/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
                 docker push lsstts/sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
@@ -131,8 +131,8 @@ pipeline{
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
                 source cycle/cycle.env
-                cd nublado/jupyterlab/
-                ./bld -n ts-dockerhub.lsst.org/sal-sciplat-lab -b ts-dockerhub.lsst.org/sal-sciplat -t "" w_latest_\${CYCLE}\${rev}
+                cd nublado/
+                make build supplementary="" tag=w_latest_\${CYCLE}\${rev} input=ts-dockerhub.lsst.org/sal-sciplat: image=ts-dockerhub.lsst.org/sal-sciplat-lab
                 EUPS_TAG=\$(docker image inspect -f {{.Config.Labels.EUPS_TAG}} ts-dockerhub.lsst.org/sal-sciplat-lab:w_latest_\${CYCLE}\${rev})
                 docker tag ts-dockerhub.lsst.org/sal-sciplat-lab:w_latest_\${CYCLE}\${rev} ts-dockerhub.lsst.org/sal-sciplat-lab:\${EUPS_TAG}_\${CYCLE}\${rev}
                 docker push ts-dockerhub.lsst.org/sal-sciplat-lab:w_latest_\${CYCLE}\${rev}
