@@ -13,6 +13,7 @@ setup ts_wep -t current
 setup ts_ofc -t current
 setup ts_phosim -t current
 setup ts_MTAOS -t current
+setup obs_lsst -t saluser
 
 run_mtaos.py $RUN_ARG &
 

@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 23 revision 9
+===================
+
+* Update sciplat-lab build to use the latest version of the lab build scripts.
+* Update MTAOS build to use mamba to install conda packages and to stop ignoring wep failures.
+* Update lsstsqre build to install mamba.
+* On mtaos, use local obs_lsst.
+* Cycle 23 revision 9. Update version of the following packages.
+  * ts_mtaos
+  * ts_mtmount
+  * ts_wep
+
 
 Cycle 23 revision 8
 ===================

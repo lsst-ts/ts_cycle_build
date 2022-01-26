@@ -10,7 +10,7 @@ WORKDIR ${WORKDIR}
 USER lsst
 RUN cd && \
     source ${WORKDIR}/loadLSST.bash && \
-    conda install -c lsstts ts-conda-build=${ts_conda_build}
+    mamba install -c lsstts ts-conda-build=${ts_conda_build}
 
 ARG LSST_USER=saluser
 ARG LSST_USER_HOME=/home/${LSST_USER}
@@ -86,7 +86,7 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     source ${WORKDIR}/ospl_env.sh && \
     source ${OSPL_HOME}/release.com && \
     setup ts_wep -t current && \
-    scons || echo FAILED! Ignore and move on...
+    scons
 
 # ofc
 WORKDIR ${AOS_REPOS}/ts_ofc
