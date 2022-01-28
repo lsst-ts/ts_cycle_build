@@ -8,6 +8,39 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 24
+========
+
+* Fixed a typo in the ts_hvac Dockerfile.
+* The conda package for ESS CSC was renamed from ts-ess to ts-ess-csc.
+* Update version of the following packages:
+  * ts_xml
+  * ts_sal
+  * ts_idl
+  * ts_salobj
+  * ts_dds_community_conda_build
+  * ts_dds_private_conda_build
+  * ts_hexrotcomm
+  * ts_simactuators
+  * ts_mtrotator
+  * ts_mthexapod
+  * ts_salkafka
+  * ts_mtmount
+  * ts_m1m3support
+  * ts_phosim
+  * ts_scheduler
+  * ts_mtdome
+  * ts_weatherstation
+  * ts_ess_common
+  * ts_ess_csc
+  * ts_tcpip
+  * ts_utils
+  * Spectractor
+  * love_commander
+  * love_frontend
+  * love_manager
+  * rubin_sim
+
 Cycle 23 revision 9
 ===================
 
