@@ -75,8 +75,7 @@ WORKDIR /home/saluser/
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_sal -t current && \
     setup ts_idl -t current && \
-    make_idl_files.py Test Script LOVE && \
-    make_salpy_libs.py Test Script
+    make_idl_files.py Test Script LOVE
 
 WORKDIR /home/saluser/repos/ts_utils
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -87,7 +86,7 @@ ARG ts_dds
 
 WORKDIR /home/saluser/repos/ts_salobj
 RUN source /home/saluser/.setup_salobj.sh && \
-    conda install -c lsstts -y ts-dds=${ts_dds} && \
+    mamba install -c lsstts -y ts-dds=${ts_dds} && \
     setup ts_sal -t current && \
     setup ts_idl -t current && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
