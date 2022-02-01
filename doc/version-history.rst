@@ -8,6 +8,13 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 23 revision 10
+====================
+
+* Remove call to make_salpy_libs in salobj Dockerfile since that command was removed.
+* Cycle 23 revision 10. Update version of the following packages in develop.env and main.env.
+  * dds_community_build
+
 Cycle 23 revision 9
 ===================
 
@@ -38,7 +45,7 @@ Cycle 23 revision 6
 * Update develop environment:
   * add labjack library.
   * add conda-build package.
-  * add mamba (better and faster conda). 
+  * add mamba (better and faster conda).
 
 Cycle 23 revision 5
 ===================
@@ -132,7 +139,7 @@ Cycle 22 revision 7
 ===================
 
 * Update version of mtm2.
-* Added a stage to Jenkinsfile.salobj to trigger the SAL Multi-Language integration tests. 
+* Added a stage to Jenkinsfile.salobj to trigger the SAL Multi-Language integration tests.
   The tests build off the private version of the SalObj Docker image.
 
 Cycle 22 revision 6
