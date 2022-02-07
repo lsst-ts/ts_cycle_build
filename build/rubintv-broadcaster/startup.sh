@@ -16,6 +16,7 @@ done
 cd scripts
 
 setup lsst_distrib
+setup spectractor -t saluser
 setup atmospec -j -t current
 setup rapid_analysis -j -t current 
 setup obs_lsst -j -t saluser
