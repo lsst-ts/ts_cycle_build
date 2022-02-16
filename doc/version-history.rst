@@ -8,6 +8,26 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 24 revision 1
+===================
+
+* Update version of the following packages:
+  * lsstsqre
+  * ts_mtaos
+  * obs_lsst
+  * love-producer
+  * ts_scheduler
+  * ts_standardscripts
+  * rubin_sim
+  * pointing component
+  * Spectractor
+* Update startup script for love-producer.
+* Update elevation limit for auxtel in the pointing to 17 degrees.
+* Update pointing component build to set `OSPL_RELEASE`.
+* Fix rubintv build
+* In MTAOS, disable use of local obs_lsst.
+
+
 Cycle 24
 ========
 
