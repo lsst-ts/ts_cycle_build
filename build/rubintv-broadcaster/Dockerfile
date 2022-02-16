@@ -26,10 +26,18 @@ COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
 RUN chown saluser:saluser /home/saluser/.checkout_repo.sh && \
     chmod a+x /home/saluser/.checkout_repo.sh
 
+USER lsst
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    mamba install -c conda-forge ciso8601
+
 USER saluser
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    pip install google-cloud-storage lsst-efd-client
+    pip install google-cloud-storage
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    pip install lsst-efd-client
 
 RUN mkdir -p ${SAL_HOME}/repos
 
@@ -58,8 +66,9 @@ ARG spectractor_work_branch
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${spectractor_work_branch} && \
-    pip install -r requirements.txt && \
-    pip install -e .
+    eups declare -r . -t saluser && \
+    setup spectractor -t saluser && \
+    scons opt=3
 
 WORKDIR ${SAL_HOME}/repos/atmospec
 
@@ -70,6 +79,7 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     eups declare -r . -t current && \
     setup lsst_distrib && \
     setup obs_lsst -j -t saluser && \
+    setup spectractor -t saluser && \
     setup atmospec -j -t current && \
     scons opt=3
 

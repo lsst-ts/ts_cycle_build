@@ -8,12 +8,12 @@ source ${WORKDIR}/.setup_sal_env.sh
 LSST_USER_HOME=/home/saluser
 AOS_REPOS=${LSST_USER_HOME}/repos
 
+setup lsst_distrib
 setup phosim_utils -t current
 setup ts_wep -t current
 setup ts_ofc -t current
 setup ts_phosim -t current
 setup ts_MTAOS -t current
-setup obs_lsst -t saluser
 
 run_mtaos.py $RUN_ARG &
 
