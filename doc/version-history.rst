@@ -8,6 +8,12 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 24 revision 2
+===================
+
+* Update version of the following packages:
+  * ts_config_ocs
+
 Cycle 24 revision 1
 ===================
 
