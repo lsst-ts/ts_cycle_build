@@ -12,7 +12,8 @@ RUN source ${LOADSTACK} && \
     conda install -c conda-forge -y \
     librdkafka aiokafka astroquery asynctest \
     ephem kafkacat pre-commit pytest-tornasync \
-    setuptools_scm pytest-black
+    setuptools_scm pytest-black \
+    astroplan
 
 
 ENV SRCDIR=/opt/lsst/src
