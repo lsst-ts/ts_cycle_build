@@ -73,9 +73,7 @@ ARG ts_observatory_control
 WORKDIR ${SAL_HOME}/ts_observatory_control
 RUN source ${WORKDIR}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_observatory_control} && \
-    git lfs install && \
-    git lfs fetch --all && \
-    git lfs checkout && \
+    (git lfs install; git lfs fetch --all; git lfs checkout);  \
     eups declare -r . ts_observatory_control ${ts_observatory_control} -t current && \
     setup ts_config_ocs && \
     setup ts_observatory_control && \

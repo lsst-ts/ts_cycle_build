@@ -31,7 +31,7 @@ COPY develop-env/lsstsqre/gitconfig ${HOME}/.gitconfig
 COPY develop-env/lsstsqre/setup_env.sh /home/saluser/.setup_salobj.sh
 
 RUN yum install -y https://repo.ius.io/ius-release-el7.rpm
-RUN RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash 
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash 
 RUN yum -y --enablerepo=extras install epel-release \
     unzip \
     wget \

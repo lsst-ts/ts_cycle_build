@@ -124,8 +124,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_externalscripts -t current && \
     scons || echo Building external script failed. IGNORING...
 
-WORKDIR /home/saluser
-
 WORKDIR /home/saluser/repos/ts_scriptqueue
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \

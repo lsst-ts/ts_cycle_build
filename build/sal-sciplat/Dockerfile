@@ -12,7 +12,8 @@ RUN source ${LOADSTACK} && \
     conda install -c conda-forge -y \
     librdkafka aiokafka astroquery asynctest \
     ephem kafkacat pre-commit pytest-tornasync \
-    setuptools_scm pytest-black
+    setuptools_scm pytest-black \
+    astroplan
 
 
 ENV SRCDIR=/opt/lsst/src
@@ -95,7 +96,10 @@ RUN source ${LOADSTACK} && \
     for g in $gitsrc ; do \
     r=$(echo ${g} | cut -d ':' -f 1) \
     t=$(echo ${g} | cut -d ':' -f 2) ;\
-    git clone --branch v${t} --depth 1 --single-branch ${rb}/${r}.git ; \
+    retag=${t//a/".alpha."} ; \
+    retag=${retag//b/".beta."} ; \
+    retag=${retag//rc/".rc."} ; \
+    git clone --branch v${retag} --depth 1 --single-branch ${rb}/${r}.git ; \
     cd ${r} ; \
     git checkout -b ${t} ; \
     eups declare -r . -t current ${r} ${t}; \
