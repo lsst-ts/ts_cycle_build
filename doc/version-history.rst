@@ -8,6 +8,27 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 24 revision 3
+===================
+
+* Update version of the following packages:
+  * lsstsqre
+  * ts_scheduler
+  * Spectractor
+  * rapid_analysis
+  * ts_config_ocs
+  * love-producer
+  * ts_hexrotcomm
+  * ts_mthexapod
+  * ts_mtrotator
+  * ts_config_latiss
+  * ts_config_ocs
+* In sal-sciplat, expand alpha, beta and rc tags.
+* Add `astroplan` to sal-sciplat.
+* In `develop-env/Dockerfile`, remove superfluous `WORKDIR`.
+* In `develop-env/lsstsqre/Dockerfile` remove double `RUN`.
+* In scriptqueue build script, try to setup git lfs beyond error.
+
 Cycle 24 revision 2
 ===================
 
