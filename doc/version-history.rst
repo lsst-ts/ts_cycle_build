@@ -17,13 +17,16 @@ Cycle 24 revision 5
 
 Cycle 24 revision 4
 ===================
+
 * Update version of the following packages:  
+
   * ts_mtmount
 
 Cycle 24 revision 3
 ===================
 
 * Update version of the following packages:
+
   * lsstsqre
   * ts_scheduler
   * Spectractor
@@ -35,6 +38,7 @@ Cycle 24 revision 3
   * ts_mtrotator
   * ts_config_latiss
   * ts_config_ocs
+
 * In sal-sciplat, expand alpha, beta and rc tags.
 * Add `astroplan` to sal-sciplat.
 * In `develop-env/Dockerfile`, remove superfluous `WORKDIR`.
@@ -45,12 +49,14 @@ Cycle 24 revision 2
 ===================
 
 * Update version of the following packages:
+
   * ts_config_ocs
 
 Cycle 24 revision 1
 ===================
 
 * Update version of the following packages:
+
   * lsstsqre
   * ts_mtaos
   * obs_lsst
@@ -60,6 +66,7 @@ Cycle 24 revision 1
   * rubin_sim
   * pointing component
   * Spectractor
+
 * Update startup script for love-producer.
 * Update elevation limit for auxtel in the pointing to 17 degrees.
 * Update pointing component build to set `OSPL_RELEASE`.
@@ -73,6 +80,7 @@ Cycle 24
 * Fixed a typo in the ts_hvac Dockerfile.
 * The conda package for ESS CSC was renamed from ts-ess to ts-ess-csc.
 * Update version of the following packages:
+
   * ts_xml
   * ts_sal
   * ts_idl
@@ -105,6 +113,7 @@ Cycle 23 revision 10
 
 * Remove call to make_salpy_libs in salobj Dockerfile since that command was removed.
 * Cycle 23 revision 10. Update version of the following packages in develop.env and main.env.
+
   * dds_community_build
 
 Cycle 23 revision 9
@@ -115,6 +124,7 @@ Cycle 23 revision 9
 * Update lsstsqre build to install mamba.
 * On mtaos, use local obs_lsst.
 * Cycle 23 revision 9. Update version of the following packages.
+
   * ts_mtaos
   * ts_mtmount
   * ts_wep
@@ -135,6 +145,7 @@ Cycle 23 revision 6
 ===================
 
 * Update develop environment:
+
   * add labjack library.
   * add conda-build package.
   * add mamba (better and faster conda).
@@ -143,6 +154,7 @@ Cycle 23 revision 5
 ===================
 
 * Update versions of the following packages:
+
   * ts_mthexapod
   * ts_config_ocs
 
@@ -151,31 +163,37 @@ Cycle 23 revision 4
 
 * On develop and main builds update build number of the dds python bindings.
 * Update version of the following packages:
+
   * ts_hexrotcomm
 
 Cycle 23 revision 3
 ===================
 
 * Update versions of the following packages:
+
   * ts_mtaos
   * Spectractor
   * obs_base
   * pipe_tasks
   * ts_config_mttcs
+
 * Update AT pointing model.
 
 Cycle 23 revision 2
 ===================
 
 * Update version of the following packages:
+
   * ts_mtaos
   * ts_config_mttcs
+
 * Replace all references and use of master by main.
 
 Cycle 23 revision 1
 ===================
 
 * Update versions of:
+
   * ts_mtrotator
   * ts_mthexapod
   * ts_observatory_control
@@ -186,12 +204,14 @@ Cycle 23 revision 1
   * obs_lsst
   * ts_config_mttcs
   * ts_config_ocs
+
 * Update MTAOS build to use custom obs_lsst branch.
 
 Cycle 23
 ========
 
 * Update versions of:
+
   * xml
   * sal
   * idl
@@ -223,6 +243,7 @@ Cycle 23
   * config_mttcs
   * config_ocs
   * electrometer
+
 * Updated Jenkinsfile.cycle to work on newer versions of bash.
 * Updated the recipe for building python-gphoto2.
 * Updated the user guide to contain a more complete list of base components.
@@ -247,6 +268,7 @@ Cycle 22 revision 5
 ===================
 
 * Update version of the following packages:
+
   * ts_pointing_common
   * ts_scheduler
   * ts_integrationtests
@@ -256,6 +278,7 @@ Cycle 22 revision 5
   * love_frontend
   * love_manager
   * rubin_sim
+
 * Update rubintv-broadcaster to include local version of obs_lsst.
 * Update pointing component configuration, and pointing model.
 * Update Scheduler build to install lsst-efd-client.
@@ -269,8 +292,10 @@ Cycle 22 revision 3
 ===================
 
 * Update version of the following packages:
+
   * ts_externalscripts
   * ts_standardscripts
+
 * Update test CSC container.
 * Update develop environment setup script to setup PKG_CONFIG_PATH.
 
@@ -278,10 +303,12 @@ Cycle 22 revision 2
 ===================
 
 * Update version of the following packages:
+
   * lsstsqre
   * ts_scheduler
   * rubin_sim
   * ts_config_ocs
+
 * Change scheduler build to make it more reusable.
 * Add environment variable to point scheduler to full sky brightness data.
 * Updates for rubintv-broadcaster.
@@ -290,6 +317,7 @@ Cycle 22 revision 1
 ===================
 
 *Update version of the following packages:
+
   * ts_hexrotcomm
   * ts_mtrotator
   * ts_mtmount
@@ -300,9 +328,11 @@ Cycle 22 revision 1
   * ts_mtaos
   * Spectractor
   * rapid_analysis
+
 * Add git-lfs to conda_builder image.
 * Fix lsstsqre gphoto build step.
 * Fix rubintv-broadcaster Dockerfile:
+
   * Add ENTRYPOINT/CMD sections
   * Update Spectractor GitHub URL
   * Install missing packages
@@ -311,6 +341,7 @@ Cycle 22
 ========
 
 * Update versions of:
+
   * ddsconfig
   * xml
   * sal
@@ -347,6 +378,7 @@ Cycle 22
   * love_manager
   * ts_observatory_control
   * rubin_sim
+
 * Add ESS and HVAC CSC build scripts.
 * Add utils version.
 * In ScriptQueue build script, install git-lfs and checkout lfs files when building ts_observatory_control.
@@ -368,11 +400,15 @@ Cycle 21 revision 7
 ===================
 
 * Update versions of the following packages:
+
   * ts_atspec
   * ts_config_latiss
+
 * In Jenkinsfile.cycle:
+
   * Improve description parameters on Jenkinsfile.cycle.
   * Implement safeguards against building base conda image and ALL CSCs when building revisions.
+
 * Update Jenkisfiles.
 * Update sal-sciplat build to use new `opensplice/lsstsqre` intermediate stage containers.
 * Update compose file to build new `opensplice/lsstsqre` and sal-sciplat`.
@@ -384,6 +420,7 @@ Cycle 21 revision 6
 ===================
 
 * Update versions of the following packages:
+
   * ts_config_attcs
   * ts_hexrotcomm
   * ts_mtrotator
@@ -395,10 +432,12 @@ Cycle 21 revision 5
 ===================
 
 * Update version of the following packages:
+
   * ts_ataos
   * ts_config_attcs
   * ts_dimm
   * love-frontend
+
 * Add ts_utils to develop-env, deploy-env conda, deploy-env arch64 and sal-sciplat builds.
 * In `Jenkinsfile.lab` Fix name of the branch (master -> prod) .
 
@@ -406,23 +445,27 @@ Cycle 21 revision 4
 ===================
 
 * Update version of the following packages:
+
   * ts_config_attcs
   * ts_config_mttcs
   * ts_MTAOS
   * ts_mtmount (special version that communicates with the ccw controller in level 3)
   * ts_hexrotcomm (needed for mtmount to communicate with ccw controller in level 3)
   * ts_m2
+
 * Add rubintv-broadcaster
 
 Cycle 21 revision 3
 ===================
 
 * Update version of the following packages:
+
   * ts_ofc
   * ts_externalscripts
   * ts_dimm
   * ts_config_ocs
   * love-frontend
+
 * Remove deprecated scheduler build step. This is now part of the conda packages build.
 
 Cycle 21 revision 2
@@ -432,13 +475,17 @@ Cycle 21 revision 2
 * Add Scheduler to base components list instead of having separate build step.
 * Remove lsst_sims step, this was replaced by the rubin-sim conda package.
 * Add new dependencies (for scheduler):
+
   * ts_observatory_model
   * ts_astrosky_model
   * ts_dateloc
   * rubin_sim
+
 * Update version of the following packages:
+
   * love_producer
   * ts_scheduler
+
 * Update documentation.
 
 
@@ -446,6 +493,7 @@ Cycle 21 revision 1
 ===================
 
 * Update versions of the following packages:
+
   * ts_mtmount
   * love_producer
 
@@ -453,6 +501,7 @@ Cycle 0021
 ==========
 
 * Update versions of:
+
   * xml
   * ddsconfig
   * salobj
@@ -473,10 +522,13 @@ Cycle 0021
   * love_commander
   * love_producer
   * dmocps
+
 * Fix launching SalSciplatLab in Jenkinsfile.cycle.
 * In Jenkinsfile.sciplat:
+
   * Fix triggering SalSciplatLab.
   * Only trigger SalSciplat if building master branch.
+
 * Add LOVE CSC build scripts.
 
 Cycle 0020 revision 006
@@ -490,6 +542,7 @@ Cycle 0020 revision 006
 * Update Jenkinsfile.sciplat to build daily at 4am and to trigger lab build.
 * Add new pointing models for AT.
 * Revision 006, update versions of the following packages:
+
   * ts_pointing_common
   * ts_observatory_control
   * ts_ataos
@@ -507,17 +560,20 @@ Cycle 0020 revision 004
 * Add tcpip to MTHexapod, MTRotator and MTMount.
 * Minor fixes to scheduler build.
 * Updated versions:
+
   * MTHexapod
   * MTRotator
   * MTMount
   * Scheduler
   * LOVE-commander
+
 * Add GenericCamera.
 
 Cycle 0020 revision 003
 =======================
 
 * Update versions of:
+
   * ts_mtaos
   * phosim_utils
   * ts_wep
@@ -545,11 +601,13 @@ Cycle 0020 revision 001
 
 * Add OCPS and its config.
 * Update versions of:
+
   * ts_hexrotcomm
   * ts_mthexapod
   * ts_mtaos
   * ts_ofc
   * ts_config_mttcs
+
 * Made sure that LibGPhoto2, GPhoto2 and Python-GPhoto2 get installed in the base sqre development Docker images.
 
 Cycle 0020
