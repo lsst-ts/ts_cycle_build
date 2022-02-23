@@ -513,6 +513,8 @@ x-hvac:
 
 x-electrometer:
   &base-electrometer
+  devices:
+    - "/dev/ttyUSB0:/dev/electrometer"
   build:
     context: ../build/electrometer
     labels:
