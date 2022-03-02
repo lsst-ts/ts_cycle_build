@@ -104,6 +104,16 @@ x-love-csc:
       cycle: ${CYCLE}
       love_producer: ${love_producer}
 
+x-love-view-backup:
+  &base-love-view-backup
+  build:
+    context: ../build/love/view-backup
+    labels:
+      com.description: "LOVE view-backup for cycle/revision ${CYCLE}${rev}."
+    args:
+      UID: ${B_UID}
+      GID: ${B_GID}
+
 x-mtaos:
   &base-mtaos
   build:
@@ -970,6 +980,14 @@ services:
   love-csc_c:
     image: ${hub}/love-csc:${CYCLE}
     <<: *base-love-csc
+
+  love-view-backup:
+    image: ${hub}/love-view-backup:${CYCLE}${rev}
+    <<: *base-love-view-backup
+
+  love-view-backup_c:
+    image: ${hub}/love-view-backup:${CYCLE}
+    <<: *base-love-view-backup
 
   mtaos:
     image: ${hub}/mtaos:${CYCLE}${rev}
