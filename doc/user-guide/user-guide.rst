@@ -94,11 +94,11 @@ To deal with this process in a more comprehensive way, this repository uses a di
 
 .. _TSSW: https://tssw-developer.lsst.io/#id4
 
-  - For the cycle build we adopt ``master`` as the main branch, and also the branch that tracks what is running in the production environment.
+  - For the cycle build we adopt ``main`` as the main branch, and also the branch that tracks what is running in the production environment.
 
-  - To start a new cycle, users must create a new branch that, initially, tracks the ``master`` branch.
+  - To start a new cycle, users must create a new branch that, initially, tracks the ``main`` branch.
     The branch must be named ``cycle/####``.
-    For instance, when starting cycle 21, users will create a branch ``cycle/0021`` that tracks ``master`` at the time.
+    For instance, when starting cycle 21, users will create a branch ``cycle/0021`` that tracks ``main`` at the time.
 
   - This branch should not receive any direct commits.
     Instead, users should create "ticket branches", with the name of the ticket they are working on.
@@ -111,21 +111,22 @@ To deal with this process in a more comprehensive way, this repository uses a di
     .. attention::
 
       Make sure you select the correct cycle branch when opening a PR.
-      By default GitHub will assign the ``master`` branch as a target to all PRs.
+      By default GitHub will assign the ``main`` branch as a target to all PRs.
       You must manually select the cycle branch in this occasion.
 
-  - If new revisions to the current cycle (say cycle 20) are needed to support the production environment, those changes must be done on ticket branches and merged back to ``master``, as usual.
+  - If new revisions to the current cycle (say cycle 20) are needed to support the production environment, ticket branches out of ``main`` should be created and PRs must be opened and merged back to ``main``, as usual.
 
-  - If new revisions to the new cycle are needed, before the new cycle is officially released, ticket branches out of the new cycle branch should be created (e.g. ``cycle/0021``) and PRs must be opened and merged **back to the cycle branch**.
+  - If new revisions to the new cycle are needed **before the new cycle is officially released**, ticket branches out of the new cycle branch should be created (e.g. ``cycle/0021``) and PRs must be opened and merged **back to the cycle branch**.
 
-  - Once the new cycle is deployed at the summit and certified, a PR should be opened to merge the cycle branch back to master.
+  - Once the new cycle is deployed at the summit and certified, a PR should be opened to merge the cycle branch back to ``main``.
     The procedure is as follows:
       - Create a new branch out of the new cycle branch (e.g. ``cycle/0021``) pre-pending ``release/`` to the name (e.g. ``release/cycle/0021``).
-        Rebase the ``release`` branch to ``master`` and open a PR to merge the ``release`` branch to master.
+        Rebase the ``release`` branch to ``main`` and open a PR to merge the ``release`` branch to ``main``.
         The ``cycle`` branch will remain unchanged for historical purposes.
-    - Once the PR is merged, the master branch receives a tag with the cycle and revision number (``cycle.revision``, e.g. ``c0021.000``).
+      - Once the PR is merged, the ``main`` branch receives a tag with the cycle and revision number (``cycle.revision``, e.g. ``c0021.000``).
+      - At this point the cycle branch (e.g. ``cycle/0021``) should be deleted to avoid confusion when opening ticket branches for cycle revisions.
 
-  - From this point on, new PRs will be made directly to ``master``, until a new cycle is created.
+  - From this point on, new PRs will be made directly to ``main``, until a new cycle is created.
 
 Managing the Build
 ------------------
@@ -160,7 +161,7 @@ To update a local copy do;
 .. prompt:: bash
 
   cd ts_cycle_build/  # Update the path to match the location of the package in your environment
-  git checkout master
+  git checkout main
   git pull
 
 If you are creating a new cycle, start by creating the cycle build and pushing it to github.
@@ -341,8 +342,8 @@ The image also ships with the basic Telescope and Site software needed to develo
 New packages can be added to the development environment by request.
 In some cases, adding new dependencies may require some discussion and agreement with team members and acceptance by the Software Architect.
 
-There are mainly three different types of development environment images; ``master``, ``develop`` and release cycle/revision tags.
-The first two tags, ``master`` and ``develop``, are updated daily with the ``lsstsqre/centos:w_latest`` base image and all the Telescope and Site software using ``master`` and ``develop`` branches, respectively.
+There are mainly three different types of development environment images; ``main``, ``develop`` and release cycle/revision tags.
+The first two tags, ``main`` and ``develop``, are updated daily with the ``lsstsqre/centos:w_latest`` base image and all the Telescope and Site software using ``main`` and ``develop`` branches, respectively.
 This process helps guard the system against potential breakages introduced by changes in any of the packages that are part of the image.
 
 The cycle and revision tag images are built from the versions specified in ``cycle/cycle.env``.
@@ -355,7 +356,7 @@ To pull one of these images simply do;
 
   docker pull lsstts/develop-env:<tag>
 
-Where tag can either be ``master``, ``develop`` or ``<cycle>.<rev>``.
+Where tag can either be ``main``, ``develop`` or ``<cycle>.<rev>``.
 You can check the latest cycle/revision `here <https://github.com/lsst-ts/ts_cycle_build/blob/develop/cycle/cycle.env>`__.
 
 Once the image has been pulled you can verify the version of all the Telescope and Site software in the image by inspecting the image labels.
@@ -365,7 +366,7 @@ The command is;
 
   docker inspect -f '{{ range $k, $v := .Config.Labels -}} {{ $k }}={{ $v }} {{ end -}}' lsstts/develop-env:<tag>
 
-For ``master`` and ``develop`` all packages will have labels ``master`` and ``develop``, respectively, whereas cycle/revision images will show the packages tags.
+For ``main`` and ``develop`` all packages will have labels ``main`` and ``develop``, respectively, whereas cycle/revision images will show the packages tags.
 
 In addition to the Telescope and Site software, the development image also ships with a number of packages used for development, for instance, ``pytest``, ``pytest-asyncio``, ``pytest-black`` and many others.
 There are mainly three categories of software provided with the image, ``yum``, ``conda`` and ``pypi`` packages.
