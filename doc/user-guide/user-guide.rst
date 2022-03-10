@@ -94,7 +94,7 @@ To deal with this process in a more comprehensive way, this repository uses a di
 
 .. _TSSW: https://tssw-developer.lsst.io/#id4
 
-  - For the cycle build we adopt ``main`` as the main branch, and also the branch that tracks what is running in the production environment.
+  - For the cycle build we adopt ``main`` as the "base" branch, and also the branch that tracks what is running in the production environment.
 
   - To start a new cycle, users must create a new branch that, initially, tracks the ``main`` branch.
     The branch must be named ``cycle/####``.
@@ -117,6 +117,9 @@ To deal with this process in a more comprehensive way, this repository uses a di
   - If new revisions to the current cycle (say cycle 20) are needed to support the production environment, ticket branches out of ``main`` should be created and PRs must be opened and merged back to ``main``, as usual.
 
   - If new revisions to the new cycle are needed **before the new cycle is officially released**, ticket branches out of the new cycle branch should be created (e.g. ``cycle/0021``) and PRs must be opened and merged **back to the cycle branch**.
+
+  - As long as the new revision has not been release, the revision number should not be increased.
+    It is perfectly OK to combine the changes to several tickets in a single revision if necessary.
 
   - Once the new cycle is deployed at the summit and certified, a PR should be opened to merge the cycle branch back to ``main``.
     The procedure is as follows:
