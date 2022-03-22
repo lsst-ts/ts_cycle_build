@@ -29,10 +29,17 @@ def main(opts):
         f"{json_file.stem}_{opts.site_tag}_{datetime_tag}{json_file.suffix}"
     )
     json_file = json_file.rename(target_json_file)
+    json_file_str = str(json_file)
 
-    key = [f"s3://{s3_bucket}", "LOVE", "view-backup", now.strftime("%Y/%W")]
+    key = [
+        f"s3://{s3_bucket}",
+        "LOVE",
+        "view-backup",
+        now.strftime("%Y/%W"),
+        json_file_str,
+    ]
 
-    output = ["--endpoint-url", s3_endpoint, "s3", "cp", str(json_file), "/".join(key)]
+    output = ["--endpoint-url", s3_endpoint, "s3", "cp", json_file_str, "/".join(key)]
     print(" ".join(output))
 
 
