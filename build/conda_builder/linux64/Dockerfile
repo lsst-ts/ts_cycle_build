@@ -55,7 +55,7 @@ WORKDIR /home/saluser
 
 ARG PYTHON_VERSION=3.8m
 ARG CONDA_PY_VERSION=38
-ARG CONDA_VERSION=4.9.2
+ARG CONDA_VERSION=4.11.0
 
 RUN curl https://repo.anaconda.com/miniconda/Miniconda3-py${CONDA_PY_VERSION}_${CONDA_VERSION}-Linux-x86_64.sh -o miniconda.sh && chmod +x miniconda.sh && ./miniconda.sh -b
 
