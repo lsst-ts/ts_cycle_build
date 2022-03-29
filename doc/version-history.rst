@@ -8,6 +8,66 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 25
+========
+
+* Updated the Miniconda version to 4.11.0.
+* Add LOVE view-backup container.
+* Removed adam-sensors from the components lists.
+* Update version of the following packages:
+
+  * ts_xml
+  * ts_salobj
+  * ts_develop
+  * ts_hexrotcomm
+  * ts_ATDome
+  * ts_ATDomeTrajectory
+  * ts_ATMCSSimulator
+  * ts_ATPneumaticsSimulator
+  * ts_athexapod
+  * ts_atspec
+  * ts_mtrotator
+  * ts_mthexapod
+  * ts_salkafka
+  * ts_observatory_control
+  * ts_standardscripts
+  * ts_externalscripts
+  * ts_scriptqueue
+  * ts_ataos
+  * ts_m2
+  * ts_mtmount
+  * ts_m1m3support
+  * ts_cRIOcpp
+  * ts_mtaos
+  * ts_wep
+  * ts_ofc
+  * ts_phosim
+  * ts_watcher
+  * ts_scheduler
+  * ts_mtdome
+  * ts_mtdometrajectory
+  * ts_dsm
+  * ts_weatherstation
+  * ts_dimm
+  * ts_ess_common
+  * ts_ess_csc
+  * ts_conda_build
+  * ts_tcpip
+  * ts_genericcamera
+  * ts_hvac
+  * ts_electrometer
+  * ts_config_atcalsys
+  * ts_config_attcs
+  * ts_config_latiss
+  * ts_config_mtcalsys
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_commander
+  * love_producer
+  * love_frontend
+  * love_manager
+
+
 Cycle 24 revision 8
 ===================
 
