@@ -66,9 +66,7 @@ ARG spectractor_work_branch
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${spectractor_work_branch} && \
-    eups declare -r . -t saluser && \
-    setup spectractor -t saluser && \
-    scons opt=3
+    eups declare -r . -t saluser
 
 WORKDIR ${SAL_HOME}/repos/atmospec
 
@@ -76,11 +74,11 @@ ARG atmospec_work_branch
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${atmospec_work_branch} && \
-    eups declare -r . -t current && \
+    eups declare -r . -t saluser && \
     setup lsst_distrib && \
     setup obs_lsst -j -t saluser && \
     setup spectractor -t saluser && \
-    setup atmospec -j -t current && \
+    setup atmospec -j -t saluser && \
     scons opt=3
 
 WORKDIR ${SAL_HOME}/repos/rapid_analysis
@@ -89,11 +87,11 @@ ARG rapid_analysis_work_branch
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${rapid_analysis_work_branch} && \
-    eups declare -r . -t current && \
+    eups declare -r . -t saluser && \
     setup lsst_distrib && \
     setup obs_lsst -j -t saluser && \
-    setup atmospec -j -t current && \
-    setup rapid_analysis -j -t current && \
+    setup atmospec -j -t saluser && \
+    setup rapid_analysis -j -t saluser && \
     scons opt=3 -j 4 || echo tests failed... 
 
 ENV RUN_ARG="-v"
