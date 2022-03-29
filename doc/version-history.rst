@@ -8,7 +8,30 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
-Cycle 24 revision 6
+Cycle 24 revision 8
+===================
+
+* Update version of the following packages:
+
+  * lsstsqre
+  * ts_observatory_control
+  * ts_standardscripts
+  * ts_externalscripts
+  * spectractor
+  * rapid_analysis
+  * atmospec
+  * obs_lsst
+  * ts_scheduler
+  * ts_config_ocs
+  * ts_config_latiss
+  * love_producer
+  * love_frontend
+  * love_manager
+  * love_commander
+
+* In rubinTV broadcaster, remove `scons` from spectractor build.
+
+Cycle 24 revision 7
 ===================
 
 * Update version of the following package(s)
