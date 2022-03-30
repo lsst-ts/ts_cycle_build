@@ -32,8 +32,9 @@ pipeline{
                 source cycle/cycle.env
                 cd nublado/
                 make build supplementary="" tag=\${stack}_\${CYCLE}\${rev} input=lsstts/sal-sciplat: image=lsstts/sal-sciplat-lab
-                docker tag lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} lsstts/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
-                docker push lsstts/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+                docker tag lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} lsstts/sal-sciplat-lab:recommended_\${CYCLE}
+                docker push lsstts/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+                docker push lsstts/sal-sciplat-lab:recommended_\${CYCLE}
               """
             }
           }
@@ -51,8 +52,9 @@ pipeline{
                 source cycle/cycle.env
                 cd nublado/
                 make build supplementary="" tag=\${stack}_\${CYCLE}\${rev} input=ts-dockerhub.lsst.org/sal-sciplat: image=ts-dockerhub.lsst.org/sal-sciplat-lab
-                docker tag ts-dockerhub.lsst.org/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} ts-dockerhub.lsst.org/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
-                docker push ts-dockerhub.lsst.org/nts-sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+                docker tag ts-dockerhub.lsst.org/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev} ts-dockerhub.lsst.org/sal-sciplat-lab:recommended_\${CYCLE}
+                docker push ts-dockerhub.lsst.org/sal-sciplat-lab:\${stack}_\${CYCLE}\${rev}
+                docker push ts-dockerhub.lsst.org/sal-sciplat-lab:recommended_\${CYCLE}
               """
             }
           }
