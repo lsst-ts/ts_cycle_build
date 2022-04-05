@@ -11,6 +11,9 @@ Version History
 Cycle 25
 ========
 
+* Fix build of nublado recommended images and remove legacy code that was tagging/pushing "nts" specific images.
+  Tag recommended nublado image.
+* Update LOVE-commander build to add version of ts_observatory_control.
 * Updated the Miniconda version to 4.11.0.
 * Add LOVE view-backup container.
 * Removed adam-sensors from the components lists.
@@ -20,6 +23,7 @@ Cycle 25
   * ts_salobj
   * ts_develop
   * ts_hexrotcomm
+  * ts_simactuators
   * ts_ATDome
   * ts_ATDomeTrajectory
   * ts_ATMCSSimulator
