@@ -54,6 +54,7 @@ x-love-commander:
       hub: ${hub}
       cycle: ${CYCLE}
       love_commander: ${love_commander}
+      ts_observatory_control: ${ts_observatory_control}
 
 x-love-frontend:
   &base-love-frontend
