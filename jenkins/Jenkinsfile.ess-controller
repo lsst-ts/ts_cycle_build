@@ -1,0 +1,57 @@
+pipeline {
+    agent {
+        docker {
+            alwaysPull true
+            label 'Arm64_2CPU'
+            image 'lsstts/docker-compose-aarch64'
+            args "--entrypoint='' --user root --privileged -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
+        }
+    }
+
+    parameters {
+        booleanParam defaultValue: false, description: "Build/push ess-controller image?", name: 'build_ess_controller'
+    }
+
+     environment {
+        registryCredential = "dockerhub-lssttsadmin"
+    }
+
+    stages {
+        stage ('Build and Push ESS Controller image') {
+            when {
+                expression { params.build_ess_controller }
+            }
+            steps {
+                script {
+                    docker.withRegistry("", registryCredential) {
+                        sh """
+                            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ess-controller-aarch64
+                            docker push lsstts/ess-controller-aarch64
+                        """
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            step([$class: 'Mailer',
+                notifyEveryUnstableBuild: false,
+                recipients: "wvanreeven@lsst.org",
+                sendToIndividuals: true])
+        }
+        regression {
+            script {
+                def userId = "URY8ACN4S"
+                slackSend(color: "danger", message: "<@$userId> ${JOB_NAME} has suffered a regression ${BUILD_URL}", channel: "#jenkins-builds, @$userId")
+            }
+
+        }
+        fixed {
+            script {
+                def userId = "URY8ACN4S"
+                slackSend(color: "good", message: "<@$userId> ${JOB_NAME} has been fixed ${BUILD_URL}", channel: "#jenkins-builds, @$userId")
+            }
+        }
+    }
+}
