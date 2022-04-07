@@ -267,6 +267,7 @@ The steps in the build are as follows:
     - watcher
     - weatherstation
 
+  - build_ess_controller: Build ESS Controller Docker image.
   - build_m1m3_sim: Build M1M3 simulator.
   - build_ptg: Build pointing component.
     Both AT and MT use the same code base and image.
@@ -309,7 +310,7 @@ Specifically, those that use the ``deploy_conda`` and are built from conda packa
   For most cases, rerunning the build in Jenkins (after making sure the dependencies are available) should be enough to fix the problem.
   If further issues are encountered with the build for that particular package you can either attempt to fix it yourself (most cases are simple pep8 or black formatting issues) or contact the developer in charge of the component and request a patch.
 
-Once the ``base_components`` are built successfully the natural next phase is to build ``MTM1M3`` simulator and pointing component, ``build_mtm1m3_sim`` and ``build_ptg``, respectively.
+Once the ``base_components`` are built successfully the natural next phase is to build the ``ESS Controller`` Docker image, the ``MTM1M3`` simulator and the pointing component, ``build_mtm1m3_sim`` and ``build_ptg``, respectively.
 These are both C++ components built using the ``deploy_conda`` base image.
 In both cases, the SAL libraries are installed using the rpm packages from the nexus server and the components are compiled at build time.
 

@@ -1,51 +1,51 @@
-FROM centos:centos7
+FROM almalinux:8
 
 ARG UID=1003
 ARG GID=1003
 
-LABEL maintainer="Wouter van Reeven <wvanreeven@lsst.org>"
+LABEL maintainer Wouter van Reeven <wvanreeven@lsst.org>
 
-ENV USER=${USER:-saluser}
-ENV HOME=/home/saluser
+ENV USER ${USER:-saluser}
+ENV HOME /home/saluser
 
-ENV PYTHON_BUILD_LOCATION=/home/saluser/miniconda3
+ENV PYTHON_BUILD_LOCATION=${HOME}/miniconda3
 
 USER root
 
-# Create user and group
+RUN dnf install -y mlocate
 RUN groupadd --gid ${GID} saluser && \
-    adduser -u ${UID} -m -g ${GID} -G wheel,dialout -s /bin/bash saluser
+    adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
+
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
+RUN dnf install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.8.0-openjdk-devel maven git git-lfs bzip2 wget
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
-COPY conda_builder/aarch64/setup.sh /home/saluser/.setup.sh
-COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
+COPY conda_builder/aarch64/setup.sh ${HOME}/.setup.sh
+COPY develop-env/salobj/checkout_repo.sh ${HOME}/.checkout_repo.sh
 
-ARG dds_community_version=6.9.0
-
-RUN chown saluser:saluser /home/saluser/.setup.sh && \
-    chown saluser:saluser /home/saluser/.checkout_repo.sh && \
-    chmod a+x /home/saluser/.setup.sh && \
-    chmod a+x /home/saluser/.checkout_repo.sh && \
-    touch ${HOME}/.ospl_env.sh && \
-    chown saluser:saluser ${HOME}/.ospl_env.sh && \
-    chmod a+x ${HOME}/.ospl_env.sh && \
-    yum install -y git make gcc-c++ && \
-    yum install -y OpenSpliceDDS && \
-    echo export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/aarch64.linux >> ${SALUSER_HOME}/.ospl.env
+RUN chown saluser:saluser ${HOME}/.setup.sh && \
+    chown saluser:saluser ${HOME}/.checkout_repo.sh && \
+    chmod a+x ${HOME}/.setup.sh && \
+    chmod a+x ${HOME}/.checkout_repo.sh
 
 USER saluser
 
-WORKDIR /home/saluser
+WORKDIR ${HOME}
 
-ENV OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/aarch64.linux
+ARG PYTHON_VERSION=3.8
 
-RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh -o miniforge.sh && \
-    chmod +x miniforge.sh && ./miniforge.sh -b -p ${PYTHON_BUILD_LOCATION} && \
-    source ~/miniconda3/bin/activate && \
+RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh -O mambaforge.sh && \
+    chmod +x mambaforge.sh && \
+    ./mambaforge.sh -b -p ${HOME}/miniconda3 && \
+    source ${HOME}/miniconda3/bin/activate && \
+    mamba install -y python=${PYTHON_VERSION} && \
+    conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
-    conda install -y numpy=1.20 && \
-    conda install -y conda-build anaconda-client setuptools_scm ts-ddsconfig && \
-    conda init bash
+    mamba update -y --all && \
+    mamba install -y conda-build anaconda-client setuptools_scm && \
+    mamba init bash
+
+COPY conda_builder/aarch64/setup.sh ${HOME}/.setup.sh
 
 ENTRYPOINT ["/bin/bash", "--"]
 

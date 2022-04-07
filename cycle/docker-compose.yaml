@@ -521,6 +521,17 @@ x-ess:
       common: ${ts_ess_common}
       config: ${ts_config_ocs}
 
+x-ess-controller-aarch64:
+  &base-controller-aarch64
+  build:
+    context: ../build/ess-controller
+    labels:
+      com.description: "ESS aarch64 Controller for cycle {$CYCLE}"
+    args:
+      hub: lsstts
+      controller: ${ts_ess_controller}
+      common: ${ts_ess_common}
+
 x-hvac:
   &base-hvac
   build:
@@ -631,6 +642,14 @@ services:
         ts_dds: ${ts_dds_private}
         ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
         ts_ddsconfig: ${ts_ddsconfig}
+
+  docker-compose-aarch64:
+    image: lsstts/docker-compose-aarch64
+    build:
+      context: ../build/
+      dockerfile: ./docker-compose-aarch64/Dockerfile
+      labels:
+        com.description: "docker-compose aarch64 image."
 
   base-sqre-community:
     image: lsstts/base-sqre:${CYCLE}
@@ -874,10 +893,17 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base CentOS 7 aarch64 image for cycle
-          ${CYCLE}."
-      args:
-        dds_community_version: ${dds_community_version}
+        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle
+          ${CYCLE}. This image doesn't contain OpenSpliceDDS."
+
+  conda-builder-aarch64-private:
+    image: ${hub}/conda_package_builder_aarch64:${CYCLE}
+    build:
+      context: ../build/
+      dockerfile: ./conda_builder/aarch64/Dockerfile
+      labels:
+        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle
+          ${CYCLE}. This image doesn't contain OpenSpliceDDS."
 
   conda-builder-community:
     image: lsstts/conda_package_builder:${CYCLE}
@@ -1228,6 +1254,10 @@ services:
   ess_c:
     image: ${hub}/ess:${CYCLE}
     <<: *base-ess
+
+  ess-controller-aarch64:
+    image: lsstts/ess-controller-aarch64
+    <<: *base-controller-aarch64
 
   hvac:
     image: ${hub}/hvac:${CYCLE}${rev}
