@@ -71,6 +71,7 @@ Cycle 25
   * love_frontend
   * love_manager
 
+* Added mtaircompressor container
 
 Cycle 24 revision 8
 ===================

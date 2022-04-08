@@ -189,6 +189,17 @@ x-mtm1m3_sim:
       m1m3: ${ts_m1m3support}
       crio_cpp: ${ts_cRIOcpp}
 
+x-mtaircompressor:
+  &base-mtaircompressor
+  build:
+    context: ../build/mtaircompressor
+    labels:
+      com.description: "M1M3 & Camera air compressors on level 1 for cycle/revision ${CYCLE}/${rev}."
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      ts_mtaircompressor: ${ts_mtaircompressor}
+
 x-mtm2_sim:
   &base-mtm2_sim
   build:
@@ -1029,6 +1040,10 @@ services:
   mtm1m3_sim_c:
     image: ${hub}/mtm1m3_sim:${CYCLE}
     <<: *base-mtm1m3_sim
+
+  mtaircompressor:
+    image: ${hub}/mtaircompressor:${CYCLE}${rev}
+    <<: *base-mtaircompressor
 
   mtm2_sim:
     image: ${hub}/m2:${CYCLE}${rev}
