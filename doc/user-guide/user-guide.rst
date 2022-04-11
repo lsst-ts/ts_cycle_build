@@ -278,6 +278,8 @@ The steps in the build are as follows:
     This adds the Telescope and Site base layer to a base DM image needed for nublado.
   - build_sciplat_lab_recommended: Builds nublado images.
     Adds the final layer on the nublado images, needed to make them compatible with nublado system.
+  - rubintv_broadcaster: Builds RubinTV broadcaster.
+    Backend for RubinTV, a service that provides rapid image analysis for the LSST Auxiliary Telescope
 
 It is important to follow the build steps order.
 Also, we recommend running one step at a time in the Jenkins server, to make sure the image is pushed correctly, avoiding a potential push problem at the end.
@@ -331,7 +333,9 @@ This image uses the ``deploy_lsstsqre`` as a base image and uses ``eups`` to ins
 
 Next, proceed to build the ``MTAOS`` component, which is also built on top of  ``deploy_lsstsqre``, due to its dependency on the DM stack.
 
-Finally, build the two nublado images, ``build_salplat`` first and then ``build_sciplat_lab_recommended``, since the latter depends on the former to build.
+Then, build the two nublado images, ``build_salplat`` first and then ``build_sciplat_lab_recommended``, since the latter depends on the former to build.
+
+Finally, build the ``RubinTV Broadcaster``. For more info, see `here <https://roundtable.lsst.codes/rubintv/>`__.
 
 With this, all systems are ready to be deployed.
 
