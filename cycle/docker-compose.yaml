@@ -126,7 +126,6 @@ x-mtaos:
       hub: ${hub}
       cycle: ${CYCLE}
       ts_conda_build: ${ts_conda_build}
-      obs_lsst: ${obs_lsst}
       phosim_utils: ${phosim_utils}
       ts_wep: ${ts_wep}
       ts_ofc: ${ts_ofc}

@@ -23,7 +23,6 @@ ARG LSST_USER_HOME=/home/${LSST_USER}
 WORKDIR ${WORKDIR}
 
 ARG AOS_REPOS=${LSST_USER_HOME}/repos
-ARG obs_lsst
 ARG phosim_utils
 ARG ts_wep
 ARG ts_ofc
@@ -37,15 +36,11 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     export PATH=${WORKDIR}/bin:${PATH} && \
     mkdir ${AOS_REPOS} \
     && cd ${AOS_REPOS} \
-    && git clone https://github.com/lsst/obs_lsst.git \
     && git clone https://github.com/lsst-dm/phosim_utils.git \
     && git clone https://github.com/lsst-ts/ts_wep.git \
     && git clone https://github.com/lsst-ts/ts_ofc.git \
     && git clone https://github.com/lsst-ts/ts_MTAOS.git \
     && git clone https://github.com/lsst-ts/ts_config_mttcs.git \
-    && cd ${AOS_REPOS}/obs_lsst \
-    && /home/saluser/.checkout_repo.sh ${obs_lsst} \
-    && eups declare -r . obs_lsst $(git describe) -t ${LSST_USER} \
     && cd ${AOS_REPOS}/phosim_utils \
     && /home/saluser/.checkout_repo.sh ${phosim_utils} \
     && eups declare -r . phosim_utils ${phosim_utils} -t current \
@@ -63,15 +58,6 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     && eups declare -r . ts_config_mttcs ${ts_config_mttcs} -t current
 
 # Run scons on each package
-
-# obs_lsst
-WORKDIR ${AOS_REPOS}/obs_lsst
-RUN source ${WORKDIR}/loadLSST.bash && \
-    setup lsst_distrib && \
-    eups declare -r . -t saluser && \
-    setup obs_lsst -j -t saluser && \
-    scons opt=3 -j 4
-
 # phosim_utils
 WORKDIR ${AOS_REPOS}/phosim_utils
 RUN source ${WORKDIR}/loadLSST.bash && \
@@ -105,7 +91,6 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     scons || pytest --lf
 
 LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
-    obs_lsst=${obs_lsst} \
     phosim_utils=${phosim_utils} \
     ts_wep=${ts_wep} \
     ts_ofc=${ts_ofc} \
