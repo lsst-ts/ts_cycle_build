@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 24 revision 9
+===================
+
+* Update version of the following packages:
+
+  * ts_observatory_control
+  * rubin_sim
+  * ts_hexrotcomm
+  * love-manager
+  * love-frontend
+
+
 Cycle 24 revision 8
 ===================
 
