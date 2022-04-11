@@ -478,7 +478,7 @@ x-genericcamera:
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      genericcamera: ${ts_GenericCamera}
+      genericcamera: ${ts_genericcamera}
       config: ${ts_config_ocs}
       gphoto2: ${gphoto2}
 
