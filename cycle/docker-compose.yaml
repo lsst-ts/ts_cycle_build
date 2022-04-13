@@ -1070,6 +1070,10 @@ services:
     image: ${hub}/mtaircompressor:${CYCLE}${rev}
     <<: *base-mtaircompressor
 
+  mtaircompressor_c:
+    image: ${hub}/mtaircompressor:${CYCLE}
+    <<: *base-mtaircompressor
+
   mtm2_sim:
     image: ${hub}/m2:${CYCLE}${rev}
     <<: *base-mtm2_sim
