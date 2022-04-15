@@ -21,7 +21,7 @@ pipeline{
           }
       }
 
-      stage ('Build Sal Sciplat Lab community-edition recommended image for NTS') {
+      stage ('Build Sal Sciplat Lab community-edition recommended image for TTS') {
         when {
           expression { params.build_sciplat_lab_recommended }
         }
@@ -41,7 +41,7 @@ pipeline{
         }
       }
 
-      stage ('Build Sal Sciplat Lab licensed-edition recommended image for NTS') {
+      stage ('Build Sal Sciplat Lab licensed-edition recommended image for TTS') {
         when {
           expression { params.build_sciplat_lab_recommended }
         }
@@ -158,7 +158,7 @@ pipeline{
                 def userId = "U72CH91L2"
                 slackSend(color: "good", message: "<@$userId> ${JOB_NAME} has been fixed ${BUILD_URL}", channel: "#jenkins-builds")
             }
-        }      
+        }
        cleanup {
             deleteDir()
         }
