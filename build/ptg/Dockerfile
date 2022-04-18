@@ -104,7 +104,9 @@ COPY ptg/AT_point_data_20210906_tw004_ia_ie_ca_an_aw_tf.mod /home/saluser/repos/
 COPY ptg/AT_point_data_20210906_tw004_corr_fauto.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/AT_point_data_20210906_tw004_corr_ia_ie_ca_an_aw_tf.mod /home/saluser/repos/ts_pointing_common/install/data/
 COPY ptg/at_202111_ia_ie_ca_an_aw_tf_tx10.mod /home/saluser/repos/ts_pointing_common/install/data/at_202111_ia_ie_ca_an_aw_tf_tx10.mod
-COPY ptg/at.mod /home/saluser/repos/ts_pointing_common/install/data/
+COPY ptg/at_20220406_fauto.mod /home/saluser/repos/ts_pointing_common/install/data/at_20220406_fauto.mod
+COPY ptg/at_20220406_ia_ie_an_aw_tx10_ca.mod /home/saluser/repos/ts_pointing_common/install/data/at_20220406_ia_ie_an_aw_tx10_ca.mod
+COPY ptg/at_20220406_ia_ie_an_aw_tx10_ca.mod /home/saluser/repos/ts_pointing_common/install/data/at.mod
 
 USER root
 RUN chown -R saluser:saluser /home/saluser/repos/ts_pointing_common/install/data/ && \
