@@ -19,6 +19,5 @@ setup lsst_distrib
 setup spectractor -t saluser
 setup atmospec -j -t saluser
 setup rapid_analysis -j -t saluser 
-setup obs_lsst -j -t saluser
 
 python $RUN_ARG
