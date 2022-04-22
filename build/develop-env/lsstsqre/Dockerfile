@@ -22,8 +22,8 @@ RUN if [ $UID -eq 1000 ] && [ $GID -eq 1000 ]; then  \
     usermod -a -G lsst saluser ; \
     fi
 
-RUN curl -sL https://rpm.nodesource.com/setup_current.x | bash - && \
-    yum install -y nodejs && node --version
+RUN curl -sL https://rpm.nodesource.com/setup_17.x | bash - && \
+    yum install -y glibc231 nodejs && node --version
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-private.repo
@@ -31,7 +31,7 @@ COPY develop-env/lsstsqre/gitconfig ${HOME}/.gitconfig
 COPY develop-env/lsstsqre/setup_env.sh /home/saluser/.setup_salobj.sh
 
 RUN yum install -y https://repo.ius.io/ius-release-el7.rpm
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash 
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
 RUN yum -y --enablerepo=extras install epel-release \
     unzip \
     wget \
@@ -178,7 +178,7 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     conda install -y mamba
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    mamba install -y conda-build anaconda-client setuptools_scm maven=${maven} openjdk=${openjdk} 
+    mamba install -y conda-build anaconda-client setuptools_scm maven=${maven} openjdk=${openjdk}
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     mamba install -y -c lsstts ts-develop=${ts_develop}

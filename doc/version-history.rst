@@ -8,6 +8,80 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 25
+========
+
+* Fix build of nublado recommended images and remove legacy code that was tagging/pushing "nts" specific images.
+  Tag recommended nublado image.
+* Update LOVE-commander build to add version of ts_observatory_control.
+* Updated the Miniconda version to 4.11.0.
+* Add LOVE view-backup container.
+* Removed adam-sensors from the components lists.
+* Updated and modernized all aarch64 build files.
+* Update MTAOS build to remove custom obs_lsst. This was needed before due to issues with the site version of obs_lsst, which were resolved already.
+* Added RubinTV Broadcaster to the user guide.
+* Replaced ts_GenericCamera everywhere with ts_genericcamera.
+* Add _c entry for mtaircompressor and fix _c list ordering.
+* Changed NTS to TTS in the documentation.
+* Update pointing models for the Auxiliary Telescope.
+* Update rubintv-broadcaster build to remove inline obs_lsst.
+* Fixed the BaseDevImage build by pinning NodeJS to version 17.
+* Update version of the following packages:
+
+  * ts_xml
+  * ts_salobj
+  * ts_develop
+  * ts_hexrotcomm
+  * ts_simactuators
+  * ts_ATDome
+  * ts_ATDomeTrajectory
+  * ts_ATMCSSimulator
+  * ts_ATPneumaticsSimulator
+  * ts_athexapod
+  * ts_atspec
+  * ts_mtrotator
+  * ts_mthexapod
+  * ts_salkafka
+  * ts_observatory_control
+  * ts_standardscripts
+  * ts_externalscripts
+  * ts_scriptqueue
+  * ts_ataos
+  * ts_m2
+  * ts_mtmount
+  * ts_m1m3support
+  * ts_cRIOcpp
+  * ts_mtaos
+  * ts_wep
+  * ts_ofc
+  * ts_phosim
+  * ts_watcher
+  * ts_scheduler
+  * ts_mtdome
+  * ts_mtdometrajectory
+  * ts_dsm
+  * ts_weatherstation
+  * ts_dimm
+  * ts_ess_common
+  * ts_ess_csc
+  * ts_conda_build
+  * ts_tcpip
+  * ts_genericcamera
+  * ts_hvac
+  * ts_electrometer
+  * ts_config_atcalsys
+  * ts_config_attcs
+  * ts_config_latiss
+  * ts_config_mtcalsys
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_commander
+  * love_producer
+  * love_frontend
+  * love_manager
+
+* Added mtaircompressor container
+
 Cycle 24 revision 10
 ====================
 

@@ -54,6 +54,7 @@ x-love-commander:
       hub: ${hub}
       cycle: ${CYCLE}
       love_commander: ${love_commander}
+      ts_observatory_control: ${ts_observatory_control}
 
 x-love-frontend:
   &base-love-frontend
@@ -104,6 +105,16 @@ x-love-csc:
       cycle: ${CYCLE}
       love_producer: ${love_producer}
 
+x-love-view-backup:
+  &base-love-view-backup
+  build:
+    context: ../build/love/view-backup
+    labels:
+      com.description: "LOVE view-backup for cycle/revision ${CYCLE}${rev}."
+    args:
+      UID: ${B_UID}
+      GID: ${B_GID}
+
 x-mtaos:
   &base-mtaos
   build:
@@ -115,7 +126,6 @@ x-mtaos:
       hub: ${hub}
       cycle: ${CYCLE}
       ts_conda_build: ${ts_conda_build}
-      obs_lsst: ${obs_lsst}
       phosim_utils: ${phosim_utils}
       ts_wep: ${ts_wep}
       ts_ofc: ${ts_ofc}
@@ -177,6 +187,17 @@ x-mtm1m3_sim:
       rpm: ${ts_xml}-${ts_sal}.el7.x86_64
       m1m3: ${ts_m1m3support}
       crio_cpp: ${ts_cRIOcpp}
+
+x-mtaircompressor:
+  &base-mtaircompressor
+  build:
+    context: ../build/mtaircompressor
+    labels:
+      com.description: "M1M3 & Camera air compressors on level 1 for cycle/revision ${CYCLE}/${rev}."
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      ts_mtaircompressor: ${ts_mtaircompressor}
 
 x-mtm2_sim:
   &base-mtm2_sim
@@ -256,7 +277,6 @@ x-base-rubintv-broadcaster:
       spectractor_work_branch: ${Spectractor}
       atmospec_work_branch: ${atmospec}
       rapid_analysis_work_branch: ${rapid_analysis}
-      obs_lsst: ${obs_lsst}
 
 x-salkafka:
   &base-salkafka
@@ -457,7 +477,7 @@ x-genericcamera:
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      genericcamera: ${ts_GenericCamera}
+      genericcamera: ${ts_genericcamera}
       config: ${ts_config_ocs}
       gphoto2: ${gphoto2}
 
@@ -498,6 +518,17 @@ x-ess:
       ess: ${ts_ess_csc}
       common: ${ts_ess_common}
       config: ${ts_config_ocs}
+
+x-ess-controller-aarch64:
+  &base-controller-aarch64
+  build:
+    context: ../build/ess-controller
+    labels:
+      com.description: "ESS aarch64 Controller for cycle {$CYCLE}"
+    args:
+      hub: lsstts
+      controller: ${ts_ess_controller}
+      common: ${ts_ess_common}
 
 x-hvac:
   &base-hvac
@@ -609,6 +640,14 @@ services:
         ts_dds: ${ts_dds_private}
         ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
         ts_ddsconfig: ${ts_ddsconfig}
+
+  docker-compose-aarch64:
+    image: lsstts/docker-compose-aarch64
+    build:
+      context: ../build/
+      dockerfile: ./docker-compose-aarch64/Dockerfile
+      labels:
+        com.description: "docker-compose aarch64 image."
 
   base-sqre-community:
     image: lsstts/base-sqre:${CYCLE}
@@ -852,10 +891,17 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base CentOS 7 aarch64 image for cycle
-          ${CYCLE}."
-      args:
-        dds_community_version: ${dds_community_version}
+        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle
+          ${CYCLE}. This image doesn't contain OpenSpliceDDS."
+
+  conda-builder-aarch64-private:
+    image: ${hub}/conda_package_builder_aarch64:${CYCLE}
+    build:
+      context: ../build/
+      dockerfile: ./conda_builder/aarch64/Dockerfile
+      labels:
+        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle
+          ${CYCLE}. This image doesn't contain OpenSpliceDDS."
 
   conda-builder-community:
     image: lsstts/conda_package_builder:${CYCLE}
@@ -971,6 +1017,14 @@ services:
     image: ${hub}/love-csc:${CYCLE}
     <<: *base-love-csc
 
+  love-view-backup:
+    image: ${hub}/love-view-backup:${CYCLE}${rev}
+    <<: *base-love-view-backup
+
+  love-view-backup_c:
+    image: ${hub}/love-view-backup:${CYCLE}
+    <<: *base-love-view-backup
+
   mtaos:
     image: ${hub}/mtaos:${CYCLE}${rev}
     <<: *base-mtaos
@@ -1010,6 +1064,14 @@ services:
   mtm1m3_sim_c:
     image: ${hub}/mtm1m3_sim:${CYCLE}
     <<: *base-mtm1m3_sim
+
+  mtaircompressor:
+    image: ${hub}/mtaircompressor:${CYCLE}${rev}
+    <<: *base-mtaircompressor
+
+  mtaircompressor_c:
+    image: ${hub}/mtaircompressor:${CYCLE}
+    <<: *base-mtaircompressor
 
   mtm2_sim:
     image: ${hub}/m2:${CYCLE}${rev}
@@ -1194,6 +1256,10 @@ services:
   ess_c:
     image: ${hub}/ess:${CYCLE}
     <<: *base-ess
+
+  ess-controller-aarch64:
+    image: lsstts/ess-controller-aarch64
+    <<: *base-controller-aarch64
 
   hvac:
     image: ${hub}/hvac:${CYCLE}${rev}
