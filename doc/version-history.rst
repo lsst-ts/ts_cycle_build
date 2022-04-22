@@ -17,6 +17,15 @@ Cycle 25
 * Updated the Miniconda version to 4.11.0.
 * Add LOVE view-backup container.
 * Removed adam-sensors from the components lists.
+* Updated and modernized all aarch64 build files.
+* Update MTAOS build to remove custom obs_lsst. This was needed before due to issues with the site version of obs_lsst, which were resolved already.
+* Added RubinTV Broadcaster to the user guide.
+* Replaced ts_GenericCamera everywhere with ts_genericcamera.
+* Add _c entry for mtaircompressor and fix _c list ordering.
+* Changed NTS to TTS in the documentation.
+* Update pointing models for the Auxiliary Telescope.
+* Update rubintv-broadcaster build to remove inline obs_lsst.
+* Fixed the BaseDevImage build by pinning NodeJS to version 17.
 * Update version of the following packages:
 
   * ts_xml
