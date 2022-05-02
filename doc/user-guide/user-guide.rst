@@ -289,7 +289,7 @@ Since ``deploy_conda`` is quicker to build it is, in general, preferable to star
 
 .. note::
 
-	The most common issue in building the base images is that the core conda packages are not built yet.
+  The most common issue in building the base images is that the core conda packages are not built yet.
   Most notably, the ``ts-idl`` package.
 
   It is, in general, required to run the build manually by going to the `ts-idl conda package job`_ in Jenkins, selecting the version of ``ts-idl`` to build in the "Tags" tab and building it with the appropriate version of ``ts-xml`` and ``ts-sal``.
@@ -318,7 +318,7 @@ In both cases, the SAL libraries are installed using the rpm packages from the n
 
 .. note::
 
-	Sometimes it will happen that the RPM package with the library is not available for these components.
+  Sometimes it will happen that the RPM package with the library is not available for these components.
   This happens mostly when we update the version of OpenSplice.
   If this is the case contact the build team in the `ts-build slack channel`_.
 
@@ -413,7 +413,7 @@ The list of ``yum`` packages available in the image are:
 
 In addition, ``OpenSpliceDDS`` is also installed using ``yum`` from our nexus repo.
 This library provides the DDS communication middleware, which is the core of all Telescope and Site software.
-The public image (available in the ``lsstts`` docker hub channel), ships with the ``6.9.0`` community edition version of the library built for ``el6``, to be compatible with the conda environment of the base ``lsstsqre/centos`` image.
+The public image (available in the ``lsstts`` docker hub channel), ships with the ``6.9.0`` community edition version of the library built for ``el7``, to be compatible with the conda environment of the base ``lsstsqre/centos`` image.
 
 .. note::
 
