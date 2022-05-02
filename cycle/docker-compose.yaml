@@ -872,19 +872,6 @@ services:
         ts_hexrotcomm: ${ts_hexrotcomm}
         ts_tcpip: ${ts_tcpip}
 
-  bare-centos-community:
-    image: lsstts/centos7:${CYCLE}
-    build:
-      context: ../build/
-      dockerfile: ./develop-env/bare-centos/Dockerfile
-      labels:
-        com.description: "LSST Telescope and Site base CentOS 7 image for cycle ${CYCLE}."
-      args:
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
-        ts_xml: ${ts_xml}
-        ts_sal: ${ts_sal}
-
   conda-builder-aarch64-community:
     image: lsstts/conda_package_builder_aarch64:${CYCLE}
     build:
