@@ -1,4 +1,4 @@
-FROM centos:7
+FROM almalinux:8
 
 ARG UID=73006
 ARG GID=73006
@@ -22,8 +22,8 @@ COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
 
 # Create user and group
 
-ARG dds_community_version=6.9.0
-ARG dds_community_build=1.el6
+ARG dds_community_version
+ARG dds_community_build
 ARG dds_private_version
 ARG dds_private_build
 
@@ -39,16 +39,16 @@ RUN mkdir -p ${WORKDIR} && \
   touch ${HOME}/.ospl_env.sh && \
   chown -R saluser:saluser ${HOME}/.ospl_env.sh && \
   chmod a+x ${HOME}/.ospl_env.sh && \
-  yum install -y git make gcc-c++ && \
+  dnf install -y git make gcc-c++ && \
   if [ -z "${dds_private_version}" ]; then \
-  yum install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} ; \
-  echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux" >> ${HOME}/.ospl_env.sh ; \
+      dnf install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} || exit  ; \
+      echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux" >> ${HOME}/.ospl_env.sh ; \
   else \
-  yum install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
-  OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
-  echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${HOME}/.ospl_env.sh ; \
+      dnf install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
+      OpenSpliceDDS-${dds_private_version}-${dds_private_build} || exit  ; \
+      echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${HOME}/.ospl_env.sh ; \
   fi; \
-  rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
+  (rm /etc/yum.repos.d/lsst-ts-nexus-private.repo || echo "No Private repo")
 
 USER saluser
 
@@ -60,12 +60,18 @@ ARG ts_idl
 ARG ts_utils
 ARG ts_salobj
 
-RUN curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh && \
-  chmod +x miniconda.sh && ./miniconda.sh -b -p ${WORKDIR}/miniconda && \
+ARG PYTHON_VERSION=3.8
+
+RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o mambaforge.sh && \
+  chmod +x mambaforge.sh && \
+  ./mambaforge.sh -b -p ${WORKDIR}/miniconda && \
   source /home/saluser/.setup_sal_env.sh && \
+  mamba install -y python=${PYTHON_VERSION} && \
   conda config --add channels conda-forge && \
-  conda install -y cython && \
-  conda install -y -c lsstts -c lsstts/label/dev python=3.8 ts-ddsconfig=${ts_ddsconfig} ts-salobj=${ts_salobj} ts-dds=${ts_dds} ts-idl=${ts_idl} ts-utils=${ts_utils} && \
+  conda config --add channels lsstts && \
+  mamba update -y --all && \
+  mamba install -y cython && \
+  mamba install -y -c lsstts -c lsstts/label/dev ts-ddsconfig=${ts_ddsconfig} ts-salobj=${ts_salobj} ts-dds=${ts_dds} ts-idl=${ts_idl} ts-utils=${ts_utils} && \
   echo export LSST_DDS_QOS=file://$(python -c "from lsst.ts import ddsconfig; print(ddsconfig.get_qos_path())") >> ${HOME}/.ospl_env.sh
 
 WORKDIR /home/saluser/
