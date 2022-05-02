@@ -21,15 +21,15 @@ That means, all occurrences of `${CYCLE}` in `docker-compose.yaml` will be repla
 
 ## Architecture
 
-To minimize duplication and facilitate the process, the build is distributed in a couple different layers.
+To minimize duplication and facilitate the process, the build is distributed in several layers.
 The "base" images contains the basic packages needed.
-These images will ship with OpenSplice (installed from RPMs) and salobj (installed from conda).
+These images ship with OpenSplice (installed from RPMs) and salobj (installed from conda).
 The next layers are usually installing the package and any other requirements on top of the base image.
 
 ### Development Environment
 
 The development environment is a container packed with several packages useful to support development.
-One special distinction between the Development and the Deployment environments is that the first should be capable of building the SAL libraries, whereas the second is not.
+One special distinction between the Development and the Deployment environments is that the first is capable of building the SAL libraries, whereas the second is not.
 
 ### Community vs. Private editions
 
@@ -58,7 +58,7 @@ docker-compose -f cycle/docker-compose.yaml --env-file cycle/cycle.env push depl
 
 Once the base deployment images are built you can build the CSCs that uses those base images.
 
-We usually start with those images that use the ``deploy-env`` base image, which is a simple centos7 image with a conda installation.
+We usually start with those images that use the ``deploy-env`` base image, which is a simple AlmaLinux8 image with a conda installation.
 
 ```bash
 docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \

@@ -416,7 +416,7 @@ The list of ``yum`` packages available in the image are:
 
 In addition, ``OpenSpliceDDS`` is also installed using ``yum`` from our nexus repo.
 This library provides the DDS communication middleware, which is the core of all Telescope and Site software.
-The public image (available in the ``lsstts`` docker hub channel), ships with the ``6.9.0`` community edition version of the library built for ``el6``, to be compatible with the conda environment of the base ``lsstsqre/centos`` image.
+The public image (available in the ``lsstts`` docker hub channel), ships with the ``6.9.0`` community edition version of the library built for ``el7``, to be compatible with the conda environment of the base ``lsstsqre/centos`` image.
 
 .. note::
 
