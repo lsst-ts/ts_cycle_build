@@ -7,7 +7,7 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 USER root
 
-RUN yum install -y iproute
+RUN dnf install -y iproute
 
 COPY startup.sh /home/saluser/.startup.sh
 
