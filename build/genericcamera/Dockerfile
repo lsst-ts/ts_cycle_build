@@ -25,10 +25,13 @@ USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
-RUN yum -y --enablerepo=extras install make \
+RUN dnf install -y dnf-plugins-core && \
+  dnf config-manager --set-enabled powertools && \
+  dnf -y --enablerepo=extras install make \
   libtool-ltdl-devel \
   libtool \
   automake \
+  diffutils \
   libusb-devel \
   popt-devel \
   gettext-devel \
