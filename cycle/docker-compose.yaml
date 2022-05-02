@@ -589,7 +589,7 @@ services:
         com.description: "Base deployment image for cycle/revision ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
+        dds_community_build: ${dds_community_build}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_community}
@@ -618,7 +618,7 @@ services:
         com.description: "Base deployment image for cycle ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
+        dds_community_build: ${dds_community_build}
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
         ts_dds: ${ts_dds_private}=${ts_dds_private_conda_build}
@@ -637,7 +637,7 @@ services:
       args:
         image_tag: ${lsstsqre}
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
+        dds_community_build: ${dds_community_build}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_community}
@@ -652,7 +652,7 @@ services:
       args:
         image_tag: ${lsstsqre}
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
+        dds_community_build: ${dds_community_build}
         dds_private_version: ${dds_private_version}
         dds_private_build: ${dds_private_build}
         ts_utils: ${ts_utils}
