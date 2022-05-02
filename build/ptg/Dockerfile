@@ -5,23 +5,23 @@ FROM ${hub}/deploy-env:${cycle}
 
 USER root
 
-RUN yum install -y https://repo.ius.io/ius-release-el7.rpm && \
-    yum install -y centos-release-scl cmake
-
-RUN yum -y --enablerepo=extras install epel-release \
-    devtoolset-8-gcc* \
+RUN dnf install -y dnf-plugins-core epel-release && \
+    dnf config-manager --set-enabled powertools && \
+    dnf -y --enablerepo=extras install make \
+    gcc-toolset-10 \
     wget \
     git \
     make \
+    cmake \
     wget \
-    boost-python \
-    boost-python-devel \
+    boost-python3 \
+    boost-python3-devel \
     curl-devel && \
-    yum clean all
+    dnf clean all
 
 ARG rpm
 
-RUN yum install -y \
+RUN dnf install -y \
     ATPtg-${rpm} \
     MTPtg-${rpm} \
     MTMount-${rpm} \
@@ -68,10 +68,10 @@ ENV LSST_TS_XML_DIR=/home/saluser/repos/ts_xml
 ENV TELESCOPE=MT
 
 WORKDIR /home/saluser/repos/slalib_source_lsst_161203
-RUN source scl_source enable devtoolset-8 && make
+RUN source scl_source enable gcc-toolset-10 && make
 
 WORKDIR /home/saluser/repos/tcspk_source_lsst_161203
-RUN source scl_source enable devtoolset-8 && make
+RUN source scl_source enable gcc-toolset-10 && make
 
 WORKDIR /home/saluser/repos/ts_pointing_common
 RUN mkdir build
@@ -80,7 +80,7 @@ ARG ptg
 WORKDIR /home/saluser/repos/ts_pointing_common/build
 RUN /home/saluser/.checkout_repo.sh ${ptg} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable devtoolset-8 && \
+    source scl_source enable gcc-toolset-10 && \
     cmake -DRPM=ON .. && make && \
     cmake -DRPM=ON -DAT=ON .. && make
 
