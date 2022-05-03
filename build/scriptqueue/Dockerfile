@@ -15,13 +15,12 @@ WORKDIR  ${SAL_HOME}
 RUN git clone https://github.com/lsst-ts/ts_config_attcs.git && \
     git clone https://github.com/lsst-ts/ts_config_ocs.git && \
     git clone https://github.com/lsst-ts/ts_observatory_control.git && \
-    git clone https://github.com/bxin/cwfs.git && \
+    git clone https://github.com/lsst-ts/cwfs.git && \
     git clone https://github.com/lsst-dm/Spectractor.git && \
-    git clone https://github.com/lsst/obs_base.git && \
-    git clone https://github.com/lsst/pipe_tasks.git && \
-    git clone https://github.com/lsst-sitcom/rapid_analysis.git && \
     git clone https://github.com/lsst-ts/ts_observing_utilities.git && \
     git clone https://github.com/lsst-dm/atmospec.git && \
+    git clone https://github.com/lsst-sitcom/summit_utils.git && \
+    git clone https://github.com/lsst-sitcom/summit_extras.git && \
     git clone https://github.com/lsst-ts/ts_externalscripts.git && \
     git clone https://github.com/lsst-ts/ts_standardscripts.git && \
     git clone https://github.com/lsst-ts/ts_scriptqueue.git
@@ -88,39 +87,13 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     setup cwfs -t current && \
     scons
 
-ARG Spectractor
-WORKDIR ${SAL_HOME}/Spectractor
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
-    /home/saluser/.checkout_repo.sh ${Spectractor} && \
-    pip install -r requirements.txt && \
-    pip install -e .
-
-# Skipping obs_base. It is part of the stack now
-# ARG obs_base
-# WORKDIR ${SAL_HOME}/obs_base
+# Temporarily disabling local copy of Spectractor. It is now part of DM-stack
+# ARG Spectractor
+# WORKDIR ${SAL_HOME}/Spectractor
 # RUN source ${WORKDIR}/.setup_sal_env.sh && \
-#     /home/saluser/.checkout_repo.sh ${obs_base} && \
-#     eups declare -r . obs_base -t $USER && \
-#     setup obs_base -t $USER && \
-#     scons
-
-# Skipping obs_base. It is part of the stack now
-# ARG pipe_tasks
-# WORKDIR ${SAL_HOME}/pipe_tasks
-# RUN source ${WORKDIR}/.setup_sal_env.sh && \
-#     /home/saluser/.checkout_repo.sh ${pipe_tasks} && \
-#     eups declare -r . pipe_tasks -t $USER && \
-#     setup pipe_tasks -t $USER && \
-#     scons
-
-ARG rapid_analysis
-WORKDIR ${SAL_HOME}/rapid_analysis
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
-    setup lsst_distrib && \
-    /home/saluser/.checkout_repo.sh ${rapid_analysis} && \
-    eups declare -r . rapid_analysis -t ${USER} && \
-    setup rapid_analysis -t $USER && \
-    scons || echo "failed"
+#     /home/saluser/.checkout_repo.sh ${Spectractor} && \
+#     pip install -r requirements.txt && \
+#     pip install -e .
 
 ARG atmospec
 WORKDIR ${SAL_HOME}/atmospec
@@ -129,7 +102,25 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     setup lsst_distrib && \
     eups declare -r . atmospec -t ${USER} && \
     setup atmospec -t $USER && \
-    scons || echo "failed"
+    scons || echo "Atmospec failed..."
+
+ARG summit_utils
+WORKDIR ${SAL_HOME}/summit_utils
+RUN source ${WORKDIR}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${summit_utils} && \
+    setup lsst_distrib && \
+    eups declare -r . summit_utils -t ${USER} && \
+    setup summit_utils -t $USER && \
+    scons || echo "Summit utils failed..."
+
+ARG summit_extras
+WORKDIR ${SAL_HOME}/summit_extras
+RUN source ${WORKDIR}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${summit_extras} && \
+    setup lsst_distrib && \
+    eups declare -r . summit_extras -t ${USER} && \
+    setup summit_extras -t $USER && \
+    scons || echo "Summit extras build failed..."
 
 ARG ts_observing_utilities
 WORKDIR ${SAL_HOME}/ts_observing_utilities
@@ -184,9 +175,8 @@ LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
     ts_config_attcs=${ts_config_attcs} \
     cwfs=${cwfs} \
     Spectractor=${Spectractor} \
-    obs_base=${obs_base} \
-    pipe_tasks=${pipe_tasks} \
-    rapid_analysis=${rapid_analysis} \
+    summit_utils=${summit_utils} \
+    summit_extras=${summit_extras} \
     atmospec=${atmospec} \
     ts_observing_utilities=${ts_observing_utilities} \
     ts_observatory_control=${ts_observatory_control} \
