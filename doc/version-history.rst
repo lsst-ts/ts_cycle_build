@@ -8,6 +8,60 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 25 revision 1
+===================
+
+* Update version of the following packages:
+
+  * ts_hexrotcomm
+  * ts_mthexapod
+  * ts_config_mttcs
+  * love_frontend
+  * love_manager
+  * love_commander
+  * ts_observatory_control
+  * ts_standardscripts
+  * ts_externalscripts
+  * ts_scheduler
+  * ts_m2
+  * ts_config_ocs
+* Remove the following packages:
+
+  * obs_base
+  * pipe_tasks
+  * rapid_analysis
+* Add the following packages:
+
+  * summit_utils
+  * summit_extras
+  * rubintv_production
+* Update rubintv_broadcaster build configuration:
+
+  * Remove:
+
+    * rapid_analysis
+  * Add new dependencies:
+
+    * summit_utils
+    * summit_extra
+    * rubintv_production
+  * Add new conda packages:
+
+    * imagemagick
+    * ffmpeg
+* Update scriptqueue build configuration:
+
+  * Remove:
+
+    * local obs_base
+    * local pipe_tasks
+    * rapid_analysis
+  * Disable local Spectractor
+  * Add new dependencies:
+
+    * summit_utils
+    * summit_extras
+
 Cycle 25
 ========
 
@@ -454,7 +508,7 @@ Cycle 22 revision 2
 Cycle 22 revision 1
 ===================
 
-*Update version of the following packages:
+* Update version of the following packages:
 
   * ts_hexrotcomm
   * ts_mtrotator

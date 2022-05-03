@@ -276,7 +276,9 @@ x-base-rubintv-broadcaster:
       image_tag: ${lsstsqre}
       spectractor_work_branch: ${Spectractor}
       atmospec_work_branch: ${atmospec}
-      rapid_analysis_work_branch: ${rapid_analysis}
+      summit_utils_work_branch: ${summit_utils}
+      summit_extras_work_branch: ${summit_extras}
+      rubintv_production_work_branch: ${rubintv_production}
 
 x-salkafka:
   &base-salkafka
@@ -322,10 +324,9 @@ x-scriptqueue:
       ts_config_ocs: ${ts_config_ocs}
       cwfs: ${cwfs}
       Spectractor: ${Spectractor}
-      obs_base: ${obs_base}
-      pipe_tasks: ${pipe_tasks}
-      rapid_analysis: ${rapid_analysis}
       atmospec: ${atmospec}
+      summit_utils: ${summit_utils}
+      summit_extras: ${summit_extras}
       ts_utils: ${ts_utils}
       ts_observing_utilities: ${ts_observing_utilities}
       ts_observatory_control: ${ts_observatory_control}

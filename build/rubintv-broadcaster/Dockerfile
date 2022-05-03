@@ -29,7 +29,7 @@ RUN chown saluser:saluser /home/saluser/.checkout_repo.sh && \
 USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    mamba install -c conda-forge ciso8601
+    mamba install -c conda-forge ciso8601 imagemagick ffmpeg
 
 USER saluser
 
@@ -45,8 +45,10 @@ WORKDIR ${SAL_HOME}/repos
 
 # Clone all repos
 RUN git clone https://github.com/lsst/Spectractor.git && \
-    git clone https://github.com/lsst-dm/atmospec.git && \
-    git clone https://github.com/lsst-sitcom/rapid_analysis.git
+    git clone https://github.com/lsst/atmospec.git && \
+    git clone https://github.com/lsst-sitcom/summit_utils.git && \
+    git clone https://github.com/lsst-sitcom/summit_extras.git && \
+    git clone https://github.com/lsst-sitcom/rubintv_production.git
 
 
 WORKDIR ${SAL_HOME}/repos/Spectractor
@@ -70,18 +72,47 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     setup atmospec -j -t saluser && \
     scons opt=3
 
-WORKDIR ${SAL_HOME}/repos/rapid_analysis
+WORKDIR ${SAL_HOME}/repos/summit_utils
 
-ARG rapid_analysis_work_branch
+ARG summit_utils_work_branch
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    /home/saluser/.checkout_repo.sh ${rapid_analysis_work_branch} && \
+    /home/saluser/.checkout_repo.sh ${summit_utils_work_branch} && \
     eups declare -r . -t saluser && \
     setup lsst_distrib && \
     setup obs_lsst -j -t saluser && \
     setup atmospec -j -t saluser && \
-    setup rapid_analysis -j -t saluser && \
-    scons opt=3 -j 4 || echo tests failed... 
+    setup summit_utils -j -t saluser && \
+    scons opt=3 -j 4 || echo tests failed...
+
+WORKDIR ${SAL_HOME}/repos/summit_extras
+
+ARG summit_extras_work_branch
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    /home/saluser/.checkout_repo.sh ${summit_extras_work_branch} && \
+    eups declare -r . -t saluser && \
+    setup lsst_distrib && \
+    setup obs_lsst -j -t saluser && \
+    setup atmospec -j -t saluser && \
+    setup summit_utils -j -t saluser && \
+    setup summit_extras -j -t saluser && \
+    scons opt=3 -j 4 || echo tests failed...
+
+WORKDIR ${SAL_HOME}/repos/rubintv_production
+
+ARG rubintv_production_work_branch
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    /home/saluser/.checkout_repo.sh ${rubintv_production_work_branch} && \
+    eups declare -r . -t saluser && \
+    setup lsst_distrib && \
+    setup obs_lsst -j -t saluser && \
+    setup atmospec -j -t saluser && \
+    setup summit_utils -j -t saluser && \
+    setup summit_extras -j -t saluser && \
+    setup rubintv_production -j -t saluser && \
+    scons opt=3 -j 4 || echo tests failed...
 
 ENV RUN_ARG="-v"
 
@@ -94,7 +125,7 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
 
 USER saluser
 
-WORKDIR ${SAL_HOME}/repos/rapid_analysis/scripts
+WORKDIR ${SAL_HOME}/repos/rubintv_production/scripts
 
 ENTRYPOINT ["/bin/bash", "--"]
 CMD ["/home/saluser/.startup.sh"]
