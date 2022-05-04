@@ -23,6 +23,7 @@ COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-nexus-private.repo
 COPY conda_builder/linux64/setup.sh /home/saluser/.setup.sh
 COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
+COPY conda_builder/linux64/conda_build_config.yaml /home/saluser/conda_build_config.yaml
 
 # Create user and group
 
@@ -33,6 +34,7 @@ ARG dds_private_build
 
 RUN chown saluser:saluser /home/saluser/.setup.sh && \
     chown saluser:saluser /home/saluser/.checkout_repo.sh && \
+    chown saluser:saluser /home/saluser/conda_build_config.yaml && \
     chmod a+x /home/saluser/.setup.sh && \
     chmod a+x /home/saluser/.checkout_repo.sh && \
     touch ${HOME}/.ospl_env.sh && \
