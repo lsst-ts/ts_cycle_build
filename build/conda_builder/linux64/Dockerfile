@@ -59,7 +59,9 @@ ARG PYTHON_VERSION=3.8m
 ARG CONDA_PY_VERSION=38
 ARG CONDA_VERSION=4.11.0
 
-RUN curl https://repo.anaconda.com/miniconda/Miniconda3-py${CONDA_PY_VERSION}_${CONDA_VERSION}-Linux-x86_64.sh -o miniconda.sh && chmod +x miniconda.sh && ./miniconda.sh -b
+RUN curl https://repo.anaconda.com/miniconda/Miniconda3-py${CONDA_PY_VERSION}_${CONDA_VERSION}-Linux-x86_64.sh -o miniconda.sh && \
+    chmod +x miniconda.sh && \
+    ./miniconda.sh -b -p ${HOME}/miniconda3
 
 RUN source ~/miniconda3/bin/activate && \
     conda config --add channels conda-forge && \
