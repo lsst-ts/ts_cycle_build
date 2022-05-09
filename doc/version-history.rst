@@ -8,6 +8,16 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 25 revision 2
+===================
+
+* Update version of the following packages:
+
+  * ts_config_ocs
+
+* Added conda_build_config.yaml to the conda_builder Docker files for support for both Python 3.8 and 3.10.
+* Fixed installation of miniconda in linux64 conda_builder Dockerfile.
+
 Cycle 25 revision 1
 ===================
 
