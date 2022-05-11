@@ -17,7 +17,7 @@ RUN groupadd --gid ${GID} saluser && \
     adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
-RUN dnf install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.8.0-openjdk-devel maven git git-lfs bzip2 wget
+RUN dnf install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.8.0-openjdk-devel maven git git-lfs bzip2
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY conda_builder/aarch64/setup.sh ${HOME}/.setup.sh
@@ -36,7 +36,7 @@ WORKDIR ${HOME}
 
 ARG PYTHON_VERSION=3.8
 
-RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh -O mambaforge.sh && \
+RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh -o mambaforge.sh && \
     chmod +x mambaforge.sh && \
     ./mambaforge.sh -b -p ${HOME}/miniconda3 && \
     source ${HOME}/miniconda3/bin/activate && \
@@ -44,7 +44,7 @@ RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Ma
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
     mamba update -y --all && \
-    mamba install -y conda-build anaconda-client setuptools_scm && \
+    mamba install -y conda-build anaconda-client setuptools_scm boa && \
     mamba init bash
 
 COPY conda_builder/aarch64/setup.sh ${HOME}/.setup.sh
