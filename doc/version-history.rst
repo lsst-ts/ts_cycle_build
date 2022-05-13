@@ -8,6 +8,19 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 25 revision 3
+===================
+
+* Update version of the following packages:
+
+  * ts_tcpip
+  * love_commander
+  * love_frontend
+  * love_manager
+
+* Switch conda_builder Dockerfile to MambaForge.
+* Add support for Authorize CSC.
+
 Cycle 25 revision 2
 ===================
 
