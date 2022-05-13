@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 25 revision 4
+===================
+
+* Update version of the following packages:
+
+  * dm-stack (lsstsqre)
+  * ts_observatory_control
+  * ts_standardscripts
+  * ts_externalscripts
+  * ts_mtmount
+  * ts_config_ocs
+
 Cycle 25 revision 3
 ===================
 
