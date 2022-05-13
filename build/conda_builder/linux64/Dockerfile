@@ -55,19 +55,18 @@ USER saluser
 
 WORKDIR /home/saluser
 
-ARG PYTHON_VERSION=3.8m
-ARG CONDA_PY_VERSION=38
-ARG CONDA_VERSION=4.11.0
+ARG PYTHON_VERSION=3.8
 
-RUN curl https://repo.anaconda.com/miniconda/Miniconda3-py${CONDA_PY_VERSION}_${CONDA_VERSION}-Linux-x86_64.sh -o miniconda.sh && \
-    chmod +x miniconda.sh && \
-    ./miniconda.sh -b -p ${HOME}/miniconda3
-
-RUN source ~/miniconda3/bin/activate && \
+RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o mambaforge.sh && \
+    chmod +x mambaforge.sh && \
+    ./mambaforge.sh -b -p ${HOME}/miniconda3 && \
+    source ${HOME}/miniconda3/bin/activate && \
+    mamba install -y python=${PYTHON_VERSION} && \
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
-    conda install -y conda-build anaconda-client setuptools_scm ts-ddsconfig && \
-    conda init bash
+    mamba update -y --all && \
+    mamba install -y conda-build anaconda-client setuptools_scm ts-ddsconfig boa && \
+    mamba init bash
 
 COPY conda_builder/linux64/setup.sh /home/saluser/.setup.sh
 

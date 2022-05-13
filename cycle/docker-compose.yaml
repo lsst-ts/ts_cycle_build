@@ -457,6 +457,18 @@ x-atspectrograph:
       atspec: ${ts_atspec}
       config: ${ts_config_latiss}
 
+x-authorize:
+  &base-authorize
+  build:
+    context: ../build/authorize
+    labels:
+      com.description: "Authorize component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      authorize: ${ts_authorize}
+      config: ${ts_config_ocs}
+
 x-dmocps:
   &base-dmocps
   build:
@@ -1217,6 +1229,14 @@ services:
   atspectrograph_c:
     image: ${hub}/atspec:${CYCLE}
     <<: *base-atspectrograph
+
+  authorize:
+    image: ${hub}/authorize:${CYCLE}${rev}
+    <<: *base-authorize
+
+  authorize_c:
+    image: ${hub}/authorize:${CYCLE}
+    <<: *base-authorize
 
   dmocps:
     image: ${hub}/dmocps:${CYCLE}${rev}
