@@ -676,9 +676,8 @@ services:
         ts_develop: ${ts_develop}
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
-        labjack_python_file_version: ${labjack_python_file_version}
         labjack_arch: ${labjack_arch}
-        labjack_c_version: ${labjack_c_version}
+        ljm_version: ${ljm_version}
         labjack_python_version: ${labjack_python_version}
         maven: ${maven}
         openjdk: ${openjdk}
@@ -701,9 +700,8 @@ services:
         ts_develop: ${ts_develop}
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
-        labjack_python_file_version: ${labjack_python_file_version}
         labjack_arch: ${labjack_arch}
-        labjack_c_version: ${labjack_c_version}
+        ljm_version: ${ljm_version}
         labjack_python_version: ${labjack_python_version}
         maven: ${maven}
         openjdk: ${openjdk}
