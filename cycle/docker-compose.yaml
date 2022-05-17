@@ -934,6 +934,7 @@ services:
         labjack_arch: ${labjack_arch}
         ljm_version: ${ljm_version}
         labjack_python_version: ${labjack_python_version}
+        setuptools_v: ${setuptools_v}
 
   conda-builder-private:
     image: ${hub}/conda_package_builder:${CYCLE}
@@ -952,6 +953,7 @@ services:
         labjack_arch: ${labjack_arch}
         ljm_version: ${ljm_version}
         labjack_python_version: ${labjack_python_version}
+        setuptools_v: ${setuptools_v}
 
   ospl-daemon:
     image: ${hub}/ospl-daemon:${CYCLE}

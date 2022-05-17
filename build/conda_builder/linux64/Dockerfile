@@ -55,6 +55,7 @@ USER saluser
 WORKDIR /home/saluser
 
 ARG PYTHON_VERSION=3.8
+ARG setuptools_v
 
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o mambaforge.sh && \
     chmod +x mambaforge.sh && \
@@ -64,7 +65,7 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
     mamba update -y --all && \
-    mamba install -y conda-build anaconda-client setuptools_scm ts-ddsconfig boa && \
+    mamba install -y conda-build anaconda-client setuptools==${setuptools_v} setuptools_scm ts-ddsconfig boa && \
     mamba init bash
 
 COPY conda_builder/linux64/setup.sh /home/saluser/.setup.sh
