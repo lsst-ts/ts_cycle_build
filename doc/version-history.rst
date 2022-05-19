@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 25 revision 5
+===================
+
+* Extract commands to install all LabJack support files into a script.
+* Call LabJack script from linux64 conda_builder, lsstsqre develop-env and ess Dockerfiles.
+* Pin the version of setuptools to 59.8.0.
+* Add labjack conda package to ess Dockerfile.
+* Update version of the following packages:
+
+  * ts_mtaircompresssor
+  * ts_config_ocs
+
 Cycle 25 revision 4
 ===================
 

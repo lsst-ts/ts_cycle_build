@@ -13,6 +13,8 @@ ENV PYTHON_BUILD_LOCATION=/home/saluser/miniconda3
 USER root
 
 RUN yum install -y mlocate
+
+# Create user and group
 RUN groupadd --gid ${GID} saluser && \
     adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 
@@ -24,8 +26,6 @@ COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-nexus-private.re
 COPY conda_builder/linux64/setup.sh /home/saluser/.setup.sh
 COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
 COPY conda_builder/linux64/conda_build_config.yaml /home/saluser/conda_build_config.yaml
-
-# Create user and group
 
 ARG dds_community_version=6.9.0
 ARG dds_community_build=1.el6
@@ -52,10 +52,10 @@ RUN chown saluser:saluser /home/saluser/.setup.sh && \
     rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
 
 USER saluser
-
 WORKDIR /home/saluser
 
 ARG PYTHON_VERSION=3.8
+ARG setuptools_v
 
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o mambaforge.sh && \
     chmod +x mambaforge.sh && \
@@ -65,10 +65,25 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
     mamba update -y --all && \
-    mamba install -y conda-build anaconda-client setuptools_scm ts-ddsconfig boa && \
+    mamba install -y conda-build anaconda-client setuptools==${setuptools_v} setuptools_scm ts-ddsconfig boa && \
     mamba init bash
 
 COPY conda_builder/linux64/setup.sh /home/saluser/.setup.sh
+
+# Install labjack
+USER root
+WORKDIR /tmp
+ARG labjack_file_version
+ARG labjack_arch
+ARG ljm_version
+COPY common/install_labjack.sh /tmp/install_labjack.sh
+RUN chmod +x /tmp/install_labjack.sh && \
+    /tmp/install_labjack.sh --labjack_file_version=${labjack_file_version} \
+        --labjack_arch=${labjack_arch} --ljm_version=${ljm_version} \
+        --saluser_env_script="/home/saluser/miniconda3/bin/activate"
+
+USER saluser
+WORKDIR /home/saluser
 
 ENTRYPOINT ["/bin/bash", "--"]
 
