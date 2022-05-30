@@ -33,6 +33,7 @@ pipeline {
   parameters {
       booleanParam defaultValue: false, description: "Build/push base deployment image (only run this if you are building revision 0).", name: 'deploy_conda'
       booleanParam defaultValue: false, description: "Build/push lsstsqre deployment image (only run this if you are building revision 0 or updating the DM stack version).", name: 'deploy_lsstsqre'
+      booleanParam defaultValue: false, description: "Build/push ts-cycle conda package.", name: 'ts_cycle'
       booleanParam defaultValue: false, description: "Build/push all components based on base deployment image.", name: 'base_components'
       choice(name: 'component', choices: ["ALL", "ataos", "atdome", "atdometrajectory", "athexapod", "atmcs_sim", "atpneumatics_sim", "atspectrograph", "authorize", "dimm", "dmocps", "dsm", "electrometer", "ess", "hvac", "integrationtests", "genericcamera", "love-commander", "love-csc", "love-frontend", "love-manager", "love-manager-static", "love-producer", "love-view-backup", "mtaircompressor", "mthexapod", "mtdome", "mtdometrajectory", "mtm2_sim", "mtmount", "mtrotator", "ospl-daemon", "pmd", "salkafka", "scheduler", "test", "watcher", "weatherstation"], description: "Select one component to build. Building all components is only allowed when building revision 0.")
       booleanParam defaultValue: false, description: "Build/push ESS Controller image.", name: 'build_ess_controller'
@@ -104,6 +105,14 @@ pipeline {
             """
           }
         }
+      }
+    }
+    stage ('Build ts-cycle conda package') {
+      when {
+          expression { params.ts_cycle }
+      }
+      steps {
+          build job: "Cycle_conda_package/" + env.BRANCH_NAME.replace("/", "%2F"), wait: false
       }
     }
     stage ('Build ALL base components') {

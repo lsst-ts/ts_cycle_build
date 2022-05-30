@@ -8,6 +8,25 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 25 revision 6
+===================
+
+* Added the ts-cycle stage to the user documentation.
+* Added the ts-cycle conda package stage.
+* Add ts-cycle conda recipe.
+* In ptg build, update default pointing model.
+* Update version of the following packages:
+
+  * ts_config_ocs.
+  * ts_mtrotator
+  * love-frontend.
+  * ts_athexapod.
+  * ts_observatory_control.
+  * ts-tcpip.
+  * ts-ess-common.
+  * ts-ess-csc.
+  * ts_standardscripts.
+
 Cycle 25 revision 5
 ===================
 

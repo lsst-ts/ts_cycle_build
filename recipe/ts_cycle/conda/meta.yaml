@@ -1,0 +1,11 @@
+{% set data = load_setup_py_data(setup_file='../setup.py', from_recipe_dir=True) %}
+package:
+  name: ts-cycle
+  version: {{ data.get('version') }}
+
+requirements:
+  run:
+    - ts-ddsconfig =={{ data.get('ts_ddsconfig_version') }}
+    - ts-idl =={{ data.get('ts_idl_version') }}
+    - ts-salobj =={{ data.get('ts_salobj_version') }}
+    - python

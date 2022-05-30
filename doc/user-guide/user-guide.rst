@@ -230,6 +230,7 @@ The steps in the build are as follows:
 
   - deploy_conda: Build base image used by all conda-installable components.
   - deploy_lsstsqre: Build base image used by components that require the DM stack.
+  - ts_cycle: Build the ts-cycle conda package.
   - base_components: Build either ALL or an individual component from conda packages.
     This includes the following components:
 
@@ -289,7 +290,7 @@ Since ``deploy_conda`` is quicker to build it is, in general, preferable to star
 
 .. note::
 
-	The most common issue in building the base images is that the core conda packages are not built yet.
+  The most common issue in building the base images is that the core conda packages are not built yet.
   Most notably, the ``ts-idl`` package.
 
   It is, in general, required to run the build manually by going to the `ts-idl conda package job`_ in Jenkins, selecting the version of ``ts-idl`` to build in the "Tags" tab and building it with the appropriate version of ``ts-xml`` and ``ts-sal``.
@@ -300,7 +301,9 @@ Since ``deploy_conda`` is quicker to build it is, in general, preferable to star
 .. _ts-build slack channel: https://lsstc.slack.com/archives/CM6NYMG3F
 
 Once both base images are built the system is ready to build the remaining components.
-Again, given the simplicity and overall time it takes to complete, it is advisable to build the ``base_components`` next.
+The first thing to do is to build the ts-cycle conda package.
+This package depends on the core packages and can be built at any time so now is as good a time as any.
+Next, given the simplicity and overall time it takes to complete, it is advisable to build the ``base_components`` next.
 This step will build the majority of the systems.
 Specifically, those that use the ``deploy_conda`` and are built from conda packages.
 
@@ -318,7 +321,7 @@ In both cases, the SAL libraries are installed using the rpm packages from the n
 
 .. note::
 
-	Sometimes it will happen that the RPM package with the library is not available for these components.
+  Sometimes it will happen that the RPM package with the library is not available for these components.
   This happens mostly when we update the version of OpenSplice.
   If this is the case contact the build team in the `ts-build slack channel`_.
 
