@@ -34,7 +34,7 @@ USER saluser
 
 WORKDIR ${HOME}
 
-ARG PYTHON_VERSION=3.8
+ARG PYTHON_VERSION=3.10
 ARG setuptools_v
 
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh -o mambaforge.sh && \
