@@ -8,6 +8,17 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 25 revision 7
+===================
+
+* Pin Python version for conda package builder Docker files to 3.10.
+* Unpin setuptools version in conda package builder Docker files.
+* Pin combined versions of python and numpy in conda_build_config.yaml for conda_package_builder Dockerfiles.
+* Update version of the following packages:
+
+  * ts_observatory_control.
+  * love_frontend.
+
 Cycle 25 revision 6
 ===================
 
