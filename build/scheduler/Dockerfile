@@ -11,13 +11,15 @@ ARG ts_observatory_model
 ARG ts_astrosky_model
 ARG ts_dateloc
 ARG rubin_sim
+ARG ts_fbs_utils
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts \
     ts-observatory-model=${ts_observatory_model} \
     ts-astrosky-model=${ts_astrosky_model} \
     ts-dateloc=${ts_dateloc} \
-    rubin-sim=${rubin_sim}
+    rubin-sim=${rubin_sim} \
+    ts-fbs-utils=${ts_fbs_utils}
 
 ARG ts_scheduler
 
@@ -45,6 +47,7 @@ LABEL ts-scheduler=${ts_scheduler} \
     ts-observatory-model=${ts_observatory_model} \
     ts-astrosky-model=${ts_astrosky_model} \
     ts-dateloc=${ts_dateloc} \
+    ts-fbs-utils=${ts_fbs_utils} \
     rubin-sim=${rubin_sim} \
     ts_config_ocs=${config}
 
