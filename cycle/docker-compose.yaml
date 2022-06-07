@@ -308,6 +308,7 @@ x-scheduler:
       ts_observatory_model: ${ts_observatory_model}
       ts_astrosky_model: ${ts_astrosky_model}
       ts_dateloc: ${ts_dateloc}
+      ts_fbs_utils: ${ts_fbs_utils}
       rubin_sim: ${rubin_sim}
 
 x-scriptqueue:
@@ -800,8 +801,7 @@ services:
       context: ../build/develop-env/salobj/
       network: ${build_network}
       labels:
-        com.description: LSST Telescope and Site Docker image with SalObj for
-          cycle/revision ${CYCLE}${rev}.
+        com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
       args:
         hub: lsstts
         base_image_tag: ${CYCLE}
@@ -825,8 +825,7 @@ services:
     build:
       context: ../build/develop-env/salobj/
       labels:
-        com.description: LSST Telescope and Site Docker image with SalObj for
-          cycle/revision ${CYCLE}${rev}.
+        com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
       args:
         hub: ts-dockerhub.lsst.org
         base_image_tag: ${CYCLE}
@@ -851,8 +850,7 @@ services:
       context: ../build/develop-env/develop-env/
       network: ${build_network}
       labels:
-        com.description: LSST Telescope and Site development environment image for
-          cycle/revision ${CYCLE}${rev}..
+        com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args:
         hub: lsstts
         base_image_tag: ${CYCLE}${rev}
@@ -873,8 +871,7 @@ services:
       context: ../build/develop-env/develop-env/
       network: ${build_network}
       labels:
-        com.description: LSST Telescope and Site development environment image for
-          cycle/revision ${CYCLE}${rev}..
+        com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args:
         hub: ts-dockerhub.lsst.org
         base_image_tag: ${CYCLE}${rev}
@@ -908,8 +905,7 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle
-          ${CYCLE}. This image doesn't contain OpenSpliceDDS."
+        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE}. This image doesn't contain OpenSpliceDDS."
 
   conda-builder-aarch64-private:
     image: ${hub}/conda_package_builder_aarch64:${CYCLE}
@@ -917,8 +913,7 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle
-          ${CYCLE}. This image doesn't contain OpenSpliceDDS."
+        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE}. This image doesn't contain OpenSpliceDDS."
 
   conda-builder-community:
     image: lsstts/conda_package_builder:${CYCLE}
@@ -926,8 +921,7 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/linux64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle
-          ${CYCLE}."
+        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build}
@@ -942,8 +936,7 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/linux64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle
-          ${CYCLE}."
+        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
         dds_community_build: ${dds_community_build}
