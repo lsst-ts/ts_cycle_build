@@ -8,6 +8,19 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 25 revision 8
+===================
+
+* Add new scheduler dependency to cycle build; ts_fbs_utils.
+* Update build configuration to add new scheduler dependency.
+* Update scheduler build to add new dependency.
+* In love-frontend update to ``node:lts`` docker image.
+* Updadte version of the following packages:
+
+  * ts_config_latiss
+  * ts_config_ocs
+  * ts_externalscripts
+
 Cycle 25 revision 7
 ===================
 
