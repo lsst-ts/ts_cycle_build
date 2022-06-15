@@ -19,7 +19,7 @@ RUN groupadd --gid ${GID} saluser && \
     adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
-RUN yum install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.7.0-openjdk-devel maven git git-lfs bzip2
+RUN yum install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.7.0-openjdk-devel maven git git-lfs bzip2 libusb
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-nexus-private.repo
@@ -64,22 +64,11 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
     mamba update -y --all && \
+    mamba install -y Cython && \
     mamba install -y conda-build anaconda-client setuptools_scm ts-ddsconfig boa && \
     mamba init bash
 
 COPY conda_builder/linux64/setup.sh /home/saluser/.setup.sh
-
-# Install labjack
-USER root
-WORKDIR /tmp
-ARG labjack_file_version
-ARG labjack_arch
-ARG ljm_version
-COPY common/install_labjack.sh /tmp/install_labjack.sh
-RUN chmod +x /tmp/install_labjack.sh && \
-    /tmp/install_labjack.sh --labjack_file_version=${labjack_file_version} \
-        --labjack_arch=${labjack_arch} --ljm_version=${ljm_version} \
-        --saluser_env_script="/home/saluser/miniconda3/bin/activate"
 
 USER saluser
 WORKDIR /home/saluser

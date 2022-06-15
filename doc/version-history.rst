@@ -8,6 +8,13 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Python 3.10
+===========
+
+* Improve the conda package builder docker file for labjack-ljm.
+* Update develop build versions to Python 3.10.
+* Update main build versions to Python 3.10.
+
 Cycle 25 revision 8
 ===================
 
