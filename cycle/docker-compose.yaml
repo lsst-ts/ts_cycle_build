@@ -536,7 +536,7 @@ x-ess:
       labjack: ${ts_ess_labjack}
       labjack_file_version: ${labjack_file_version}
       labjack_arch: ${labjack_arch}
-      ljm_version: ${ljm_version}
+      labjack_ljm: ${labjack_ljm}
       labjack_python_version: ${labjack_python_version}
 
 x-ess-controller-aarch64:
@@ -684,7 +684,7 @@ services:
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
-        ljm_version: ${ljm_version}
+        labjack_ljm: ${labjack_ljm}
         labjack_python_version: ${labjack_python_version}
         maven: ${maven}
         openjdk: ${openjdk}
@@ -708,7 +708,7 @@ services:
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
-        ljm_version: ${ljm_version}
+        labjack_ljm: ${labjack_ljm}
         labjack_python_version: ${labjack_python_version}
         maven: ${maven}
         openjdk: ${openjdk}
@@ -914,7 +914,7 @@ services:
         dds_community_build: ${dds_community_build}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
-        ljm_version: ${ljm_version}
+        labjack_ljm: ${labjack_ljm}
         labjack_python_version: ${labjack_python_version}
 
   conda-builder-private:
@@ -931,7 +931,7 @@ services:
         dds_private_build: ${dds_private_build}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
-        ljm_version: ${ljm_version}
+        labjack_ljm: ${labjack_ljm}
         labjack_python_version: ${labjack_python_version}
 
   ospl-daemon:
