@@ -623,7 +623,7 @@ services:
         dds_private_build: ${dds_private_build}
         ts_dds: ${ts_dds_private}=${ts_dds_private_conda_build}
         ts_ddsconfig: ${ts_ddsconfig}
-        ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
+        ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
 
@@ -658,7 +658,7 @@ services:
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_private}
-        ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
+        ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
         ts_ddsconfig: ${ts_ddsconfig}
 
   docker-compose-aarch64:

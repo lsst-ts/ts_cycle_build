@@ -45,7 +45,7 @@ RUN source ${SALSTACK} && \
     conda install -c lsstts -y \
     ts-dds=${osplice_v}=${osplice_py} \
     ts-ddsconfig=${ts_ddsconfig} \
-    ts-idl=${ts_idl}_${ts_xml}_${ts_sal} \
+    ts-idl=${ts_idl}=${ts_xml}_${ts_sal} \
     ts-salobj=${ts_salobj} \
     ts-atdome=${ts_atdome} \
     ts-atdometrajectory=${ts_atdometrajectory} \
