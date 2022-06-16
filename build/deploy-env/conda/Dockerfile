@@ -60,7 +60,7 @@ ARG ts_idl
 ARG ts_utils
 ARG ts_salobj
 
-ARG PYTHON_VERSION=3.8
+ARG PYTHON_VERSION=3.10
 
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o mambaforge.sh && \
   chmod +x mambaforge.sh && \
