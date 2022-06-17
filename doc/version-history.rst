@@ -14,6 +14,8 @@ Python 3.10
 * Improve the conda package builder docker file for labjack-ljm.
 * Update develop build versions to Python 3.10.
 * Update main build versions to Python 3.10.
+* Fix an issue with the latest version of git.
+* Pin the version of confluent_kafka.
 
 Cycle 25 revision 8
 ===================
