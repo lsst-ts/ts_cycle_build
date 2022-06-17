@@ -161,7 +161,7 @@ RUN source /opt/lsst/software/stack/loadLSST.bash && \
     mamba install -y jupyterlab
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    pip install "documenteer[pipelines]>=0.6" ltd-conveyor kafkit[aiohttp] confluent_kafka
+    pip install "documenteer[pipelines]>=0.6" ltd-conveyor kafkit[aiohttp] confluent_kafka==1.8.2
 
 # Needed for Python-GPhoto2
 RUN source /opt/lsst/software/stack/loadLSST.bash && \
