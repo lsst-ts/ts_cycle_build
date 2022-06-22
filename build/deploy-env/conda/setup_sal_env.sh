@@ -18,3 +18,9 @@ trap 'kill ${!}; term_handler' SIGTERM
 source ${WORKDIR}/miniconda/bin/activate
 source ${HOME}/.ospl_env.sh
 source ${OSPL_HOME}/release.com
+
+ospl_release_string=$(ospl -v)
+ospl_release_pattern='OpenSplice version : (.*)'
+[[ "$ospl_release_string" =~ $ospl_release_pattern ]]
+
+export OSPL_RELEASE=${BASH_REMATCH[1]}
