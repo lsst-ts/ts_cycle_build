@@ -724,7 +724,7 @@ services:
         image_tag: ${lsstsqre}
         java_v: ${java_v}
         osplice_v: ${dds_community_version}
-        osplice_build: ${dds_community_build}
+        osplice_build: ${dds_community_build_el7}
         osplice_py: ${ts_dds_community_conda_build}
 
   opensplice-lsstsqre-licensed:
@@ -736,7 +736,7 @@ services:
         image_tag: ${lsstsqre}
         java_v: ${java_v}
         osplice_v: ${dds_private_version}
-        osplice_build: ${dds_private_build}
+        osplice_build: ${dds_private_build_el7}
         osplice_py: ${ts_dds_private_conda_build}
 
   sal-sciplat-community:
