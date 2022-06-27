@@ -13,7 +13,7 @@ setup ts_externalscripts
 setup ts_standardscripts
 setup ts_scriptqueue
 
-run_script_queue.py ${RUN_ARG} &
+run_script_queue ${RUN_ARG} &
 
 pid="$!"
 
