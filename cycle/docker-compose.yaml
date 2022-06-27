@@ -338,7 +338,7 @@ x-scriptqueue:
       ts_atdome: ${ts_ATDome}
       ts_atdometrajectory: ${ts_ATDomeTrajectory}
       ts_atmcssimulator: ${ts_ATMCSSimulator}
-      ts_conda_build: ${ts_conda_build}
+      ts_develop: ${ts_develop}
 
 x-test:
   &base-test

@@ -59,12 +59,12 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     atmcssimulator_path=$(python -c 'from lsst.ts import ATMCSSimulator; import pathlib; print(pathlib.Path(ATMCSSimulator.__file__).parents[0])') && \
     eups declare -m none -r ${atmcssimulator_path} ts_ATMCSSimulator ${ts_atmcssimulator}
 
-ARG ts_conda_build
+ARG ts_develop
 WORKDIR ${WORKDIR}
 USER lsst
 RUN cd && \
     source ${WORKDIR}/loadLSST.bash && \
-    conda install -c lsstts ts-conda-build=${ts_conda_build}
+    mamba install -y -c lsstts ts-develop=${ts_develop}
 
 USER ${USER}
 
