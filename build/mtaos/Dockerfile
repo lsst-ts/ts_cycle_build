@@ -2,7 +2,7 @@
 
 ARG cycle
 ARG hub
-ARG ts_conda_build
+ARG ts_develop
 
 FROM ${hub}/deploy-sqre:${cycle}
 
@@ -10,7 +10,7 @@ WORKDIR ${WORKDIR}
 USER lsst
 RUN cd && \
     source ${WORKDIR}/loadLSST.bash && \
-    mamba install -c lsstts ts-conda-build=${ts_conda_build}
+    mamba install -c lsstts ts-develop=${ts_develop}
 
 ARG LSST_USER=saluser
 ARG LSST_USER_HOME=/home/${LSST_USER}

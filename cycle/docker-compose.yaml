@@ -125,7 +125,7 @@ x-mtaos:
     args:
       hub: ${hub}
       cycle: ${CYCLE}
-      ts_conda_build: ${ts_conda_build}
+      ts_develop: ${ts_develop}
       phosim_utils: ${phosim_utils}
       ts_wep: ${ts_wep}
       ts_ofc: ${ts_ofc}
