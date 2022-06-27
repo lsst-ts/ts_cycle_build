@@ -2,7 +2,7 @@
 
 source $HOME/.setup_sal_env.sh
 
-run_authorize.py $RUN_ARG &
+run_authorize $RUN_ARG &
 
 pid="$!"
 
