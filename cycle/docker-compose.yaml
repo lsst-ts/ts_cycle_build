@@ -181,12 +181,14 @@ x-mtm1m3_sim:
       xml: ${ts_xml}
       m1m3: ${ts_m1m3support}
       crio_cpp: ${ts_cRIOcpp}
+      spdlog: ${spdlog}
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: ${ts_xml}-${ts_sal}.el7.x86_64
+      rpm: ${ts_xml}-${ts_sal}.el8.x86_64
       m1m3: ${ts_m1m3support}
       crio_cpp: ${ts_cRIOcpp}
+      spdlog: ${spdlog}
 
 x-mtaircompressor:
   &base-mtaircompressor
