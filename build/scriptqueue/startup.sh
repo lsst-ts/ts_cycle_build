@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ${WORKDIR}/.setup_sal_env.sh
+source ${HOME}/.setup_sal_env.sh
 
 setup lsst_distrib
 setup cwfs -t current
