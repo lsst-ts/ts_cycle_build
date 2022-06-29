@@ -184,7 +184,5 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org> \
     ts_develop=${ts_develop} \
     gphoto2=${gphoto2}\
     labjack_file_version=${labjack_file_version} \
-    labjack_python_file_version=${labjack_python_file_version} \
     labjack_arch=${labjack_arch} \
-    labjack_c_version=${labjack_c_version} \
-    labjack_python_version=${labjack_python_version}
+    labjack_ljm=${labjack_ljm}

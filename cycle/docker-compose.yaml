@@ -539,7 +539,6 @@ x-ess:
       labjack_file_version: ${labjack_file_version}
       labjack_arch: ${labjack_arch}
       labjack_ljm: ${labjack_ljm}
-      labjack_python_version: ${labjack_python_version}
 
 x-ess-controller-aarch64:
   &base-controller-aarch64
@@ -687,7 +686,6 @@ services:
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
-        labjack_python_version: ${labjack_python_version}
         maven: ${maven}
         openjdk: ${openjdk}
         UID: ${B_UID}
@@ -711,7 +709,6 @@ services:
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
-        labjack_python_version: ${labjack_python_version}
         maven: ${maven}
         openjdk: ${openjdk}
         UID: ${B_UID}
@@ -917,7 +914,6 @@ services:
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
-        labjack_python_version: ${labjack_python_version}
 
   conda-builder-private:
     image: ${hub}/conda_package_builder:${CYCLE}
@@ -934,7 +930,6 @@ services:
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
-        labjack_python_version: ${labjack_python_version}
 
   ospl-daemon:
     image: ${hub}/ospl-daemon:${CYCLE}
