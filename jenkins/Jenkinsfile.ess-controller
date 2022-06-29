@@ -25,8 +25,11 @@ pipeline {
                 script {
                     docker.withRegistry("", registryCredential) {
                         sh """
+                            source cycle/cycle.env
                             docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ess-controller-aarch64
+                            docker tag lsstts/ess-controller-aarch64 lsstts/ess-controller-aarch64:\${CYCLE}\${rev}
                             docker push lsstts/ess-controller-aarch64
+                            docker push lsstts/ess-controller-aarch64:\${CYCLE}\${rev}
                         """
                     }
                 }
