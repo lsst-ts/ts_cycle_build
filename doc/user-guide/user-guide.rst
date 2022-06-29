@@ -228,6 +228,7 @@ The build is divided into steps to start from building base images up to deploya
 These steps are designed to maximize reusability of docker layers, minimizing the number of layers in the image and reducing the time it takes to build the system.
 The steps in the build are as follows:
 
+  - build_conda_package_builder: Build Conda Package Builder arm64 and aarch64 images.
   - deploy_conda: Build base image used by all conda-installable components.
   - deploy_lsstsqre: Build base image used by components that require the DM stack.
   - ts_cycle: Build the ts-cycle conda package.
@@ -285,8 +286,9 @@ The steps in the build are as follows:
 It is important to follow the build steps order.
 Also, we recommend running one step at a time in the Jenkins server, to make sure the image is pushed correctly, avoiding a potential push problem at the end.
 
-The build should always start with the base images; ``deploy_conda`` and ``deploy_lsstsqre``.
-Since ``deploy_conda`` is quicker to build it is, in general, preferable to start with that one.
+The build should always start with the base images; ``build_conda_package_builder``, ``deploy_conda`` and ``deploy_lsstsqre``.
+First build the ``build_conda_package_builder`` images.
+Since ``deploy_conda`` is quicker to build it is, in general, preferable to continue with that one.
 
 .. note::
 
