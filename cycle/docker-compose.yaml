@@ -891,7 +891,7 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE}. This image doesn't contain OpenSpliceDDS."
+        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE} without OpenSpliceDDS."
 
   conda-builder-aarch64-private:
     image: ${hub}/conda_package_builder_aarch64:${CYCLE}
@@ -899,7 +899,7 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE}. This image doesn't contain OpenSpliceDDS."
+        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE} without OpenSpliceDDS."
 
   conda-builder-community:
     image: lsstts/conda_package_builder:${CYCLE}
