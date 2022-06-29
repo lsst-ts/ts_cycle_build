@@ -11,12 +11,12 @@ COPY setup.sh /home/saluser/.setup.sh
 ENV TSSW_PATH=/opt/lsst/tssw
 
 USER root
-RUN chown saluser:lsst /home/saluser/.checkout_repo.sh && \
+RUN chown saluser:saluser /home/saluser/.checkout_repo.sh && \
     chmod a+x /home/saluser/.checkout_repo.sh && \
-    chown saluser:lsst /home/saluser/.setup.sh && \
+    chown saluser:saluser /home/saluser/.setup.sh && \
     chmod a+x /home/saluser/.setup.sh && \
     mkdir ${TSSW_PATH} && \
-    chown saluser:lsst ${TSSW_PATH}
+    chown saluser:saluser ${TSSW_PATH}
 
 USER saluser
 

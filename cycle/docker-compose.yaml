@@ -678,9 +678,9 @@ services:
       labels:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
-        image_tag: ${lsstsqre}
+        stack: ${stack}
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
+        dds_community_build: ${dds_community_build_el8}
         ts_develop: ${ts_develop}
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
@@ -699,11 +699,11 @@ services:
       labels:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
-        image_tag: ${lsstsqre}
+        stack: ${stack}
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
+        dds_community_build: ${dds_community_build_el8}
         dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build_el7}
+        dds_private_build: ${dds_private_build_el8}
         ts_develop: ${ts_develop}
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
