@@ -4,7 +4,7 @@ source ${HOME}/.setup_sal_env.sh
 
 echo "# Starting ATSpectrograph CSC"
 
-atspec_csc.py $RUN_ARG &
+run_atspectrograph_csc $RUN_ARG &
 
 pid="$!"
 
