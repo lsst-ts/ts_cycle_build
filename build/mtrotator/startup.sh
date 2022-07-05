@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 source $HOME/.setup_sal_env.sh
 
-run_mtrotator.py $RUN_ARG &
+run_mtrotator $RUN_ARG &
 
 pid="$!"
 

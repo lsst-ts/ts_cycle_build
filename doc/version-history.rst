@@ -8,14 +8,96 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
-Python 3.10
-===========
+Cycle 26
+========
 
+* Removed the files for the bare-centos docker container since it is no longer used.
+* Corrected the variable 'dds_community_build_el7' to 'dds_community_build'.
+* Updated the build versions for OpenSpliceDDS private and community to those valid for AlmaLinux.
+* Migrated to AlmaLinux.
+* Update version of
+    * ts_ddsconfig
+    * ts_xml
+    * ts_sal
+    * ts_idl
+    * ts_salobj
+    * ts_wep
+    * ts_salobj
+
+  and almost all other packages including
+
+    * love-commander
+    * love-producer
+    * love-manager
+    * ts_athexapod
+    * ts_ataos
+    * ts_ess_labjack
+    * ts_config_atcalsys
+    * ts_config_attcs
+    * ts_config_latiss
+    * ts_config_mttcs
+    * ts_config_ocs
+    * ts_astrosky_model
+    * ts_dateloc
+    * ts_salkafka
+    * ts_config_ocs
+    * ts_mtmount
+    * ts_atspec
+    * pointing component
+    * ts_atspec package
+    * ts_mtaircompressor
+    * m2
+    * mtmount
+    * ts_observatory_model
+    * rubin_sim
+    * ts_integrationtests
+    * ts_integrationtests
+    * ts_observatory_control
+    * love-producer
+    * scheduler
+    * ts_atspec
+    * dm_OCPS
+    * ts_externalscripts
+    * ts_standscripts
+
+* Replace 'ljm_version' with 'labjack_ljm'.
+* Pin Python version to 3.10.
+* Introduce distinct versions of OpenSpliceDDS for Centos 7 and AlmaLinux 8.
+* Set `OSPL_RELEASE` environment variable on setup scripts.
+* In `cycle/docker-compose.yaml` update rpm version on ptg build configuration to use el8.
+* Update osplice_build in `opensplice-lsstsqre-community` and `opensplice-lsstsqre-licensed` in build configuration.
+* Update script queue build to use ts-develop instead of ts-conda-build.
+* Update MTAOS build to use ts-develop instead of ts-conda-build,
+* Fix executable name for many packages.
+* Fix DSM container for shutdown script.
+* Update MTM1M3 sim build to el8.
+* Update script queue build to use new AlmaLinux8 version.
+* Add spdlog depenency for MTM1M3-sim.
+* Push cycle.rev tag for ESS Controller docker image.
+* Add Jenkinsfiles for conda_package_builder and conda_package_builder_aarch64.
 * Improve the conda package builder docker file for labjack-ljm.
-* Update develop build versions to Python 3.10.
-* Update main build versions to Python 3.10.
 * Fix an issue with the latest version of git.
 * Pin the version of confluent_kafka.
+
+Cycle 25 revision 10
+====================
+
+* Update atspectrograph executable name.
+* Update version of the following packages:
+
+    * ts_config_latiss
+    * ts_config_ocs
+    * ts_fbs_utils
+    * ts_atspec
+
+Cycle 25 revision 9
+===================
+
+* Update Scheduler startup script to remove the `.py`.
+* Update version of the following packages:
+
+    * ts_config_ocs
+    * ts_scheduler
 
 Cycle 25 revision 8
 ===================
@@ -24,7 +106,7 @@ Cycle 25 revision 8
 * Update build configuration to add new scheduler dependency.
 * Update scheduler build to add new dependency.
 * In love-frontend update to ``node:lts`` docker image.
-* Updadte version of the following packages:
+* Update version of the following packages:
 
   * ts_config_latiss
   * ts_config_ocs

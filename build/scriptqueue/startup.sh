@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ${WORKDIR}/.setup_sal_env.sh
+source ${HOME}/.setup_sal_env.sh
 
 setup lsst_distrib
 setup cwfs -t current
@@ -13,7 +13,7 @@ setup ts_externalscripts
 setup ts_standardscripts
 setup ts_scriptqueue
 
-run_script_queue.py ${RUN_ARG} &
+run_script_queue ${RUN_ARG} &
 
 pid="$!"
 

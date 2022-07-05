@@ -4,7 +4,7 @@ source ${HOME}/.setup_sal_env.sh
 
 echo "# Starting OCPS CSC"
 
-run_ocps.py $RUN_ARG &
+run_ocps $RUN_ARG &
 
 pid="$!"
 

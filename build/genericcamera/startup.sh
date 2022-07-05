@@ -2,7 +2,7 @@
 
 source $HOME/.setup_sal_env.sh
 
-run_genericcamera.py $RUN_ARG &
+run_genericcamera $RUN_ARG &
 
 pid="$!"
 

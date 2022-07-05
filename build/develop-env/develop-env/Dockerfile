@@ -6,7 +6,7 @@ FROM ${hub}/salobj:${base_image_tag}
 COPY setup.sh /home/saluser/.setup_dev.sh
 
 USER root
-RUN chown saluser:lsst /home/saluser/.setup_dev.sh && \
+RUN chown saluser:saluser /home/saluser/.setup_dev.sh && \
     chmod a+x /home/saluser/.setup_dev.sh
 USER saluser
 

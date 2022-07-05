@@ -2,7 +2,7 @@
 
 source $HOME/.setup_sal_env.sh
 
-run_electrometer.py $RUN_ARG &
+run_electrometer $RUN_ARG &
 
 pid="$!"
 

@@ -2,7 +2,7 @@
 
 source $HOME/.setup_sal_env.sh
 
-run_mthexapod.py $RUN_ARG &
+run_mthexapod $RUN_ARG &
 
 pid="$!"
 

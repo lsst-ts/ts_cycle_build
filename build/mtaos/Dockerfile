@@ -2,15 +2,14 @@
 
 ARG cycle
 ARG hub
-ARG ts_conda_build
+ARG ts_develop
 
 FROM ${hub}/deploy-sqre:${cycle}
 
 WORKDIR ${WORKDIR}
-USER lsst
 RUN cd && \
     source ${WORKDIR}/loadLSST.bash && \
-    mamba install -c lsstts ts-conda-build=${ts_conda_build}
+    mamba install -c lsstts ts-develop=${ts_develop}
 
 ARG LSST_USER=saluser
 ARG LSST_USER_HOME=/home/${LSST_USER}
@@ -30,9 +29,7 @@ ARG mtaos=develop
 ARG ts_config_mttcs
 
 # Download the required repos and checkout correct versions
-RUN source ${WORKDIR}/loadLSST.bash && \
-    source ${WORKDIR}/ospl_env.sh && \
-    source ${OSPL_HOME}/release.com && \
+RUN source ${HOME}/.setup_sal_env.sh && \
     export PATH=${WORKDIR}/bin:${PATH} && \
     mkdir ${AOS_REPOS} \
     && cd ${AOS_REPOS} \
@@ -60,33 +57,25 @@ RUN source ${WORKDIR}/loadLSST.bash && \
 # Run scons on each package
 # phosim_utils
 WORKDIR ${AOS_REPOS}/phosim_utils
-RUN source ${WORKDIR}/loadLSST.bash && \
-    source ${WORKDIR}/ospl_env.sh && \
-    source ${OSPL_HOME}/release.com && \
+RUN source ${HOME}/.setup_sal_env.sh && \
     setup phosim_utils -t current && \
     scons
 
 # wep
 WORKDIR ${AOS_REPOS}/ts_wep
-RUN source ${WORKDIR}/loadLSST.bash && \
-    source ${WORKDIR}/ospl_env.sh && \
-    source ${OSPL_HOME}/release.com && \
+RUN source ${HOME}/.setup_sal_env.sh && \
     setup ts_wep -t current && \
     scons
 
 # ofc
 WORKDIR ${AOS_REPOS}/ts_ofc
-RUN source ${WORKDIR}/loadLSST.bash && \
-    source ${WORKDIR}/ospl_env.sh && \
-    source ${OSPL_HOME}/release.com && \
+RUN source ${HOME}/.setup_sal_env.sh && \
     setup ts_ofc -t current && \
     scons
 
 # mtaos
 WORKDIR ${AOS_REPOS}/ts_MTAOS
-RUN source ${WORKDIR}/loadLSST.bash && \
-    source ${WORKDIR}/ospl_env.sh && \
-    source ${OSPL_HOME}/release.com && \
+RUN source ${HOME}/.setup_sal_env.sh && \
     setup ts_MTAOS -t current && \
     scons || pytest --lf
 

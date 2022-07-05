@@ -56,7 +56,7 @@ In general, each sub-directory is named after the build which appears in the ``c
 To add a new build to the cycle, create a sub-directory in the ``build`` directory and add the ``Dockerfile`` and ancillary scripts (e.g. startup scripts).
 In general you would pick one of the available base images to build your component; ``deploy-env`` or ``base-sqre``.
 
-The ``deploy-env`` image is a simple ``centos`` image with all the prerequisites required to run a CSC packed with conda whereas ``base-sqre`` is built on top of the ``lsstsqre/centos`` tailored for ``eups`` declarable CSCs.
+The ``deploy-env`` image is a simple ``AlmaLinux`` image with all the prerequisites required to run a CSC packed with conda whereas ``base-sqre`` is built on top of the ``lsstsqre/centos`` tailored for ``eups`` declarable CSCs.
 
 
 (To be continued...)
