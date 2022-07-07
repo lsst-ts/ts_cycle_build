@@ -1,6 +1,9 @@
-ARG image_tag
+FROM almalinux:8
 
-FROM lsstsqre/centos:${image_tag}
+ARG UID=73006
+ARG GID=73006
+
+LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ENV USER ${USER:-saluser}
 ENV HOME /home/saluser
@@ -8,92 +11,79 @@ ENV WORKDIR /opt/lsst/software/stack
 
 USER root
 
-ARG UID=1000
-ARG GID=1000
-
-# Create user and group
-RUN if [ $UID -eq 1000 ] && [ $GID -eq 1000 ]; then  \
-    echo "Renaming lsst to saluser" && \
-    usermod -l saluser lsst && \
-    usermod -d /home/saluser -m saluser ; \
-    else \
-    groupadd --gid ${GID} saluser && \
-    adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser && \
-    usermod -a -G lsst saluser ; \
-    fi
-
-RUN curl -sL https://rpm.nodesource.com/setup_17.x | bash - && \
-    yum install -y glibc231 nodejs && node --version
+RUN groupadd --gid ${GID} saluser && \
+    adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-private.repo
 COPY develop-env/lsstsqre/gitconfig ${HOME}/.gitconfig
 COPY develop-env/lsstsqre/setup_env.sh /home/saluser/.setup_salobj.sh
 
-RUN yum install -y https://repo.ius.io/ius-release-el7.rpm
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
-RUN yum -y --enablerepo=extras install epel-release \
-    unzip \
-    wget \
+RUN dnf install -y \
+    automake \
+    bzip2 \
+    diffutils \
+    dos2unix \
+    emacs \
+    file \
+    gdb \
+    gettext-devel \
     git \
     git-lfs \
-    dos2unix \
-    tk \
-    tk-devel \
-    swig \
-    ncurses-libs \
-    xterm \
-    xorg-x11-fonts-misc \
-    which \
+    glibc-devel \
     gnome-terminal \
+    graphviz* \
+    iproute \
+    libexif \
+    LibRaw \
+    libtool \
+    libtool-ltdl-devel \
+    libusbx-devel \
+    ltrace\
+    make \
     mariadb \
     mariadb-devel \
     nano \
-    emacs \
-    ifconfig \
-    gdb \
-    ltrace\
-    strace \
+    ncurses-libs \
     net-tools \
-    ntp \
-    tcpdump \
-    graphviz* \
-    tzdata \
-    make \
-    libtool-ltdl-devel \
-    libtool \
-    automake \
-    libusb-devel \
+    net-tools \
+    nodejs \
     popt-devel \
-    gettext-devel \
-    libexif-devel \
-    LibRaw-devel \
-    bzip2 \
-    file
+    strace \
+    swig \
+    tcpdump \
+    tk \
+    tk-devel \
+    tzdata \
+    unzip \
+    wget \
+    which \
+    xorg-x11-fonts-misc \
+    xterm \
+    epel-release
 
 ARG dds_community_version=6.9.0
 ARG dds_community_build=1.el6
 ARG dds_private_version
 ARG dds_private_build
 
-RUN touch ${WORKDIR}/ospl.env && \
+RUN mkdir -p ${WORKDIR} && \
+    touch ${WORKDIR}/ospl.env && \
     chown -R ${UID}:${GID} ${HOME}/.gitconfig && \
-    chown -R ${UID}:${GID} ${WORKDIR}/ospl.env && \
+    chown -R ${UID}:${GID} ${WORKDIR}/ && \
     chmod a+x ${WORKDIR}/ospl.env && \
     chown ${UID}:${GID} /home/saluser/.setup_salobj.sh && \
     chmod a+x /home/saluser/.setup_salobj.sh && \
     if [ -z "${dds_private_version}" ]; then \
-    yum install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} ; \
+    dnf install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} ; \
     echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
     else \
-    yum install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
+    dnf install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
     OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
     echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
     fi
 
 RUN rm /etc/yum.repos.d/lsst-ts-private.repo
-
-RUN yum clean all
 
 WORKDIR /usr/share/zoneinfo
 
@@ -128,18 +118,32 @@ RUN curl -sSL https://github.com/gphoto/gphoto2/releases/download/v${gphoto2}/gp
     make && \
     make install
 
+# Install DM stack using lsstinstall
+USER saluser
+
+WORKDIR ${WORKDIR}
+
+RUN curl -LO https://ls.st/lsstinstall && \
+    bash lsstinstall
+
+ARG stack
+
+RUN source ./loadLSST.bash && \
+    eups distrib install -t ${stack} lsst_distrib
+
 # Install labjack
 USER root
 WORKDIR /tmp
 ARG labjack_file_version
 ARG labjack_arch
-ARG ljm_version
+ARG labjack_ljm
 COPY common/install_labjack.sh /tmp/install_labjack.sh
 RUN chmod +x /tmp/install_labjack.sh && \
     /tmp/install_labjack.sh --labjack_file_version=${labjack_file_version} \
-        --labjack_arch=${labjack_arch} --ljm_version=${ljm_version} \
-        --saluser_env_script="/opt/lsst/software/stack/loadLSST.bash"
+    --labjack_arch=${labjack_arch} --labjack_ljm=${labjack_ljm} \
+    --saluser_env_script="/opt/lsst/software/stack/loadLSST.bash"
 
+# Install TSSW development dependencies
 USER saluser
 WORKDIR /home/saluser
 
@@ -184,7 +188,5 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org> \
     ts_develop=${ts_develop} \
     gphoto2=${gphoto2}\
     labjack_file_version=${labjack_file_version} \
-    labjack_python_file_version=${labjack_python_file_version} \
     labjack_arch=${labjack_arch} \
-    labjack_c_version=${labjack_c_version} \
-    labjack_python_version=${labjack_python_version}
+    labjack_ljm=${labjack_ljm}

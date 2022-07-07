@@ -14,7 +14,7 @@ with cycle_env.open() as c:
 
 version = f"{int(env_vars['CYCLE'][1:])}.0.0"
 ts_ddsconfig_version = env_vars["ts_ddsconfig"]
-ts_idl_version = f"{env_vars['ts_idl']}_{env_vars['ts_xml']}_{env_vars['ts_sal']}"
+ts_idl_version = f"{env_vars['ts_idl']}={env_vars['ts_xml']}_{env_vars['ts_sal']}"
 ts_salobj_version = env_vars["ts_salobj"]
 
 setup(

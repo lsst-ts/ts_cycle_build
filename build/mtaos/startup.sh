@@ -2,7 +2,7 @@
 
 # Source this file when starting the container to set it up
 
-source ${WORKDIR}/.setup_sal_env.sh
+source ${HOME}/.setup_sal_env.sh
 
 # Add the description
 LSST_USER_HOME=/home/saluser

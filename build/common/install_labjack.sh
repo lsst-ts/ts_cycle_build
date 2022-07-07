@@ -27,9 +27,9 @@ while getopts "$optspec" optchar; do
                     # The saluser environment script to source
                     saluser_env_script=${OPTARG#*=}
                     ;;
-                ljm_version=*)
+                labjack_ljm=*)
                     # The version of the labjac-ljm conda package to install
-                    ljm_version=${OPTARG#*=}
+                    labjack_ljm=${OPTARG#*=}
                     ;;
             esac;;
     esac
@@ -49,5 +49,5 @@ rm -rf labjack_ljm_software_${labjack_file_version}_${labjack_arch}
 cd /tmp
 runuser - saluser -c """
 source "${saluser_env_script}" && \
-conda install -c lsstts labjack-ljm=${ljm_version}
+conda install -c lsstts labjack-ljm=${labjack_ljm}
 """

@@ -125,7 +125,7 @@ x-mtaos:
     args:
       hub: ${hub}
       cycle: ${CYCLE}
-      ts_conda_build: ${ts_conda_build}
+      ts_develop: ${ts_develop}
       phosim_utils: ${phosim_utils}
       ts_wep: ${ts_wep}
       ts_ofc: ${ts_ofc}
@@ -181,12 +181,14 @@ x-mtm1m3_sim:
       xml: ${ts_xml}
       m1m3: ${ts_m1m3support}
       crio_cpp: ${ts_cRIOcpp}
+      spdlog: ${spdlog}
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: ${ts_xml}-${ts_sal}.el7.x86_64
+      rpm: ${ts_xml}-${ts_sal}.el8.x86_64
       m1m3: ${ts_m1m3support}
       crio_cpp: ${ts_cRIOcpp}
+      spdlog: ${spdlog}
 
 x-mtaircompressor:
   &base-mtaircompressor
@@ -257,12 +259,12 @@ x-ptg:
     dockerfile: ./ptg/Dockerfile
     labels:
       com.description: "Pointing component deployment image for cycle/revision ${CYCLE}${rev}."
-      rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
+      rpm: 0:${ts_xml}-${ts_sal}.el8.x86_64
       ptg: ${ts_pointing_common}
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: 0:${ts_xml}-${ts_sal}.el7.x86_64
+      rpm: 0:${ts_xml}-${ts_sal}.el8.x86_64
       ptg: ${ts_pointing_common}
 
 x-base-rubintv-broadcaster:
@@ -338,7 +340,7 @@ x-scriptqueue:
       ts_atdome: ${ts_ATDome}
       ts_atdometrajectory: ${ts_ATDomeTrajectory}
       ts_atmcssimulator: ${ts_ATMCSSimulator}
-      ts_conda_build: ${ts_conda_build}
+      ts_develop: ${ts_develop}
 
 x-test:
   &base-test
@@ -536,8 +538,7 @@ x-ess:
       labjack: ${ts_ess_labjack}
       labjack_file_version: ${labjack_file_version}
       labjack_arch: ${labjack_arch}
-      ljm_version: ${ljm_version}
-      labjack_python_version: ${labjack_python_version}
+      labjack_ljm: ${labjack_ljm}
 
 x-ess-controller-aarch64:
   &base-controller-aarch64
@@ -589,7 +590,7 @@ services:
         com.description: "Base deployment image for cycle/revision ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
+        dds_community_build: ${dds_community_build_el8}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_community}
@@ -618,12 +619,12 @@ services:
         com.description: "Base deployment image for cycle ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
+        dds_community_build: ${dds_community_build_el8}
         dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build}
+        dds_private_build: ${dds_private_build_el8}
         ts_dds: ${ts_dds_private}=${ts_dds_private_conda_build}
         ts_ddsconfig: ${ts_ddsconfig}
-        ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
+        ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
 
@@ -635,9 +636,9 @@ services:
       labels:
         com.description: "Base deployment image for cycle ${CYCLE}."
       args:
-        image_tag: ${lsstsqre}
+        stack: ${stack}
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
+        dds_community_build: ${dds_community_build_el8}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_community}
@@ -650,15 +651,15 @@ services:
       labels:
         com.description: "Base deployment image for cycle ${CYCLE}."
       args:
-        image_tag: ${lsstsqre}
+        stack: ${stack}
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
+        dds_community_build: ${dds_community_build_el8}
         dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build}
+        dds_private_build: ${dds_private_build_el8}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_private}
-        ts_idl: ${ts_idl}_${ts_xml}_${ts_sal}
+        ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
         ts_ddsconfig: ${ts_ddsconfig}
 
   docker-compose-aarch64:
@@ -677,15 +678,14 @@ services:
       labels:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
-        image_tag: ${lsstsqre}
+        stack: ${stack}
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build}
+        dds_community_build: ${dds_community_build_el8}
         ts_develop: ${ts_develop}
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
-        ljm_version: ${ljm_version}
-        labjack_python_version: ${labjack_python_version}
+        labjack_ljm: ${labjack_ljm}
         maven: ${maven}
         openjdk: ${openjdk}
         UID: ${B_UID}
@@ -699,17 +699,16 @@ services:
       labels:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
-        image_tag: ${lsstsqre}
+        stack: ${stack}
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build}
+        dds_community_build: ${dds_community_build_el8}
         dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build}
+        dds_private_build: ${dds_private_build_el8}
         ts_develop: ${ts_develop}
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
-        ljm_version: ${ljm_version}
-        labjack_python_version: ${labjack_python_version}
+        labjack_ljm: ${labjack_ljm}
         maven: ${maven}
         openjdk: ${openjdk}
         UID: ${B_UID}
@@ -724,7 +723,7 @@ services:
         image_tag: ${lsstsqre}
         java_v: ${java_v}
         osplice_v: ${dds_community_version}
-        osplice_build: ${dds_community_build}
+        osplice_build: ${dds_community_build_el7}
         osplice_py: ${ts_dds_community_conda_build}
 
   opensplice-lsstsqre-licensed:
@@ -736,7 +735,7 @@ services:
         image_tag: ${lsstsqre}
         java_v: ${java_v}
         osplice_v: ${dds_private_version}
-        osplice_build: ${dds_private_build}
+        osplice_build: ${dds_private_build_el7}
         osplice_py: ${ts_dds_private_conda_build}
 
   sal-sciplat-community:
@@ -886,26 +885,13 @@ services:
         ts_hexrotcomm: ${ts_hexrotcomm}
         ts_tcpip: ${ts_tcpip}
 
-  bare-centos-community:
-    image: lsstts/centos7:${CYCLE}
-    build:
-      context: ../build/
-      dockerfile: ./develop-env/bare-centos/Dockerfile
-      labels:
-        com.description: "LSST Telescope and Site base CentOS 7 image for cycle ${CYCLE}."
-      args:
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el7}
-        ts_xml: ${ts_xml}
-        ts_sal: ${ts_sal}
-
   conda-builder-aarch64-community:
     image: lsstts/conda_package_builder_aarch64:${CYCLE}
     build:
       context: ../build/
       dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE}. This image doesn't contain OpenSpliceDDS."
+        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE} without OpenSpliceDDS."
 
   conda-builder-aarch64-private:
     image: ${hub}/conda_package_builder_aarch64:${CYCLE}
@@ -913,7 +899,7 @@ services:
       context: ../build/
       dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE}. This image doesn't contain OpenSpliceDDS."
+        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE} without OpenSpliceDDS."
 
   conda-builder-community:
     image: lsstts/conda_package_builder:${CYCLE}
@@ -924,11 +910,10 @@ services:
         com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build}
+        dds_community_build: ${dds_community_build_el8}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
-        ljm_version: ${ljm_version}
-        labjack_python_version: ${labjack_python_version}
+        labjack_ljm: ${labjack_ljm}
 
   conda-builder-private:
     image: ${hub}/conda_package_builder:${CYCLE}
@@ -939,13 +924,12 @@ services:
         com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build}
+        dds_community_build: ${dds_community_build_el8}
         dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build}
+        dds_private_build: ${dds_private_build_el8}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
-        ljm_version: ${ljm_version}
-        labjack_python_version: ${labjack_python_version}
+        labjack_ljm: ${labjack_ljm}
 
   ospl-daemon:
     image: ${hub}/ospl-daemon:${CYCLE}

@@ -2,14 +2,14 @@ pipeline {
     agent {
         docker {
             alwaysPull true
-            label 'Arm64_2CPU'
-            image 'lsstts/docker-compose-aarch64'
+            label 'CSC_Conda_Node'
+            image 'docker/compose:latest'
             args "--entrypoint='' --user root --privileged -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
         }
     }
 
     parameters {
-        booleanParam defaultValue: false, description: "Build/push ess-controller image?", name: 'build_ess_controller'
+        booleanParam defaultValue: false, description: "Build/push conda_package_builder image?", name: 'build_conda_package_builder'
     }
 
      environment {
@@ -17,19 +17,26 @@ pipeline {
     }
 
     stages {
-        stage ('Build and Push ESS Controller image') {
+        stage("Copy credentials"){
+          steps{
+            withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+              sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+            }
+          }
+        }
+        stage ('Build and Push Conda Package Builder amd64 image') {
             when {
-                expression { params.build_ess_controller }
+                expression { params.build_conda_package_builder }
             }
             steps {
                 script {
-                    docker.withRegistry("", registryCredential) {
+                    docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                         sh """
                             source cycle/cycle.env
-                            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ess-controller-aarch64
-                            docker tag lsstts/ess-controller-aarch64 lsstts/ess-controller-aarch64:\${CYCLE}\${rev}
-                            docker push lsstts/ess-controller-aarch64
-                            docker push lsstts/ess-controller-aarch64:\${CYCLE}\${rev}
+                            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build conda-builder-private
+                            docker tag ts-dockerhub.lsst.org/conda_package_builder:\${CYCLE} ts-dockerhub.lsst.org/conda_package_builder
+                            docker push ts-dockerhub.lsst.org/conda_package_builder:\${CYCLE}
+                            docker push ts-dockerhub.lsst.org/conda_package_builder
                         """
                     }
                 }

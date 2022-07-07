@@ -9,7 +9,7 @@ pipeline {
     }
 
     parameters {
-        booleanParam defaultValue: false, description: "Build/push ess-controller image?", name: 'build_ess_controller'
+        booleanParam defaultValue: false, description: "Build/push conda_package_builder_aarch64 image?", name: 'build_conda_package_builder_aarch64'
     }
 
      environment {
@@ -17,19 +17,19 @@ pipeline {
     }
 
     stages {
-        stage ('Build and Push ESS Controller image') {
+        stage ('Build and Push Conda Package Builder aarch64 image') {
             when {
-                expression { params.build_ess_controller }
+                expression { params.build_conda_package_builder_aarch64 }
             }
             steps {
                 script {
-                    docker.withRegistry("", registryCredential) {
+                    docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                         sh """
                             source cycle/cycle.env
-                            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ess-controller-aarch64
-                            docker tag lsstts/ess-controller-aarch64 lsstts/ess-controller-aarch64:\${CYCLE}\${rev}
-                            docker push lsstts/ess-controller-aarch64
-                            docker push lsstts/ess-controller-aarch64:\${CYCLE}\${rev}
+                            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build conda-builder-aarch64-private
+                            docker tag ts-dockerhub.lsst.org/conda_package_builder_aarch64:\${CYCLE} ts-dockerhub.lsst.org/conda_package_builder_aarch64
+                            docker push ts-dockerhub.lsst.org/conda_package_builder_aarch64:\${CYCLE}
+                            docker push ts-dockerhub.lsst.org/conda_package_builder_aarch64
                         """
                     }
                 }

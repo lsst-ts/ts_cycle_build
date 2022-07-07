@@ -31,6 +31,7 @@ pipeline {
     CONDA_PACKAGES_C = "ataos_c atdome_c atdometrajectory_c athexapod_c atmcs_sim_c atpneumatics_sim_c atspectrograph_c  authorize_c dimm_c dmocps_c dsm_c electrometer_c ess_c hvac_c genericcamera_c integrationtests_c love-commander_c love-csc_c love-frontend_c love-manager_c love-manager-static_c love-producer_c love-view-backup_c mtaircompressor_c mthexapod_c mtdome_c mtdometrajectory_c mtm2_sim_c mtmount_c mtrotator_c pmd_c salkafka_c scheduler_c test_c watcher_c weatherstation_c"
   }
   parameters {
+      booleanParam defaultValue: false, description: "Build/push Conda Package Builder arm64 and aarch64 images.", name: 'build_conda_package_builder'
       booleanParam defaultValue: false, description: "Build/push base deployment image (only run this if you are building revision 0).", name: 'deploy_conda'
       booleanParam defaultValue: false, description: "Build/push lsstsqre deployment image (only run this if you are building revision 0 or updating the DM stack version).", name: 'deploy_lsstsqre'
       booleanParam defaultValue: false, description: "Build/push ts-cycle conda package.", name: 'ts_cycle'
@@ -47,6 +48,15 @@ pipeline {
   }
 
   stages {
+    stage ('Build Conda Package Builder images') {
+      when {
+          expression { params.build_conda_package_builder }
+      }
+      steps {
+          build job: "CondaPackageBuilder/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_conda_package_builder', value: true)], wait: false
+          build job: "CondaPackageBuilder_aarch64/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_conda_package_builder_aarch64', value: true)], wait: false
+      }
+    }
     stage ('Build deploy-conda-private') {
       when {
           expression { params.deploy_conda }

@@ -6,12 +6,11 @@ ARG hub=lsstts
 FROM ${hub}/deploy-sqre:${deploy_tag}
 
 USER root
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash 
-RUN yum install -y git-lfs bzip2
+RUN dnf install -y git-lfs bzip2
 
 USER ${USER}
 
-WORKDIR  ${SAL_HOME}
+WORKDIR  ${HOME}
 RUN git clone https://github.com/lsst-ts/ts_config_attcs.git && \
     git clone https://github.com/lsst-ts/ts_config_ocs.git && \
     git clone https://github.com/lsst-ts/ts_observatory_control.git && \
@@ -28,27 +27,24 @@ RUN git clone https://github.com/lsst-ts/ts_config_attcs.git && \
 ARG ts_config_attcs
 ARG ts_config_ocs
 
-WORKDIR ${SAL_HOME}/ts_config_attcs
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}/ts_config_attcs
+RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_config_attcs} && \
     eups declare -m none -r . ts_config_attcs ${ts_config_attcs}
 
-WORKDIR ${SAL_HOME}/ts_config_ocs
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}/ts_config_ocs
+RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_config_ocs} && \
     eups declare -m none -r . ts_config_ocs ${ts_config_ocs}
 
 WORKDIR ${WORKDIR}
-
-USER lsst
 
 ARG ts_utils
 ARG ts_atdome
 ARG ts_atdometrajectory
 ARG ts_atmcssimulator
 
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
-    conda install -y asynctest pytest-tornasync astroquery black && \
+RUN source ${HOME}/.setup_sal_env.sh && \
     conda install -y -c lsstts ts-atdome=${ts_atdome} ts-atdometrajectory=${ts_atdometrajectory} ts-atmcs-simulator=${ts_atmcssimulator} ts-utils=${ts_utils} && \
     utils_path=$(python -c 'from lsst.ts import utils; import pathlib; print(pathlib.Path(utils.__file__).parents[0])') && \
     eups declare -m none -r ${utils_path} ts_utils ${ts_utils} && \
@@ -59,18 +55,15 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     atmcssimulator_path=$(python -c 'from lsst.ts import ATMCSSimulator; import pathlib; print(pathlib.Path(ATMCSSimulator.__file__).parents[0])') && \
     eups declare -m none -r ${atmcssimulator_path} ts_ATMCSSimulator ${ts_atmcssimulator}
 
-ARG ts_conda_build
-WORKDIR ${WORKDIR}
-USER lsst
+ARG ts_develop
+
 RUN cd && \
     source ${WORKDIR}/loadLSST.bash && \
-    conda install -c lsstts ts-conda-build=${ts_conda_build}
-
-USER ${USER}
+    mamba install -y -c lsstts ts-develop=${ts_develop}
 
 ARG ts_observatory_control
-WORKDIR ${SAL_HOME}/ts_observatory_control
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}/ts_observatory_control
+RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_observatory_control} && \
     (git lfs install; git lfs fetch --all; git lfs checkout);  \
     eups declare -r . ts_observatory_control ${ts_observatory_control} -t current && \
@@ -79,8 +72,8 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     scons
 
 ARG cwfs
-WORKDIR ${SAL_HOME}/cwfs
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}/cwfs
+RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${cwfs} && \
     eups declare -r . cwfs ${cwfs} -t current && \
     setup lsst_distrib && \
@@ -89,15 +82,15 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
 
 # Temporarily disabling local copy of Spectractor. It is now part of DM-stack
 # ARG Spectractor
-# WORKDIR ${SAL_HOME}/Spectractor
-# RUN source ${WORKDIR}/.setup_sal_env.sh && \
+# WORKDIR ${HOME}/Spectractor
+# RUN source ${HOME}/.setup_sal_env.sh && \
 #     /home/saluser/.checkout_repo.sh ${Spectractor} && \
 #     pip install -r requirements.txt && \
 #     pip install -e .
 
 ARG atmospec
-WORKDIR ${SAL_HOME}/atmospec
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}/atmospec
+RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${atmospec} && \
     setup lsst_distrib && \
     eups declare -r . atmospec -t ${USER} && \
@@ -105,8 +98,8 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     scons || echo "Atmospec failed..."
 
 ARG summit_utils
-WORKDIR ${SAL_HOME}/summit_utils
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}/summit_utils
+RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${summit_utils} && \
     setup lsst_distrib && \
     eups declare -r . summit_utils -t ${USER} && \
@@ -114,8 +107,8 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     scons || echo "Summit utils failed..."
 
 ARG summit_extras
-WORKDIR ${SAL_HOME}/summit_extras
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}/summit_extras
+RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${summit_extras} && \
     setup lsst_distrib && \
     eups declare -r . summit_extras -t ${USER} && \
@@ -123,22 +116,22 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     scons || echo "Summit extras build failed..."
 
 ARG ts_observing_utilities
-WORKDIR ${SAL_HOME}/ts_observing_utilities
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}/ts_observing_utilities
+RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_observing_utilities} && \
     eups declare -r . -t $USER
 
 ARG ts_externalscripts
-WORKDIR ${SAL_HOME}/ts_externalscripts
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}/ts_externalscripts
+RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_externalscripts} && \
     eups declare -r . ts_externalscripts ${ts_externalscripts} -t current && \
     setup ts_externalscripts && \
     scons || echo FAILED to build ts_externalscripts
 
 ARG ts_standardscripts
-WORKDIR ${SAL_HOME}/ts_standardscripts
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}/ts_standardscripts
+RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_standardscripts}  && \
     eups declare -r . ts_standardscripts ${ts_standardscripts} -t current && \
     setup ts_standardscripts && \
@@ -146,14 +139,14 @@ RUN source ${WORKDIR}/.setup_sal_env.sh && \
     pytest || pytest --lf -x
 
 ARG ts_scriptqueue
-WORKDIR ${SAL_HOME}/ts_scriptqueue
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}/ts_scriptqueue
+RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_scriptqueue}  && \
     eups declare -r . ts_scriptqueue ${ts_scriptqueue} -t current && \
     setup ts_scriptqueue && \
     scons || pytest --lf -x
 
-WORKDIR ${SAL_HOME}
+WORKDIR ${HOME}
 
 COPY scriptqueue/startup.sh /home/saluser/.startup.sh
 USER root

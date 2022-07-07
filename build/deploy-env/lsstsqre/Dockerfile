@@ -1,31 +1,24 @@
-ARG image_tag
-
-FROM lsstsqre/centos:${image_tag}
-
-ENV USER ${USER:-saluser}
-ENV SAL_HOME /home/saluser
-ENV WORKDIR /opt/lsst/software/stack
-
-USER root
+FROM almalinux:8
 
 ARG UID=73006
 ARG GID=73006
 
-# Create user and group
-RUN if [ $UID -eq 1000 ] && [ $GID -eq 1000 ]; then  \
-  echo "Renaming lsst to saluser" && \
-  usermod -l saluser lsst && \
-  usermod -d /home/saluser -m saluser ; \
-  else \
-  groupadd --gid ${GID} saluser && \
-  adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser ; \
-  fi
+LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
+
+ENV USER ${USER:-saluser}
+ENV HOME /home/saluser
+ENV WORKDIR /opt/lsst/software/stack
+
+USER root
+
+RUN groupadd --gid ${GID} saluser && \
+  adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-nexus-private.repo
-COPY deploy-env/lsstsqre/startup.sh /home/saluser/.startup.sh
-COPY deploy-env/lsstsqre/setup_sal_env.sh /opt/lsst/software/stack/.setup_sal_env.sh
-COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
+COPY deploy-env/lsstsqre/startup.sh ${HOME}/.startup.sh
+COPY deploy-env/lsstsqre/setup_sal_env.sh ${HOME}/.setup_sal_env.sh
+COPY develop-env/salobj/checkout_repo.sh ${HOME}/.checkout_repo.sh
 
 # Create user and group
 
@@ -34,13 +27,15 @@ ARG dds_community_build=1.el6
 ARG dds_private_version
 ARG dds_private_build
 
-RUN chown ${UID}:${GID} /home/saluser/.startup.sh && \
-  chown ${UID}:${GID} ${WORKDIR}/.setup_sal_env.sh && \
-  chown ${UID}:${GID} /home/saluser/.checkout_repo.sh && \
-  chmod a+x /home/saluser/.startup.sh && \
-  chmod a+x ${WORKDIR}/.setup_sal_env.sh && \
-  chmod a+x /home/saluser/.checkout_repo.sh && \
+RUN chown ${UID}:${GID} ${HOME}/.startup.sh && \
+  chown ${UID}:${GID} ${HOME}/.setup_sal_env.sh && \
+  chown ${UID}:${GID} ${HOME}/.checkout_repo.sh && \
+  chmod a+x ${HOME}/.startup.sh && \
+  chmod a+x ${HOME}/.setup_sal_env.sh && \
+  chmod a+x ${HOME}/.checkout_repo.sh && \
+  mkdir -p ${WORKDIR} && \
   touch ${WORKDIR}/ospl_env.sh && \
+  chown -R ${UID}:${GID} ${WORKDIR} && \
   yum install -y git make gcc-c++
 
 RUN if [ -z "${dds_private_version}" ]; then \
@@ -54,8 +49,17 @@ RUN if [ -z "${dds_private_version}" ]; then \
 
 RUN rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
 
-USER lsst
+USER saluser
+
 WORKDIR ${WORKDIR}
+
+RUN curl -LO https://ls.st/lsstinstall && \
+  bash lsstinstall
+
+ARG stack
+
+RUN source ./loadLSST.bash && \
+  eups distrib install -t ${stack} lsst_distrib
 
 ARG ts_dds
 ARG ts_ddsconfig
@@ -63,12 +67,14 @@ ARG ts_idl
 ARG ts_utils
 ARG ts_salobj
 
-RUN source ${WORKDIR}/.setup_sal_env.sh && \
+WORKDIR ${HOME}
+
+RUN source ${HOME}/.setup_sal_env.sh && \
   conda config --add channels conda-forge && \
   conda install -y mamba && \
   conda install -y cython
 
-RUN source ${WORKDIR}/.setup_sal_env.sh && \  
+RUN source ${HOME}/.setup_sal_env.sh && \  
   mamba install -y -c lsstts -c lsstts/label/dev ts-dds=${ts_dds} ts-ddsconfig=${ts_ddsconfig} ts-salobj=${ts_salobj} ts-idl=${ts_idl} ts-utils=${ts_utils} && \
   ddsconfig_path=$(python -c 'from lsst.ts import ddsconfig; import pathlib; print(pathlib.Path(ddsconfig.__file__).parents[0])') && \
   eups declare -m none -r ${ddsconfig_path} ts_ddsconfig ${ts_ddsconfig}  && \
@@ -85,6 +91,7 @@ LABEL dds_community_version=${dds_community_version} \
   dds_community_build=${dds_community_build} \
   dds_private_version=${dds_private_version} \
   dds_private_build=${dds_private_version} \
+  stack=${stack} \
   ts_dds=${ts_dds} \
   ts_idl=${ts_idl} \
   ts_ddsconfig=${ts_ddsconfig} \

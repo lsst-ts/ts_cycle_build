@@ -22,7 +22,7 @@ ENV ARCH=aarch64
 ARG common
 ARG controller
 
-ARG PYTHON_VERSION=3.8
+ARG PYTHON_VERSION=3.10
 
 RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh -O mambaforge.sh && \
     chmod +x mambaforge.sh && \
