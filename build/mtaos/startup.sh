@@ -13,9 +13,9 @@ setup phosim_utils -t current
 setup ts_wep -t current
 setup ts_ofc -t current
 setup ts_phosim -t current
-setup ts_MTAOS -t current
+setup ts_mtaos -t current
 
-run_mtaos.py $RUN_ARG &
+run_mtaos $RUN_ARG &
 
 pid="$!"
 
