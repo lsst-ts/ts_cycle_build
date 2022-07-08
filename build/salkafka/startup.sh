@@ -8,6 +8,8 @@ run_salkafka_producer --broker  $BROKER_IP:$BROKER_PORT \
                       --loglevel $LOG_LEVEL \
                       --replication-factor $REPLICATION \
                       --wait-ack $WAIT_ACK \
+                      --username $TS_SALKAFKA_USERNAME \
+                      --password $TS_SALKAFKA_PASSWORD \
                       $CSC_LIST  &
 
 pid="$!"
