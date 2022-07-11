@@ -27,7 +27,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_observatory_control:${ts_observatory_control} \
     ts_standardscripts:${ts_standardscripts} \
     ts_externalscripts:${ts_externalscripts} \
-    ts_ATMCSSimulator:${ts_ATMCSSimulator} \
+    ts_atmcssimulator:${ts_ATMCSSimulator} \
     ts_ATDome:${ts_ATDome} \
     ts_ATDomeTrajectory:${ts_ATDomeTrajectory} \
     ts_simactuators:${ts_simactuators} \
@@ -77,14 +77,14 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_ATDomeTrajectory -t current && \
     scons || pytest --color=no --last-failed
 
-WORKDIR /home/saluser/repos/ts_ATMCSSimulator
+WORKDIR /home/saluser/repos/ts_atmcssimulator
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    eups declare -r . ts_ATMCSSimulator -t current && \
-    setup ts_ATMCSSimulator -t current && \
+    eups declare -r . ts_atmcssimulator -t current && \
+    setup ts_atmcssimulator -t current && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_observatory_control
