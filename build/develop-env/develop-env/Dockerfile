@@ -106,7 +106,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
-    setup ts_ATMCSSimulator -t current && \
+    setup ts_atmcssimulator -t current && \
     eups declare -r . -t current && \
     setup ts_standardscripts -t current && \
     scons || pytest --color=no --last-failed
@@ -141,7 +141,7 @@ LABEL ts_scriptqueue="${ts_scriptqueue}" \
     ts_observatory_control="${ts_observatory_control}" \
     ts_standardscripts="${ts_standardscripts}" \
     ts_externalscripts="${ts_externalscripts}" \
-    ts_ATMCSSimulator="${ts_ATMCSSimulator}" \
+    ts_atmcssimulator="${ts_ATMCSSimulator}" \
     ts_ATDome="${ts_ATDome}" \
     ts_ATDomeTrajectory="${ts_ATDomeTrajectory}" \
     ts_simactuators="${ts_simactuators}" \
