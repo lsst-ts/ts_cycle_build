@@ -8,6 +8,16 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 2
+===================
+
+* Update sal-sciplat build to use mamba to install some dependencies, and reorganize some sequence of commands.
+* Update develop-env build to take into account renaming of ATMCS simulator.
+* Update version of the following packages:
+
+  * ts_mtmount
+  * ts_config_mttcs
+
 Cycle 26 revision 1
 ===================
 
