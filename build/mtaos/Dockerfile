@@ -36,7 +36,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     && git clone https://github.com/lsst-dm/phosim_utils.git \
     && git clone https://github.com/lsst-ts/ts_wep.git \
     && git clone https://github.com/lsst-ts/ts_ofc.git \
-    && git clone https://github.com/lsst-ts/ts_MTAOS.git \
+    && git clone https://github.com/lsst-ts/ts_mtaos.git \
     && git clone https://github.com/lsst-ts/ts_config_mttcs.git \
     && cd ${AOS_REPOS}/phosim_utils \
     && /home/saluser/.checkout_repo.sh ${phosim_utils} \
@@ -47,9 +47,9 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     && cd ${AOS_REPOS}/ts_ofc \
     && /home/saluser/.checkout_repo.sh ${ts_ofc} \
     && eups declare -r . ts_ofc ${ts_ofc} -t current \
-    && cd ${AOS_REPOS}/ts_MTAOS/ \
+    && cd ${AOS_REPOS}/ts_mtaos/ \
     && /home/saluser/.checkout_repo.sh ${mtaos} \
-    && eups declare -r . ts_MTAOS ${mtaos} -t current \
+    && eups declare -r . ts_mtaos ${mtaos} -t current \
     && cd ../ts_config_mttcs \
     && /home/saluser/.checkout_repo.sh ${ts_config_mttcs} \
     && eups declare -r . ts_config_mttcs ${ts_config_mttcs} -t current
@@ -74,9 +74,9 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     scons
 
 # mtaos
-WORKDIR ${AOS_REPOS}/ts_MTAOS
+WORKDIR ${AOS_REPOS}/ts_mtaos
 RUN source ${HOME}/.setup_sal_env.sh && \
-    setup ts_MTAOS -t current && \
+    setup ts_mtaos -t current && \
     scons || pytest --lf
 
 LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
