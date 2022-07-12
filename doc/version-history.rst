@@ -8,6 +8,32 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 1
+===================
+
+* In develop-env build update name of the ATMCS simulator component: ts_ATMCSSimulator -> ts_atmcssimulator.
+* In MTAOS:
+
+  * Update build to take into account module name change (MTAOS -> mtaos).
+  * Update startup script to take into account module name change (MTAOS -> mtaos).
+
+* Change ts_salkafka version and script for authentication.
+* Install labjack-ljm conda package.
+* Updated the versions of the following packages:
+
+  * LOVE-frontend
+  * LOVE-manager
+  * ts_config_ocs
+  * ts_ess_common
+  * ts_ess_controller
+  * ts_ess_labjack
+  * ts_hvac
+  * ts_m1m3support
+  * ts_mtaircompressor
+  * ts_mtaos
+  * ts_mtmount
+  * ts_observatory_control
+
 Cycle 26
 ========
 
