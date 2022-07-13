@@ -8,20 +8,21 @@ RUN curl https://www.ietf.org/timezones/data/leap-seconds.list -o leap-seconds.l
 
 ENV LOADSTACK=/opt/lsst/software/stack/loadLSST.bash
 
-RUN source ${LOADSTACK} && \
-    conda install -c conda-forge -y \
-    librdkafka aiokafka astroquery asynctest \
-    ephem kafkacat pre-commit pytest-tornasync \
-    setuptools_scm pytest-black \
-    astroplan
-
-
 ENV SRCDIR=/opt/lsst/src
 ENV SALSTACK=/opt/lsst/sal/salbldsteps.bash
 ENV TZ="UTC"
 
 RUN mkdir -p /opt/lsst/sal
 COPY sal-sciplat/salbldsteps.bash /opt/lsst/sal
+
+USER lsst
+
+RUN source ${LOADSTACK} && \
+    mamba install -c conda-forge -y \
+    librdkafka aiokafka astroquery asynctest \
+    ephem kafkacat pre-commit pytest-tornasync \
+    setuptools_scm pytest-black \
+    astroplan
 
 #### Clear the astropy download cache
 RUN source ${LOADSTACK} && \
