@@ -91,33 +91,6 @@ RUN wget http://www.ietf.org/timezones/data/leap-seconds.list
 
 ARG gphoto2=${gphoto2}
 
-# Install GPhoto2
-WORKDIR /tmp
-RUN curl -sSL https://github.com/gphoto/libgphoto2/releases/download/v${gphoto2}/libgphoto2-${gphoto2}.tar.bz2 -o libgphoto2-${gphoto2}.tar.bz2 && \
-    tar jxf libgphoto2-${gphoto2}.tar.bz2 && \
-    cd libgphoto2-${gphoto2} && \
-    autoreconf --install --symlink && \
-    ./configure && \
-    make && \
-    make install && \
-    # Copy the .pc files so pkg-config can find them later on
-    cp libgphoto2.pc /usr/share/pkgconfig && \
-    cp libgphoto2_port/libgphoto2_port.pc /usr/share/pkgconfig && \
-    echo "/usr/local/lib" >> /etc/ld.so.conf.d/gphoto2.conf && \
-    echo "/usr/local/lib/libgphoto2/${gphoto2}" >> /etc/ld.so.conf.d/gphoto2.conf && \
-    echo "/usr/local/lib/libgphoto2_port/0.12.0" >> /etc/ld.so.conf.d/gphoto2.conf && \
-    ldconfig
-
-# Install LibGPhoto2
-WORKDIR /tmp
-RUN curl -sSL https://github.com/gphoto/gphoto2/releases/download/v${gphoto2}/gphoto2-${gphoto2}.tar.bz2 -o gphoto2-${gphoto2}.tar.bz2 && \
-    tar jxf gphoto2-${gphoto2}.tar.bz2 && \
-    cd gphoto2-${gphoto2} && \
-    autoreconf --install --symlink && \
-    ./configure && \
-    make && \
-    make install
-
 # Install DM stack using lsstinstall
 USER saluser
 
@@ -167,18 +140,10 @@ RUN source /opt/lsst/software/stack/loadLSST.bash && \
 RUN source ${WORKDIR}/loadLSST.bash && \
     pip install "documenteer[pipelines]>=0.6" ltd-conveyor kafkit[aiohttp] confluent_kafka==1.8.2
 
-# Needed for Python-GPhoto2
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
+# Install python-gphoto2
+RUN source ${WORKDIR}/loadLSST.bash && \
+    pip install gphoto2==${gphoto2} --only-binary :all: && \
     pip install Pillow rawpy
-
-# Install Python-GPhoto2
-WORKDIR /tmp
-RUN source /home/saluser/.setup_salobj.sh && \
-    git clone https://github.com/jim-easterbrook/python-gphoto2.git && \
-    cd python-gphoto2 && \
-    python developer/build_swig.py system && \
-    python setup.py build && \
-    python setup.py install
 
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current
