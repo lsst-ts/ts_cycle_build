@@ -201,6 +201,18 @@ x-mtaircompressor:
       hub: ${hub}
       ts_mtaircompressor: ${ts_mtaircompressor}
 
+x-mtalignment:
+  &base-mtalignment
+  build:
+    context: ../build/mtalignment
+    labels:
+      com.description: "for cycle/revision ${CYCLE}/${rev}."
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      ts_mtalignment: ${ts_mtalignment}
+      config: ${ts_config_mttcs}
+
 x-mtm2_sim:
   &base-mtm2_sim
   build:
@@ -1074,6 +1086,14 @@ services:
   mtaircompressor_c:
     image: ${hub}/mtaircompressor:${CYCLE}
     <<: *base-mtaircompressor
+
+  mtalignment:
+    image: ${hub}/mtalignment:${CYCLE}${rev}
+    <<: *base-mtalignment
+
+  mtalignment_c:
+    image: ${hub}/mtalignment:${CYCLE}
+    <<: *base-mtalignment
 
   mtm2_sim:
     image: ${hub}/m2:${CYCLE}${rev}

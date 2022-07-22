@@ -12,8 +12,10 @@ ENV SRCDIR=/opt/lsst/src
 ENV SALSTACK=/opt/lsst/sal/salbldsteps.bash
 ENV TZ="UTC"
 
-RUN mkdir -p /opt/lsst/sal
-COPY sal-sciplat/salbldsteps.bash /opt/lsst/sal
+COPY sal-sciplat/salbldsteps.bash ${SALSTACK}
+RUN mkdir -p ${SRCDIR} && \
+    chown -R lsst:lsst ${SRCDIR} && \
+    chmod a+x ${SALSTACK}
 
 USER lsst
 
