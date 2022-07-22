@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 3
+===================
+
+* Improve the way python-gphoto is installed in ``develop-env/lsstsqre`` and ``genericcamera``.
+* Add build for MTAlignment CSC deployment.
+* Fix sal-sciplat build.
+* Update version of the following packages:
+
+* lsstsqre/stack.
+* ts_mtalignment (new).
+* ts_ess_common.
+* ts_ess_controller.
+* ts_ess_csc.
+* ts_config_ocs.
+
 Cycle 26 revision 2
 ===================
 
