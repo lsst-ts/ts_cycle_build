@@ -3,7 +3,7 @@ FROM alpine/git as cloner
 
 WORKDIR /usr/src/love
 ARG love_manager
-RUN git clone --branch ${love_manager} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-manager.git
+RUN git clone --branch ${love_manager} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-manager.git || git clone --branch v${love_manager} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-manager.git
 
 FROM python:3.8.2-buster as builder
 COPY --from=cloner /usr/src/love/LOVE-manager /usr/src/love
