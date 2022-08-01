@@ -27,8 +27,10 @@ RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts \
     ts-scheduler=${ts_scheduler}
 
+ARG lsst_efd_client
+
 RUN source /home/saluser/.setup_sal_env.sh && \
-    pip install lsst-efd-client
+    pip install lsst-efd-client==${lsst_efd_client}
 
 ARG config
 
@@ -49,6 +51,7 @@ LABEL ts-scheduler=${ts_scheduler} \
     ts-dateloc=${ts_dateloc} \
     ts-fbs-utils=${ts_fbs_utils} \
     rubin-sim=${rubin_sim} \
+    lsst_efd_client=${lsst_efd_client} \
     ts_config_ocs=${config}
 
 

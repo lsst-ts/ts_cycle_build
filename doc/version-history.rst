@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 4
+===================
+
+* In the Scheduler build, add version of ``lsst_efd_client``.
+* In docker-compose, pass in ``lsst_efd_client`` version to the scheduler build.
+* In love-manager and love-manage-static builds, try to clone v<tag> if <tag> only fails.
+  This allow us to add the tag number without the trailing "v" in the cycle.env file.
+* Update version of the following packages:
+  * love-frontend.
+  * love-manager.
+  * ts-scheduler.
+  * ts-observatory-control.
+  * lsst_efd_client (new).
+  * rubin_sim.
+
 Cycle 26 revision 3
 ===================
 
