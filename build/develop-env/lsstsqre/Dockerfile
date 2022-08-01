@@ -60,7 +60,9 @@ RUN dnf install -y \
     which \
     xorg-x11-fonts-misc \
     xterm \
-    epel-release
+    epel-release \
+    qt5-qtbase-devel \
+    mesa-dri-drivers
 
 ARG dds_community_version=6.9.0
 ARG dds_community_build=1.el6
@@ -147,10 +149,11 @@ RUN source ${WORKDIR}/loadLSST.bash && \
 
 ARG pyside2
 ARG qasync
+ARG pytest_qt
 
 # Install PySide2 for QT support
 RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    mamba install -y PySide2=${pyside2} qasync=${qasync}
+    mamba install -y PySide2=${pyside2} qasync=${qasync} pytest-qt=${pytest_qt}
 
 
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
@@ -164,4 +167,5 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org> \
     labjack_arch=${labjack_arch} \
     labjack_ljm=${labjack_ljm} \
     PySide2=${pyside2} \
-    qasync=${qasync}
+    qasync=${qasync} \
+    pytest-qt=${pytest_qt}
