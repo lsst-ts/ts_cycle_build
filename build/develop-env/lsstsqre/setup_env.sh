@@ -31,6 +31,9 @@ export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'`
 # Needed for Python-GPhoto2
 export LDFLAGS="-L/usr/local/lib -L/usr/local/lib/libgphoto2/${gphoto2} -L/usr/local/lib/libgphoto2_port/0.12.0"
 
+# Suppress several an OpenGL warning
+export LIBGL_ALWAYS_INDIRECT=1
+
 export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:$CONDA_PREFIX/share/pkgconfig:$CONDA_PREFIX/lib/pkgconfig
 
 # export PATH=/opt/lsst/software/bin:${PATH}
