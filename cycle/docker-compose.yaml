@@ -701,6 +701,9 @@ services:
         labjack_ljm: ${labjack_ljm}
         maven: ${maven}
         openjdk: ${openjdk}
+        pyside2: ${pyside2}
+        qasync: ${qasync}
+        pytest_qt: ${pytest_qt}
         UID: ${B_UID}
         GID: ${B_GID}
 
@@ -724,6 +727,9 @@ services:
         labjack_ljm: ${labjack_ljm}
         maven: ${maven}
         openjdk: ${openjdk}
+        pyside2: ${pyside2}
+        qasync: ${qasync}
+        pytest_qt: ${pytest_qt}
         UID: ${B_UID}
         GID: ${B_GID}
 
