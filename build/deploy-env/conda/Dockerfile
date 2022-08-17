@@ -39,7 +39,7 @@ RUN mkdir -p ${WORKDIR} && \
   touch ${HOME}/.ospl_env.sh && \
   chown -R saluser:saluser ${HOME}/.ospl_env.sh && \
   chmod a+x ${HOME}/.ospl_env.sh && \
-  dnf install -y git make gcc-c++ && \
+  dnf install -y git make gcc-c++ procps-ng which && \
   if [ -z "${dds_private_version}" ]; then \
       dnf install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} || exit  ; \
       echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux" >> ${HOME}/.ospl_env.sh ; \
