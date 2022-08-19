@@ -50,6 +50,10 @@ RUN mkdir -p ${WORKDIR} && \
   fi; \
   (rm /etc/yum.repos.d/lsst-ts-nexus-private.repo || echo "No Private repo")
 
+# Make sure that saluser can use the ping command
+RUN if [ -f "/bin/ping" ]; then \
+  setcap cap_net_raw+ep /bin/ping
+
 USER saluser
 
 WORKDIR ${WORKDIR}

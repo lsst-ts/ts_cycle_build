@@ -49,6 +49,11 @@ RUN if [ -z "${dds_private_version}" ]; then \
 
 RUN rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
 
+# Make sure that saluser can use the ping command
+RUN if [ -f "/bin/ping" ]; then \
+  setcap cap_net_raw+ep /bin/ping
+
+
 USER saluser
 
 WORKDIR ${WORKDIR}
