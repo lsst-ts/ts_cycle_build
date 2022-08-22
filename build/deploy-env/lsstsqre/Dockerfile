@@ -36,18 +36,23 @@ RUN chown ${UID}:${GID} ${HOME}/.startup.sh && \
   mkdir -p ${WORKDIR} && \
   touch ${WORKDIR}/ospl_env.sh && \
   chown -R ${UID}:${GID} ${WORKDIR} && \
-  yum install -y git make gcc-c++
+  dnf install -y git make gcc-c++ procps-ng which
 
 RUN if [ -z "${dds_private_version}" ]; then \
-  yum install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} ; \
+  dnf install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} ; \
   echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl_env.sh ; \
   else \
-  yum install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
+  dnf install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
   OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
   echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl_env.sh ; \
   fi
 
 RUN rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
+
+# Make sure that saluser can use the ping command
+RUN if [ -f "/bin/ping" ]; then \
+  setcap cap_net_raw+ep /bin/ping
+
 
 USER saluser
 
@@ -74,7 +79,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
   conda install -y mamba && \
   conda install -y cython
 
-RUN source ${HOME}/.setup_sal_env.sh && \  
+RUN source ${HOME}/.setup_sal_env.sh && \
   mamba install -y -c lsstts -c lsstts/label/dev ts-dds=${ts_dds} ts-ddsconfig=${ts_ddsconfig} ts-salobj=${ts_salobj} ts-idl=${ts_idl} ts-utils=${ts_utils} && \
   ddsconfig_path=$(python -c 'from lsst.ts import ddsconfig; import pathlib; print(pathlib.Path(ddsconfig.__file__).parents[0])') && \
   eups declare -m none -r ${ddsconfig_path} ts_ddsconfig ${ts_ddsconfig}  && \

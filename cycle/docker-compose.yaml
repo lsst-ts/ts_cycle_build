@@ -704,6 +704,7 @@ services:
         pyside2: ${pyside2}
         qasync: ${qasync}
         pytest_qt: ${pytest_qt}
+        pytest_xvfb: ${pytest_xvfb}
         UID: ${B_UID}
         GID: ${B_GID}
 
@@ -730,6 +731,7 @@ services:
         pyside2: ${pyside2}
         qasync: ${qasync}
         pytest_qt: ${pytest_qt}
+        pytest_xvfb: ${pytest_xvfb}
         UID: ${B_UID}
         GID: ${B_GID}
 
