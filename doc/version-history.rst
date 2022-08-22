@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 6
+===================
+
+* Add xorg-x11-server-Xvfb and pytest-xfvb to the base-lsstsqre images.
+* In sal-sciplat build, stop trying to checkout branch after cloning.
+  The package is already cloned with the tag so there's no need to checkout again.
+* Add ps and which to the deploy-conda and deploy-lsstsqre Docker images.
+* Fix permission issue when using the ping command in the deploy env containers.
+* Update version of the following packages:
+  * ts_mtalignment
+  * ts_atmcs
+  * ts_hvac
+  * ts_scheduler
+  * ts_config_mttcs
+  * ts_external_scripts
+
 Cycle 26 revision 5
 ===================
 
