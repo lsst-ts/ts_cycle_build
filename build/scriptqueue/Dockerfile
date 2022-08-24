@@ -52,8 +52,8 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     eups declare -m none -r ${atdome_path} ts_ATDome ${ts_atdome} && \
     atdometrajectory_path=$(python -c 'from lsst.ts import ATDomeTrajectory; import pathlib; print(pathlib.Path(ATDomeTrajectory.__file__).parents[0])') && \
     eups declare -m none -r ${atdometrajectory_path} ts_ATDomeTrajectory ${ts_atdometrajectory} && \
-    atmcssimulator_path=$(python -c 'from lsst.ts import ATMCSSimulator; import pathlib; print(pathlib.Path(ATMCSSimulator.__file__).parents[0])') && \
-    eups declare -m none -r ${atmcssimulator_path} ts_ATMCSSimulator ${ts_atmcssimulator}
+    atmcssimulator_path=$(python -c 'from lsst.ts import atmcssimulator; import pathlib; print(pathlib.Path(atmcssimulator.__file__).parents[0])') && \
+    eups declare -m none -r ${atmcssimulator_path} ts_atmcssimulator ${ts_atmcssimulator}
 
 ARG ts_develop
 
