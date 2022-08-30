@@ -8,6 +8,15 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 7
+===================
+
+* Fix ScriptQueue build, renaming ATMCSSimulator -> atmcssimulator.
+* Update version of the following packages:
+
+  * love-frontend
+  * ts-dimm
+
 Cycle 26 revision 6
 ===================
 
@@ -17,6 +26,7 @@ Cycle 26 revision 6
 * Add ps and which to the deploy-conda and deploy-lsstsqre Docker images.
 * Fix permission issue when using the ping command in the deploy env containers.
 * Update version of the following packages:
+
   * ts_mtalignment
   * ts_atmcs
   * ts_hvac
@@ -29,6 +39,7 @@ Cycle 26 revision 5
 
 * Add PySide2, pytest-qt and QT to the base-sqre develop images.
 * Update version of the following packages:
+
   * ts_genericcamera
   * ts_config_ocs
 
@@ -40,6 +51,7 @@ Cycle 26 revision 4
 * In love-manager and love-manage-static builds, try to clone v<tag> if <tag> only fails.
   This allows us to add the tag number without the trailing "v" in the cycle.env file.
 * Update version of the following packages:
+
   * love-frontend
   * love-manager
   * ts-scheduler
@@ -54,6 +66,7 @@ Cycle 26 revision 3
 * Add build for MTAlignment CSC deployment.
 * Fix sal-sciplat build.
 * Update version of the following packages:
+
   * lsstsqre/stack
   * ts_mtalignment (new)
   * ts_ess_common
@@ -105,6 +118,7 @@ Cycle 26
 * Updated the build versions for OpenSpliceDDS private and community to those valid for AlmaLinux.
 * Migrated to AlmaLinux.
 * Update version of
+
     * ts_ddsconfig
     * ts_xml
     * ts_sal
