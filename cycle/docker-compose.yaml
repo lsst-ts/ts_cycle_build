@@ -326,6 +326,17 @@ x-scheduler:
       rubin_sim: ${rubin_sim}
       lsst_efd_client: ${lsst_efd_client}
 
+x-schedview:
+  &base-schedview
+  build:
+    context: ../build/schedview
+    labels:
+      com.description: "Scheduler Visualization Bokeh App image for cycle/revision ${CYCLE}${rev}"
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      schedview: ${schedview}
+
 x-scriptqueue:
   &base-scriptqueue
   build:
@@ -1159,6 +1170,14 @@ services:
   scheduler_c:
     image: ${hub}/scheduler:${CYCLE}
     <<: *base-scheduler
+
+  schedview:
+    image: ${hub}/schedview:${CYCLE}${rev}
+    <<: *base-schedview
+
+  schedview_c:
+    image: ${hub}/schedview:${CYCLE}
+    <<: *base-schedview
 
   scriptqueue:
     image: ${hub}/scriptqueue:${CYCLE}${rev}
