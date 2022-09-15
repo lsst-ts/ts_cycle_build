@@ -2,22 +2,29 @@ ARG cycle
 ARG hub
 
 FROM ${hub}/deploy-env:${cycle}
+MAINTAINER Rob Bovill <rbovill@lsst.org>
 
-LABEL maintainer Rob Bovill <rbovill@lsst.org>
+ARG USER=saluser
+ARG HOME=/home/${USER}
+ENV PYTHONPATH="$PYTHONPATH:/usr/local/lib/python3.8/site-packages/lsst_efd_client"
+ENV PATH $PATH:${HOME}/bin:${HOME}/.local/bin
+ENV LSST_DDS_PARTITION_PREFIX tucson
 
-ARG integrationtests
+WORKDIR ${HOME}
 
-RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts -y ts-integrationtests=${integrationtests}
+RUN mkdir Reports repos
 
-WORKDIR /home/saluser/
+RUN source ${HOME}/.setup_sal_env.sh && \
+conda update conda -y && \
+mamba install -c lsstts ts-integrationtests -y && \
+mamba install -c conda-forge robotframework && \
+pip3 install -U lsst-efd-client
 
-ENV RUN_ARG="simple_script.py"
+WORKDIR ${HOME}/repos
+RUN git clone https://github.com/lsst-ts/robotframework_EFD.git
 
-LABEL integrationtests=${integrationtests}
+WORKDIR ${HOME}/repos/robotframework_EFD
+RUN ${HOME}/.checkout_repo.sh main develop
 
-COPY startup.sh /home/saluser/.startup.sh
-USER root
-RUN chown saluser:saluser /home/saluser/.startup.sh && \
-    chmod a+x /home/saluser/.startup.sh
-USER saluser
+USER ${USER}
+WORKDIR ${HOME}
