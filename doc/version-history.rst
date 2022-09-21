@@ -17,6 +17,7 @@ Cycle 26 revision 8
 * Add build scripts for new schedview app.
   This is a bokeh app with a scheduler visualization tool.
 * Fix failing step in deployment images.
+* Updated the integrationtests Docker image to conform to cycle_build standards.
 * Cycle 26 revision 8. Update version of the following packages:
 
     * ts_config_ocs.
