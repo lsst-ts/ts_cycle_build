@@ -8,6 +8,31 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 8
+===================
+
+* Make sure that the HVAC CSC doesn't run as root.
+* In `Jenkinsfile.cycle`, add build steps for new schedview app.
+* In `cycle/docker-compose.yaml`, add build configuration for new schedview app.
+* Add build scripts for new schedview app.
+  This is a bokeh app with a scheduler visualization tool.
+* Fix failing step in deployment images.
+* Cycle 26 revision 8. Update version of the following packages:
+
+    * ts_config_ocs.
+    * ts_ess_common.
+    * ts_ess_csc.
+    * ts_ess_controller.
+    * DM stack.
+    * lsst_efd_client.
+    * ts_standardscripts.
+    * ts_externalscripts.
+    * ts_scheduler.
+    * schedview (new package).
+    * rubin_sim.
+    * ts_fbs_utils.
+    * ts_ataos
+
 Cycle 26 revision 7
 ===================
 

@@ -52,7 +52,8 @@ RUN mkdir -p ${WORKDIR} && \
 
 # Make sure that saluser can use the ping command
 RUN if [ -f "/bin/ping" ]; then \
-  setcap cap_net_raw+ep /bin/ping
+    setcap cap_net_raw+ep /bin/ping; \
+  fi
 
 USER saluser
 

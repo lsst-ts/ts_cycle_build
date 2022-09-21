@@ -27,5 +27,7 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -c lsstts ts-hvac=${hvac}
 
+USER saluser
+
 LABEL ts-hvac=${hvac} \
       ts_config_ocs=${config}
