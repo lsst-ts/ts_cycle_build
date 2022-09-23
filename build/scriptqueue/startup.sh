@@ -4,6 +4,7 @@ source ${HOME}/.setup_sal_env.sh
 
 setup lsst_distrib
 setup cwfs -t current
+setup ts_wep -t current
 setup atmospec -t $USER
 setup summit_utils -t $USER
 setup summit_extras -t $USER

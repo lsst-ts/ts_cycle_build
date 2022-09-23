@@ -15,6 +15,7 @@ RUN git clone https://github.com/lsst-ts/ts_config_attcs.git && \
     git clone https://github.com/lsst-ts/ts_config_ocs.git && \
     git clone https://github.com/lsst-ts/ts_observatory_control.git && \
     git clone https://github.com/lsst-ts/cwfs.git && \
+    git clone https://github.com/lsst-ts/ts_wep.git && \
     git clone https://github.com/lsst-dm/Spectractor.git && \
     git clone https://github.com/lsst-ts/ts_observing_utilities.git && \
     git clone https://github.com/lsst-dm/atmospec.git && \
@@ -78,6 +79,15 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     eups declare -r . cwfs ${cwfs} -t current && \
     setup lsst_distrib && \
     setup cwfs -t current && \
+    scons
+
+ARG ts_wep
+WORKDIR ${HOME}/ts_wep
+RUN source ${HOME}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${ts_wep} && \
+    eups declare -r . ts_wep ${ts_wep} -t current && \
+    setup lsst_distrib && \
+    setup ts_wep -t current && \
     scons
 
 # Temporarily disabling local copy of Spectractor. It is now part of DM-stack
