@@ -485,6 +485,19 @@ x-atspectrograph:
       atspec: ${ts_atspec}
       config: ${ts_config_latiss}
 
+x-atwhitelight:
+  &base-atwhitelight
+  build:
+    context: ../build/atwhitelight
+    labels:
+      com.description: "ATWhiteLight component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      atwhitelight: ${ts_atwhitelight}
+      labjack_ljm: ${labjack_ljm}
+      config: ${ts_config_atcalsys}
+
 x-authorize:
   &base-authorize
   build:
@@ -1267,6 +1280,14 @@ services:
   atspectrograph_c:
     image: ${hub}/atspec:${CYCLE}
     <<: *base-atspectrograph
+
+  atwhitelight:
+    image: ${hub}/atwhitelight:${CYCLE}${rev}
+    <<: *base-atwhitelight
+
+  atwhitelight_c:
+    image: ${hub}/atwhitelight:${CYCLE}
+    <<: *base-atwhitelight
 
   authorize:
     image: ${hub}/authorize:${CYCLE}${rev}
