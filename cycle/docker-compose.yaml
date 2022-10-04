@@ -288,10 +288,10 @@ x-base-rubintv-broadcaster:
       com.description: "RubinTV broadcaster image for cycle/revision ${CYCLE}${rev}."
     args:
       image_tag: ${lsstsqre}
-      spectractor_work_branch: ${Spectractor}
-      atmospec_work_branch: ${atmospec}
-      summit_utils_work_branch: ${summit_utils}
-      summit_extras_work_branch: ${summit_extras}
+      spectractor_work_branch: ${rubintv_spectractor}
+      atmospec_work_branch: ${rubintv_atmospec}
+      summit_utils_work_branch: ${rubintv_summit_utils}
+      summit_extras_work_branch: ${rubintv_summit_extras}
       rubintv_production_work_branch: ${rubintv_production}
 
 x-salkafka:
@@ -365,6 +365,7 @@ x-scriptqueue:
       ts_atdometrajectory: ${ts_ATDomeTrajectory}
       ts_atmcssimulator: ${ts_ATMCSSimulator}
       ts_develop: ${ts_develop}
+      ts_wep: ${ts_wep}
 
 x-test:
   &base-test
@@ -483,6 +484,19 @@ x-atspectrograph:
       hub: ${hub}
       atspec: ${ts_atspec}
       config: ${ts_config_latiss}
+
+x-atwhitelight:
+  &base-atwhitelight
+  build:
+    context: ../build/atwhitelight
+    labels:
+      com.description: "ATWhiteLight component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      atwhitelight: ${ts_atwhitelight}
+      labjack_ljm: ${labjack_ljm}
+      config: ${ts_config_atcalsys}
 
 x-authorize:
   &base-authorize
@@ -1266,6 +1280,14 @@ services:
   atspectrograph_c:
     image: ${hub}/atspec:${CYCLE}
     <<: *base-atspectrograph
+
+  atwhitelight:
+    image: ${hub}/atwhitelight:${CYCLE}${rev}
+    <<: *base-atwhitelight
+
+  atwhitelight_c:
+    image: ${hub}/atwhitelight:${CYCLE}
+    <<: *base-atwhitelight
 
   authorize:
     image: ${hub}/authorize:${CYCLE}${rev}
