@@ -15,8 +15,8 @@ ARG ts_observatory_control="develop"
 ARG ts_standardscripts="develop"
 ARG ts_externalscripts="develop"
 ARG ts_ATMCSSimulator="develop"
-ARG ts_ATDome="develop"
-ARG ts_ATDomeTrajectory="develop"
+ARG ts_atdome="develop"
+ARG ts_atdometrajectory="develop"
 ARG ts_simactuators="develop"
 ARG ts_hexrotcomm="develop"
 ARG ts_tcpip="develop"
@@ -28,8 +28,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_standardscripts:${ts_standardscripts} \
     ts_externalscripts:${ts_externalscripts} \
     ts_atmcssimulator:${ts_ATMCSSimulator} \
-    ts_ATDome:${ts_ATDome} \
-    ts_ATDomeTrajectory:${ts_ATDomeTrajectory} \
+    ts_atdome:${ts_atdome} \
+    ts_atdometrajectory:${ts_atdometrajectory} \
     ts_simactuators:${ts_simactuators} \
     ts_hexrotcomm:${ts_hexrotcomm} \
     ts_tcpip:${ts_tcpip}" && \
@@ -58,23 +58,23 @@ RUN source /home/saluser/.setup_salobj.sh && \
     eups declare -r . ts_simactuators -t current && setup ts_simactuators -t current && \
     scons || pytest --color=no --last-failed
 
-WORKDIR /home/saluser/repos/ts_ATDome
+WORKDIR /home/saluser/repos/ts_atdome
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    eups declare -r . ts_ATDome -t current && setup ts_ATDome -t current && \
+    eups declare -r . ts_atdome -t current && setup ts_atdome -t current && \
     scons || pytest --color=no --last-failed
 
-WORKDIR /home/saluser/repos/ts_ATDomeTrajectory
+WORKDIR /home/saluser/repos/ts_atdometrajectory
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    eups declare -r . ts_ATDomeTrajectory -t current && \
-    setup ts_ATDomeTrajectory -t current && \
+    eups declare -r . ts_atdometrajectory -t current && \
+    setup ts_atdometrajectory -t current && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_atmcssimulator
@@ -142,8 +142,8 @@ LABEL ts_scriptqueue="${ts_scriptqueue}" \
     ts_standardscripts="${ts_standardscripts}" \
     ts_externalscripts="${ts_externalscripts}" \
     ts_atmcssimulator="${ts_ATMCSSimulator}" \
-    ts_ATDome="${ts_ATDome}" \
-    ts_ATDomeTrajectory="${ts_ATDomeTrajectory}" \
+    ts_atdome="${ts_atdome}" \
+    ts_atdometrajectory="${ts_atdometrajectory}" \
     ts_simactuators="${ts_simactuators}" \
     ts_hexrotcomm="${ts_hexrotcomm}" \
     ts_tcpip="${ts_tcpip}"
