@@ -8,6 +8,55 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 10
+====================
+
+* Update user guide to have separate sessions for building a revision or a new cycle.
+* Update ``Jenkinsfile.cycle`` to build a cycle and cycle.rev version of deploy-lsstsqre image.
+* In ``cycle/docker-compose.yaml``, include configuration to build ``deploy-lsstsqre-private`` revision and revision.cycle.
+  This is required because the deploy-lsstsqre can change with the revision, as we can update the DM stack version.
+* Update version of the following packages:
+
+  * ts_ataos.
+  * ts_config_latiss.
+  * ts_config_attcs.
+  * ts_config_ocs.
+  * ts_externalscripts.
+  * ts_standardscripts.
+  * LOVE-frontend.
+  * schedview.
+
+Cycle 26 revision 9
+===================
+
+* In ``Jenkinsfile.cycle``, add build atwhitelight to conda build list.
+* In ``cycle/docker-compose.yaml``, add configuration for atwhitelight build.
+* Add ``build/atwhitelight``, with the build configuration files for ATWhiteLight.
+* In `build/scriptqueue`, update build script and startup script to include ts_wep.
+* In `cycle/docker-compose.yaml`, update rubintv arguments and pass ts_wep version to  the scriptqueue build.
+* Split rubinTV package versions in their own "namespace".
+* Update version of the following packages:
+
+    * lsstsqre stack.
+    * ts_observatory_control.
+    * ts_standardscripts.
+    * ts_externalscripts.
+    * ts_ataos.
+    * ts_wep.
+    * summit_utils.
+    * summit_extras.
+    * ts_config_ocs.
+    * rubintv_spectractor (new rubin-tv deployment only).
+    * rubintv_atmospec (new rubin-tv deployment only).
+    * rubintv_summit_utils (new rubin-tv deployment only).
+    * rubintv_summit_extras (new rubin-tv deployment only).
+    * LOVE-frontend.
+    * LOVE-manager.
+    * ts_dimm.
+    * ts_config_ocs.
+    * ts_atwhitelight (new).
+    * ts_matalignment.
+
 Cycle 26 revision 8
 ===================
 

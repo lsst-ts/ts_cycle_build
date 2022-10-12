@@ -21,6 +21,25 @@ x-adam-sensors:
       ts_adamSensors: ${ts_adamSensors}
       config: ${ts_config_eas}
 
+x-base-deploy-lsstsqre-private:
+  &base-deploy-lsstsqre-private
+  build:
+    context: ../build/
+    dockerfile: ./deploy-env/lsstsqre/Dockerfile
+    labels:
+      com.description: "Base deployment image for cycle ${CYCLE}${rev}."
+    args:
+      stack: ${stack}
+      dds_community_version: ${dds_community_version}
+      dds_community_build: ${dds_community_build_el8}
+      dds_private_version: ${dds_private_version}
+      dds_private_build: ${dds_private_build_el8}
+      ts_utils: ${ts_utils}
+      ts_salobj: ${ts_salobj}
+      ts_dds: ${ts_dds_private}
+      ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
+      ts_ddsconfig: ${ts_ddsconfig}
+
 x-dimm:
   &base-dimm
   build:
@@ -682,23 +701,12 @@ services:
         ts_dds: ${ts_dds_community}
 
   deploy-lsstsqre-private:
+    image: ts-dockerhub.lsst.org/deploy-sqre:${CYCLE}${rev}
+    <<: *base-deploy-lsstsqre-private
+
+  deploy-lsstsqre-private_c:
     image: ts-dockerhub.lsst.org/deploy-sqre:${CYCLE}
-    build:
-      context: ../build/
-      dockerfile: ./deploy-env/lsstsqre/Dockerfile
-      labels:
-        com.description: "Base deployment image for cycle ${CYCLE}."
-      args:
-        stack: ${stack}
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
-        dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build_el8}
-        ts_utils: ${ts_utils}
-        ts_salobj: ${ts_salobj}
-        ts_dds: ${ts_dds_private}
-        ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
-        ts_ddsconfig: ${ts_ddsconfig}
+    <<: *base-deploy-lsstsqre-private
 
   docker-compose-aarch64:
     image: lsstts/docker-compose-aarch64

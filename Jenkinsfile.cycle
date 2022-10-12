@@ -104,14 +104,14 @@ pipeline {
         }
         withEnv(["HOME=${env.WORKSPACE}"]) {
           sh """
-          docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build deploy-lsstsqre-private
+          docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build deploy-lsstsqre-private deploy-lsstsqre-private_c
           """
         }
 
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push deploy-lsstsqre-private
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push deploy-lsstsqre-private deploy-lsstsqre-private_c
             """
           }
         }
