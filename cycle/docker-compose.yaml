@@ -380,8 +380,8 @@ x-scriptqueue:
       ts_standardscripts: ${ts_standardscripts}
       ts_scriptqueue: ${ts_scriptqueue}
       ts_idl: ${ts_idl}
-      ts_atdome: ${ts_ATDome}
-      ts_atdometrajectory: ${ts_ATDomeTrajectory}
+      ts_atdome: ${ts_atdome}
+      ts_atdometrajectory: ${ts_atdometrajectory}
       ts_atmcssimulator: ${ts_ATMCSSimulator}
       ts_develop: ${ts_develop}
       ts_wep: ${ts_wep}
@@ -440,7 +440,7 @@ x-atdome:
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      atdome: ${ts_ATDome}
+      atdome: ${ts_atdome}
       config: ${ts_config_attcs}
 
 x-atdometrajectory:
@@ -452,7 +452,7 @@ x-atdometrajectory:
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      atdometrajectory: ${ts_ATDomeTrajectory}
+      atdometrajectory: ${ts_atdometrajectory}
       config: ${ts_config_attcs}
 
 x-atpneumatics_sim:
@@ -633,6 +633,19 @@ x-electrometer:
       hub: ${hub}
       electrometer: ${ts_electrometer}
       config: ${ts_config_ocs}
+
+x-fiberspectrograph:
+  &base-fiberspectrograph
+  build:
+    context: ../build/fiberspectrograph
+    labels:
+      com.description: "FiberSpectrograph component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      fiberspectrograph: ${ts_fiberspectrograph}
+      config: ${ts_config_ocs}
+
 
 version: "3.7"
 
@@ -817,8 +830,8 @@ services:
         ts_standardscripts: ${ts_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_ATMCSSimulator}
-        ts_atdome: ${ts_ATDome}
-        ts_atdometrajectory: ${ts_ATDomeTrajectory}
+        ts_atdome: ${ts_atdome}
+        ts_atdometrajectory: ${ts_atdometrajectory}
 
   sal-sciplat-licensed:
     image: ts-dockerhub.lsst.org/sal-sciplat:${stack}_${CYCLE}${rev}
@@ -845,8 +858,8 @@ services:
         ts_standardscripts: ${ts_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_ATMCSSimulator}
-        ts_atdome: ${ts_ATDome}
-        ts_atdometrajectory: ${ts_ATDomeTrajectory}
+        ts_atdome: ${ts_atdome}
+        ts_atdometrajectory: ${ts_atdometrajectory}
 
   salobj-community:
     image: lsstts/salobj:${CYCLE}${rev}
@@ -912,8 +925,8 @@ services:
         ts_standardscripts: ${ts_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_ATMCSSimulator: ${ts_ATMCSSimulator}
-        ts_ATDome: ${ts_ATDome}
-        ts_ATDomeTrajectory: ${ts_ATDomeTrajectory}
+        ts_atdome: ${ts_atdome}
+        ts_atdometrajectory: ${ts_atdometrajectory}
         ts_simactuators: ${ts_simactuators}
         ts_hexrotcomm: ${ts_hexrotcomm}
         ts_tcpip: ${ts_tcpip}
@@ -933,8 +946,8 @@ services:
         ts_standardscripts: ${ts_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_ATMCSSimulator: ${ts_ATMCSSimulator}
-        ts_ATDome: ${ts_ATDome}
-        ts_ATDomeTrajectory: ${ts_ATDomeTrajectory}
+        ts_atdome: ${ts_atdome}
+        ts_atdometrajectory: ${ts_atdometrajectory}
         ts_simactuators: ${ts_simactuators}
         ts_hexrotcomm: ${ts_hexrotcomm}
         ts_tcpip: ${ts_tcpip}
@@ -1364,3 +1377,11 @@ services:
   electrometer_c:
     image: ${hub}/electrometer:${CYCLE}
     <<: *base-electrometer
+
+  fiberspectrograph:
+    image: ${hub}/fiberspectrograph:${CYCLE}${rev}
+    <<: *base-fiberspectrograph
+
+  fiberspectrograph_c:
+    image: ${hub}/fiberspectrograph:${CYCLE}
+    <<: *base-fiberspectrograph
