@@ -8,6 +8,24 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 11
+====================
+
+* Rename the following packages:
+
+  * ts_ATDome -> ts_atdome.
+  * ts_ATDomeTrajectory -> ts_atdometrajectory.
+
+* Add ts_fiberspectrograph.
+* Update AT pointing model.
+* Add data directory to ts_genericcamera.
+* Update version of the following packages:
+
+  * watcher.
+  * ts_config_ocs.
+  * ts_genericcamera.
+  * LOVE-frontend.
+
 Cycle 26 revision 10
 ====================
 
