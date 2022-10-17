@@ -170,7 +170,7 @@ The procedure is as follows:
   To update a local existing copy do;
 
   .. _update-repo:
-  
+
   .. prompt:: bash
 
     cd ts_cycle_build/  # Update the path to match the location of the package in your environment
@@ -214,7 +214,7 @@ The procedure is as follows:
 
     At this stage, make sure you are not rebasing or overwriting the git history.
     In general, the commits should only be cleaned up once the revision is ready to be closed.
-  
+
     If you are building an existing revision, just do
 
     .. prompt:: bash
@@ -259,8 +259,8 @@ The procedure is as follows:
       :alt: Jenkins build base component
 
       Animated gif showing how to build a base component.
-    
-  
+
+
   * If you are updating the DM stack version (entries ``lsstsqre`` and ``stack`` in the ``cycle/cycle.env`` file), you first need to build the ``deploy_lsstsqre``, then you can build the images that depends on it, most commonly ``build_scriptqueue``.
     Beware that both these images takes quite some time to build (about 40 minutes each).
 
@@ -415,6 +415,7 @@ The steps in the build are as follows:
     - dmocps
     - dsm
     - ess
+    - fiberspectrograph
     - genericcamera
     - hvac
     - love-commander
@@ -582,8 +583,8 @@ Some dependencies that are not available through conda are added with ``pypi``:
 
 Finally, the list of Telescope and Site software that are ``eups`` installed are:
 
-  - ts_ATDome
-  - ts_ATDomeTrajectory
+  - ts_atdome
+  - ts_atdometrajectory
   - ts_ATMCSSimulator
   - ts_config_atcalsys
   - ts_config_attcs

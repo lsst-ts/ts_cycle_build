@@ -4,8 +4,8 @@
 
 source /home/saluser/.setup_salobj.sh
 
-setup ts_ATDome -t current
-setup ts_ATDomeTrajectory -t current
+setup ts_atdome -t current
+setup ts_atdometrajectory -t current
 setup ts_atmcssimulator -t current
 setup ts_config_atcalsys -t current
 setup ts_config_attcs -t current

@@ -63,9 +63,9 @@ RUN source ${SALSTACK} && \
     idl_path=$(python -c 'from lsst.ts import idl; import pathlib; print(pathlib.Path(idl.__file__).parents[0])') && \
     eups declare -m none -r ${idl_path} ts_idl ${ts_idl}_${ts_xml}_${ts_sal} && \
     atdome_path=$(python -c 'from lsst.ts import ATDome; import pathlib; print(pathlib.Path(ATDome.__file__).parents[0])') && \
-    eups declare -m none -r ${atdome_path} ts_ATDome ${ts_atdome} && \
+    eups declare -m none -r ${atdome_path} ts_atdome ${ts_atdome} && \
     atdometrajectory_path=$(python -c 'from lsst.ts import ATDomeTrajectory; import pathlib; print(pathlib.Path(ATDomeTrajectory.__file__).parents[0])') && \
-    eups declare -m none -r ${atdometrajectory_path} ts_ATDomeTrajectory ${ts_atdometrajectory} && \
+    eups declare -m none -r ${atdometrajectory_path} ts_atdometrajectory ${ts_atdometrajectory} && \
     atmcssimulator_path=$(python -c 'from lsst.ts import atmcssimulator; import pathlib; print(pathlib.Path(atmcssimulator.__file__).parents[0])') && \
     eups declare -m none -r ${atmcssimulator_path} ts_atmcssimulator ${ts_atmcssimulator}
 
