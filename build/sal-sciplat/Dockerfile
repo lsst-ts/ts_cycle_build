@@ -45,7 +45,8 @@ ARG ts_atdometrajectory
 ARG ts_atmcssimulator
 
 RUN source ${SALSTACK} && \
-    conda install -c lsstts -y \
+    mamba install -c lsstts -y \
+    astrometry \
     ts-dds=${osplice_v}=${osplice_py} \
     ts-ddsconfig=${ts_ddsconfig} \
     ts-idl=${ts_idl}=${ts_xml}_${ts_sal} \
