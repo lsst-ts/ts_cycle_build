@@ -7,7 +7,6 @@ LABEL maintainer Wouter van Reeven <wvanreeven@lsst.org>
 
 ARG genericcamera
 ARG config
-ARG gphoto2
 
 RUN git clone https://github.com/lsst-ts/ts_config_ocs.git
 
@@ -28,10 +27,6 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
 USER saluser
-
-RUN source /home/saluser/.setup_sal_env.sh && \
-    pip install gphoto2==${gphoto2} --only-binary :all: && \
-    pip install Pillow rawpy
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     mamba install -y -c lsstts ts-genericcamera=${genericcamera}

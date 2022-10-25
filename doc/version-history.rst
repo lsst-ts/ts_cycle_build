@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 12
+====================
+
+* Add astrometry.net to the nublado images.
+* Split genericcamera into separate images.
+* Update the version of the following packages:
+
+  * LOVE-commander
+  * LOVE-frontend
+  * LOVE-manager
+  * ts_standardscripts.
+  * DM stack version.
+  * ts_genericcamera.
+  * ts_mtmount.
+
 Cycle 26 revision 11
 ====================
 

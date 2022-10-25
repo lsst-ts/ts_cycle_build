@@ -544,7 +544,7 @@ x-dmocps:
 x-genericcamera:
   &base-genericcamera
   build:
-    context: ../build/genericcamera
+    context: ../build/genericcamera/base
     labels:
       com.description: "GenericCamera component for cycle {$CYCLE}"
     args:
@@ -552,7 +552,30 @@ x-genericcamera:
       hub: ${hub}
       genericcamera: ${ts_genericcamera}
       config: ${ts_config_ocs}
+
+x-genericcamera-canon:
+  &base-genericcamera-canon
+  build:
+    context: ../build/genericcamera/canon
+    labels:
+      com.description: "Canon specific GenericCamera for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
       gphoto2: ${gphoto2}
+
+x-genericcamera-vimba:
+  &base-genericcamera-vimba
+  build:
+    context: ../build/
+    dockerfile: ./genericcamera/vimba/Dockerfile
+    labels:
+      com.description: "Vimba specific GenericCamera for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      vimba: ${vimba}
+      vimba_conda_build: ${vimba_conda_build}
 
 x-pmd:
   &base-pmd
@@ -1333,6 +1356,22 @@ services:
   genericcamera_c:
     image: ${hub}/genericcamera:${CYCLE}
     <<: *base-genericcamera
+
+  genericcamera-canon:
+    image: ${hub}/genericcamera-canon:${CYCLE}${rev}
+    <<: *base-genericcamera-canon
+
+  genericcamera-canon_c:
+    image: ${hub}/genericcamera-canon:${CYCLE}
+    <<: *base-genericcamera-canon
+
+  genericcamera-vimba:
+    image: ${hub}/genericcamera-vimba:${CYCLE}${rev}
+    <<: *base-genericcamera-vimba
+
+  genericcamera-vimba_c:
+    image: ${hub}/genericcamera-vimba:${CYCLE}
+    <<: *base-genericcamera-vimba
 
   pmd:
     image: ${hub}/pmd:${CYCLE}${rev}
