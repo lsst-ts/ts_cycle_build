@@ -219,6 +219,7 @@ x-mtaircompressor:
       cycle: ${CYCLE}
       hub: ${hub}
       ts_mtaircompressor: ${ts_mtaircompressor}
+      config: ${ts_config_mttcs}
 
 x-mtalignment:
   &base-mtalignment
