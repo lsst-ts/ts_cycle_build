@@ -8,6 +8,16 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 13
+====================
+
+Update the version of the following packages:
+    * ts_config_ocs.
+    * ts_fbs_utils.
+    * ts_ataos.
+    * ts_observatory_control.
+    * ts_atdome.
+
 Cycle 26 revision 12
 ====================
 
