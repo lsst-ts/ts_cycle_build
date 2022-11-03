@@ -8,15 +8,32 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 26 revision 14
+====================
+
+* In ``build/sal-sciplat/Dockerfile``, fix issue with ATDome/ATDomeTrajectory -> atdome/atdometrajectory renaming.
+* Update version of the following packages:
+
+  * ts_atdometrajectory.
+  * lsstsqre.
+  * ts_scheduler.
+  * ts_config_ocs.
+  * ts_standardscripts.
+  * ts_externalscripts.
+  * ts_ataos.
+
+
 Cycle 26 revision 13
 ====================
 
-Update the version of the following packages:
+* Update the version of the following packages:
+
     * ts_config_ocs.
     * ts_fbs_utils.
     * ts_ataos.
     * ts_observatory_control.
     * ts_atdome.
+
 
 Cycle 26 revision 12
 ====================
