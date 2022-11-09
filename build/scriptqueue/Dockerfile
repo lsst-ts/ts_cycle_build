@@ -49,9 +49,9 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     conda install -y -c lsstts ts-atdome=${ts_atdome} ts-atdometrajectory=${ts_atdometrajectory} ts-atmcs-simulator=${ts_atmcssimulator} ts-utils=${ts_utils} && \
     utils_path=$(python -c 'from lsst.ts import utils; import pathlib; print(pathlib.Path(utils.__file__).parents[0])') && \
     eups declare -m none -r ${utils_path} ts_utils ${ts_utils} && \
-    atdome_path=$(python -c 'from lsst.ts import ATDome; import pathlib; print(pathlib.Path(ATDome.__file__).parents[0])') && \
+    atdome_path=$(python -c 'from lsst.ts import atdome; import pathlib; print(pathlib.Path(atdome.__file__).parents[0])') && \
     eups declare -m none -r ${atdome_path} ts_atdome ${ts_atdome} && \
-    atdometrajectory_path=$(python -c 'from lsst.ts import ATDomeTrajectory; import pathlib; print(pathlib.Path(ATDomeTrajectory.__file__).parents[0])') && \
+    atdometrajectory_path=$(python -c 'from lsst.ts import atdometrajectory; import pathlib; print(pathlib.Path(atdometrajectory.__file__).parents[0])') && \
     eups declare -m none -r ${atdometrajectory_path} ts_atdometrajectory ${ts_atdometrajectory} && \
     atmcssimulator_path=$(python -c 'from lsst.ts import atmcssimulator; import pathlib; print(pathlib.Path(atmcssimulator.__file__).parents[0])') && \
     eups declare -m none -r ${atmcssimulator_path} ts_atmcssimulator ${ts_atmcssimulator}
