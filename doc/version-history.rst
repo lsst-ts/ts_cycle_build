@@ -8,6 +8,51 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 27
+========
+
+* Switch scriptqueue build to mamba.
+* In `Jenkinsfile.cycle` add step to build the development image.
+* Fix kafka partial producer config for M1M3.
+* Update mtaircompressor Dockerfile for new build instructions.
+* Update mtaircompressor docker-compose to pass config repo version.
+* Update version of
+
+    * ts_ddsconfig
+    * ts_xml
+    * ts_idl
+    * ts_salobj
+
+  and other packages including
+
+    * ts_atdome
+    * ts_atdometrajectory
+    * ts_ATPneumaticsSimulator
+    * ts_atspec
+    * ts_atwhitelight
+    * ts_authorize
+    * ts_mtrotator
+    * ts_mthexapod
+    * ts_observatory_control
+    * ts_externalscripts
+    * ts_scriptqueue
+    * ts_ataos
+    * ts_m2
+    * ts_mtaircompressor
+    * ts_mtalignment
+    * ts_phosim
+    * ts_watcher
+    * ts_mtdome
+    * ts_mtdometrajectory
+    * ts_dimm
+    * ts_ess_common
+    * ts_ess_csc
+    * ts_conda_build
+    * ts_tcpip
+    * ts_integrationtests
+    * ts_config_atcalsys
+    * ts_config_ocs
+
 Cycle 26 revision 14
 ====================
 
@@ -260,7 +305,6 @@ Cycle 26
     * ts_idl
     * ts_salobj
     * ts_wep
-    * ts_salobj
 
   and almost all other packages including
 

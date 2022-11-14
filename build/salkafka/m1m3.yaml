@@ -4,11 +4,11 @@ topic_sets:
   - events:
       - logMessage
   - events:
-      - appliedCylinderForces
-  - events:
       - hardpointActuatorWarning
   - events:
       - hardpointMonitorWarning
+  - telemetry:
+      - appliedCylinderForces
   - telemetry:
       - forceActuatorData
   - telemetry:

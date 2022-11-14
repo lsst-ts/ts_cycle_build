@@ -48,6 +48,7 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image? This adds Telescope and Site layer to a lsstsqre/centos image in prepartion for building nublado images.", name: 'build_sciplat'
       booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image? Adds SQuaRe layer to sal-sciplat to produce a nublado-ready image.", name: 'build_sciplat_lab_recommended'
       booleanParam defaultValue: false, description: "Build/push RubinTV broadcaster.", name: 'rubintv_broadcaster'
+      booleanParam defaultValue: false, description: "Build/push development image .", name: 'develop_env'
   }
 
   stages {
@@ -392,6 +393,30 @@ pipeline {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push rubintv-broadcaster rubintv-broadcaster_c
+            """
+          }
+        }
+      }
+    }
+    stage ('Build development image') {
+      when {
+          expression { params.develop_env }
+      }
+      steps {
+        withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+          sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+        }
+        script {
+          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+            sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre-private
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-private
+
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull salobj-private
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj-private
+
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull develop-env-private
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env-private
             """
           }
         }
