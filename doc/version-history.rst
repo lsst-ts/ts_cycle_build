@@ -8,6 +8,15 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 27 revision 1
+===================
+
+* Update the version of the following packages:
+
+  * lsstsqre.
+  * ts_genericcamera.
+  * ts_config_ocs.
+
 Cycle 27
 ========
 
