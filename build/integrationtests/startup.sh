@@ -2,8 +2,10 @@
 
 source ${HOME}/.setup_sal_env.sh
 
-$RUN_ARG &
+robot -A Vars.txt $RUN_ARG &
 
 pid="$!"
 
 wait ${pid}
+
+echo "Exit code: $?" && exit 0

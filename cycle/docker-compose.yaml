@@ -616,6 +616,7 @@ x-integrationtests:
       cycle: ${CYCLE}
       hub: ${hub}
       integrationtests: ${ts_integrationtests}
+      robot_efd: ${robotframework_efd}
 
 x-ess:
   &base-ess
