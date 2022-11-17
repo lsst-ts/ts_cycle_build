@@ -6,7 +6,7 @@ fast_interval 50
 slow_interval 10000
 
 ; fast loop lookahead (ms)
-timestamp_lookahead 60
+timestamp_lookahead 150
 
 ; Weather data
 weather {
@@ -104,3 +104,14 @@ curlopt {
     fpt_use_epsv 0
     timeout 10
 }
+
+clearguide 0;            If non-zero, the guide offsets will be cleared when new target is set.
+
+sal_log_level {
+    mount 0;        AMTMount SAL logging  Set 0 or 1
+    rotator 0;      Rotator SAL logging  Set 0 or 1
+    telemetry 0;    ATPtg telemetry SAL logging  Set 0 or 1
+    event 0;        ATPtg event SAL logging  Set 0 or 1
+}
+
+disable_rotator 1;  Set 0 to enabled, 1 to disable
