@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 27 revision 2
+===================
+
+* Install astrometry.net in rubintv broadcaster images.
+* Update mtptg configuration.
+* Update version of the following package:
+
+  * ts_pointing_common.
+  * LOVE-frontend.
+  * LOVE-manager
+  * ts_hvac.
+  * ts_scheduler.
+  * ts_config_ocs.
+  * ts_fbs_utils.
+  * rubin_sim.
+
 Cycle 27 revision 1
 ===================
 
