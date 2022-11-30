@@ -8,6 +8,14 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 27 revision 3
+===================
+
+Update version of the following packages:
+
+* ts_scheduler.
+* ts_mtdome.
+
 Cycle 27 revision 2
 ===================
 
