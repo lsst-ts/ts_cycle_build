@@ -29,7 +29,11 @@ RUN chown saluser:saluser /home/saluser/.checkout_repo.sh && \
 USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    mamba install -c conda-forge ciso8601 imagemagick ffmpeg
+    mamba install -y -c conda-forge \
+    astrometry \
+    ciso8601 \
+    ffmpeg \
+    imagemagick
 
 USER saluser
 
