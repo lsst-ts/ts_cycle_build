@@ -409,6 +409,17 @@ x-watcher:
       config_ocs: ${ts_config_ocs}
       watcher: ${ts_watcher}
 
+x-weatherforecast:
+  &base-weatherforecast
+  build:
+    context: ../build/weatherforecast
+    labels:
+      com.description: "Weather Forecast CSC for cycle/revision ${CYCLE}${rev}."
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      weatherforecast: ${ts_weatherforecast}
+
 x-weatherstation:
   &base-weatherstation
   build:
@@ -1261,6 +1272,14 @@ services:
   watcher_c:
     image: ${hub}/watcher:${CYCLE}
     <<: *base-watcher
+
+  weatherforecast:
+    image: ${hub}/weatherforecast:${CYCLE}${rev}
+    <<: *base-weatherforecast
+
+  weatherforecast_c:
+    image: ${hub}/weatherforecast:${CYCLE}
+    <<: *base-weatherforecast
 
   weatherstation:
     image: ${hub}/weatherstation:${CYCLE}${rev}
