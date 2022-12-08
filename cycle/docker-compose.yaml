@@ -443,6 +443,18 @@ x-atmcs_sim:
       hub: ${hub}
       atmcs: ${ts_ATMCSSimulator}
 
+x-atmonochromator:
+  &base-atmonochromator
+  build:
+    context: ../build/atmonochromator
+    labels:
+      com.description: "atmonochromator component for cycle ${CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      atmonochromator: ${ts_atmonochromator}
+      config: ${ts_config_atcalsys}
+
 x-atdome:
   &base-atdome
   build:
@@ -680,7 +692,6 @@ x-fiberspectrograph:
       hub: ${hub}
       fiberspectrograph: ${ts_fiberspectrograph}
       config: ${ts_config_ocs}
-
 
 version: "3.7"
 
@@ -1296,6 +1307,14 @@ services:
   atmcs_sim_c:
     image: ${hub}/atmcs_sim:${CYCLE}
     <<: *base-atmcs_sim
+
+  atmonochromator:
+    image: ${hub}/atmonochromator:${CYCLE}${rev}
+    <<: *base-atmonochromator
+
+  atmonochromator_c:
+    image: ${hub}/atmonochromator:${CYCLE}
+    <<: *base-atmonochromator
 
   atdome:
     image: ${hub}/atdome:${CYCLE}${rev}
