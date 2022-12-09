@@ -679,6 +679,7 @@ x-electrometer:
       cycle: ${CYCLE}
       hub: ${hub}
       electrometer: ${ts_electrometer}
+      utils: ${ts_utils}
       config: ${ts_config_ocs}
 
 x-fiberspectrograph:
