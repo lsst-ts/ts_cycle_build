@@ -107,7 +107,7 @@ COPY ptg/at_202111_ia_ie_ca_an_aw_tf_tx10.mod /home/saluser/repos/ts_pointing_co
 COPY ptg/at_20220406_fauto.mod /home/saluser/repos/ts_pointing_common/install/data/at_20220406_fauto.mod
 COPY ptg/at_20220406_ia_ie_an_aw_tx10_ca.mod /home/saluser/repos/ts_pointing_common/install/data/at_20220406_ia_ie_an_aw_tx10_ca.mod
 COPY ptg/at_20221011.mod /home/saluser/repos/ts_pointing_common/install/data/at_20221011.mod
-COPY ptg/at_20221011.mod /home/saluser/repos/ts_pointing_common/install/data/at.mod
+COPY ptg/at.mod /home/saluser/repos/ts_pointing_common/install/data/at.mod
 COPY ptg/mt_20221128.mod /home/saluser/repos/ts_pointing_common/install/data/mt.mod
 
 USER root
