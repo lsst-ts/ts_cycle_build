@@ -8,6 +8,74 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 28 revision 1
+===================
+
+* Update AT pointing model.
+* In cycle/docker-compose.yaml, pass ts_utils to electrometer build.
+* Electrometer: Add ts_utils to install command.
+* Add configuration for ATMonochromator to Jenkinsfile.cycle and cycle/docker-compose.yaml
+* Add ATMonochromator build scripts.
+* Update version of the following packages:
+
+  * dm-stack.
+  * ts_pointing_common.
+  * ts_scheduler.
+  * ts_electrometer.
+  * love_commander.
+  * love_producer.
+  * love_frontend.
+  * love_manager.
+  * (New) ts_atmonochromator.
+  * ts_utils.
+  * ts_config_ocs.
+
+Cycle 28 revision 0
+===================
+
+* Add ts_weatherforecast Dockerfile and everything else.
+* Update the version of:
+
+  * ts_xml.
+  * ts_sal.
+  * ts_hexrotcomm.
+  * ts_mtrotator.
+  * ts_phosim.
+  * ts_pmd.
+  * ts_hvac.
+  * ts_config_mttcs.
+  * ts_mtmount.
+  * ts_mtdome.
+  * love_commander.
+  * love_frontend.
+  * love_manager.
+  * ts_ess_common.
+  * ts_ess_controller.
+  * ts_ess_csc.
+  * ts_authorize.
+  * ts_config_ocs.
+  * (New) ts_weatherforecast.
+
+Cycle 27 revision 4
+===================
+
+* Update version of the following packages:
+
+  * ts_wep.
+  * ts_standardscripts.
+  * ts_externalscripts.
+  * ts_scheduler.
+  * ts_config_ocs.
+  * ts_hvac.
+  * dm-stack.
+  * ts_mtdome.
+
+* In ``build/ptg``:
+
+  * Update MT pointing model.
+  * Update MTPtg configuration to limit azimuth to +/- 260.
+
+
 Cycle 27 revision 3
 ===================
 
