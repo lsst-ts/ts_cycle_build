@@ -8,6 +8,15 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 28 revision 2
+===================
+
+* Update pointing component build with new pointing model and add configuration for the pointing origin.
+* Update version of the following packages:
+
+  * ts_pointing_common.
+  * ts_scheduler.
+
 Cycle 28 revision 1
 ===================
 
