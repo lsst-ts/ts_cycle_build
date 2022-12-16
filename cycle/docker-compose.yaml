@@ -1229,6 +1229,14 @@ services:
     image: ${hub}/rubintv-broadcaster:${CYCLE}
     <<: *base-rubintv-broadcaster
 
+  rubintv-broadcaster-pub:
+    image: lsstts/rubintv-broadcaster:${CYCLE}${rev}
+    <<: *base-rubintv-broadcaster
+
+  rubintv-broadcaster-pub_c:
+    image: lsstts/rubintv-broadcaster:${CYCLE}
+    <<: *base-rubintv-broadcaster
+
   ptg:
     image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}${rev}
     <<: *base-ptg
