@@ -119,6 +119,7 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     scons opt=3 -j 4 || echo tests failed...
 
 ENV RUN_ARG="-v"
+ENV DEPLOY_BRANCH=${rubintv_production_work_branch}
 
 COPY rubintv-broadcaster/startup.sh /home/saluser/.startup.sh
 

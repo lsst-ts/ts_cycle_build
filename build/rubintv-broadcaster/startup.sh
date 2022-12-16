@@ -10,8 +10,7 @@ do
   cd ../${directory}
   branch=$(git rev-parse --abbrev-ref HEAD)
   git fetch --all
-  git checkout ${branch}
-  git reset --hard origin/${branch}
+  git checkout ${DEPLOY_BRANCH} && (git reset --hard origin/${DEPLOY_BRANCH}) || (git checkout ${branch} && git reset --hard origin/${branch})
 done
 cd scripts
 
