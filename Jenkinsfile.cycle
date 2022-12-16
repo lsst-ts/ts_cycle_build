@@ -385,7 +385,7 @@ pipeline {
         script{
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build rubintv-broadcaster rubintv-broadcaster_c
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build rubintv-broadcaster rubintv-broadcaster_c rubintv-broadcaster-pub rubintv-broadcaster-pub_c
             """
           }
         }
@@ -393,6 +393,13 @@ pipeline {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push rubintv-broadcaster rubintv-broadcaster_c
+            """
+          }
+        }
+        script {
+          docker.withRegistry("", pub_registryCredential) {
+            sh """
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push rubintv-broadcaster-pub rubintv-broadcaster-pub_c
             """
           }
         }
