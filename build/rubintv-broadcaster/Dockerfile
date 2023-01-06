@@ -30,10 +30,7 @@ USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     mamba install -y -c conda-forge \
-    astrometry \
-    ciso8601 \
-    ffmpeg \
-    imagemagick
+    astrometry
 
 USER saluser
 
