@@ -8,6 +8,27 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 28 revision 3
+===================
+
+* In ``Jenkinsfile.cycle``:
+  * Add stage to build conda package builder for x86.
+  * Add public build for rubintv images.
+* In conda builder: Install new library libglvnd-glx, required by qt.
+* In rubintv-broadcaster:
+  * Stop installing ciso8601, ffmpeg and imagemagick.
+  * Add a new ``DEPLOY_BRANCH`` environment variable that allows us to specify a branch to checkout before starting the process.
+  * In the setup script, try to checkout the ``DEPLOY_BRANCH`` and if it doesn't exist just update the current branch in the package plan.
+* Update ``cycle/docker-compose.yaml`` to add configuration for public rubintv images.
+* Update the version of the following components.
+
+  * ts_hvac.
+  * ts_weatherforecast.
+  * ts_ess_csc.
+  * ts_mtaircompressor.
+  * LOVE-frontend.
+  * LOVE-manager.
+
 Cycle 28 revision 2
 ===================
 
