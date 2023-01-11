@@ -49,7 +49,8 @@ RUN git clone https://github.com/lsst/Spectractor.git && \
     git clone https://github.com/lsst/atmospec.git && \
     git clone https://github.com/lsst-sitcom/summit_utils.git && \
     git clone https://github.com/lsst-sitcom/summit_extras.git && \
-    git clone https://github.com/lsst-sitcom/rubintv_production.git
+    git clone https://github.com/lsst-sitcom/rubintv_production.git && \
+    git clone https://github.com/lsst-camera-dh/eo_pipe
 
 
 WORKDIR ${SAL_HOME}/repos/Spectractor
@@ -100,9 +101,23 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     setup summit_extras -j -t saluser && \
     scons opt=3 -j 4 || echo tests failed...
 
-WORKDIR ${SAL_HOME}/repos/rubintv_production
-
 ARG rubintv_production_work_branch
+
+WORKDIR ${SAL_HOME}/repos/eo_pipe
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    /home/saluser/.checkout_repo.sh ${rubintv_production_work_branch} && \
+    eups declare -r . -t saluser && \
+    setup lsst_distrib && \
+    setup obs_lsst -j -t saluser && \
+    setup atmospec -j -t saluser && \
+    setup summit_utils -j -t saluser && \
+    setup summit_extras -j -t saluser && \
+    setup rubintv_production -j -t saluser && \
+    setup eo_pipe -j -t saluser && \
+    scons opt=3 -j 4 || echo tests failed...
+
+WORKDIR ${SAL_HOME}/repos/rubintv_production
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${rubintv_production_work_branch} && \
