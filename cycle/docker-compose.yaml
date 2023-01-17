@@ -356,6 +356,7 @@ x-schedview:
       hub: ${hub}
       cycle: ${CYCLE}
       schedview: ${schedview}
+      bokeh: ${bokeh}
 
 x-scriptqueue:
   &base-scriptqueue
