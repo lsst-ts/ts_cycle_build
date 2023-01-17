@@ -8,6 +8,20 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+    In Jenkinsfile.cycle rename rubintv-broadcaster-pub -> rubintv-broadcaster-usdf
+
+
+Cycle 28 revision 4
+===================
+
+* In ``cycle/docker-compose.yaml``, replace ``rubintv-broadcaster-pub`` builds with ``rubintv-broadcaster-usdf``, specifying UID/GID.
+* In rubintv-broadcaster, refactor build script to move repositories to /repos.
+* In ``rubintv-broadcaster``, add new dependency ``eo_pipe``.
+* Update the version of the following packages:
+
+  * ts_weatherforecast.
+  * ts_hvac.
+
 Cycle 28 revision 3
 ===================
 
