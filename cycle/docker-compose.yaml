@@ -1229,13 +1229,39 @@ services:
     image: ${hub}/rubintv-broadcaster:${CYCLE}
     <<: *base-rubintv-broadcaster
 
-  rubintv-broadcaster-pub:
-    image: lsstts/rubintv-broadcaster:${CYCLE}${rev}
-    <<: *base-rubintv-broadcaster
+  rubintv-broadcaster-usdf:
+    image: lsstts/rubintv-broadcaster:${CYCLE}${rev}_usdf
+    build:
+      context: ../build/
+      dockerfile: ./rubintv-broadcaster/Dockerfile
+      labels:
+        com.description: "RubinTV broadcaster image for cycle/revision ${CYCLE}${rev}."
+      args:
+        image_tag: ${lsstsqre}
+        spectractor_work_branch: ${rubintv_spectractor}
+        atmospec_work_branch: ${rubintv_atmospec}
+        summit_utils_work_branch: ${rubintv_summit_utils}
+        summit_extras_work_branch: ${rubintv_summit_extras}
+        rubintv_production_work_branch: ${rubintv_production}
+        UID: 15517
+        GID: 4085
 
-  rubintv-broadcaster-pub_c:
-    image: lsstts/rubintv-broadcaster:${CYCLE}
-    <<: *base-rubintv-broadcaster
+  rubintv-broadcaster-usdf_c:
+    image: lsstts/rubintv-broadcaster:${CYCLE}_usdf
+    build:
+      context: ../build/
+      dockerfile: ./rubintv-broadcaster/Dockerfile
+      labels:
+        com.description: "RubinTV broadcaster image for cycle/revision ${CYCLE}${rev}."
+      args:
+        image_tag: ${lsstsqre}
+        spectractor_work_branch: ${rubintv_spectractor}
+        atmospec_work_branch: ${rubintv_atmospec}
+        summit_utils_work_branch: ${rubintv_summit_utils}
+        summit_extras_work_branch: ${rubintv_summit_extras}
+        rubintv_production_work_branch: ${rubintv_production}
+        UID: 15517
+        GID: 4085
 
   ptg:
     image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}${rev}
