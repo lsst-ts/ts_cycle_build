@@ -33,6 +33,10 @@ USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     mamba install -y -c conda-forge \
+    rubin-env-rsp
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    mamba install -y -c conda-forge \
     astrometry
 
 USER saluser
