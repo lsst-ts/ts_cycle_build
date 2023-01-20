@@ -221,16 +221,16 @@ x-mtaircompressor:
       ts_mtaircompressor: ${ts_mtaircompressor}
       config: ${ts_config_mttcs}
 
-x-mtalignment:
-  &base-mtalignment
+x-lasertracker:
+  &base-lasertracker
   build:
-    context: ../build/mtalignment
+    context: ../build/lasertracker
     labels:
       com.description: "for cycle/revision ${CYCLE}/${rev}."
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      ts_mtalignment: ${ts_mtalignment}
+      ts_lasertracker: ${ts_lasertracker}
       config: ${ts_config_mttcs}
 
 x-mtm2_sim:
@@ -1190,13 +1190,13 @@ services:
     image: ${hub}/mtaircompressor:${CYCLE}
     <<: *base-mtaircompressor
 
-  mtalignment:
-    image: ${hub}/mtalignment:${CYCLE}${rev}
-    <<: *base-mtalignment
+  lasertracker:
+    image: ${hub}/lasertracker:${CYCLE}${rev}
+    <<: *base-lasertracker
 
-  mtalignment_c:
-    image: ${hub}/mtalignment:${CYCLE}
-    <<: *base-mtalignment
+  lasertracker_c:
+    image: ${hub}/lasertracker:${CYCLE}
+    <<: *base-lasertracker
 
   mtm2_sim:
     image: ${hub}/m2:${CYCLE}${rev}

@@ -2,7 +2,7 @@
 
 source $HOME/.setup_sal_env.sh
 
-run_mtalignment $RUN_ARG &
+run_lasertracker $RUN_ARG &
 
 pid="$!"
 
