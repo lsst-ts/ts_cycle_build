@@ -14,18 +14,18 @@ ARG rubin_sim
 ARG ts_fbs_utils
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts \
+    mamba install -y -c lsstts \
     ts-observatory-model=${ts_observatory_model} \
     ts-astrosky-model=${ts_astrosky_model} \
     ts-dateloc=${ts_dateloc} \
-    rubin-sim=${rubin_sim} \
-    ts-fbs-utils=${ts_fbs_utils}
+    rubin-sim=${rubin_sim}
 
 ARG ts_scheduler
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts \
-    ts-scheduler=${ts_scheduler}
+    mamba install -y -c lsstts \
+    ts-scheduler=${ts_scheduler}  \
+    ts-fbs-utils=${ts_fbs_utils}
 
 ARG lsst_efd_client
 
