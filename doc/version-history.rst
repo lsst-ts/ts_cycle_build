@@ -10,6 +10,28 @@ Version History
 
     In Jenkinsfile.cycle rename rubintv-broadcaster-pub -> rubintv-broadcaster-usdf
 
+Cycle 28 revision 5
+===================
+
+* Remove pip packages from the base-sqre Dockerfile since they were moved to ts-develop.
+* In rubintv-broadcaster, install rubin-env-rsp.
+* In cycle/docker-compose.yaml, update schedview build configuration to pass version of bokeh.
+* In schedview, update build script to pin version of bokeh.
+* In scheduler, use mamba to install packages.
+* Update version of the following packages:
+
+  * ts_observatory_control.
+  * ts_standardscripts.
+  * ts_externalscripts.
+  * ts_config_atcalsys.
+  * ts_config_latiss.
+  * ts_config_ocs.
+  * ts_fbs_utils.
+  * ts_develop.
+  * rubin_sim.
+  * bokeh (new).
+  * ts_electrometer.
+  * ts_authorize.
 
 Cycle 28 revision 4
 ===================
