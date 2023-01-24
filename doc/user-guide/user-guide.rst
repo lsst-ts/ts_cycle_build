@@ -454,6 +454,7 @@ The steps in the build are as follows:
     Adds the final layer on the nublado images, needed to make them compatible with nublado system.
   - rubintv_broadcaster: Builds RubinTV broadcaster.
     Backend for RubinTV, a service that provides rapid image analysis for the LSST Auxiliary Telescope
+  - develop_env: Build/push development image.
 
 
 .. _The-Development-Environment:
