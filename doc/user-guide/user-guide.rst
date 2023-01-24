@@ -403,7 +403,6 @@ The steps in the build are as follows:
   - base_components: Build either ALL or an individual component from conda packages.
     This includes the following components:
 
-    - adam-sensors
     - ataos
     - atdome
     - atdometrajectory
@@ -411,6 +410,7 @@ The steps in the build are as follows:
     - atmcs_sim
     - atpneumatics_sim
     - atspectrograph
+    - authorize
     - dimm
     - dmocps
     - dsm
@@ -418,6 +418,7 @@ The steps in the build are as follows:
     - fiberspectrograph
     - genericcamera
     - hvac
+    - lasertracker
     - love-commander
     - love-csc
     - love-frontend
@@ -436,6 +437,7 @@ The steps in the build are as follows:
     - salkafka
     - scheduler
     - watcher
+    - weartherforecast
     - weatherstation
 
   - build_ess_controller: Build ESS Controller Docker image.

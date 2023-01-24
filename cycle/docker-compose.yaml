@@ -9,18 +9,6 @@ x-lsst_sims:
       base_image_tag: ${CYCLE}
       lsst_sims: ${lsst_sims}
 
-x-adam-sensors:
-  &base-adam-sensors
-  build:
-    context: ../build/adam-sensors
-    labels:
-      com.description: "Adam Sensors CSC deployment image for cycle/revision ${CYCLE}${rev}."
-    args:
-      cycle: ${CYCLE}
-      hub: ${hub}
-      ts_adamSensors: ${ts_adamSensors}
-      config: ${ts_config_eas}
-
 x-base-deploy-lsstsqre-private:
   &base-deploy-lsstsqre-private
   build:
@@ -1061,14 +1049,6 @@ services:
   lsst_sims_c:
     image: ${hub}/lsst_sims:${CYCLE}
     <<: *base-lsst_sims
-
-  adam-sensors:
-    image: ${hub}/adam-sensors:${CYCLE}${rev}
-    <<: *base-adam-sensors
-
-  adam-sensors_c:
-    image: ${hub}/adam-sensors:${CYCLE}
-    <<: *base-adam-sensors
 
   dimm:
     image: ${hub}/dimm:${CYCLE}${rev}
