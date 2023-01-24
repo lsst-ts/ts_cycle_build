@@ -441,6 +441,7 @@ The steps in the build are as follows:
     - weatherstation
 
   - build_ess_controller: Build ESS Controller Docker image.
+  - build_camspec_gencam: Build/push camera-specific GenericCamera images.
   - build_m1m3_sim: Build M1M3 simulator.
   - build_ptg: Build pointing component.
     Both AT and MT use the same code base and image.
