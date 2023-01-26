@@ -1,7 +1,7 @@
 FROM almalinux:8
 
-ARG UID=1003
-ARG GID=1003
+ARG UID=73006
+ARG GID=73006
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
