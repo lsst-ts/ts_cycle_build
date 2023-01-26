@@ -137,9 +137,6 @@ RUN source ${WORKDIR}/loadLSST.bash && \
 RUN source ${WORKDIR}/loadLSST.bash && \
     mamba install -y -c lsstts ts-develop=${ts_develop}
 
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    mamba install -y jupyterlab
-
 RUN source ${WORKDIR}/loadLSST.bash && \
     pip install ltd-conveyor
 
