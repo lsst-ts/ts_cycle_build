@@ -10,6 +10,17 @@ Version History
 
     In Jenkinsfile.cycle rename rubintv-broadcaster-pub -> rubintv-broadcaster-usdf
 
+Cycle 28 revision 6
+===================
+
+* Remove installing jupyterlab via mamba because it is part of ts-develop now.
+* Update version of the following packages:
+
+  * ts_authorize.
+  * ts_genericcamera.
+  * love-commander.
+  * love-manager.
+
 Cycle 28 revision 5
 ===================
 
