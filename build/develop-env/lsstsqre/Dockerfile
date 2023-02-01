@@ -145,16 +145,6 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     pip install gphoto2==${gphoto2} --only-binary :all: && \
     pip install Pillow rawpy
 
-ARG pyside2
-ARG qasync
-ARG pytest_qt
-ARG pytest_xvfb
-
-# Install PySide2 for QT support
-RUN source /opt/lsst/software/stack/loadLSST.bash && \
-    mamba install -y PySide2=${pyside2} qasync=${qasync} pytest-qt=${pytest_qt} pytest-xvfb=${pytest_xvfb}
-
-
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current
 
@@ -164,8 +154,4 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org> \
     gphoto2=${gphoto2}\
     labjack_file_version=${labjack_file_version} \
     labjack_arch=${labjack_arch} \
-    labjack_ljm=${labjack_ljm} \
-    PySide2=${pyside2} \
-    qasync=${qasync} \
-    pytest-qt=${pytest_qt} \
-    pytest-xvfb=${pytest_xvfb}
+    labjack_ljm=${labjack_ljm}
