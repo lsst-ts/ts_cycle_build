@@ -9,7 +9,9 @@ RUN git clone https://github.com/lsst/schedview.git
 
 WORKDIR /home/saluser/schedview
 
-RUN /home/saluser/.checkout_repo.sh ${schedview}
+RUN /home/saluser/.checkout_repo.sh ${schedview} && \
+    git submodule init && \
+    git submodule update
 
 ARG bokeh
 RUN source /home/saluser/.setup_sal_env.sh && \
