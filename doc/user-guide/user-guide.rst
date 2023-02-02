@@ -437,7 +437,7 @@ The steps in the build are as follows:
     - salkafka
     - scheduler
     - watcher
-    - weartherforecast
+    - weatherforecast
     - weatherstation
 
   - build_ess_controller: Build ESS Controller Docker image.

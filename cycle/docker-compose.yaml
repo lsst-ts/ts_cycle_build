@@ -408,6 +408,7 @@ x-weatherforecast:
       cycle: ${CYCLE}
       hub: ${hub}
       weatherforecast: ${ts_weatherforecast}
+      config: ${ts_config_ocs}
 
 x-weatherstation:
   &base-weatherstation
