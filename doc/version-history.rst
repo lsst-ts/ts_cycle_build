@@ -8,7 +8,24 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
-    In Jenkinsfile.cycle rename rubintv-broadcaster-pub -> rubintv-broadcaster-usdf
+
+Cycle 28 revision 7
+===================
+
+* Update version of the following packages:
+
+  * ts_standardscripts.
+  * ts_externalscripts.
+  * ts_scheduler.
+  * ts_config_ocs.
+  * ts_astrosky_model.
+  * ts_fbs_utils.
+  * rubin_sim.
+  * schedview.
+
+* In Jenkinsfile.cycle rename rubintv-broadcaster-pub -> rubintv-broadcaster-usdf
+
+* In ``scheduler`` build script, merge all mamba install commands in a single one.
 
 Cycle 28 revision 6
 ===================
