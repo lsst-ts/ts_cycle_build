@@ -9,18 +9,6 @@ x-lsst_sims:
       base_image_tag: ${CYCLE}
       lsst_sims: ${lsst_sims}
 
-x-adam-sensors:
-  &base-adam-sensors
-  build:
-    context: ../build/adam-sensors
-    labels:
-      com.description: "Adam Sensors CSC deployment image for cycle/revision ${CYCLE}${rev}."
-    args:
-      cycle: ${CYCLE}
-      hub: ${hub}
-      ts_adamSensors: ${ts_adamSensors}
-      config: ${ts_config_eas}
-
 x-base-deploy-lsstsqre-private:
   &base-deploy-lsstsqre-private
   build:
@@ -221,16 +209,16 @@ x-mtaircompressor:
       ts_mtaircompressor: ${ts_mtaircompressor}
       config: ${ts_config_mttcs}
 
-x-mtalignment:
-  &base-mtalignment
+x-lasertracker:
+  &base-lasertracker
   build:
-    context: ../build/mtalignment
+    context: ../build/lasertracker
     labels:
       com.description: "for cycle/revision ${CYCLE}/${rev}."
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      ts_mtalignment: ${ts_mtalignment}
+      ts_lasertracker: ${ts_lasertracker}
       config: ${ts_config_mttcs}
 
 x-mtm2_sim:
@@ -420,6 +408,7 @@ x-weatherforecast:
       cycle: ${CYCLE}
       hub: ${hub}
       weatherforecast: ${ts_weatherforecast}
+      config: ${ts_config_ocs}
 
 x-weatherstation:
   &base-weatherstation
@@ -795,10 +784,6 @@ services:
         labjack_ljm: ${labjack_ljm}
         maven: ${maven}
         openjdk: ${openjdk}
-        pyside2: ${pyside2}
-        qasync: ${qasync}
-        pytest_qt: ${pytest_qt}
-        pytest_xvfb: ${pytest_xvfb}
         UID: ${B_UID}
         GID: ${B_GID}
 
@@ -822,10 +807,6 @@ services:
         labjack_ljm: ${labjack_ljm}
         maven: ${maven}
         openjdk: ${openjdk}
-        pyside2: ${pyside2}
-        qasync: ${qasync}
-        pytest_qt: ${pytest_qt}
-        pytest_xvfb: ${pytest_xvfb}
         UID: ${B_UID}
         GID: ${B_GID}
 
@@ -1062,14 +1043,6 @@ services:
     image: ${hub}/lsst_sims:${CYCLE}
     <<: *base-lsst_sims
 
-  adam-sensors:
-    image: ${hub}/adam-sensors:${CYCLE}${rev}
-    <<: *base-adam-sensors
-
-  adam-sensors_c:
-    image: ${hub}/adam-sensors:${CYCLE}
-    <<: *base-adam-sensors
-
   dimm:
     image: ${hub}/dimm:${CYCLE}${rev}
     <<: *base-dimm
@@ -1190,13 +1163,13 @@ services:
     image: ${hub}/mtaircompressor:${CYCLE}
     <<: *base-mtaircompressor
 
-  mtalignment:
-    image: ${hub}/mtalignment:${CYCLE}${rev}
-    <<: *base-mtalignment
+  lasertracker:
+    image: ${hub}/lasertracker:${CYCLE}${rev}
+    <<: *base-lasertracker
 
-  mtalignment_c:
-    image: ${hub}/mtalignment:${CYCLE}
-    <<: *base-mtalignment
+  lasertracker_c:
+    image: ${hub}/lasertracker:${CYCLE}
+    <<: *base-lasertracker
 
   mtm2_sim:
     image: ${hub}/m2:${CYCLE}${rev}

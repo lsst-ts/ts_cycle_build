@@ -403,7 +403,6 @@ The steps in the build are as follows:
   - base_components: Build either ALL or an individual component from conda packages.
     This includes the following components:
 
-    - adam-sensors
     - ataos
     - atdome
     - atdometrajectory
@@ -411,6 +410,7 @@ The steps in the build are as follows:
     - atmcs_sim
     - atpneumatics_sim
     - atspectrograph
+    - authorize
     - dimm
     - dmocps
     - dsm
@@ -418,6 +418,7 @@ The steps in the build are as follows:
     - fiberspectrograph
     - genericcamera
     - hvac
+    - lasertracker
     - love-commander
     - love-csc
     - love-frontend
@@ -436,9 +437,11 @@ The steps in the build are as follows:
     - salkafka
     - scheduler
     - watcher
+    - weatherforecast
     - weatherstation
 
   - build_ess_controller: Build ESS Controller Docker image.
+  - build_camspec_gencam: Build/push camera-specific GenericCamera images.
   - build_m1m3_sim: Build M1M3 simulator.
   - build_ptg: Build pointing component.
     Both AT and MT use the same code base and image.
@@ -451,6 +454,7 @@ The steps in the build are as follows:
     Adds the final layer on the nublado images, needed to make them compatible with nublado system.
   - rubintv_broadcaster: Builds RubinTV broadcaster.
     Backend for RubinTV, a service that provides rapid image analysis for the LSST Auxiliary Telescope
+  - develop_env: Build/push development image.
 
 
 .. _The-Development-Environment:

@@ -9,6 +9,47 @@ Version History
 .. Below is an example of a version history format.
 
 
+Cycle 29
+========
+
+* Rename ts_mtalignment to ts_lasertracker.
+* Remove ts_adamSensors.
+* Remove pyside2, qasync, pytest_qt and pytest_xvfb because they moved to ts-develop.
+* Add GenericCamera build step.
+* Add develop_env to list of build steps.
+* Update conda build config in preparation to adding Python 3.11 eventually.
+* Update weatherforecast deployment container to include ts_config_ocs.
+* Update the version of
+    * ts_xml.
+    * ts_idl.
+    * ts_salobj.
+
+    and also of many packages among which
+
+    * ts_hexrotcomm.
+    * ts_authorize.
+    * ts_m2.
+    * ts_mtmount.
+    * ts_hvac.
+    * ts_config_mttcs.
+    * ts_wep.
+    * ts_mtdome.
+    * ts_ess_common.
+    * ts_ess_csc.
+    * ts_standardscripts.
+    * ts_externalscripts.
+    * ts_mtrotator.
+    * ts_atwhitelight.
+    * ts_genericcamera.
+    * ts_integrationtests.
+    * ts_atspec.
+    * ts_weatherforecast.
+    * love_commander.
+    * love_frontend.
+    * love_manager.
+    * ts_config_ocs.
+    * ts_config_mttcs.
+
 Cycle 28 revision 7
 ===================
 

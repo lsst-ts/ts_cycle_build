@@ -5,10 +5,10 @@ FROM ${hub}/deploy-env:${cycle}
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
-ARG ts_mtalignment
+ARG ts_lasertracker
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -y -c lsstts ts-mtalignment=${ts_mtalignment}
+    mamba install -y -c lsstts ts-lasertracker=${ts_lasertracker}
 
 RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
 
@@ -22,7 +22,7 @@ WORKDIR /home/saluser/
 ENV TS_CONFIG_MTTCS_DIR=/home/saluser/ts_config_mttcs
 ENV RUN_ARG=""
 
-LABEL ts-mtalignment=${ts_mtalignment} \
+LABEL ts-lasertracker=${ts_lasertracker} \
     ts_config_mttcs=${config}
 
 COPY startup.sh /home/saluser/.startup.sh
