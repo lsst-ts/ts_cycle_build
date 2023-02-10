@@ -8,6 +8,32 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 29 revision 1
+===================
+
+* In sal-sciplat build, source ospl environment when installing/setting up packages.
+* In ScriptQueue build, setup ts_config_ocs when builing ts_standardscripts.
+* In ``jenkins/Jenkinsfile.base``, set ``COMPOSE_HTTP_TIMEOUT=240`` in the docker run arguments.
+* Update version of the following packages:
+
+  * ts_pointing_common.
+  * ts_config_ocs.
+  * ts_pointing_common.
+  * lsstsqre weekly.
+  * ts_standardscripts.
+  * ts_externalscripts.
+  * ts_atspec.
+  * ts_ess_controller.
+  * dds_community_build_el7.
+  * ts_ess_common
+  * ts_ess_controller
+  * ts_ess_csc.
+  * ts_weatherforecast.
+  * ts_electrometer.
+  * ts_scheduler.
+  * ts_fbs_utils.
+  * rubin_sim.
+
 
 Cycle 29
 ========
