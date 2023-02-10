@@ -146,6 +146,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     eups declare -r . ts_standardscripts ${ts_standardscripts} -t current && \
     setup ts_standardscripts && \
     setup ts_config_attcs && \
+    setup ts_config_ocs && \
     pytest || pytest --lf -x
 
 ARG ts_scriptqueue

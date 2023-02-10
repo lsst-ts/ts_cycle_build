@@ -45,6 +45,7 @@ ARG ts_atdometrajectory
 ARG ts_atmcssimulator
 
 RUN source ${SALSTACK} && \
+    source ${OSPL_HOME}/release.com && \
     mamba install -c lsstts -y \
     astrometry \
     ts-dds=${osplice_v}=${osplice_py} \
