@@ -1012,7 +1012,7 @@ services:
         labjack_ljm: ${labjack_ljm}
 
   conda-builder-private:
-    image: ${hub}/conda_package_builder:${CYCLE}${rev}
+    image: ${hub}/conda_package_builder:${CYCLE}
     build:
       context: ../build/
       dockerfile: ./conda_builder/linux64/Dockerfile
