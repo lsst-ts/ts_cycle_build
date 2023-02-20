@@ -13,12 +13,14 @@ ARG ts_dateloc
 ARG rubin_sim
 ARG ts_fbs_utils
 ARG ts_scheduler
+ARG ts_observing
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     mamba install -y -c lsstts \
     ts-observatory-model=${ts_observatory_model} \
     ts-astrosky-model=${ts_astrosky_model} \
     ts-dateloc=${ts_dateloc} \
+    ts-observing=${ts_observing} \
     rubin-sim=${rubin_sim} \
     ts-scheduler=${ts_scheduler}  \
     ts-fbs-utils=${ts_fbs_utils}
@@ -48,6 +50,7 @@ LABEL ts-scheduler=${ts_scheduler} \
     ts-fbs-utils=${ts_fbs_utils} \
     rubin-sim=${rubin_sim} \
     lsst_efd_client=${lsst_efd_client} \
+    ts_observing=${ts_observing} \
     ts_config_ocs=${config}
 
 
