@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 29 revision 2
+===================
+
+* Remove rev from conda_package_builder private image tag for amd64 so all images are named the same.
+* Fix permission issue on '/home/saluser/.setup.sh' file.
+* Update version of the following packages:
+
+  * ts_weatherforecast.
+  * LOVE-commander.
+  * LOVE-frontend.
+
+
 Cycle 29 revision 1
 ===================
 

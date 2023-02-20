@@ -78,8 +78,6 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
   mamba install -y conda-build anaconda-client setuptools_scm ts-ddsconfig boa && \
   mamba init bash
 
-COPY conda_builder/linux64/setup.sh /home/saluser/.setup.sh
-
 USER saluser
 WORKDIR /home/saluser
 

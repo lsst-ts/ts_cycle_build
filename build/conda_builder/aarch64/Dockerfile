@@ -47,8 +47,6 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
     mamba install -y conda-build anaconda-client setuptools_scm ts-ddsconfig boa && \
     mamba init bash
 
-COPY conda_builder/aarch64/setup.sh ${HOME}/.setup.sh
-
 ENTRYPOINT ["/bin/bash", "--"]
 
 CMD ["/home/saluser/.setup.sh"]
