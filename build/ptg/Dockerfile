@@ -108,7 +108,9 @@ COPY ptg/at_20220406_fauto.mod /home/saluser/repos/ts_pointing_common/install/da
 COPY ptg/at_20220406_ia_ie_an_aw_tx10_ca.mod /home/saluser/repos/ts_pointing_common/install/data/at_20220406_ia_ie_an_aw_tx10_ca.mod
 COPY ptg/at_20221011.mod /home/saluser/repos/ts_pointing_common/install/data/at_20221011.mod
 COPY ptg/at.mod /home/saluser/repos/ts_pointing_common/install/data/at.mod
-COPY ptg/mt_20221128.mod /home/saluser/repos/ts_pointing_common/install/data/mt.mod
+COPY ptg/mt_20221128.mod /home/saluser/repos/ts_pointing_common/install/data/mt_20221128.mod
+COPY ptg/mt_ia_ie_tf_tx10_ca_an_aw_20230220.mod /home/saluser/repos/ts_pointing_common/install/data/mt_ia_ie_tf_tx10_ca_an_aw_20230220.mod
+COPY ptg/mt.mod /home/saluser/repos/ts_pointing_common/install/data/mt.mod
 
 USER root
 RUN chown -R saluser:saluser /home/saluser/repos/ts_pointing_common/install/data/ && \

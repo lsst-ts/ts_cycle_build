@@ -8,6 +8,23 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 29 revision 3
+===================
+
+* Ptg: update pointing model for the main telescope.
+* In ``scheduler``, update build script to add new dependency; ts-observing.
+* Update version of the following packages:
+
+  * DM stack.
+  * ts_scheduler.
+  * ts_config_ocs.
+  * ts_observing (new).
+  * ts_observatory_control.
+  * ts_externalscripts.
+  * love_frontend.
+  * rubin_sim.
+  * schedview.
+
 Cycle 29 revision 2
 ===================
 
