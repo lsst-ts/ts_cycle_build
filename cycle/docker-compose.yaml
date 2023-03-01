@@ -330,6 +330,7 @@ x-scheduler:
       ts_observatory_model: ${ts_observatory_model}
       ts_astrosky_model: ${ts_astrosky_model}
       ts_dateloc: ${ts_dateloc}
+      ts_observing: ${ts_observing}
       ts_fbs_utils: ${ts_fbs_utils}
       rubin_sim: ${rubin_sim}
       lsst_efd_client: ${lsst_efd_client}
