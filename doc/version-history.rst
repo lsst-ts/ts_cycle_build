@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 29 revision 4
+===================
+
+* Update cycle/docker-compose.yaml scheduler build configuration to pass in version of ts_observing.
+* Pin version of numpy for conda_package_builder to 1.21 as used by DM.
+* Update version of the following packages:
+
+  * ts_ataos.
+  * ts_config_latiss.
+  * ts_config_ocs.
+  * ts_genericcamera.
+  * ts_observatory_control.
+  * ts_observing.
+  * ts_scheduler.
+
 Cycle 29 revision 3
 ===================
 
