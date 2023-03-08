@@ -16,9 +16,6 @@ RUN /home/saluser/.checkout_repo.sh ${config}
 
 WORKDIR /home/saluser/
 
-RUN mkdir /home/saluser/.ssh && \
-    cp /home/saluser/.store/* /home/saluser/.ssh/
-
 ENV TS_CONFIG_OCS_DIR=/home/saluser/ts_config_ocs
 ENV RUN_ARG=""
 
