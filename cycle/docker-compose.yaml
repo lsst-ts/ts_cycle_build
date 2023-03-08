@@ -685,6 +685,18 @@ x-fiberspectrograph:
       fiberspectrograph: ${ts_fiberspectrograph}
       config: ${ts_config_ocs}
 
+x-gis:
+  &base-gis
+  build:
+    context: ../build/gis
+    labels:
+      com.description: "GIS component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      gis: ${ts_gis}
+      config: ${ts_config_ocs}
+
 version: "3.7"
 
 services:
@@ -1473,3 +1485,11 @@ services:
   fiberspectrograph_c:
     image: ${hub}/fiberspectrograph:${CYCLE}
     <<: *base-fiberspectrograph
+
+  gis:
+    image: ${hub}/gis:${CYCLE}${rev}
+    <<: *base-gis
+
+  gis_c:
+    image: ${hub}/gis:${CYCLE}
+    <<: *base-gis
