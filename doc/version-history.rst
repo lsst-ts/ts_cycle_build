@@ -8,6 +8,56 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 29 revision 5
+===================
+
+* In ``build/scriptqueue``:
+
+  * Install libglvnd-glx.
+  * Makes some improvements in preparation for the shared environment.
+
+    Changes include:
+
+    * Stop running unit tests on packages that are not really necessary.
+    * Reorder build steps such that it builds ancillary libraries first, then observatory control packages and script packages.
+    * Install scriptqueue from conda instead of using clone/checkout.
+      This package is static anyway, so there is no reason to use the repo with eups.
+
+* In ``cycle/docker-compose.yaml``, pass in version of robotframework-efd package to integration test build.
+
+* Updates for the integrationtests package:
+
+  * Installing PyYAML and setting ``PYTHONPATH`` EnvVar the Dockerfile.
+
+  * Set the RUN_ARG EnvVar in the Dockerfile to have no default value.
+
+  * Added the robotframework_EFD repo to the cycle_build infrastructure.
+
+  * Updated the RUN_ARG value in startup.sh to hardcode the robot command and make the EnvVar just be the unique switches and flags to the robot command.
+
+  * Added to startup.sh a reporting exit code of the control process and then terminating script gracefully.
+
+  * Moved the robot_efd version ARG in ``build/integrationtests/Dockerfile``.
+
+* Add build scripts for GIS.
+
+* Update version of the following packages:
+
+  * DM stack.
+  * ts-develop.
+  * ts-observatory-control.
+  * ts-externalscripts.
+  * ts-standardscripts.
+  * ts-scriptqueue.
+  * ts-pointing-common.
+  * ts-conda-build.
+  * ts-gis (new).
+  * robotframework-efd (new).
+  * ts-config-ocs.
+  * love-commander.
+  * love-frontend.
+  * love-manager.
+
 Cycle 29 revision 4
 ===================
 
