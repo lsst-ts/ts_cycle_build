@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 29 revision 6
+===================
+
+* Update version of the following packages:
+
+  * LOVE-frontend.
+  * ts_ess_common.
+  * ts_ess_csc.
+  * ts_config_ocs.
+  * ts_gis.
+  * ts_weatherforecast.
+  * ts_pointing_common.
+
+* Update main telescope pointing model.
+
 Cycle 29 revision 5
 ===================
 
