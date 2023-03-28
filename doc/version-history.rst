@@ -8,6 +8,25 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+
+
+Cycle 29 revision 7
+===================
+
+* Update pointing model for the main telescope.
+
+* Update version of the following packages:
+
+  * ts_config_ocs.
+  * ts_weatherforecast.
+  * ts_authorize.
+  * ts_ess_labjack.
+  * ts_ess_csc (downgraded).
+  * ts_config_ocs.
+  * ts_pointing_common.
+  * robotframework_EFD.
+  * ts_integrationtests.
+
 Cycle 29 revision 6
 ===================
 
