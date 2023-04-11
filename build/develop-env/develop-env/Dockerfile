@@ -14,7 +14,7 @@ ARG ts_scriptqueue="develop"
 ARG ts_observatory_control="develop"
 ARG ts_standardscripts="develop"
 ARG ts_externalscripts="develop"
-ARG ts_ATMCSSimulator="develop"
+ARG ts_atmcssimulator="develop"
 ARG ts_atdome="develop"
 ARG ts_atdometrajectory="develop"
 ARG ts_simactuators="develop"
@@ -27,7 +27,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_observatory_control:${ts_observatory_control} \
     ts_standardscripts:${ts_standardscripts} \
     ts_externalscripts:${ts_externalscripts} \
-    ts_atmcssimulator:${ts_ATMCSSimulator} \
+    ts_atmcssimulator:${ts_atmcssimulator} \
     ts_atdome:${ts_atdome} \
     ts_atdometrajectory:${ts_atdometrajectory} \
     ts_simactuators:${ts_simactuators} \
@@ -141,7 +141,7 @@ LABEL ts_scriptqueue="${ts_scriptqueue}" \
     ts_observatory_control="${ts_observatory_control}" \
     ts_standardscripts="${ts_standardscripts}" \
     ts_externalscripts="${ts_externalscripts}" \
-    ts_atmcssimulator="${ts_ATMCSSimulator}" \
+    ts_atmcssimulator="${ts_atmcssimulator}" \
     ts_atdome="${ts_atdome}" \
     ts_atdometrajectory="${ts_atdometrajectory}" \
     ts_simactuators="${ts_simactuators}" \
