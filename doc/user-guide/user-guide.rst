@@ -589,7 +589,7 @@ Finally, the list of Telescope and Site software that are ``eups`` installed are
 
   - ts_atdome
   - ts_atdometrajectory
-  - ts_ATMCSSimulator
+  - ts_atmcssimulator
   - ts_config_atcalsys
   - ts_config_attcs
   - ts_config_eas

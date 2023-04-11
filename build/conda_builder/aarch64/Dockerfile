@@ -24,11 +24,11 @@ COPY conda_builder/aarch64/setup.sh ${HOME}/.setup.sh
 COPY develop-env/salobj/checkout_repo.sh ${HOME}/.checkout_repo.sh
 COPY conda_builder/linux64/conda_build_config.yaml /home/saluser/conda_build_config.yaml
 
-RUN chown saluser:saluser ${HOME}/.setup.sh && \
-    chown saluser:saluser ${HOME}/.checkout_repo.sh && \
+RUN chown saluser:saluser /home/saluser/.setup.sh && \
+    chown saluser:saluser /home/saluser/.checkout_repo.sh && \
     chown saluser:saluser /home/saluser/conda_build_config.yaml && \
-    chmod a+x ${HOME}/.setup.sh && \
-    chmod a+x ${HOME}/.checkout_repo.sh
+    chmod a+x /home/saluser/.setup.sh && \
+    chmod a+x /home/saluser/.checkout_repo.sh
 
 USER saluser
 

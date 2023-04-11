@@ -373,7 +373,7 @@ x-scriptqueue:
       ts_idl: ${ts_idl}
       ts_atdome: ${ts_atdome}
       ts_atdometrajectory: ${ts_atdometrajectory}
-      ts_atmcssimulator: ${ts_ATMCSSimulator}
+      ts_atmcssimulator: ${ts_atmcssimulator}
       ts_develop: ${ts_develop}
       ts_wep: ${ts_wep}
 
@@ -432,7 +432,7 @@ x-atmcs_sim:
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      atmcs: ${ts_ATMCSSimulator}
+      atmcs: ${ts_atmcssimulator}
 
 x-atmonochromator:
   &base-atmonochromator
@@ -479,7 +479,7 @@ x-atpneumatics_sim:
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      atpneumatics_sim: ${ts_ATPneumaticsSimulator}
+      atpneumatics_sim: ${ts_atpneumaticssimulator}
 
 x-ataos:
   &base-ataos
@@ -872,7 +872,7 @@ services:
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
-        ts_atmcssimulator: ${ts_ATMCSSimulator}
+        ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
         ts_atdometrajectory: ${ts_atdometrajectory}
 
@@ -900,7 +900,7 @@ services:
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
-        ts_atmcssimulator: ${ts_ATMCSSimulator}
+        ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
         ts_atdometrajectory: ${ts_atdometrajectory}
 
@@ -967,7 +967,7 @@ services:
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
-        ts_ATMCSSimulator: ${ts_ATMCSSimulator}
+        ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
         ts_atdometrajectory: ${ts_atdometrajectory}
         ts_simactuators: ${ts_simactuators}
@@ -988,7 +988,7 @@ services:
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
-        ts_ATMCSSimulator: ${ts_ATMCSSimulator}
+        ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
         ts_atdometrajectory: ${ts_atdometrajectory}
         ts_simactuators: ${ts_simactuators}
