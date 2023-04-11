@@ -8,7 +8,33 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 29 revision 8
+===================
 
+* Fix a permissions issue on the arm64 conda package builder docker container.
+
+* Rename ts_ATMCSSimulator to ts_atmcssimulator.
+
+* Rename ts_ATPneumaticsSimulator to ts_atpneumaticssimulator.
+
+* Update version of the following packages:
+
+  * ts_fbs_utils.
+  * ts_config_ocs.
+  * DM stack.
+  * ts_integrationtests.
+  * ts_gis.
+  * robotframework_efd.
+  * rubintv.
+  * love_frontend.
+  * ts_fbs_utils.
+  * ts_utils.
+  * ts_config_mttcs.
+  * ts_config_atcalsys.
+  * ts_mtmount.
+  * ts_atwhitelight.
+  * ts_atmcssimulator.
+  * ts_atpneumaticssimulator.
 
 Cycle 29 revision 7
 ===================
