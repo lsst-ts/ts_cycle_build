@@ -100,7 +100,7 @@ USER saluser
 WORKDIR ${WORKDIR}
 
 RUN curl -LO https://ls.st/lsstinstall && \
-    bash lsstinstall
+    bash lsstinstall -T w_latest
 
 ARG stack
 
