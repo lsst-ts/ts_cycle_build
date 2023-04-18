@@ -8,6 +8,20 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 29 revision 9
+===================
+
+* Make sure that 'lsstinstall' always picks up the latest weekly instead of latest build.
+
+* Update version of the following packages:
+
+* ts_authorize.
+* ts_ess_common.
+* ts_integrationtest.
+* love_frontend.
+* love_manager.
+* robotframework_EFD.
+
 Cycle 29 revision 8
 ===================
 
