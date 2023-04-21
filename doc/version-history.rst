@@ -8,6 +8,17 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 29 revision 11
+====================
+
+* Update version of the following packages:
+
+* love_frontend
+* love_manager
+* robotframework_EFD
+* ts_integrationtests
+* ts_pmd
+
 Cycle 29 revision 10
 ====================
 
