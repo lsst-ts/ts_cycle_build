@@ -8,6 +8,17 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 29 revision 10
+====================
+
+* Make the call to 'lsstinstall' also work for a cycle build.
+
+* Update version of the following packages:
+
+* ts_ess_common.
+* ts_ess_csc.
+* ts_config_ocs
+
 Cycle 29 revision 9
 ===================
 
