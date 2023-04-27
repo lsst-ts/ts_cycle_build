@@ -152,6 +152,7 @@ USER saluser
 
 ENV RUN_ARG="--verbose 1"
 ENV LSST_DDS_DOMAIN=citest
+ENV OBS_ENV_PATH /net/obs-env/auto_base_packages
 
 LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
     ts_config_attcs=${ts_config_attcs} \

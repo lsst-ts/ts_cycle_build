@@ -14,6 +14,10 @@ setup ts_externalscripts
 setup ts_standardscripts
 setup ts_scriptqueue
 
+echo Setting up shared observing environment from ${OBS_ENV_PATH}/auto_env_setup.sh
+
+source ${OBS_ENV_PATH}/auto_env_setup.sh
+
 run_script_queue ${RUN_ARG} &
 
 pid="$!"

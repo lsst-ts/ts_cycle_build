@@ -8,6 +8,23 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 29 revision 12
+====================
+
+* Update version of the following packages:
+
+  * ts_config_ocs.
+  * ts_watcher.
+  * ts_ess_csc.
+  * Spectractor.
+  * summit_utils.
+  * summit_extras.
+  * atmospec.
+  * ts_observing_utilities.
+  * ts_wep.
+
+* Update ScriptQueue build to load shared observing environment.
+
 Cycle 29 revision 11
 ====================
 
