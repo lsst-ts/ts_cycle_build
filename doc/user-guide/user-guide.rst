@@ -117,7 +117,7 @@ For the detailed procedures, see :ref:`Building-a-new-Cycle-or-Revision-New-Cycl
 
       Make sure you select the correct cycle branch when opening a PR.
       By default GitHub will assign the ``main`` branch as a target to all PRs.
-      You must manually select the cycle branch in this occasion.
+      You must manually select the cycle branch on this occasion.
 
   - If new revisions to the current cycle (say cycle 20) are needed to support the production environment, ticket branches out of ``main`` should be created and PRs must be opened and merged back to ``main``, as usual.
 
@@ -308,6 +308,8 @@ The procedure is as follows:
     git checkout -b tickets/DM-12345
     git push --set-upstream origin tickets/DM-12345
 
+* Open a Slack thread on the ``ts-build`` channel with the following message "Cycle XXXX :thread:".
+
   * Open the ``cycle/cycle.env`` file and update the cycle number at the top and set the revision number to zero.
 
     .. important::
@@ -316,7 +318,7 @@ The procedure is as follows:
 
       Eventually this will be enforced by the build system.
 
-  * Update the version of all required packages in ``cycle/cycle.env``.
+  * Update the versions of core packages in ``cycle/cycle.env``.
 
     The `vanward <https://vanward.lsst.io>`__ package was designed to help prepare for new cycle updates.
 
@@ -326,12 +328,96 @@ The procedure is as follows:
 
       git push
 
+1. Build the Conda Package Builder images, this is stage 1 of the Jenkins pipeline
+2. Build the deploy-conda image
+3. Build the deploy-lsstsqre image, alert Michael Reuter when this stage is complete.
+
+.. important::
+	If one of the images fail, check that the ts-idl has been built.
+
+You have now built the core package images and can move onto the product images.
+
+
+1. Build the ts-cycle package.
+2. Build all of the products.
+   
+   .. important::
+      Products that are tagged may not be built due to being tagged before a core package was released.
+      Another reason might be that the job is not configured to build tags automatically.
+      The solution to solve those problems is to either run or re-run the job.
+
+3. Build the ESS controller.
+4. Build the genericcamera specific images.
+5. Build the m1m3_sim.
+     
+     .. note::
+	The M1M3 sim uses C++.
+
+6. Build the ptg component.
+
+   .. note::
+	The Pointing component uses C++.
+
+7. Build the scriptqueue.
+8. Build the mtaos.
+9. Build the pre-nubalado Sal Sciplat image.
+10. Build the nublado Sal sciplat image.
+11. Build the RubinTV Broadcaster.
+
+    .. important::
+	This image relies on the previous two images being built successfully.
+
+12. Build the develop-env image.
+
+
+.. important:: Continue the build process even if any of these parts fail, alert the appropriate people or let members of the build team know in the thread.
+
+Once this is done, everything should be ready for deployment on the Test Stands.
+During deployment people will likely be updating products with new versions.
+Make sure to remind them to use the thread to alert people that work is being done.
+
+If a product needs to be updated and built, make sure to select the product from the drop down and check the build products box.
+
+The criteria for closing a cycle is the following
+
+1. Deployment on the summit is done and there are no updates outstanding.
+
+Once criteria has been met, then you can create a cycle branch and open a pr from the ticket branch.
+
+.. prompt::
+
+	gh pr create -f -B cycle/00xx
+
+
+Then sanitize the commit history with the following criteria
+
+1. Squash commits that change cycle.env into one commit with the following message template
+
+   Cycle xx
+
+   Core Packages
+
+   core_package -> x.y.z
+
+   Products
+   product_name -> x.y.z
+
+2. Keep the build changes discrete.
+
+3. Update the version history at the end.
+
+Once the PR is approved, go ahead and merge into the cycle branch.
+Once merged, close the slack thread.
+
   * It is important to follow the build steps order.
+    If a build fails, alert someone that is responsible and continue forward.
     Also, we recommend running one step at a time in the Jenkins server, to make sure the image is pushed correctly, avoiding a potential push problem at the end.
 
     The build should always start with the base images; ``build_conda_package_builder``, ``deploy_conda`` and ``deploy_lsstsqre``.
-    First build the ``build_conda_package_builder`` images.
-    Since ``deploy_conda`` is quicker to build it is, in general, preferable to continue with that one.
+    First build the ``build_conda_package_builder`` images and update the thread with result.
+    Then build ``deploy_conda`` and update the thread with result.
+    And then build ``deploy_lsstsqre`` and update the thread with result.
+    Finally, if both ``deploy_conda`` and ``deploy_lsstsqre`` are successful, alert Michael for downstream usage.
 
     .. note::
 
@@ -347,15 +433,15 @@ The procedure is as follows:
 
     Once both base images are built the system is ready to build the remaining components.
     The first thing to do is to build the ts-cycle conda package.
-    This package depends on the core packages and can be built at any time so now is as good a time as any.
+    This package depends on the core packages and can be built after the core packages are built.
     Next, given the simplicity and overall time it takes to complete, it is advisable to build the ``base_components`` next.
-    This step will build the majority of the systems.
-    Specifically, those that use the ``deploy_conda`` and are built from conda packages.
+    This step will build the majority of the products.
 
     .. note::
 
       One of the most common issues in building this step is when the selected version of the conda package for a component (or library) is not available.
       In this case, make sure to check the conda Jenkins build for the particular package.
+      Also a build may not run automatically even if a tag is released.
       On some occasions developers release the code before all required dependencies are available (in most cases the idl package) and the release build fails.
       For most cases, rerunning the build in Jenkins (after making sure the dependencies are available) should be enough to fix the problem.
       If further issues are encountered with the build for that particular package you can either attempt to fix it yourself (most cases are simple pep8 or black formatting issues) or contact the developer in charge of the component and request a patch.
@@ -387,6 +473,9 @@ The procedure is as follows:
 
     With this, all systems are ready to be deployed.
 
+* Once deployment is done on the summit.
+  Create the cycle branch and open a PR to it using the ticket branch.
+
 .. _Building-a-new-Cycle-or-Revision-Build-Steps:
 
 Build Steps
@@ -396,7 +485,7 @@ The build is divided into steps to start from building base images up to deploya
 These steps are designed to maximize reusability of docker layers, minimizing the number of layers in the image and reducing the time it takes to build the system.
 The steps in the build are as follows:
 
-  - build_conda_package_builder: Build Conda Package Builder arm64 and aarch64 images.
+  - build_conda_package_builder: Build Conda Package Builder arm64 and aarch64 images, these stages are split but should be together.
   - deploy_conda: Build base image used by all conda-installable components.
   - deploy_lsstsqre: Build base image used by components that require the DM stack.
   - ts_cycle: Build the ts-cycle conda package.
@@ -448,7 +537,7 @@ The steps in the build are as follows:
   - build_mtaos: Build MTAOS.
   - build_scriptqueue: Build ScriptQueue.
     Both AT and MT use the same code base and image.
-  - build_salplat: Build base nublado image.
+  - build_salplat: Build base pre-nublado image.
     This adds the Telescope and Site base layer to a base DM image needed for nublado.
   - build_sciplat_lab_recommended: Builds nublado images.
     Adds the final layer on the nublado images, needed to make them compatible with nublado system.

@@ -4,19 +4,19 @@
 Build Cycle Developer Guide
 #########################################
 
-Build cycle is designed to provide a simple way of building containers for deployment at the various locations; NCSA Test Stand (NTS), Tucson Test Stand (TTS), summit and others.
+The Build Cycle is designed to provide a simple way of building containers for deployment at various locations associated with the project; Tucson Test Stand (TTS), Summit and the Base Test Stand (BTS).
 When contributing or interacting with this repository, developers may be interested in adding new docker build scripts (e.g. ``Dockerfile``) for a component or updating existing scripts.
-This document contains relevant information to help users accomplish this and other maintenance tasks.
+This document contains relevant information to help developers accomplish this and other maintenance tasks.
 
-The build is modeled on top of the ``docker-compose`` build infrastructure.
-This allows us to specify services with build configuration in a ``yaml`` file.
-It is also possible to specify dependencies for each service, though we found the interface for building a bit lacking and avoided using it at this time.
+The build process leverages ``docker-compose`` build infrastructure.
+This allows us to configure services for building with a ``yaml`` file.
+It is also possible to specify dependencies for each service, though we found the mechanism a bit lacking and are avoiding using it at this time.
 The build configuration is stored in the ``cycle/docker-compose.yaml`` file.
-There, one can find the name of the services and the input configuration for each build.
+There, one can find the name of the services and the arguments that each build can take.
 
-For example, the entry bellow shows the section for the base deployment image used for the majority of the systems.
+For example, the entry below shows the section for the base deployment image used for the majority of the systems.
 
-.. code-block:: rst
+.. code-block:: yaml
 
     deploy-conda-private:
       image: ts-dockerhub.lsst.org/deploy-env:${CYCLE}
@@ -37,7 +37,7 @@ For example, the entry bellow shows the section for the base deployment image us
 The section is defined first by the name of the service, in this case, ``deploy-conda-private``, followed by the image name and the build section.
 The build section contains parameters that are passed to the build.
 As one can see above, most of the parameters are set with environment variables (e.g. ``${variable_name}``).
-There are basically two ways of defining these variables; through an environment file or by setting them on the build environment.
+There are basically two ways of defining these variables; through an environment file or by setting them in the build environment.
 
 In order to support a continuous build infrastructure for several different services we employ an environment file.
 The file is located in ``cycle/cycle.env``, and contains values for all the variables specified in ``cycle/docker-compose.yaml``.
@@ -51,15 +51,15 @@ For instance, if you do;
 The value of ``CYCLE`` in ``cycle/cycle.env``, would be overridden by ``c0005-special`` above.
 
 All ``Dockerfiles`` are located in sub-directories in the ``build`` directory.
-In general, each sub-directory is named after the build which appears in the ``cycle/docker-compose.yaml`` file, though some have different names for maintenance purposes (like the base images which can be build for the community or licensed edition of ``OpenSplice``).
+In general, each sub-directory is named after the build which appears in the ``cycle/docker-compose.yaml`` file, though some have different names for maintenance purposes (like the base images which can be build for either the community or licensed edition of ``OpenSplice``).
 
-To add a new build to the cycle, create a sub-directory in the ``build`` directory and add the ``Dockerfile`` and ancillary scripts (e.g. startup scripts).
+To add a new component for building to the cycle, create a sub-directory in the ``build`` directory and add the ``Dockerfile`` and ancillary scripts (e.g. startup scripts).
 In general you would pick one of the available base images to build your component; ``deploy-env`` or ``base-sqre``.
 
-The ``deploy-env`` image is a simple ``AlmaLinux`` image with all the prerequisites required to run a CSC packed with conda whereas ``base-sqre`` is built on top of the ``lsstsqre/centos`` tailored for ``eups`` declarable CSCs.
+The ``deploy-env`` image is a simple ``AlmaLinux 8`` image with all the prerequisites required to run a CSC packaged with conda whereas ``base-sqre`` is built on top of the ``lsstsqre/centos`` tailored for ``eups`` declarable CSCs.
 
 
-(To be continued...)
+.. todo:: Add more information.
 
 .. _Developer_Guide_Adding_New_Components:
 
@@ -72,17 +72,17 @@ The process starts by selecting what kind of base image the component will be bu
 If the component contains a conda package, and does not have any dependency on the DM stack, then it should be built on top of the ``deploy-env`` image.
 In this case the ``Dockerfile`` will start with the following lines:
 
-.. code-block:: text
+.. code-block:: dockerfile
 
   ARG cycle
   ARG hub
 
   FROM ${hub}/deploy-env:${cycle}
 
-If, on the other hand, the component is an ``eups`` package and/or has dependencies on the DM stack, it needs to be built on top of ``deploy-sqre``.
+If, on the other hand, the component has dependencies on the DM stack, it needs to be built on top of ``deploy-sqre``.
 In this case the ``Dockerfile`` will start with the following lines:
 
-.. code-block:: text
+.. code-block:: dockerfile
 
   ARG cycle
   ARG hub
@@ -97,7 +97,7 @@ Both base images are already pre-setup to run, with some additional steps to ens
 To take advantage of this setup, users must first add a ``startup.sh`` file to their build directory.
 This file must have the following format:
 
-.. code-block:: text
+.. code-block:: bash
 
   #!/usr/bin/env bash
 
@@ -114,13 +114,13 @@ If the component needs additional setup it can be done in the same script, thoug
 
 If the component requires input arguments we recommend adding the following to the ``Dockerfile``;
 
-.. code-block:: text
+.. code-block:: dockerfile
 
   ENV RUN_ARG=""
 
 and the following modification to the ``startup.sh`` script;
 
-.. code-block:: text
+.. code-block:: bash
 
   ...
 
@@ -131,7 +131,7 @@ and the following modification to the ``startup.sh`` script;
 To make the ``startup.sh`` file available in the container, add the following to the bottom of the ``Dockerfile``;
 
 
-.. code-block:: text
+.. code-block:: dockerfile
 
   COPY startup.sh /home/saluser/.startup.sh
   USER root
@@ -171,7 +171,7 @@ In order to avoid duplication we create a template build configuration and add 2
 
 At the top of the compose file, add the build configuration with the following format:
 
-.. code-block:: text
+.. code-block:: dockerfile
 
   x-<component-name>: &base-<component-name>
     build:
@@ -187,7 +187,7 @@ Make sure to add all the required versions in the args sections above.
 
 At the bottom of the compose file, add the following:
 
-.. code-block:: text
+.. code-block:: dockerfile
 
   <component-name>:
     image: ${hub}/<component-name>:${CYCLE}${rev}
