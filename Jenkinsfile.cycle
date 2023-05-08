@@ -58,7 +58,7 @@ pipeline {
           expression { params.build_conda_package_builder_arm }
       }
       steps {
-          build job: "CondaPackageBuilder/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_conda_package_builder', value: true)], wait: false
+          build job: "CondaPackageBuilder_amd64/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_conda_package_builder', value: true)], wait: false
           build job: "CondaPackageBuilder_aarch64/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_conda_package_builder_aarch64', value: true)], wait: false
       }
     }
