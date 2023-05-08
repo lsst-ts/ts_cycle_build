@@ -8,6 +8,65 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+
+Cycle 30
+========
+
+* Update version of the following core packages:
+
+  * ts_xml
+  * ts_idl
+  * ts_salobj
+
+* Update version of the following products:
+
+  * ts_develop
+  * ts_hexrotcomm
+  * ts_simactuators
+  * ts_atdome
+  * ts_atmonochromator
+  * ts_atwhitelight
+  * ts_mtrotator
+  * ts_mthexapod
+  * ts_ataos
+  * ts_m2
+  * ts_mtmount
+  * ts_m1m3support
+  * ts_cRIOcpp
+  * ts_lasertracker
+  * ts_wep
+  * ts_ofc
+  * ts_phosim
+  * ts_watcher
+  * ts_scheduler
+  * ts_mtdome
+  * ts_mtdometracjectory
+  * ts_weatherstation
+  * ts_ess_controller
+  * ts_ess_labjack
+  * ts_conda_build
+  * ts_genericcamera
+  * ts_hvac
+  * ts_electrometer
+  * ts_fiberspectrograph
+  * ts_config_attcs
+  * ts_config_mttcs
+  * ts_config_ocs
+  * ts_authorize
+  * love_commander
+  * love_producer
+  * love_frontend
+  * love_manager
+  * ts_integrationtests
+  * robotframework__efd
+  * ts_pointing_common
+  * ts_mtaos
+  * ts_gis
+  * ts_mtaircompressor
+  * ts_m2
+  * ts_weatherforecast
+  * ts_scheduler
+
 Cycle 29 revision 12
 ====================
 
