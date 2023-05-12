@@ -9,6 +9,30 @@ Version History
 .. Below is an example of a version history format.
 
 
+
+Cycle 30 revision 1
+===================
+
+* Update the version of the following packages:
+
+  * dm stack.
+  * love_frontend
+  * love_producer
+  * rubin_sim.
+  * schedview.
+  * ts_atspec.
+  * ts_config_mttcs
+  * ts_config_ocs.
+  * ts_ess_csc.
+  * ts_externalscripts.
+  * ts_fbs_utils.
+  * ts_hvac.
+  * ts_observatory_control.
+  * ts_pmd.
+  * ts_scheduler.
+  * ts_standardscripts.
+  * ts_watcher.
+
 Cycle 30
 ========
 
