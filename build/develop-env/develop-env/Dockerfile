@@ -20,6 +20,7 @@ ARG ts_atdometrajectory="develop"
 ARG ts_simactuators="develop"
 ARG ts_hexrotcomm="develop"
 ARG ts_tcpip="develop"
+ARG ts_criopy="develop"
 
 RUN source /home/saluser/.setup_salobj.sh && \
     cd ${TSSW_PATH} && \
@@ -32,7 +33,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_atdometrajectory:${ts_atdometrajectory} \
     ts_simactuators:${ts_simactuators} \
     ts_hexrotcomm:${ts_hexrotcomm} \
-    ts_tcpip:${ts_tcpip}" && \
+    ts_tcpip:${ts_tcpip} \
+    ts_cRIOpy:${ts_criopy}" && \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
     r=$(echo ${g} | cut -d ':' -f 1) \
@@ -85,6 +87,16 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_attcs -t current && \
     eups declare -r . ts_atmcssimulator -t current && \
     setup ts_atmcssimulator -t current && \
+    scons || pytest --color=no --last-failed
+
+WORKDIR /home/saluser/repos/ts_cRIOpy
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
+    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
+    setup ts_salobj -t current && \
+    setup ts_config_attcs -t current && \
+    eups declare -r . ts_cRIOpy -t current && \
+    setup ts_cRIOpy -t current && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_observatory_control
