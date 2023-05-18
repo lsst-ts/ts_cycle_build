@@ -369,6 +369,7 @@ x-scriptqueue:
       ts_observatory_control: ${ts_observatory_control}
       ts_externalscripts: ${ts_externalscripts}
       ts_standardscripts: ${ts_standardscripts}
+      ts_criopy: ${ts_criopy}
       ts_scriptqueue: ${ts_scriptqueue}
       ts_idl: ${ts_idl}
       ts_atdome: ${ts_atdome}
@@ -869,6 +870,7 @@ services:
         ts_utils: ${ts_utils}
         ts_sal: ${ts_sal}
         ts_salobj: ${ts_salobj}
+        ts_criopy: ${ts_criopy}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
@@ -896,6 +898,7 @@ services:
         ts_idl: ${ts_idl}
         ts_utils: ${ts_utils}
         ts_sal: ${ts_sal}
+        ts_criopy: ${ts_criopy}
         ts_salobj: ${ts_salobj}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
@@ -973,6 +976,7 @@ services:
         ts_simactuators: ${ts_simactuators}
         ts_hexrotcomm: ${ts_hexrotcomm}
         ts_tcpip: ${ts_tcpip}
+        ts_criopy: ${ts_criopy}
 
   develop-env-private:
     image: ts-dockerhub.lsst.org/develop-env:${CYCLE}${rev}
@@ -994,6 +998,7 @@ services:
         ts_simactuators: ${ts_simactuators}
         ts_hexrotcomm: ${ts_hexrotcomm}
         ts_tcpip: ${ts_tcpip}
+        ts_criopy: ${ts_criopy}
 
   conda-builder-aarch64-community:
     image: lsstts/conda_package_builder_aarch64:${CYCLE}
