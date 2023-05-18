@@ -8,7 +8,25 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 30 revision 2
+===================
 
+* Add ts-criopy as a dependency in the following builds:
+
+  * develop-env
+  * sal-sciplat
+  * scriptqueue
+
+* In ``cycle/docker-compose.yaml``, pass in version of ts-criopy to all necessary builds
+
+* Update the version of the following packages:
+
+  * ts_config_mttcs
+  * ts_observatory_control
+  * ts_standardscripts
+  * ts_externalscripts
+  * love_frontend
+  * ts-criopy (new)
 
 Cycle 30 revision 1
 ===================
