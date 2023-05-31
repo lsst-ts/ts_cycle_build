@@ -8,6 +8,30 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 30 revision 3
+===================
+
+* Fix the conda_package_builder_aarch64 Dockerfile.
+
+* Update version of the following packages:
+
+  * ts_observatory_control.
+  * ts_standardscripts.
+  * ts_externalscripts.
+  * ts_m2.
+  * ts_scheduler.
+  * ts_ess_common.
+  * ts_ess_controller.
+  * ts_ess_csc.
+  * ts_ess_labjack.
+  * ts_hvac.
+  * ts_config_mttcs.
+  * ts_config_ocs.
+  * love_frontend.
+  * ts_fbs_utils.
+  * schedview.
+
+
 Cycle 30 revision 2
 ===================
 

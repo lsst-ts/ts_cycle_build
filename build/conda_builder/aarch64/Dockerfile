@@ -1,7 +1,7 @@
 FROM almalinux:8
 
-ARG UID=1003
-ARG GID=1003
+ARG UID=73006
+ARG GID=73006
 
 LABEL maintainer Wouter van Reeven <wvanreeven@lsst.org>
 
@@ -17,7 +17,7 @@ RUN groupadd --gid ${GID} saluser && \
     adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
-RUN dnf install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.8.0-openjdk-devel maven git git-lfs bzip2
+RUN dnf install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.8.0-openjdk-devel maven git git-lfs bzip2 wget libusb libglvnd-glx
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY conda_builder/aarch64/setup.sh ${HOME}/.setup.sh
@@ -31,8 +31,7 @@ RUN chown saluser:saluser /home/saluser/.setup.sh && \
     chmod a+x /home/saluser/.checkout_repo.sh
 
 USER saluser
-
-WORKDIR ${HOME}
+WORKDIR /home/saluser
 
 ARG PYTHON_VERSION=3.10
 
