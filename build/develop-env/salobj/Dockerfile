@@ -47,12 +47,9 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_config_latiss:${ts_config_latiss} \
     ts_config_mttcs:${ts_config_mttcs} \
     ts_config_atcalsys:${ts_config_atcalsys} \
-    ts_ddsconfig:${ts_ddsconfig} \
     ts_xml:${ts_xml} \
     ts_idl:${ts_idl} \
-    ts_sal:${ts_sal} \
-    ts_utils:${ts_utils} \
-    ts_salobj:${ts_salobj}" && \
+    ts_sal:${ts_sal}" \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
     r=$(echo ${g} | cut -d ':' -f 1) \
@@ -64,12 +61,28 @@ RUN source /home/saluser/.setup_salobj.sh && \
     cd .. ; \
     done
 
+RUN source /home/saluser/.setup_salobj.sh && \
+    cd ${TSSW_PATH} && \
+    gitsrc="ts_ddsconfig:${ts_ddsconfig} \
+    ts_utils:${ts_utils} \
+    ts_salobj:${ts_salobj}" && \
+    rb="https://github.com/lsst-ts" && \
+    for g in $gitsrc ; do \
+    r=$(echo ${g} | cut -d ':' -f 1) \
+    t=$(echo ${g} | cut -d ':' -f 2) ;\
+    git clone ${rb}/${r}.git ; \
+    cd ${r} ; \
+    /home/saluser/.checkout_repo.sh ${t} ; \
+    python -m pip install --no-deps --ignore-installed . ; \
+    cd .. ; \
+    done
+
 WORKDIR /home/saluser/repos/ts_sal
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_idl -t current && \
     setup ts_sal -t current && \
     mkdir -p $SAL_WORK_DIR && \
-    mkdir -p $TS_SAL_DIR/lib && (scons || pytest --color=no --lf)
+    mkdir -p $TS_SAL_DIR/lib && pytest --color=no
 
 WORKDIR /home/saluser/
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -77,21 +90,17 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_idl -t current && \
     make_idl_files.py Test Script LOVE
 
-WORKDIR /home/saluser/repos/ts_utils
-RUN source /home/saluser/.setup_salobj.sh && \
-    setup ts_utils -t current && \
-    scons
-
 ARG ts_dds
 
 WORKDIR /home/saluser/repos/ts_salobj
 RUN source /home/saluser/.setup_salobj.sh && \
     mamba install -c lsstts -y ts-dds=${ts_dds} && \
+    setup ts_config_ocs -t current && \
+    setup ts_xml -t current && \
     setup ts_sal -t current && \
     setup ts_idl -t current && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
-    setup ts_salobj -t current && \
-    scons || pytest --color=no --lf
+    pytest --color=no
 
 WORKDIR /home/saluser/
 
