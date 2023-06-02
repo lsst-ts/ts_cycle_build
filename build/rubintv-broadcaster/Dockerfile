@@ -39,6 +39,10 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     mamba install -y -c conda-forge \
     astrometry
 
+RUN source ${WORKDIR}/loadLSST.bash && \
+    mamba install -y -c conda-forge \
+    redis-py
+
 USER saluser
 
 RUN source ${WORKDIR}/loadLSST.bash && \
