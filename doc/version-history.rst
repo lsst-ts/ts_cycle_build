@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 30 revision 4
+===================
+
+* Remove eups/scons requirement for SalObjContainer.
+* rubintv-broadcaster: add redis-py
+
+* Update version of the following packages:
+
+  * ts_atdometrajectory.
+  * ts_mtdometrajctory.
+  * ts_config_attcs.
+  * ts_config_mttcs.
+  * ts_atspec.
+
+
 Cycle 30 revision 3
 ===================
 
