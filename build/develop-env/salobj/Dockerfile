@@ -73,7 +73,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     git clone ${rb}/${r}.git ; \
     cd ${r} ; \
     /home/saluser/.checkout_repo.sh ${t} ; \
-    python -m pip install --no-deps --ignore-installed . ; \
+    python -m pip install --no-deps --ignore-installed -e . ; \
     cd .. ; \
     done
 
