@@ -8,6 +8,16 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 30 revision 5
+===================
+
+* Add "-e" to the "pip" command in the SalObjContainer Dockerfile.
+
+* Update version of the following packages:
+
+  * ts_conda_build.
+
+
 Cycle 30 revision 4
 ===================
 
