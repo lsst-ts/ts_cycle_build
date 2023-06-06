@@ -74,6 +74,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     cd ${r} ; \
     /home/saluser/.checkout_repo.sh ${t} ; \
     python -m pip install --no-deps --ignore-installed -e . ; \
+    eups declare -m none -r . ${r} ${t} ; \
     cd .. ; \
     done
 
