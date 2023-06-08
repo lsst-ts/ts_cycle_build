@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 30 revision 6
+===================
+
+* Update develop env build to setup ts_config_ocs when building ts_observatory_control.
+
+* Update salobj development env build to declare packages when installing them with pip in editable mode.
+
+* Update the following packages:
+
+  * integrationtests.
+  * robotframework_efd.
+  * love_manager.
+  * love_commander.
+  * love_frontend.
+
 Cycle 30 revision 5
 ===================
 
