@@ -108,6 +108,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     git lfs checkout && \
     eups declare -r . -t current && \
     setup ts_observatory_control -t current && \
+    setup ts_config_ocs -t current && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_standardscripts
