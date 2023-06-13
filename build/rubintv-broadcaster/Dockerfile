@@ -1,6 +1,6 @@
 ARG image_tag
 
-FROM lsstsqre/centos:w_latest
+FROM lsstsqre/centos:${image_tag}
 
 ENV USER ${USER:-saluser}
 ENV WORKDIR /opt/lsst/software/stack
