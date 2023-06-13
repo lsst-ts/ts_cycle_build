@@ -66,7 +66,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     atmcssimulator_path=$(python -c 'from lsst.ts import atmcssimulator; import pathlib; print(pathlib.Path(atmcssimulator.__file__).parents[0])') && \
     eups declare -m none -r ${atmcssimulator_path} ts_atmcssimulator ${ts_atmcssimulator} && \
     criopy_path=$(python -c 'from lsst.ts import cRIOpy; import pathlib; print(pathlib.Path(cRIOpy.__file__).parents[0])') && \
-    eups declare -m none -r ${criopy_path} ts_criopy ${ts_criopy} && \
+    eups declare -m none -r ${criopy_path} ts_cRIOpy ${ts_criopy} && \
     scriptqueue_path=$(python -c 'from lsst.ts import scriptqueue; import pathlib; print(pathlib.Path(scriptqueue.__file__).parents[0])') && \
     eups declare -m none -r ${scriptqueue_path} ts_scriptqueue ${ts_scriptqueue}
 
