@@ -97,7 +97,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_attcs -t current && \
     eups declare -r . ts_cRIOpy -t current && \
     setup ts_cRIOpy -t current && \
-    scons || pytest --color=no --last-failed
+    scons || pytest tests/ --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_observatory_control
 RUN source /home/saluser/.setup_salobj.sh && \
