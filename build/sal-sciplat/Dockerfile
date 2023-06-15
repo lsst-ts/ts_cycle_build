@@ -71,7 +71,7 @@ RUN source ${SALSTACK} && \
     atdometrajectory_path=$(python -c 'from lsst.ts import atdometrajectory; import pathlib; print(pathlib.Path(atdometrajectory.__file__).parents[0])') && \
     eups declare -m none -r ${atdometrajectory_path} ts_atdometrajectory ${ts_atdometrajectory} && \
     criopy_path=$(python -c 'from lsst.ts import cRIOpy; import pathlib; print(pathlib.Path(cRIOpy.__file__).parents[0])') && \
-    eups declare -m none -r ${criopy_path} ts_criopy ${ts_criopy} && \
+    eups declare -m none -r ${criopy_path} ts_cRIOpy ${ts_criopy} && \
     atmcssimulator_path=$(python -c 'from lsst.ts import atmcssimulator; import pathlib; print(pathlib.Path(atmcssimulator.__file__).parents[0])') && \
     eups declare -m none -r ${atmcssimulator_path} ts_atmcssimulator ${ts_atmcssimulator}
 

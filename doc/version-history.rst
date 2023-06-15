@@ -8,6 +8,24 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 30 revision 7
+===================
+
+* Update version of the following packages:
+
+  * DM stack version.
+  * ts_observatory_control.
+  * ts_standardscripts.
+  * ts_externalscripts.
+  * ts_config_ocs.
+  * ts_wep.
+
+* In ScriptQueue build, fix name of ts_cRIOpy package when declaring it via eups.
+
+* In sal-sciplat build fix name of ts-criopy package when declaring with eups.
+
+* Update rubintv-broadcaster build to use the image_tag argument instead of hard-coded weekly.
+
 Cycle 30 revision 6
 ===================
 
