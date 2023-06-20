@@ -8,6 +8,49 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 31
+========
+
+* Add ts-xml conda package to deployment environments.
+* Replace WeatherStation with ESS in PTG image.
+* In rubintv-broadcaster, install conda packages in one step.
+* In develop-env, only run pytest on tests directory for cRIOpy.
+
+Updated Core products
+* ts_xml
+* ts_sal
+* ts_salobj
+* ts_idl
+
+* Update lsstsqre to w22
+
+Updated Packages
+* ts_hexrotcomm
+* ts_simactuators
+* ts_atdome
+* ts_mtrotator
+* ts_mthexapod
+* ts_observatory_control
+* ts_scriptqueue
+* ts_mtmount
+* ts_m1m3support
+* ts_mtaircompressor
+* ts_wep
+* ts_mtdome
+* ts_tcpip
+* ts_utils
+* ts_fiberspectrograph
+* love_commander
+* love_manager
+* ts_pointing_component
+* ts_hvac
+* ts_pointing_common
+* ts_dimm
+* robotframework_efd
+* ts_atdome
+* ts_ess_controller
+* ts_ess_common
+
 Cycle 30 revision 8
 ===================
 
