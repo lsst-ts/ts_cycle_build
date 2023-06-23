@@ -26,7 +26,7 @@ RUN dnf install -y \
     MTPtg-${rpm} \
     MTMount-${rpm} \
     MTRotator-${rpm} \
-    WeatherStation-${rpm} \
+    ESS-${rpm} \
     ATMCS-${rpm} \
     Guider-${rpm}
 
