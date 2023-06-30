@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 31 Revision 1
+===================
+
+* Add python 3.11 to conda config
+* Move conda config to common folder
+
+Updated packages
+* ts_criopy
+* ts_ess_csc
+* ts_observatory_control
+* ts_standardscripts
+* ts_externalscripts
+* love_manager
+* love_frontend
+* love_commander
+
 Cycle 31
 ========
 
