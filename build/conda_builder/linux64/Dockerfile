@@ -36,7 +36,7 @@ COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-nexus-private.repo
 COPY conda_builder/linux64/setup.sh /home/saluser/.setup.sh
 COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
-COPY conda_builder/linux64/conda_build_config.yaml /home/saluser/conda_build_config.yaml
+COPY common/conda_build_config.yaml /home/saluser/conda_build_config.yaml
 
 ARG dds_community_version=6.9.0
 ARG dds_community_build=2.el8

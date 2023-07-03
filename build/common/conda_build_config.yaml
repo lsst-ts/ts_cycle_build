@@ -1,11 +1,15 @@
 python:
   - 3.10
+  - 3.11
 numpy:
   - 1.21
+  - 1.25
 setuptools:
   - 62
+  - 68
 setuptools_scm:
   - 6.4
+  - 7.0
 zip_keys:
   - python
   - numpy
