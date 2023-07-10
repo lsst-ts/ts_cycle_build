@@ -17,7 +17,7 @@ RUN groupadd --gid ${GID} saluser && \
     adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
-RUN dnf install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.8.0-openjdk-devel maven git git-lfs bzip2 wget libusb libglvnd-glx
+RUN dnf install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.8.0-openjdk-devel maven git git-lfs bzip2 wget libusb libglvnd-glx unzip
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY conda_builder/aarch64/setup.sh ${HOME}/.setup.sh
