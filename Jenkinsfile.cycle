@@ -48,7 +48,7 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push scriptqueue image.", name: 'build_scriptqueue'
       booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image? This adds Telescope and Site layer to a lsstsqre/centos image in prepartion for building nublado images.", name: 'build_sciplat'
       booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image? Adds SQuaRe layer to sal-sciplat to produce a nublado-ready image.", name: 'build_sciplat_lab_recommended'
-      booleanParam defaultValue: false, description: "Build/push RubinTV broadcaster.", name: 'rubintv_broadcaster'
+      booleanParam defaultValue: false, description: "Build/push RubinTV Rapid Analysis.", name: 'rapid_analysis'
       booleanParam defaultValue: false, description: "Build/push development image.", name: 'develop_env'
   }
 
@@ -406,30 +406,30 @@ pipeline {
           build job: "SalSciplatLab/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: true)], wait: false
       }
     }
-    stage ('Build RubinTV Broadcaster') {
+    stage ('Build RubinTV Rapid Analysis') {
       when {
-          expression { params.rubintv_broadcaster }
+          expression { params.rapid_analysis }
       }
       steps {
 
         script{
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build rubintv-broadcaster rubintv-broadcaster_c rubintv-broadcaster-usdf rubintv-broadcaster-usdf_c
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build rapid-analysis rapid-analysis_c rapid-analysis-usdf rapid-analysis-usdf_c
             """
           }
         }
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push rubintv-broadcaster rubintv-broadcaster_c
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push rapid-analysis rapid-analysis_c
             """
           }
         }
         script {
           docker.withRegistry("", pub_registryCredential) {
             sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push rubintv-broadcaster-usdf rubintv-broadcaster-usdf_c
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push rapid-analysis-usdf rapid-analysis-usdf_c
             """
           }
         }
