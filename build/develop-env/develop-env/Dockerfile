@@ -34,7 +34,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_simactuators:${ts_simactuators} \
     ts_hexrotcomm:${ts_hexrotcomm} \
     ts_tcpip:${ts_tcpip} \
-    ts_cRIOpy:${ts_criopy}" && \
+    ts_criopy:${ts_criopy}" && \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
     r=$(echo ${g} | cut -d ':' -f 1) \
@@ -89,14 +89,14 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_atmcssimulator -t current && \
     scons || pytest --color=no --last-failed
 
-WORKDIR /home/saluser/repos/ts_cRIOpy
+WORKDIR /home/saluser/repos/ts_criopy
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    eups declare -r . ts_cRIOpy -t current && \
-    setup ts_cRIOpy -t current && \
+    eups declare -r . ts_criopy -t current && \
+    setup ts_criopy -t current && \
     scons || pytest tests/ --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_observatory_control
