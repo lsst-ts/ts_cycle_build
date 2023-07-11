@@ -135,7 +135,7 @@ RUN source ${WORKDIR}/loadLSST.bash && \
 ENV RUN_ARG="-v"
 ENV DEPLOY_BRANCH=${rubintv_production_work_branch}
 
-COPY rubintv-broadcaster/startup.sh /repos/.startup.sh
+COPY rapid-analysis/startup.sh /repos/.startup.sh
 
 USER root
 
