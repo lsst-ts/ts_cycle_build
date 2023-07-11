@@ -287,13 +287,13 @@ x-ptg:
       rpm: 0:${ts_xml}-${ts_sal}.el8.x86_64
       ptg: ${ts_pointing_common}
 
-x-base-rubintv-broadcaster:
-  &base-rubintv-broadcaster
+x-base-rapid-analysis:
+  &base-rapid-analysis
   build:
     context: ../build/
-    dockerfile: ./rubintv-broadcaster/Dockerfile
+    dockerfile: ./rapid-analysis/Dockerfile
     labels:
-      com.description: "RubinTV broadcaster image for cycle/revision ${CYCLE}${rev}."
+      com.description: "RubinTV Rapid Analysis image for cycle/revision ${CYCLE}${rev}."
     args:
       image_tag: ${lsstsqre}
       spectractor_work_branch: ${rubintv_spectractor}
@@ -1217,21 +1217,21 @@ services:
     image: ${hub}/mtrotator:${CYCLE}
     <<: *base-mtrotator
 
-  rubintv-broadcaster:
-    image: ${hub}/rubintv-broadcaster:${CYCLE}${rev}
-    <<: *base-rubintv-broadcaster
+  rapid-analysis:
+    image: ${hub}/rapid-analysis:${CYCLE}${rev}
+    <<: *base-rapid-analysis
 
-  rubintv-broadcaster_c:
-    image: ${hub}/rubintv-broadcaster:${CYCLE}
-    <<: *base-rubintv-broadcaster
+  rapid-analysis_c:
+    image: ${hub}/rapid-analysis:${CYCLE}
+    <<: *base-rapid-analysis
 
-  rubintv-broadcaster-usdf:
-    image: lsstts/rubintv-broadcaster:${CYCLE}${rev}_usdf
+  rapid-analysis-usdf:
+    image: lsstts/rapid-analysis:${CYCLE}${rev}_usdf
     build:
       context: ../build/
-      dockerfile: ./rubintv-broadcaster/Dockerfile
+      dockerfile: ./rapid-analysis/Dockerfile
       labels:
-        com.description: "RubinTV broadcaster image for cycle/revision ${CYCLE}${rev}."
+        com.description: "RubinTV Rapid Analysis image for cycle/revision ${CYCLE}${rev}."
       args:
         image_tag: ${lsstsqre}
         spectractor_work_branch: ${rubintv_spectractor}
@@ -1242,13 +1242,13 @@ services:
         UID: 15517
         GID: 4085
 
-  rubintv-broadcaster-usdf_c:
-    image: lsstts/rubintv-broadcaster:${CYCLE}_usdf
+  rapid-analysis-usdf_c:
+    image: lsstts/rapid-analysis:${CYCLE}_usdf
     build:
       context: ../build/
-      dockerfile: ./rubintv-broadcaster/Dockerfile
+      dockerfile: ./rapid-analysis/Dockerfile
       labels:
-        com.description: "RubinTV broadcaster image for cycle/revision ${CYCLE}${rev}."
+        com.description: "RubinTV Rapid Analysis image for cycle/revision ${CYCLE}${rev}."
       args:
         image_tag: ${lsstsqre}
         spectractor_work_branch: ${rubintv_spectractor}
