@@ -8,21 +8,46 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 31 revision 2
+===================
+
+* In ScriptQueue build, fix name of ts_cRIOpy package when declaring it via eups.
+
+* In develop-env setup.sh, replace reference to ts_cRIOpy to ts_criopy.
+
+* In develop-env Dockerfile, replace reference to ts_cRIOpy to ts_criopy.
+
+* Install unzip in the coda builder Dockerfiles.
+
+* Update `conda-builder-private` build configuration to tag images with CYCLE.rev.
+
+* Update version of the following packages:
+
+  * ts_scheduler.
+  * ts_config_ocs.
+  * LOVE-frontend.
+  * ts_observatory_control.
+  * ts_standardscripts.
+  * ts_criopy.
+  * ts_wep.
+
 Cycle 31 Revision 1
 ===================
 
 * Add python 3.11 to conda config
+
 * Move conda config to common folder
 
-Updated packages
-* ts_criopy
-* ts_ess_csc
-* ts_observatory_control
-* ts_standardscripts
-* ts_externalscripts
-* love_manager
-* love_frontend
-* love_commander
+* Updated packages:
+
+  * ts_criopy.
+  * ts_ess_csc.
+  * ts_observatory_control.
+  * ts_standardscripts.
+  * ts_externalscripts.
+  * love_manager.
+  * love_frontend.
+  * love_commander.
 
 Cycle 31
 ========
