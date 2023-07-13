@@ -17,6 +17,8 @@ Cycle 31 revision 2
 
 * In develop-env Dockerfile, replace reference to ts_cRIOpy to ts_criopy.
 
+* In ``sal-sciplat`` build, fix name of ``ts_cRIOpy`` package.
+
 * Install unzip in the coda builder Dockerfiles.
 
 * Update `conda-builder-private` build configuration to tag images with CYCLE.rev.
