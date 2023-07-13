@@ -30,7 +30,8 @@ RUN dnf install -y gcc-c++ \
   bzip2 \
   wget \
   libusb \
-  libglvnd-glx
+  libglvnd-glx \
+  unzip
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-nexus-private.repo
