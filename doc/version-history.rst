@@ -8,6 +8,20 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 31 revision 3
+===================
+
+* Update version of the following packages:
+
+  * gphoto2.
+  * ts_config_ocs.
+  * ts_externalscripts.
+  * ts_observatory_control.
+  * ts_observing_utilities.
+  * ts_scheduler.
+  * ts_standardscripts.
+  * ts_watcher.
+
 Cycle 31 revision 2
 ===================
 
