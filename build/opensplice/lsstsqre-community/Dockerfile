@@ -18,6 +18,7 @@ ARG  osplice_build
 ARG  osplice_py
 
 RUN  yum install -y --enablerepo=extras \
+    openssl \
     dos2unix \
     iproute \
     iptables \
