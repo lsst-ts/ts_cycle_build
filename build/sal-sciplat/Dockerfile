@@ -24,7 +24,8 @@ RUN source ${LOADSTACK} && \
     librdkafka aiokafka astroquery asynctest \
     ephem kafkacat pre-commit pytest-tornasync \
     setuptools_scm pytest-black \
-    astroplan 'openssl <3.1.1,<4'
+    astroplan \
+    openssl=3.1.1
 
 #### Clear the astropy download cache
 RUN source ${LOADSTACK} && \
