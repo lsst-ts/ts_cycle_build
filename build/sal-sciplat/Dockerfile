@@ -57,6 +57,7 @@ RUN source ${SALSTACK} && \
     ts-atdometrajectory=${ts_atdometrajectory} \
     ts-atmcs-simulator=${ts_atmcssimulator} \
     ts-criopy=${ts_criopy} \
+    'openssl<=3.1.1,<4' \
     ts-utils=${ts_utils} && \
     ddsconfig_path=$(python -c 'from lsst.ts import ddsconfig; import pathlib; print(pathlib.Path(ddsconfig.__file__).parents[0])') && \
     eups declare -m none -r ${ddsconfig_path} ts_ddsconfig ${ts_ddsconfig}  && \
