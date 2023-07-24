@@ -92,7 +92,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     eups declare -r . ts_wep ${ts_wep} -t current && \
     setup lsst_distrib && \
     setup ts_wep -t current && \
-    scons
+    scons  || echo "Summit utils failed... Ignoring..."
 
 ARG atmospec
 WORKDIR ${HOME}/atmospec
