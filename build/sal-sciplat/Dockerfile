@@ -24,8 +24,7 @@ RUN source ${LOADSTACK} && \
     librdkafka aiokafka astroquery asynctest \
     ephem kafkacat pre-commit pytest-tornasync \
     setuptools_scm pytest-black \
-    astroplan \
-    openssl=3.1.1
+    astroplan
 
 #### Clear the astropy download cache
 RUN source ${LOADSTACK} && \
@@ -49,7 +48,6 @@ ARG ts_atmcssimulator
 RUN source ${SALSTACK} && \
     source ${OSPL_HOME}/release.com && \
     mamba install -c lsstts -y \
-    astrometry \
     ts-dds=${osplice_v}=${osplice_py} \
     ts-ddsconfig=${ts_ddsconfig} \
     ts-idl=${ts_idl}=${ts_xml}_${ts_sal} \
