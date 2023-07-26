@@ -62,7 +62,7 @@ WORKDIR ${AOS_REPOS}/ts_wep
 RUN source ${HOME}/.setup_sal_env.sh && \
     setup lsst_distrib && \
     setup ts_wep -t current && \
-    scons
+    scons python
 
 # ofc
 WORKDIR ${AOS_REPOS}/ts_ofc
