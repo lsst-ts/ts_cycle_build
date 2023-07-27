@@ -23,7 +23,8 @@ RUN source /home/saluser/.setup_sal_env.sh && \
     ts-observing=${ts_observing} \
     rubin-sim=${rubin_sim} \
     ts-scheduler=${ts_scheduler}  \
-    ts-fbs-utils=${ts_fbs_utils}
+    ts-fbs-utils=${ts_fbs_utils} \
+    pydantic=1.10.11
 
 ARG lsst_efd_client
 
