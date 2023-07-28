@@ -717,6 +717,7 @@ services:
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_community}
         ts_idl: ${ts_idl}
+        PYTHON_VERSION: ${PYTHON_VERSION}
 
   deploy-conda-community-aarch64:
     image: lsstts/deploy-env-aarch64:${CYCLE}
@@ -749,6 +750,7 @@ services:
         ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
+        PYTHON_VERSION: ${PYTHON_VERSION}
 
   deploy-lsstsqre-community:
     image: lsstts/deploy-sqre:${CYCLE}
