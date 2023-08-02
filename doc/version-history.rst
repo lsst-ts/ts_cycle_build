@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 31 revision 4
+===================
+
+* In main and develop env files update ts_dds.
+
+* Update version of the following packages:
+
+  * ts_dds (update to python 3.11).
+  * ts_standandscripts.
+  * ts_scheduler.
+  * love_commander.
+  * love_frontend.
+  * love_manager.
+  * ts_config_ocs.
+
 Cycle 31 revision 3
 ===================
 
