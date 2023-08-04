@@ -9,7 +9,7 @@ ARG authorize
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-authorize=${authorize}
+    mamba install -c lsstts ts-authorize=${authorize}
 
 RUN git clone https://github.com/lsst-ts/ts_config_ocs.git
 

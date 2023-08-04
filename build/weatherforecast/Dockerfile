@@ -26,7 +26,7 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-weatherforecast=${weatherforecast}
+    mamba install -c lsstts ts-weatherforecast=${weatherforecast}
 
 USER saluser
 

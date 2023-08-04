@@ -49,5 +49,5 @@ rm -rf labjack_ljm_software_${labjack_file_version}_${labjack_arch}
 cd /tmp
 runuser - saluser -c """
 source "${saluser_env_script}" && \
-conda install -c lsstts labjack-ljm=${labjack_ljm}
+mamba install -c lsstts labjack-ljm=${labjack_ljm}
 """

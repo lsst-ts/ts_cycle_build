@@ -14,7 +14,7 @@ WORKDIR ${LSST_DIR}
 USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash \
-    && conda install -y scikit-image
+    && mamba install -y scikit-image
 
 USER saluser
 WORKDIR /home/saluser/

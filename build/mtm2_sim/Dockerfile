@@ -7,7 +7,7 @@ ARG m2=0.1.dev9+geb50cc5
 ARG config=v0.2.0
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-m2=${m2}
+    mamba install -c lsstts ts-m2=${m2}
 
 WORKDIR /home/saluser/
 
