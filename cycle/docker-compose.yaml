@@ -486,7 +486,6 @@ x-ataos:
   &base-ataos
   build:
     context: ../build/ataos
-    dockerfile: ./Dockerfile.conda
     labels:
       com.description: "ATAOS component for cycle {$CYCLE}"
     args:

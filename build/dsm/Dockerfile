@@ -12,7 +12,7 @@ RUN mkdir /home/saluser/telemetry
 WORKDIR /home/saluser
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-dsm=${dsm}
+    mamba install -c lsstts ts-dsm=${dsm}
 
 ENV CSC_INDEX=1
 ENV RUN_ARG=""

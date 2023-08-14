@@ -9,7 +9,7 @@ ARG love_commander
 ARG ts_observatory_control
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts love-commander=${love_commander} ts-observatory-control=${ts_observatory_control} && \
+    mamba install -y -c lsstts love-commander=${love_commander} ts-observatory-control=${ts_observatory_control} && \
     pip install kafkit[aiohttp] aiokafka lsst_efd_client
 
 LABEL love_commander=${love_commander}

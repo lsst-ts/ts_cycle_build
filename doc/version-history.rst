@@ -8,6 +8,30 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 31 revision 5
+===================
+
+* Bulk update builds to use mamba instead of conda to install packages.
+
+* Update dimm build to use mamba instead of conda.
+
+* Update ATAOS build.
+
+  * Remove old unused Dockerfile and replace it with the Dockerfile.conda file.
+  * Update cycle/docker-compose.yaml file to stop using the (now deleted) Dockerfile.conda file.
+  * Update build to use mamba.
+
+* Update version of the following packages:
+
+  * ts_ess_common.
+  * ts_ess_csc.
+  * ts_scheduler.
+  * ts_dimm.
+  * ts_config_ocs.
+  * love_producer.
+  * love_frontend.
+  * love_manager.
+
 Cycle 31 revision 4
 ===================
 

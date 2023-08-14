@@ -20,7 +20,7 @@ ENV RUN_ARG=""
 WORKDIR /home/saluser/
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -c lsstts ts-athexapod=${athexapod}
+    mamba install -c lsstts ts-athexapod=${athexapod}
 
 LABEL ts-athexapod=${athexapod} \
       ts_config_attcs=${config}
