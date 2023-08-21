@@ -72,6 +72,15 @@ x-love-frontend:
     args:
       love_frontend: ${love_frontend}
 
+  x-love-frontend-k8s:
+    &base-love-frontend-k8s
+    build:
+      context: ../build/love/frontend-k8s
+      labels:
+        com.description: "LOVE frontend kubernetes for cycle/revision ${CYCLE}${rev}."
+      args:
+        love_frontend: ${love_frontend}
+
 x-love-manager:
   &base-love-manager
   build:
@@ -1088,6 +1097,14 @@ services:
   love-commander_c:
     image: ${hub}/love-commander:${CYCLE}
     <<: *base-love-commander
+
+  love-frontend-k8s:
+    image: ${hub}/love-frontend-k8s:${CYCLE}${rev}
+    <<: *base-love-frontend-k8s
+
+  love-frontend-k8s_c:
+    image: ${hub}/love-frontend-k8s:${CYCLE}
+    <<: *base-love-frontend-k8s
 
   love-frontend:
     image: ${hub}/love-frontend:${CYCLE}${rev}
