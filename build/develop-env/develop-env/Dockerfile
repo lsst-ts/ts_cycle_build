@@ -17,6 +17,7 @@ ARG ts_externalscripts="develop"
 ARG ts_atmcssimulator="develop"
 ARG ts_atdome="develop"
 ARG ts_atdometrajectory="develop"
+ARG ts_attcpip="develop"
 ARG ts_simactuators="develop"
 ARG ts_hexrotcomm="develop"
 ARG ts_tcpip="develop"
@@ -31,6 +32,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_atmcssimulator:${ts_atmcssimulator} \
     ts_atdome:${ts_atdome} \
     ts_atdometrajectory:${ts_atdometrajectory} \
+    ts_attcpip:${ts_attcpip} \
     ts_simactuators:${ts_simactuators} \
     ts_hexrotcomm:${ts_hexrotcomm} \
     ts_tcpip:${ts_tcpip} \
