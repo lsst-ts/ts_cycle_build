@@ -8,6 +8,16 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 31 revision 6
+===================
+
+* Add ts_attcpip to the develop-env Docker image.
+
+* Update version of the following packages:
+
+  * ts_standardscripts.
+  * ts_externalscripts.
+
 Cycle 31 revision 5
 ===================
 
