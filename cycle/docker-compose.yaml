@@ -972,6 +972,7 @@ services:
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
         ts_atdometrajectory: ${ts_atdometrajectory}
+        ts_attcpip: ${ts_attcpip}
         ts_simactuators: ${ts_simactuators}
         ts_hexrotcomm: ${ts_hexrotcomm}
         ts_tcpip: ${ts_tcpip}
@@ -994,6 +995,7 @@ services:
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
         ts_atdometrajectory: ${ts_atdometrajectory}
+        ts_attcpip: ${ts_attcpip}
         ts_simactuators: ${ts_simactuators}
         ts_hexrotcomm: ${ts_hexrotcomm}
         ts_tcpip: ${ts_tcpip}
