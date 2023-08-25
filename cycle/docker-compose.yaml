@@ -72,6 +72,15 @@ x-love-frontend:
     args:
       love_frontend: ${love_frontend}
 
+  x-love-frontend-k8s:
+    &base-love-frontend-k8s
+    build:
+      context: ../build/love/frontend-k8s
+      labels:
+        com.description: "LOVE frontend kubernetes for cycle/revision ${CYCLE}${rev}."
+      args:
+        love_frontend: ${love_frontend}
+
 x-love-manager:
   &base-love-manager
   build:
@@ -287,13 +296,13 @@ x-ptg:
       rpm: 0:${ts_xml}-${ts_sal}.el8.x86_64
       ptg: ${ts_pointing_common}
 
-x-base-rubintv-broadcaster:
-  &base-rubintv-broadcaster
+x-base-rapid-analysis:
+  &base-rapid-analysis
   build:
     context: ../build/
-    dockerfile: ./rubintv-broadcaster/Dockerfile
+    dockerfile: ./rapid-analysis/Dockerfile
     labels:
-      com.description: "RubinTV broadcaster image for cycle/revision ${CYCLE}${rev}."
+      com.description: "RubinTV Rapid Analysis image for cycle/revision ${CYCLE}${rev}."
     args:
       image_tag: ${lsstsqre}
       spectractor_work_branch: ${rubintv_spectractor}
@@ -716,6 +725,7 @@ services:
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_community}
         ts_idl: ${ts_idl}
+        PYTHON_VERSION: ${PYTHON_VERSION}
 
   deploy-conda-community-aarch64:
     image: lsstts/deploy-env-aarch64:${CYCLE}
@@ -748,6 +758,7 @@ services:
         ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
+        PYTHON_VERSION: ${PYTHON_VERSION}
 
   deploy-lsstsqre-community:
     image: lsstts/deploy-sqre:${CYCLE}
@@ -1087,6 +1098,14 @@ services:
     image: ${hub}/love-commander:${CYCLE}
     <<: *base-love-commander
 
+  love-frontend-k8s:
+    image: ${hub}/love-frontend-k8s:${CYCLE}${rev}
+    <<: *base-love-frontend-k8s
+
+  love-frontend-k8s_c:
+    image: ${hub}/love-frontend-k8s:${CYCLE}
+    <<: *base-love-frontend-k8s
+
   love-frontend:
     image: ${hub}/love-frontend:${CYCLE}${rev}
     <<: *base-love-frontend
@@ -1215,21 +1234,21 @@ services:
     image: ${hub}/mtrotator:${CYCLE}
     <<: *base-mtrotator
 
-  rubintv-broadcaster:
-    image: ${hub}/rubintv-broadcaster:${CYCLE}${rev}
-    <<: *base-rubintv-broadcaster
+  rapid-analysis:
+    image: ${hub}/rapid-analysis:${CYCLE}${rev}
+    <<: *base-rapid-analysis
 
-  rubintv-broadcaster_c:
-    image: ${hub}/rubintv-broadcaster:${CYCLE}
-    <<: *base-rubintv-broadcaster
+  rapid-analysis_c:
+    image: ${hub}/rapid-analysis:${CYCLE}
+    <<: *base-rapid-analysis
 
-  rubintv-broadcaster-usdf:
-    image: lsstts/rubintv-broadcaster:${CYCLE}${rev}_usdf
+  rapid-analysis-usdf:
+    image: lsstts/rapid-analysis:${CYCLE}${rev}_usdf
     build:
       context: ../build/
-      dockerfile: ./rubintv-broadcaster/Dockerfile
+      dockerfile: ./rapid-analysis/Dockerfile
       labels:
-        com.description: "RubinTV broadcaster image for cycle/revision ${CYCLE}${rev}."
+        com.description: "RubinTV Rapid Analysis image for cycle/revision ${CYCLE}${rev}."
       args:
         image_tag: ${lsstsqre}
         spectractor_work_branch: ${rubintv_spectractor}
@@ -1240,13 +1259,13 @@ services:
         UID: 15517
         GID: 4085
 
-  rubintv-broadcaster-usdf_c:
-    image: lsstts/rubintv-broadcaster:${CYCLE}_usdf
+  rapid-analysis-usdf_c:
+    image: lsstts/rapid-analysis:${CYCLE}_usdf
     build:
       context: ../build/
-      dockerfile: ./rubintv-broadcaster/Dockerfile
+      dockerfile: ./rapid-analysis/Dockerfile
       labels:
-        com.description: "RubinTV broadcaster image for cycle/revision ${CYCLE}${rev}."
+        com.description: "RubinTV Rapid Analysis image for cycle/revision ${CYCLE}${rev}."
       args:
         image_tag: ${lsstsqre}
         spectractor_work_branch: ${rubintv_spectractor}
