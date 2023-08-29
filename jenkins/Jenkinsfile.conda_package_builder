@@ -34,8 +34,8 @@ pipeline {
                         sh """
                             source cycle/cycle.env
                             docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build conda-builder-private
-                            docker tag ts-dockerhub.lsst.org/conda_package_builder:\${CYCLE} ts-dockerhub.lsst.org/conda_package_builder
-                            docker push ts-dockerhub.lsst.org/conda_package_builder:\${CYCLE}
+                            docker tag ts-dockerhub.lsst.org/conda_package_builder:\${CYCLE}\${rev} ts-dockerhub.lsst.org/conda_package_builder
+                            docker push ts-dockerhub.lsst.org/conda_package_builder:\${CYCLE}\${rev}
                             docker push ts-dockerhub.lsst.org/conda_package_builder
                         """
                     }

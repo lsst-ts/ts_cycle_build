@@ -2,7 +2,11 @@
 
 source ${HOME}/.setup_sal_env.sh
 
-robot -A Vars.txt $RUN_ARG &
+# Both ENV_EFD and RUN_ARG are defined in the
+# workflows/integration-testing/templates/job-workflow-template.yaml
+# file in the argocd-csc repo.
+ 
+robot -A Vars.txt --variable env_efd:$ENV_EFD $RUN_ARG &
 
 pid="$!"
 

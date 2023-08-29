@@ -58,10 +58,10 @@ USER saluser
 
 WORKDIR ${WORKDIR}
 
-RUN curl -LO https://ls.st/lsstinstall && \
-  bash lsstinstall
-
 ARG stack
+
+RUN curl -LO https://ls.st/lsstinstall && \
+  bash lsstinstall -T ${stack}
 
 RUN source ./loadLSST.bash && \
   eups distrib install -t ${stack} lsst_distrib

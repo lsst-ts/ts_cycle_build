@@ -8,6 +8,61 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 32
+========
+
+* Add love-frontend kubernetes dockerfile.
+* Skip integration tests for MTAOS.
+* Rename rubintv-broadcaster to rapid analysis.
+* Pass in python version using env files for develop, main and cycle.
+* Updated builds to use python 3.11.
+* Remove WeatherStation from Jenkinsfile.
+* Add stack version to lsstsqre deploy env.
+
+Update versions of the following components:
+
+* ts_xml
+* ts_sal
+* ts_salobj
+* ts_idl
+* ts_develop
+* ts_hexrotcomm
+* ts_atmcssimulator
+* ts_atpneumaticssimulator
+* ts_athexapod
+* ts_atwhitelightsource
+* ts_mtrotator
+* ts_mthexapod
+* ts_salkafka
+* ts_observatory_control
+* ts_scriptqueue
+* ts_m2
+* ts_m1m3support
+* ts_criopy
+* ts_mtaircompressor
+* ts_lasertracker
+* ts_mtaos
+* phosim_utils
+* ts_wep
+* ts_ofc
+* ts_phosim
+* ts_mtdome
+* ts_mtdometrajectory
+* ts_dsm
+* ts_ess_common
+* ts_ess_controller
+* ts_ess_csc
+* ts_pmd
+* ts_integrationtests
+* ts_hvac
+* ts_electrometer
+* ts_fiberspectrograph
+* ts_gis
+* robotframework_efd
+* ts_config_mttcs
+* vimba_conda_build
+* ts_dateloc
+
 Cycle 31 revision 6
 ===================
 
