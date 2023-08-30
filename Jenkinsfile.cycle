@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-conda_packages = ["ataos", "atdome", "atdometrajectory", "athexapod", "atmcs_sim", "atmonochromator", "atpneumatics_sim", "atspectrograph", "atwhitelight", "audio_broadcaster", "authorize", "cbp", "dimm", "dmocps", "dsm", "electrometer", "epm", "ess", "fiberspectrograph", "genericcamera", "gis", "headerservice", "hvac", "integrationtests", "lasertracker", "linearstage", "love-commander", "love-csc", "love-frontend", "love-frontend-k8s", "love-manager", "love-manager-static", "love-producer", "love-view-backup", "mtaircompressor", "mthexapod", "mtdome", "mtdometrajectory", "mtm2", "mtmount", "mtrotator", "nightreport", "ospl-daemon", "pmd", "rubintv", "salkafka", "scheduler", "schedview", "test", "tunablelaser", "watcher", "weatherforecast"]
+conda_packages = ["love-manager","atmcs_sim","atmonochromator","test","dimm","fiberspectrograph","lasertracker","mthexapod","genericcamera","scheduler","mtaircompressor","atpneumatics_sim","love-producer","atspectrograph","mtmount","nightreport","atdometrajectory","schedview","dsm","rubintv","pmd","watcher","headerservice","integrationtests","weatherforecast","electrometer","athexapod","hvac","love-commander","linearstage","cbp","love-manager-static","audio_broadcaster","mtdome","love-view-backup","ataos","love-frontend","gis","tunablelaser","dmocps","ess","atwhitelight","epm","love-csc","authorize","mtm2","mtrotator","mtdometrajectory","love-frontend-k8s","atdome"] 
 pipeline {
 
   options {
@@ -440,7 +440,6 @@ pipeline {
 
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} opensplice-lsstsqre-community
             docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} sal-sciplat-community
             """
           }
@@ -464,7 +463,6 @@ pipeline {
 
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} opensplice-lsstsqre-licensed
             docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} sal-sciplat-licensed
             """
           }
