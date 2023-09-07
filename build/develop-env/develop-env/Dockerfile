@@ -48,35 +48,27 @@ RUN source /home/saluser/.setup_salobj.sh && \
     cd .. ; \
     done
 
-WORKDIR /home/saluser/
-RUN source /home/saluser/.setup_salobj.sh && \
-    setup lsst_distrib && \
-    setup ts_sal -t current && \
-    setup ts_idl -t current && \
-    setup ts_xml -t current && \
-    make_idl_files.py --all
-
 WORKDIR /home/saluser/repos/ts_simactuators
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
-    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
-    eups declare -r . ts_simactuators -t current && setup ts_simactuators -t current && \
+    eups declare -r . ts_simactuators -t current && \
+    setup ts_simactuators -t current && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_atdome
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
-    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
+    setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    setup ts_xml -t current && \
-    eups declare -r . ts_atdome -t current && setup ts_atdome -t current && \
+    eups declare -r . ts_atdome -t current && \
+    setup ts_atdome -t current && \
     scons || pytest --color=no --last-failed
 
 WORKDIR /home/saluser/repos/ts_atdometrajectory
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
-    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
+    setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
     setup ts_xml -t current && \
@@ -87,7 +79,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
 WORKDIR /home/saluser/repos/ts_atmcssimulator
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
-    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
+    setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
     setup ts_xml -t current && \
@@ -98,7 +90,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
 WORKDIR /home/saluser/repos/ts_criopy
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
-    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
+    setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
     setup ts_xml -t current && \
@@ -109,12 +101,12 @@ RUN source /home/saluser/.setup_salobj.sh && \
 WORKDIR /home/saluser/repos/ts_observatory_control
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
-    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     git lfs install && \
     git lfs fetch --all && \
     git lfs checkout && \
     setup ts_xml -t current && \
     eups declare -r . -t current && \
+    setup ts_xml -t current && \
     setup ts_observatory_control -t current && \
     setup ts_config_ocs -t current && \
     scons || pytest --color=no --last-failed
@@ -122,8 +114,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
 WORKDIR /home/saluser/repos/ts_standardscripts
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
-    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
-    setup ts_sal -t current && \
+    setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
@@ -131,13 +122,12 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_standardscripts -t current && \
-    scons || pytest --color=no --last-failed
+    pytest -vx
 
 WORKDIR /home/saluser/repos/ts_externalscripts
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
-    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
-    setup ts_sal -t current && \
+    setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_standardscripts -t current && \
     setup ts_config_attcs -t current && \
@@ -145,13 +135,12 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_externalscripts -t current && \
-    scons || echo Building external script failed. IGNORING...
+    pytest -vx || echo Building external script failed. IGNORING...
 
 WORKDIR /home/saluser/repos/ts_scriptqueue
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
-    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
-    setup ts_sal -t current && \
+    setup ts_xml -t current && \
     setup ts_idl -t current && \
     setup ts_salobj -t current && \
     setup ts_xml -t current && \
