@@ -1,10 +1,12 @@
 ARG image_tag
 
-FROM opensplice-lsstsqre:${image_tag}
+FROM lsstsqre/centos:${image_tag}
 
 USER root
 
 WORKDIR /usr/share/zoneinfo
+
+USER root
 
 RUN curl https://www.ietf.org/timezones/data/leap-seconds.list -o leap-seconds.list
 
@@ -28,10 +30,15 @@ USER lsst
 RUN source ${LOADSTACK} && \
     conda config --set solver libmamba && \
     conda install -c conda-forge -y \
-    librdkafka aiokafka astroquery asynctest \
-    ephem kafkacat pre-commit pytest-tornasync \
-    setuptools_scm pytest-black \
-    astrometry \
+    librdkafka \
+    aiokafka \
+    astroquery \
+    asynctest \
+    ephem \
+    kafkacat \
+    pre-commit \
+    pytest-tornasync \
+    setuptools_scm \
     astroplan
 
 #### Clear the astropy download cache
@@ -53,20 +60,26 @@ ARG ts_atdome
 ARG ts_atdometrajectory
 ARG ts_atmcssimulator
 
-RUN source ${SALSTACK} && \
-    source ${OSPL_HOME}/release.com && \
+RUN source ${LOADSTACK} && \
     conda install -c lsstts -y \
-    ts-dds=${osplice_v}=${osplice_py} \
-    ts-ddsconfig=${ts_ddsconfig} \
-    ts-idl=${ts_idl}=${ts_xml}_${ts_sal} \
-    ts-salobj=${ts_salobj} \
+    ts-xml=${ts_xml} \
+    ts-utils=${ts_utils} \
+    ts-idl=${ts_idl}
+
+RUN source ${LOADSTACK} && \
+    conda install -c lsstts -c lsstts/label/rc -y \
+    ts-salobj=${ts_salobj}
+
+RUN source ${LOADSTACK} && \
+    conda install -c lsstts -y \
     ts-atdome=${ts_atdome} \
     ts-atdometrajectory=${ts_atdometrajectory} \
     ts-atmcs-simulator=${ts_atmcssimulator} \
-    ts-criopy=${ts_criopy} \
-    ts-utils=${ts_utils} && \
-    ddsconfig_path=$(python -c 'from lsst.ts import ddsconfig; import pathlib; print(pathlib.Path(ddsconfig.__file__).parents[0])') && \
-    eups declare -m none -r ${ddsconfig_path} ts_ddsconfig ${ts_ddsconfig}  && \
+    ts-criopy=${ts_criopy}
+
+RUN source ${LOADSTACK} && \
+    xml_path=$(python -c 'from lsst.ts import xml; import pathlib; print(pathlib.Path(xml.__file__).parents[0])') && \
+    eups declare -m none -r ${xml_path} ts_xml ${ts_xml}  && \
     utils_path=$(python -c 'from lsst.ts import utils; import pathlib; print(pathlib.Path(utils.__file__).parents[0])') && \
     eups declare -m none -r ${utils_path} ts_utils ${ts_utils}  && \
     salobj_path=$(python -c 'from lsst.ts import salobj; import pathlib; print(pathlib.Path(salobj.__file__).parents[0])') && \
@@ -115,6 +128,7 @@ RUN source ${LOADSTACK} && \
     retag=${t//a/"-alpha."} ; \
     retag=${retag//b/"-beta."} ; \
     retag=${retag//rc/"-rc."} ; \
+    retag=$(echo "$retag" | sed 's/\.$//') ; \
     git clone --branch v${retag} --depth 1 --single-branch ${rb}/${r}.git ; \
     cd ${r} ; \
     git checkout -b ${t} ; \
