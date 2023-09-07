@@ -78,29 +78,12 @@ RUN source /home/saluser/.setup_salobj.sh && \
     cd .. ; \
     done
 
-WORKDIR /home/saluser/repos/ts_sal
-RUN source /home/saluser/.setup_salobj.sh && \
-    setup ts_idl -t current && \
-    setup ts_sal -t current && \
-    mkdir -p $SAL_WORK_DIR && \
-    mkdir -p $TS_SAL_DIR/lib && pytest --color=no
-
-WORKDIR /home/saluser/
-RUN source /home/saluser/.setup_salobj.sh && \
-    setup ts_sal -t current && \
-    setup ts_idl -t current && \
-    make_idl_files.py Test Script LOVE
-
-ARG ts_dds
-
 WORKDIR /home/saluser/repos/ts_salobj
 RUN source /home/saluser/.setup_salobj.sh && \
-    conda install -c lsstts -y ts-dds=${ts_dds} && \
     setup ts_config_ocs -t current && \
     setup ts_xml -t current && \
     setup ts_sal -t current && \
     setup ts_idl -t current && \
-    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     pytest --color=no
 
 WORKDIR /home/saluser/
