@@ -965,6 +965,7 @@ services:
     build:
       context: ../build/
       dockerfile: ./develop-env/lsstsqre/Dockerfile
+      network: kafka
       labels:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
@@ -1062,6 +1063,7 @@ services:
     image: ts-dockerhub.lsst.org/salobj:${CYCLE}${rev}
     build:
       context: ../build/develop-env/salobj/
+      network: kafka
       labels:
         com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
       args:
@@ -1107,6 +1109,7 @@ services:
     image: ts-dockerhub.lsst.org/develop-env:${CYCLE}${rev}
     build:
       context: ../build/develop-env/develop-env/
+      network: kafka
       labels:
         com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args:
