@@ -10,20 +10,35 @@ USER root
 RUN dnf install -y dnf-plugins-core epel-release && \
     dnf config-manager --set-enabled powertools && \
     dnf -y --enablerepo=extras install make \
-    gcc-toolset-10 \
+    gcc-toolset-11 \
     git \
     catch-devel \
+    boost1.78 \
+    boost1.78-devel \
     readline-devel \
+    snappy-devel \
     spdlog-devel \
+    jansson \
     yaml-cpp-devel && \
     dnf clean all
 
+RUN ln -s /usr/lib64/libboost_filesystem.so.1.78.0 /usr/lib64/libboost_filesystem.so && \
+    ln -s /usr/lib64/libboost_iostreams.so.1.78.0 /usr/lib64/libboost_iostreams.so && \
+    ln -s /usr/lib64/libboost_program_options.so.1.78.0 /usr/lib64/libboost_program_options.so && \
+    ln -s /usr/lib64/libboost_system.so.1.78.0 /usr/lib64/libboost_system.so && \
+    ln -s /usr/lib64/libcurl.so.4 /usr/lib64/libcurl.so && \
+    ln -s /usr/lib64/libjansson.so.4 /usr/lib64/libjansson.so
+
 ARG rpm
 
-RUN dnf install -y MTMount-${rpm} MTM1M3-${rpm}
+RUN dnf install -y \
+    --enablerepo=lsst-ts-test \
+    MTM1M3-20.2.0-8.0.0.el8 \
+    MTMount-20.2.0-8.0.0.el8
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
 ENV SAL_WORK_DIR=/opt/lsst/ts_sal
+ENV LSST_SAL_PREFIX=/opt/lsst/ts_sal
 
 USER saluser
 WORKDIR /home/saluser/
@@ -41,22 +56,30 @@ WORKDIR /home/saluser/ts_config_mttcs
 RUN /home/saluser/.checkout_repo.sh ${config}
 
 WORKDIR /home/saluser/ts_cRIOcpp/
+
 RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-10 && \
+    source scl_source enable gcc-toolset-11 && \
+    sed -i 's/boost169/boost1.78/' Makefile.inc && \
     make
 
+ENV WITH_SAL_KAFKA=1
+
 WORKDIR /home/saluser/ts_m1m3support/
-RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
+
+RUN git checkout tickets/DM-41747 && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-10 && \
-    make simulator
+    source scl_source enable gcc-toolset-11 && \
+    make simulator 
 
 WORKDIR /home/saluser/
 
 COPY mtm1m3_sim/startup.sh /home/saluser/.startup.sh
+COPY mtm1m3_sim/sal_setup.sh /home/saluser/.sal_setup.sh
 USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
+    chown saluser:saluser /home/saluser/.create_topics_mtm1m3.py && \
+    chmod a+x /home/saluser/.create_topics_mtm1m3.py && \
     chmod a+x /home/saluser/.startup.sh
 USER saluser
 
