@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 32 revision 2
+===================
+
+* Fix label typos for salobj and dev pipelines
+
+* Update version of the following packages:
+
+  * DM stack version.
+  * ts_config_ocs.
+  * ts_scheduler.
+  * summit_utils.
+  * summit_extras.
+  * Spectractor.
+  * atmospec
+
 Cycle 32 revision 1
 ===================
 
