@@ -53,6 +53,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
     setup ts_sal -t current && \
     setup ts_idl -t current && \
+    setup ts_xml -t current && \
     make_idl_files.py --all
 
 WORKDIR /home/saluser/repos/ts_simactuators
