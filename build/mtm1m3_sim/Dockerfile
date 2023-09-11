@@ -13,6 +13,8 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     gcc-toolset-10 \
     git \
     catch-devel \
+    boost1.78 \
+    boost1.78-devel \
     readline-devel \
     spdlog-devel \
     yaml-cpp-devel && \
@@ -20,7 +22,10 @@ RUN dnf install -y dnf-plugins-core epel-release && \
 
 ARG rpm
 
-RUN dnf install -y MTMount-${rpm} MTM1M3-${rpm}
+RUN dnf install -y \
+    --enablerepo=lsst-ts-test \
+    MTM1M3-20.0.0-8.0.0.el8 \
+    MTMount-20.0.0-8.0.0.el8
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
 ENV SAL_WORK_DIR=/opt/lsst/ts_sal
@@ -38,13 +43,17 @@ WORKDIR /home/saluser/ts_cRIOcpp/
 RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
     source /home/saluser/.setup_sal_env.sh && \
     source scl_source enable gcc-toolset-10 && \
+    sed -i 's/boost169/boost1.78/' Makefile.inc && \
     make
 
-WORKDIR /home/saluser/ts_m1m3support/
-RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
-    source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-10 && \
-    make simulator
+# WORKDIR /home/saluser/ts_m1m3support/
+
+# RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
+#     source /home/saluser/.setup_sal_env.sh && \
+#     source scl_source enable gcc-toolset-10 && \
+#     source /opt/lsst/ts_sal/setup.env && \
+#     export OSPL_HOME=${SAL_WORK_DIR} && \
+#     make simulator
 
 WORKDIR /home/saluser/
 
