@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 32 revision 1
+===================
+
+* Disable concurrent builds & add node 2 to label for salobj and develop env jenkinsfiles
+
+* Setup ts_xml so packages that require it can find it.
+
+* Update version of the following packages:
+
+  * ts_watcher.
+  * love_manager.
+  * love_frontend.
+  * ts_dimm.
+  * ts_tcpip.
+
 Cycle 32
 ========
 
@@ -19,49 +34,49 @@ Cycle 32
 * Remove WeatherStation from Jenkinsfile.
 * Add stack version to lsstsqre deploy env.
 
-Update versions of the following components:
+* Update versions of the following components:
 
-* ts_xml
-* ts_sal
-* ts_salobj
-* ts_idl
-* ts_develop
-* ts_hexrotcomm
-* ts_atmcssimulator
-* ts_atpneumaticssimulator
-* ts_athexapod
-* ts_atwhitelightsource
-* ts_mtrotator
-* ts_mthexapod
-* ts_salkafka
-* ts_observatory_control
-* ts_scriptqueue
-* ts_m2
-* ts_m1m3support
-* ts_criopy
-* ts_mtaircompressor
-* ts_lasertracker
-* ts_mtaos
-* phosim_utils
-* ts_wep
-* ts_ofc
-* ts_phosim
-* ts_mtdome
-* ts_mtdometrajectory
-* ts_dsm
-* ts_ess_common
-* ts_ess_controller
-* ts_ess_csc
-* ts_pmd
-* ts_integrationtests
-* ts_hvac
-* ts_electrometer
-* ts_fiberspectrograph
-* ts_gis
-* robotframework_efd
-* ts_config_mttcs
-* vimba_conda_build
-* ts_dateloc
+  * ts_xml
+  * ts_sal
+  * ts_salobj
+  * ts_idl
+  * ts_develop
+  * ts_hexrotcomm
+  * ts_atmcssimulator
+  * ts_atpneumaticssimulator
+  * ts_athexapod
+  * ts_atwhitelightsource
+  * ts_mtrotator
+  * ts_mthexapod
+  * ts_salkafka
+  * ts_observatory_control
+  * ts_scriptqueue
+  * ts_m2
+  * ts_m1m3support
+  * ts_criopy
+  * ts_mtaircompressor
+  * ts_lasertracker
+  * ts_mtaos
+  * phosim_utils
+  * ts_wep
+  * ts_ofc
+  * ts_phosim
+  * ts_mtdome
+  * ts_mtdometrajectory
+  * ts_dsm
+  * ts_ess_common
+  * ts_ess_controller
+  * ts_ess_csc
+  * ts_pmd
+  * ts_integrationtests
+  * ts_hvac
+  * ts_electrometer
+  * ts_fiberspectrograph
+  * ts_gis
+  * robotframework_efd
+  * ts_config_mttcs
+  * vimba_conda_build
+  * ts_dateloc
 
 Cycle 31 revision 6
 ===================
