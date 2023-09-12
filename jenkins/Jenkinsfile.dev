@@ -1,8 +1,8 @@
-properties {
-  [
-    disableConcurrentBuilds()
-  ]
-}
+properties (
+    [
+        disableConcurrentBuilds()
+    ]
+)
 pipeline {
     agent {
       docker {

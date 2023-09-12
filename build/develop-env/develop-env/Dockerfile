@@ -69,6 +69,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
+    setup ts_xml -t current && \
     eups declare -r . ts_atdome -t current && setup ts_atdome -t current && \
     scons || pytest --color=no --last-failed
 
@@ -78,6 +79,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
+    setup ts_xml -t current && \
     eups declare -r . ts_atdometrajectory -t current && \
     setup ts_atdometrajectory -t current && \
     scons || pytest --color=no --last-failed
@@ -88,6 +90,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
+    setup ts_xml -t current && \
     eups declare -r . ts_atmcssimulator -t current && \
     setup ts_atmcssimulator -t current && \
     scons || pytest --color=no --last-failed
@@ -98,6 +101,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
+    setup ts_xml -t current && \
     eups declare -r . ts_criopy -t current && \
     setup ts_criopy -t current && \
     scons || pytest tests/ --color=no --last-failed
@@ -109,6 +113,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     git lfs install && \
     git lfs fetch --all && \
     git lfs checkout && \
+    setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_observatory_control -t current && \
     setup ts_config_ocs -t current && \
@@ -123,6 +128,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
     setup ts_atmcssimulator -t current && \
+    setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_standardscripts -t current && \
     scons || pytest --color=no --last-failed
@@ -136,6 +142,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_standardscripts -t current && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
+    setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_externalscripts -t current && \
     scons || echo Building external script failed. IGNORING...
@@ -147,6 +154,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_sal -t current && \
     setup ts_idl -t current && \
     setup ts_salobj -t current && \
+    setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_scriptqueue -t current && \
     pytest --color=no || pytest --last-failed
