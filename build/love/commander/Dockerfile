@@ -12,7 +12,7 @@ ARG ts_observatory_control
 ARG ts_criopy=0.7.0
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts love-commander=${love_commander} ts-observatory-control=${ts_observatory_control} ts-criopy=${ts_criopy} && \
+    conda install -y -c lsstts -c lsstts/label/rc love-commander=${love_commander} ts-observatory-control=${ts_observatory_control} && \
     pip install kafkit[aiohttp] aiokafka lsst_efd_client
 
 LABEL love_commander=${love_commander}
