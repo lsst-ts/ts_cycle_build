@@ -23,7 +23,7 @@ ARG ts_observatory_control
 ARG ts_ataos
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts \
+    conda install -c lsstts -c lsstts/label/rc \
     ts-ataos=${ts_ataos} \
     ts-observatory-control=${ts_observatory_control}
 
