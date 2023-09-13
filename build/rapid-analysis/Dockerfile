@@ -35,7 +35,8 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     mamba install -y -c conda-forge \
     rubin-env-rsp \
     astrometry \
-    redis-py
+    redis-py \
+    rubin-libradtran
 
 USER saluser
 
