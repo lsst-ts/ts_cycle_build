@@ -1,3 +1,14 @@
+x-audio_broadcaster:
+  &base-audio_broadcaster
+  build:
+    context: ../build/audio_broadcaster
+    labels:
+      com.description: "Audio broadcaster deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      ts_audio_broadcaster: ${ts_audio_broadcaster}
+
 x-lsst_sims:
   &base-lsst_sims
   build:
@@ -1153,6 +1164,14 @@ services:
   love-view-backup_c:
     image: ${hub}/love-view-backup:${CYCLE}
     <<: *base-love-view-backup
+
+  audio_broadcaster:
+    image: ${hub}/audio_broadcaster:${CYCLE}${rev}
+    <<: *base-audio_broadcaster
+
+  audio_broadcaster_c:
+    image: ${hub}/audio_broadcaster:${CYCLE}
+    <<: *base-audio_broadcaster
 
   mtaos:
     image: ${hub}/mtaos:${CYCLE}${rev}
