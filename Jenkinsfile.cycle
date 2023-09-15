@@ -45,6 +45,7 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push M1M3 simulator image.", name: 'build_m1m3_sim'
       booleanParam defaultValue: false, description: "Build/push pointing component deployment image.", name: 'build_ptg'
       booleanParam defaultValue: false, description: "Build/push MTAOS image.", name: 'build_mtaos'
+      booleanParam defaultValue: false, description: "Build/push OODS image.", name: 'build_oods'
       booleanParam defaultValue: false, description: "Build/push scriptqueue image.", name: 'build_scriptqueue'
       booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image? This adds Telescope and Site layer to a lsstsqre/centos image in prepartion for building nublado images.", name: 'build_sciplat'
       booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image? Adds SQuaRe layer to sal-sciplat to produce a nublado-ready image.", name: 'build_sciplat_lab_recommended'
@@ -325,6 +326,31 @@ pipeline {
             sh """
               docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push mtaos mtaos_c
             """
+          }
+        }
+      }
+    }
+    stage ('Build oods') {
+      when {
+        expression { params.build_oods }
+      }
+      steps {
+        script {
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+            docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+              sh"""
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build oods oods_c atoods atoods_c ccoods ccoods_c mtoods mtoods_c
+              """
+            }
+          }
+        }
+        script {
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+            docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+              sh"""
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push oods oods_c atoods atoods_c ccoods ccoods_c mtoods mtoods_c
+              """
+            }
           }
         }
       }

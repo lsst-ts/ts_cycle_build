@@ -1,3 +1,44 @@
+x-oods:
+  &base-oods
+  build:
+    context: ../build/oods
+    labels:
+      com.description: "OODS deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      oods: ${oods}
+
+x-atoods:
+  &base-atoods
+  build:
+    context: ../build/atoods
+    labels:
+      com.description: "ATOODS deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+
+x-ccoods:
+  &base-ccoods
+  build:
+    context: ../build/ccoods
+    labels:
+      com.description: "CCOODS deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+
+x-mtoods:
+  &base-mtoods
+  build:
+    context: ../build/mtoods
+    labels:
+      com.description: "MTOODS deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+
 x-audio_broadcaster:
   &base-audio_broadcaster
   build:
@@ -1538,3 +1579,35 @@ services:
   gis_c:
     image: ${hub}/gis:${CYCLE}
     <<: *base-gis
+
+  oods:
+    image: ${hub}/oods:${CYCLE}${rev}
+    <<: *base-oods
+
+  oods_c:
+    image: ${hub}/oods:${CYCLE}
+    <<: *base-oods
+
+  atoods:
+    image: ${hub}/atoods:${CYCLE}${rev}
+    <<: *base-atoods
+
+  atoods_c:
+    image: ${hub}/atoods:${CYCLE}
+    <<: *base-atoods
+
+  ccoods:
+    image: ${hub}/ccoods:${CYCLE}${rev}
+    <<: *base-ccoods
+
+  ccoods_c:
+    image: ${hub}/ccoods:${CYCLE}
+    <<: *base-ccoods
+
+  mtoods:
+    image: ${hub}/mtoods:${CYCLE}${rev}
+    <<: *base-mtoods
+
+  mtoods_c:
+    image: ${hub}/mtoods:${CYCLE}
+    <<: *base-mtoods
