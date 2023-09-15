@@ -14,21 +14,28 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     make \
     cmake \
     wget \
+    boost1.78 \
+    boost1.78-devel \
     boost-python3 \
     boost-python3-devel \
+    librdkafka-devel \
+    jansson \
     curl-devel && \
     dnf clean all
 
 ARG rpm
 
 RUN dnf install -y \
-    ATPtg-${rpm} \
-    MTPtg-${rpm} \
-    MTMount-${rpm} \
-    MTRotator-${rpm} \
-    ESS-${rpm} \
-    ATMCS-${rpm} \
-    Guider-${rpm}
+    --enablerepo=lsst-ts-test \
+    ATPtg-20.2.0-8.0.0.el8.x86_64 \
+    MTPtg-20.2.0-8.0.0.el8.x86_64 \
+    MTMount-20.2.0-8.0.0.el8.x86_64 \
+    MTRotator-20.2.0-8.0.0.el8.x86_64 \
+    ESS-20.2.0-8.0.0.el8.x86_64 \
+    ATMCS-20.2.0-8.0.0.el8.x86_64 \
+    Guider-20.2.0-8.0.0.el8.x86_64
+
+
 
 RUN mkdir /home/saluser/.ssh/ && chown saluser:saluser /home/saluser/.ssh/ && chmod 700 /home/saluser/.ssh/
 COPY ptg/id_rsa /home/saluser/.ssh/
@@ -111,6 +118,7 @@ COPY ptg/at.mod /home/saluser/repos/ts_pointing_common/install/data/at.mod
 COPY ptg/mt_20221128.mod /home/saluser/repos/ts_pointing_common/install/data/mt_20221128.mod
 COPY ptg/mt_ia_ie_tf_tx10_ca_an_aw_20230220.mod /home/saluser/repos/ts_pointing_common/install/data/mt_ia_ie_tf_tx10_ca_an_aw_20230220.mod
 COPY ptg/mt.mod /home/saluser/repos/ts_pointing_common/install/data/mt.mod
+COPY ptg/sal_setup.sh /opt/lsst/ts_sal/sal_setup.env
 
 USER root
 RUN chown -R saluser:saluser /home/saluser/repos/ts_pointing_common/install/data/ && \

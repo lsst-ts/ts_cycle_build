@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 source ${HOME}/.setup_sal_env.sh
+source ${LSST_SDK_INSTALL}sal_setup.env
 
 if [ "$TELESCOPE" == "MT" ]
 then
