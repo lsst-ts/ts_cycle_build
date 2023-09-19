@@ -33,6 +33,11 @@ pipeline {
     CAMSPEC_GENCAM_C = "genericcamera-canon_c genericcamera-vimba_c"
   }
   parameters {
+      booleanParam(
+        defaultValue: false,
+        description: "Set the CACHE_OPTION variable to '--no-cache'",
+        name: 'set_cache_option'
+      )
       booleanParam defaultValue: false, description: "Build/push Conda Package Builder arm64 and aarch64 images.", name: 'build_conda_package_builder_arm'
       booleanParam defaultValue: false, description: "Build/push Conda Package Builder x86 images.", name: 'build_conda_package_builder_x86'
       booleanParam defaultValue: false, description: "Build/push base deployment image (only run this if you are building revision 0).", name: 'deploy_conda'
@@ -54,6 +59,7 @@ pipeline {
   }
 
   stages {
+
     stage ('Build Conda Package Builder ARM images') {
       when {
           expression { params.build_conda_package_builder_arm }
@@ -75,11 +81,14 @@ pipeline {
 
         withEnv(["HOME=${env.WORKSPACE}"]) {
           sh """
-          docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build conda-builder-private
+          docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} conda-builder-private
           """
         }
 
         script {
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push conda-builder-private
@@ -113,10 +122,17 @@ pipeline {
       // When using the docker container, we need to change
       // the HOME path to WORKSPACE to have the authority
       // to install the packages.
-        withEnv(["HOME=${env.WORKSPACE}"]) {
-          sh """
-          docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build deploy-conda-private
-          """
+        script{
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+
+
+            sh """
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} deploy-conda-private
+            """
+          }
         }
 
         script {
@@ -137,12 +153,17 @@ pipeline {
         withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
           sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
         }
-        withEnv(["HOME=${env.WORKSPACE}"]) {
-          sh """
-          docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build deploy-lsstsqre-private deploy-lsstsqre-private_c
-          """
-        }
+        script{
+          
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
 
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+
+            sh """
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} deploy-lsstsqre-private deploy-lsstsqre-private_c
+            """
+          }
+        }
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
@@ -178,10 +199,12 @@ pipeline {
         }
 
         script{
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \${CONDA_PACKAGES} \${CONDA_PACKAGES_C}
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${CONDA_PACKAGES} \${CONDA_PACKAGES_C}
               """
               }
           }
@@ -204,10 +227,12 @@ pipeline {
       }
       steps {
         script{
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${params.component} ${params.component}_c
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} ${params.component} ${params.component}_c
               """
               }
           }
@@ -234,14 +259,17 @@ pipeline {
           expression { params.build_camspec_gencam }
       }
       steps {
+
         withCredentials([file(credentialsId: 'nexus-netrc', variable: 'nexus_netrc')]) {
             sh "cp \$nexus_netrc ${env.WORKSPACE}/build/common/"
         }
         script{
+        def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \${CAMSPEC_GENCAM} \${CAMSPEC_GENCAM_C}
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${CAMSPEC_GENCAM} \${CAMSPEC_GENCAM_C}
               """
               }
           }
@@ -262,6 +290,9 @@ pipeline {
       steps {
 
         script{
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
@@ -286,13 +317,17 @@ pipeline {
       steps {
 
         script{
+
+          // Create a variable based on user input
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           withCredentials([sshUserPrivateKey(credentialsId: 'RubinObsWorkerSSHKey', keyFileVariable: 'github_cred')]) {
             sh "cp \$github_cred ${env.WORKSPACE}/build/ptg/id_rsa"
           }
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ptg ptg_c
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} ptg ptg_c
               """
               }
           }
@@ -313,10 +348,13 @@ pipeline {
       steps {
 
         script{
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build mtaos mtaos_c
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} mtaos mtaos_c
               """
               }
           }
@@ -362,10 +400,13 @@ pipeline {
       steps {
 
         script{
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build scriptqueue scriptqueue_c
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} scriptqueue scriptqueue_c
               """
               }
           }
@@ -386,10 +427,13 @@ pipeline {
       steps {
 
         script{
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build opensplice-lsstsqre-community
-            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-community
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} opensplice-lsstsqre-community
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} sal-sciplat-community
             """
           }
         }
@@ -407,10 +451,13 @@ pipeline {
         }
 
         script{
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build opensplice-lsstsqre-licensed
-            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-licensed
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} opensplice-lsstsqre-licensed
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} sal-sciplat-licensed
             """
           }
         }
@@ -439,9 +486,12 @@ pipeline {
       steps {
 
         script{
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build rapid-analysis rapid-analysis_c rapid-analysis-usdf rapid-analysis-usdf_c
+            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} rapid-analysis rapid-analysis_c rapid-analysis-usdf rapid-analysis-usdf_c
             """
           }
         }
@@ -470,15 +520,18 @@ pipeline {
           sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
         }
         script {
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre-private
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre-private
               docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-private
 
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull salobj-private
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull salobj-private
               docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj-private
 
-              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull develop-env-private
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env-private
               docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env-private
             """
           }
