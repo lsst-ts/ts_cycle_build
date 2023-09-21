@@ -1,3 +1,14 @@
+x-headerservice:
+  &base-headerservice
+  build:
+    context: ../build/headerservice
+    labels:
+      com.description: "HeaderService deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      headerservice: ${headerservice}
+
 x-oods:
   &base-oods
   build:
@@ -1611,3 +1622,11 @@ services:
   mtoods_c:
     image: ${hub}/mtoods:${CYCLE}
     <<: *base-mtoods
+
+  headerservice:
+    image: ${hub}/headerservice:${CYCLE}${rev}
+    <<: *base-headerservice
+
+  headerservice_c:
+    image: ${hub}/headerservice:${CYCLE}
+    <<: *base-headerservice
