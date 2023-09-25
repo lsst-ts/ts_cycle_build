@@ -35,7 +35,8 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     mamba install -y -c conda-forge \
     rubin-env-rsp \
     astrometry \
-    redis-py
+    redis-py \
+    rubin-libradtran
 
 USER saluser
 
@@ -134,6 +135,15 @@ RUN source ${WORKDIR}/loadLSST.bash && \
 
 ENV RUN_ARG="-v"
 ENV DEPLOY_BRANCH=${rubintv_production_work_branch}
+ENV OPENBLAS_NUM_THREADS=1
+ENV GOTO_NUM_THREADS=1
+ENV OMP_NUM_THREADS=1
+ENV MKL_NUM_THREADS=1
+ENV MKL_DOMAIN_NUM_THREADS=1
+ENV MPI_NUM_THREADS=1
+ENV NUMEXPR_NUM_THREADS=1
+ENV NUMEXPR_MAX_THREADS=1
+ENV MPLBACKEND=Agg
 
 COPY rapid-analysis/startup.sh /repos/.startup.sh
 

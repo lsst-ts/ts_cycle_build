@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 32 revision 4
+===================
+* Add oods.
+* Add headerservice.
+
+Updated components
+
+* ts_observatory_control
+* ts_standardscripts
+* ts_externalscripts
+* ts_config_latiss
+* ts_config_ocs
+* love_frontend
+* love_manager
+
 Cycle 32 revision 2
 ===================
 
