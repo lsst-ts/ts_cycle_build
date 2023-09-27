@@ -10,7 +10,18 @@ ARG atpneumatics_sim
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts ts-atpneumaticssimulator=${atpneumatics_sim}
 
-LABEL ts-atpneumaticssimulator=${atpneumatics_sim}
+ARG config
+
+RUN git clone https://github.com/lsst-ts/ts_config_attcs.git
+
+WORKDIR /home/saluser/ts_config_attcs
+
+RUN /home/saluser/.checkout_repo.sh ${config}
+
+ENV TS_CONFIG_ATTCS_DIR=/home/saluser/ts_config_attcs
+
+LABEL ts-atpneumaticssimulator=${atpneumatics_sim} \
+    ts_config_attcs=${config}
 
 COPY startup.sh /home/saluser/.startup.sh
 USER root
