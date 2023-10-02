@@ -3,9 +3,9 @@
 source ${HOME}/.setup_sal_env.sh
 
 setup lsst_distrib
-setup ctrl_oods
+setup -t current ctrl_oods
 
-run_mtoods $RUN_ARG &
+mtoods $RUN_ARG &
 
 pid="$!"
 

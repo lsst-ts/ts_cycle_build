@@ -28,5 +28,6 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     cd ${HOME}/ctrl_oods && \
     git checkout ${ctrl_oods} && \
     chown -R saluser.saluser ${HOME}/ctrl_oods && \
-    setup -kr . && \
+    eups declare -r . ctrl_oods ${ctrl_oods} -t current && \
+    setup -t current ctrl_oods && \
     scons
