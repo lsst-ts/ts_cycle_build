@@ -90,7 +90,7 @@ RUN rm /etc/yum.repos.d/lsst-ts-private.repo
 
 WORKDIR /usr/share/zoneinfo
 
-RUN wget http://www.ietf.org/timezones/data/leap-seconds.list
+RUN curl -O ftp://ftp.boulder.nist.gov/pub/time/leap-seconds.list
 
 ARG gphoto2=${gphoto2}
 
