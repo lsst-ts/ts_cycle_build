@@ -14,7 +14,7 @@ pipeline {
   }
 
   agent {
-      label 'Node3_4CPU'
+      label "${params.build_agent}"
   }
 
   environment {
@@ -31,6 +31,7 @@ pipeline {
         description: "Set the CACHE_OPTION variable to '--no-cache'",
         name: 'set_cache_option'
       )
+      choice choices: ['Node3_4CPU', 'CSC_Conda_Node', 'Node1_4CPU', 'Node2_8CPU'], description: 'Select the build agent', name: 'build_agent'
       booleanParam defaultValue: false, description: "Build/push Conda Package Builder arm64 and aarch64 images.", name: 'build_conda_package_builder_arm'
       booleanParam defaultValue: false, description: "Build/push Conda Package Builder x86 images.", name: 'build_conda_package_builder_x86'
       booleanParam defaultValue: false, description: "Build/push base deployment image (only run this if you are building revision 0).", name: 'deploy_conda'
