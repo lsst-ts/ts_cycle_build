@@ -19,7 +19,8 @@ COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-private.repo
 COPY develop-env/lsstsqre/gitconfig ${HOME}/.gitconfig
 COPY develop-env/lsstsqre/setup_env.sh /home/saluser/.setup_salobj.sh
 
-RUN dnf install -y \
+RUN dnf module enable -y nodejs:18 && \
+    dnf install -y \
     automake \
     bzip2 \
     diffutils \
@@ -90,7 +91,7 @@ RUN rm /etc/yum.repos.d/lsst-ts-private.repo
 
 WORKDIR /usr/share/zoneinfo
 
-RUN wget http://www.ietf.org/timezones/data/leap-seconds.list
+RUN curl -O ftp://ftp.boulder.nist.gov/pub/time/leap-seconds.list
 
 ARG gphoto2=${gphoto2}
 

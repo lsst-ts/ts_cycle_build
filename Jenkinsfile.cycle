@@ -339,7 +339,7 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh"""
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build oods oods_c atoods atoods_c ccoods ccoods_c mtoods mtoods_c
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build oods oods_c atoods atoods_c ccoods ccoods_c mtoods mtoods_c
               """
             }
           }
@@ -348,7 +348,7 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh"""
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push oods oods_c atoods atoods_c ccoods ccoods_c mtoods mtoods_c
+              docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push oods oods_c atoods atoods_c ccoods ccoods_c mtoods mtoods_c
               """
             }
           }
