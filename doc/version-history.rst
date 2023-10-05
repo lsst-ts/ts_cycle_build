@@ -8,6 +8,24 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 32 revision 5
+===================
+
+* Replace docker compose with docker-compose for OODS builds.
+* Install nodejs 18.
+* Update download leap seconds file URL.
+* Fix dockerfile for OODS.
+
+Updated components
+
+* ts_develop
+* love_frontend
+* love_producer
+* love_manager
+* love_commander
+* stack
+* lsstsqre
+
 Cycle 32 revision 4
 ===================
 * Add oods.
