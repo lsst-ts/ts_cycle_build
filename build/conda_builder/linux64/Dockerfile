@@ -31,7 +31,11 @@ RUN dnf install -y gcc-c++ \
   wget \
   libusb \
   libglvnd-glx \
-  unzip
+  unzip \
+  epel-release \
+  qt5-qtbase-devel \
+  mesa-dri-drivers \
+  xorg-x11-server-Xvfb
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-nexus-private.repo
