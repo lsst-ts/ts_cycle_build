@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 32 revision 6
+===================
+
+* conda_builder linux64: Add libraries to support QT development.
+* Add audio_broadcaster to Jenkinsfile.cycle
+
+Updated components
+
+* ts_standardscripts
+* ts_externalscripts
+* ts_config_ocs
+* ts_observatory_control
+* ts_integrationtests
+* robotframework_efd
+* ts_audio_broadcaster
+
 Cycle 32 revision 5
 ===================
 
