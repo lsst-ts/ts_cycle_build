@@ -33,7 +33,7 @@ RUN chown saluser:saluser /home/saluser/.setup.sh && \
 USER saluser
 WORKDIR /home/saluser
 
-ARG PYTHON_VERSION=3.10
+ARG PYTHON_VERSION=3.11
 
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh -o mambaforge.sh && \
     chmod +x mambaforge.sh && \
