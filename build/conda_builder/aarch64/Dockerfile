@@ -42,8 +42,8 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
     mamba install -y python=${PYTHON_VERSION} && \
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
-    mamba update -y --all && \
-    mamba install -y conda-build anaconda-client setuptools_scm ts-ddsconfig boa && \
+    # mamba update -y --all && \
+    mamba install -y conda-build anaconda-client setuptools_scm ts-ddsconfig boa conda-libmamba-solver=23.7 && \
     mamba init bash
 
 ENTRYPOINT ["/bin/bash", "--"]
