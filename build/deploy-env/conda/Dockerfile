@@ -74,7 +74,7 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
   mamba install -y python=${PYTHON_VERSION} && \
   conda config --add channels conda-forge && \
   conda config --add channels lsstts && \
-  mamba update -y --all && \
+  # mamba update -y --all && \
   mamba install -y cython && \
   mamba install -y -c lsstts -c lsstts/label/dev ts-xml=${ts_xml} ts-ddsconfig=${ts_ddsconfig} ts-salobj=${ts_salobj} ts-dds=${ts_dds} ts-idl=${ts_idl} ts-utils=${ts_utils} && \
   echo export LSST_DDS_QOS=file://$(python -c "from lsst.ts import ddsconfig; print(ddsconfig.get_qos_path())") >> ${HOME}/.ospl_env.sh
