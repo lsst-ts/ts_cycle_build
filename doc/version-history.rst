@@ -8,6 +8,51 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 33
+========
+
+* Implement fix for mamba mambabuild issue.
+* Add ts_audio_broadcaster to Jenkinsfile.cycle.
+* Add love-frontend-k8s to ALL option in Jenkinsfile.cycle.
+    
+Updated core products
+
+* ts_xml
+* ts_idl
+* ts_salobj
+
+Updated products
+
+* ts_develop
+* ts_hexrotcomm
+* ts_atmcssimulator
+* ts_m2
+* ts_mtmount
+* ts_pointing_common
+* ts_m1m3support
+* ts_lasertracker
+* ts_mtaos
+* ts_wep
+* ts_ofc
+* ts_mtdome
+* ts_dsm
+* ts_ess_common
+* ts_conda_build
+* ts_genericcamera
+* ts_hvac
+* ts_gis
+* robotframework_efd
+* headerservice
+* ts_audio_broadcaster
+* ts_config_attcs
+* ts_config_eas
+* ts_config_mttcs
+* ts_config_ocs
+* love_producer
+* love_manager
+* rubin_sim
+* schedview
+
 Cycle 32 revision 6
 ===================
 
