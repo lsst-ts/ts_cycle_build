@@ -199,7 +199,10 @@ pipeline {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
               export DOCKER_BUILDKIT=0
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${CONDA_PACKAGES} \${CONDA_PACKAGES_C}
+              for comp in \${CONDA_PACKAGES}; do
+                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${comp}
+              done
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \${CONDA_PACKAGES_C}
               """
               }
           }
