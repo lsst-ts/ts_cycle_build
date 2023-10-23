@@ -31,7 +31,7 @@ RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Ma
     mamba install -y python=${PYTHON_VERSION} && \
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
-    mamba update -y --all && \
+    # mamba update -y --all && \
     mamba install -y conda-build anaconda-client setuptools_scm && \
     mamba install -y numpy astropy && \
     mamba install -y ts-ess-common=${common} ts-ess-controller=${controller} && \
