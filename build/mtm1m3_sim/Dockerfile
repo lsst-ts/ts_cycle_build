@@ -16,6 +16,7 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     catch-devel \
     boost169-devel \
     readline-devel \
+    spdlog-devel \
     yaml-cpp-devel && \
     dnf clean all
 
@@ -31,17 +32,9 @@ WORKDIR /home/saluser/
 
 ARG m1m3
 ARG crio_cpp
-ARG spdlog
 
 RUN git clone https://github.com/lsst-ts/ts_m1m3support && \
-    git clone https://github.com/lsst-ts/ts_cRIOcpp && \
-    git clone https://github.com/gabime/spdlog
-
-WORKDIR /home/saluser/spdlog
-RUN /home/saluser/.checkout_repo.sh ${spdlog}
-USER root
-RUN cp -r include/spdlog/ /usr/include
-USER saluser
+    git clone https://github.com/lsst-ts/ts_cRIOcpp
 
 WORKDIR /home/saluser/ts_cRIOcpp/
 RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
