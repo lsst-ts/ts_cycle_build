@@ -72,9 +72,11 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${atmospec_work_branch} && \
     eups declare -r . -t saluser && \
     setup lsst_distrib && \
-    setup obs_lsst -j -t saluser && \
-    setup spectractor -t saluser && \
+    setup obs_lsst -j && \
+    setup sconsUtils -j && \
+    setup spectractor -j -t saluser && \
     setup atmospec -j -t saluser && \
+    eups list && \
     scons opt=3
 
 WORKDIR /repos/summit_utils
@@ -85,9 +87,10 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${summit_utils_work_branch} && \
     eups declare -r . -t saluser && \
     setup lsst_distrib && \
-    setup obs_lsst -j -t saluser && \
+    setup obs_lsst && \
     setup atmospec -j -t saluser && \
     setup summit_utils -j -t saluser && \
+    setup sconsUtils && \
     scons opt=3 -j 4 || echo tests failed...
 
 WORKDIR /repos/summit_extras
@@ -98,10 +101,11 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${summit_extras_work_branch} && \
     eups declare -r . -t saluser && \
     setup lsst_distrib && \
-    setup obs_lsst -j -t saluser && \
+    setup obs_lsst && \
     setup atmospec -j -t saluser && \
     setup summit_utils -j -t saluser && \
     setup summit_extras -j -t saluser && \
+    setup sconsUtils && \
     scons opt=3 -j 4 || echo tests failed...
 
 ARG rubintv_production_work_branch
@@ -112,12 +116,13 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${rubintv_production_work_branch} && \
     eups declare -r . -t saluser && \
     setup lsst_distrib && \
-    setup obs_lsst -j -t saluser && \
+    setup obs_lsst && \
     setup atmospec -j -t saluser && \
     setup summit_utils -j -t saluser && \
     setup summit_extras -j -t saluser && \
     setup rubintv_production -j -t saluser && \
     setup eo_pipe -j -t saluser && \
+    setup sconsUtils && \
     scons opt=3 -j 4 || echo tests failed...
 
 WORKDIR /repos/rubintv_production
@@ -125,12 +130,13 @@ WORKDIR /repos/rubintv_production
 RUN source ${WORKDIR}/loadLSST.bash && \
     /home/saluser/.checkout_repo.sh ${rubintv_production_work_branch} && \
     eups declare -r . -t saluser && \
-    setup lsst_distrib && \
-    setup obs_lsst -j -t saluser && \
     setup atmospec -j -t saluser && \
     setup summit_utils -j -t saluser && \
     setup summit_extras -j -t saluser && \
     setup rubintv_production -j -t saluser && \
+    setup lsst_distrib && \
+    setup obs_lsst && \
+    setup sconsUtils && \
     scons opt=3 -j 4 || echo tests failed...
 
 ENV RUN_ARG="-v"

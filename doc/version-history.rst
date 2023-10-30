@@ -8,6 +8,32 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 33 revision 1
+===================
+
+* Fix ``rapid-analysis`` build.
+  There was some changes in how ``eups`` sets up packages that caused the deployment to fail.
+
+* Updated ``mtm1m3_sim`` build.
+  Stop cloning ``spdlog`` and install it using ``dnf``.
+
+* Update version of the following packages:
+
+  * ts_sal (patch).
+  * atmospec.
+  * DM-stack.
+  * love_frontend.
+  * love_manager.
+  * Spectractor.
+  * summit_extras.
+  * summit_utils.
+  * ts_config_latiss.
+  * ts_cRIOcpp.
+  * ts_m1m3support.
+  * ts_mtaircompressor.
+  * ts_mtrotator.
+  * ts_watcher.
+
 Cycle 33
 ========
 

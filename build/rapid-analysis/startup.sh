@@ -21,11 +21,12 @@ cd /repos/rubintv_production/scripts
 source ${WORKDIR}/loadLSST.bash
 
 setup lsst_distrib
-setup spectractor -t saluser
-setup atmospec -j -t saluser
-setup summit_utils -j -t saluser
-setup summit_extras -j -t saluser
-setup rubintv_production -j -t saluser
-setup eo_pipe -j -t saluser
+setup obs_lsst
+setup -j spectractor -t saluser
+setup -j atmospec -t saluser
+setup -j summit_utils -t saluser
+setup -j summit_extras -t saluser
+setup -j rubintv_production -t saluser
+setup -j eo_pipe -t saluser
 
 python $RUN_ARG
