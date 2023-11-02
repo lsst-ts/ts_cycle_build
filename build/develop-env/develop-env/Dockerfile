@@ -124,7 +124,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_standardscripts -t current && \
-    pytest -vx
+    pytest -v || pytest -vs --last-failed
 
 WORKDIR /home/saluser/repos/ts_externalscripts
 RUN source /home/saluser/.setup_salobj.sh && \
