@@ -8,6 +8,26 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 33 revision 2
+===================
+
+* Update Scheduler setup script to point configuration to obs-env if obs-env exists.
+* In ``Jenkinsfile.cycle``:
+  * Allow users to set a no cache option.
+  * Stop using docker agent and use docker compose (that is now available in the nodes).
+  * Allow users to select which node to run the build.
+  * Build one component at a time.
+
+* Update version of the following packages:
+ * ts_watcher
+ * ts_ess_common
+ * ts_ess_csc
+ * ts_config_atcalsys
+ * ts_config_ocs
+ * love_frontend
+ * love_manager
+ * ts_fbs_utils
+
 Cycle 33 revision 1
 ===================
 
