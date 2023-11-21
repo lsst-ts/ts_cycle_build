@@ -1,7 +1,7 @@
 ARG cycle
 ARG hub
 
-FROM ${hub}/deploy-env:${cycle}
+FROM ${hub}/deploy-sqre:${cycle}
 LABEL maintainer Rob Bovill <rbovill@lsst.org>
 
 WORKDIR ${HOME}
