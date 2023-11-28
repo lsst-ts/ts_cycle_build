@@ -19,7 +19,9 @@ COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-private.repo
 COPY develop-env/lsstsqre/gitconfig ${HOME}/.gitconfig
 COPY develop-env/lsstsqre/setup_env.sh /home/saluser/.setup_salobj.sh
 
-RUN dnf module enable -y nodejs:18 && \
+ARG node
+
+RUN dnf module enable -y nodejs:${node} && \
     dnf install -y \
     automake \
     bzip2 \
@@ -65,6 +67,9 @@ RUN dnf module enable -y nodejs:18 && \
     qt5-qtbase-devel \
     mesa-dri-drivers \
     xorg-x11-server-Xvfb
+
+# Install Yarn package manager
+RUN npm install --global yarn
 
 ARG dds_community_version=6.9.0
 ARG dds_community_build=1.el6
