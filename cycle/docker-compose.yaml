@@ -869,6 +869,7 @@ services:
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
         maven: ${maven}
+        node: ${node}
         openjdk: ${openjdk}
         UID: ${B_UID}
         GID: ${B_GID}
@@ -892,6 +893,7 @@ services:
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
         maven: ${maven}
+        node: ${node}
         openjdk: ${openjdk}
         UID: ${B_UID}
         GID: ${B_GID}

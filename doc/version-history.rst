@@ -8,6 +8,23 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 33 revision 3
+===================
+
+* Add node as an argument to develop-env build.
+
+* Update version of the following packages:
+
+  * DM stack.
+  * ts_mtmount.
+  * ts_config_latiss.
+  * ts_config_mttcs.
+  * love-frontend.
+  * love-manager.
+  * node (new).
+  * ts_fbs_utils.
+  * ts_observing.
+
 Cycle 33 revision 2
 ===================
 
