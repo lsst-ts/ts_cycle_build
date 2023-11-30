@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 33 revision 4
+===================
+
+* Add missing node version on develop.env and main.env.
+
+* Update version of the following packages:
+
+  * ts_atmonochromator.
+  * ts_observatory_control.
+  * ts_standardscripts.
+  * ts_externalscripts.
+  * ts_watcher.
+  * ts_config_latiss.
+  * love-frontend.
+
 Cycle 33 revision 3
 ===================
 
@@ -36,6 +51,7 @@ Cycle 33 revision 2
   * Build one component at a time.
 
 * Update version of the following packages:
+
  * ts_watcher
  * ts_ess_common
  * ts_ess_csc
