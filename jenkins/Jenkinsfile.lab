@@ -16,7 +16,7 @@ pipeline{
       stage ('Cloning Repos') {
           steps {
               dir(env.WORKSPACE + '/nublado') {
-                  git branch: 'prod', url: 'https://github.com/lsst-sqre/sciplat-lab.git'
+                  git branch: 'main', url: 'https://github.com/lsst-sqre/sciplat-lab.git'
               }
           }
       }

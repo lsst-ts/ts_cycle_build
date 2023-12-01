@@ -716,6 +716,7 @@ x-ess-controller-aarch64:
       hub: lsstts
       controller: ${ts_ess_controller}
       common: ${ts_ess_common}
+      PYTHON_VERSION: ${PYTHON_VERSION}
 
 x-hvac:
   &base-hvac
