@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 33 revision 5
+===================
+
+* Update version of the following packages
+
+  * ts_atmonochromator
+  * ts_watcher.
+  * love_frontend
+  * love_manager
+  * ts_fiberspectrograph
+  * lsst_sqre
+  * lsst_stack
+  * ts_electrometer
+  * ts_gis
+
 Cycle 33 revision 4
 ===================
 
