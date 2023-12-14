@@ -8,6 +8,51 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 34
+========
+
+* Pin OpenSSL on develop-env and deploy-env.
+* Swap c and non c steps to fix CI.
+* Have docker compose build images 1 by 1.
+* Use python cycle argument for building ESS controller.
+* Change SALSciPlat build to use main branch instead of prod branch.
+
+* Update versions of the following packages:
+
+    * ts_xml
+    * ts_sal
+    
+    * lsstsqre
+    * stack
+    
+    * ts_atdome
+    * ts_atdometrajectory
+    * ts_atmcssimulator
+    * ts_mtrotator
+    * ts_mthexapod
+    * ts_observatory_control
+    * ts_standardscripts
+    * ts_externalscripts
+    * ts_scriptqueue
+    * ts_m2
+    * ts_m1m3support
+    * ts_criopy
+    * ts_mtaos
+    * ts_wep
+    * ts_phosim
+    * ts_watcher
+    * ts_mtdome
+    * ts_config_mttcs
+    * love_frontend
+    * love_manager
+    * ts_fbs_utils
+    * ts_observing
+    * rubin_sim
+    * ts_pointing_common
+    * headerservice
+    * robotframework_efd
+    * ts_integrationtests
+
 Cycle 33 revision 5
 ===================
 

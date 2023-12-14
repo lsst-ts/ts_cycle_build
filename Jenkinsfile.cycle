@@ -154,7 +154,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
 
             sh """
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} deploy-lsstsqre-private deploy-lsstsqre-private_c
+            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} deploy-lsstsqre-private
+            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build deploy-lsstsqre-private_c
             """
           }
         }
@@ -267,7 +268,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${CAMSPEC_GENCAM} \${CAMSPEC_GENCAM_C}
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${CAMSPEC_GENCAM}
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \${CAMSPEC_GENCAM_C}
               """
               }
           }
@@ -294,7 +296,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build mtm1m3_sim mtm1m3_sim_c
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} mtm1m3_sim
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build mtm1m3_sim_c
               """
               }
           }
@@ -326,6 +329,7 @@ pipeline {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
               docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} ptg ptg_c
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ptg_c
               """
               }
           }
@@ -353,7 +357,8 @@ pipeline {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
               export DOCKER_BUILDKIT=0
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} mtaos mtaos_c
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} mtaos
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build mtaos_c
               """
               }
           }
@@ -406,7 +411,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} scriptqueue scriptqueue_c
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} scriptqueue
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build scriptqueue_c
               """
               }
           }
@@ -491,7 +497,10 @@ pipeline {
 
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} rapid-analysis rapid-analysis_c rapid-analysis-usdf rapid-analysis-usdf_c
+            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} rapid-analysis
+            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build rapid-analysis_c
+            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} rapid-analysis-usdf
+            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build rapid-analysis-usdf_c
             """
           }
         }
