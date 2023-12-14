@@ -11,6 +11,12 @@ Version History
 Cycle 34
 ========
 
+* Pin OpenSSL on develop-env and deploy-env.
+* Swap c and non c steps to fix CI.
+* Have docker compose build images 1 by 1.
+* Use python cycle argument for building ESS controller.
+* Change SALSciPlat build to use main branch instead of prod branch.
+
 * Update versions of the following packages:
 
     * ts_xml
