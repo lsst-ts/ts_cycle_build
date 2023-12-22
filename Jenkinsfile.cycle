@@ -231,7 +231,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} ${params.component} ${params.component}_c
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} ${params.component}
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} ${params.component}_c
               """
               }
           }
