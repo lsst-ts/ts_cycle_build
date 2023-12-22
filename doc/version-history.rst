@@ -8,6 +8,23 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 34 revision 1
+===================
+
+* Update ``Jenkinsfile.cycle`` to only build one stage at a time.
+
+* Updated components
+
+    * ts_standardscripts
+    * ts_externalscripts
+    * ts_mtmount
+    * ts_lasertracker
+    * ts_integrationtests
+    * robotframework_efd
+    * ts_config_mttcs
+    * ts_config_ocs
+    * love_frontend
+
 Cycle 34
 ========
 
@@ -21,10 +38,10 @@ Cycle 34
 
     * ts_xml
     * ts_sal
-    
+
     * lsstsqre
     * stack
-    
+
     * ts_atdome
     * ts_atdometrajectory
     * ts_atmcssimulator
@@ -153,7 +170,7 @@ Cycle 33
 * Implement fix for mamba mambabuild issue.
 * Add ts_audio_broadcaster to Jenkinsfile.cycle.
 * Add love-frontend-k8s to ALL option in Jenkinsfile.cycle.
-    
+
 Updated core products
 
 * ts_xml
