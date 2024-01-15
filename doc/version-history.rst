@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 34 revision 2
+===================
+
+* Add safir to base sqre development Docker image.
+
+* Updated components:
+
+    * ts_ess_common
+    * ts_ess_csc
+    * ts_ess_labjack
+    * ts_integrationtests
+    * robotframework_efd
+    * ts_config_ocs
+    * love_frontend
+    * love_manager
+
 Cycle 34 revision 1
 ===================
 

@@ -151,6 +151,10 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     pip install gphoto2==${gphoto2} --only-binary :all: && \
     pip install Pillow rawpy
 
+# Install safir
+RUN source ${WORKDIR}/loadLSST.bash && \
+    pip install safir
+
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current
 
