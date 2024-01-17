@@ -16,7 +16,7 @@ RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
 
 WORKDIR /home/saluser/ts_config_mttcs
 
-RUN git checkout ${config} -b ${config}
+RUN /home/saluser/.checkout_repo.sh ${config}
 
 WORKDIR /home/saluser/
 
