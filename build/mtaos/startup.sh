@@ -9,6 +9,7 @@ LSST_USER_HOME=/home/saluser
 AOS_REPOS=${LSST_USER_HOME}/repos
 
 setup lsst_distrib
+setup obs_lsst
 setup ts_wep -t current
 setup ts_ofc -t current
 setup ts_phosim -t current
