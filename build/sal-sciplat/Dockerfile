@@ -104,9 +104,9 @@ RUN source ${LOADSTACK} && \
     for g in $gitsrc ; do \
     r=$(echo ${g} | cut -d ':' -f 1) \
     t=$(echo ${g} | cut -d ':' -f 2) ;\
-    retag=${t//a/".alpha."} ; \
-    retag=${retag//b/".beta."} ; \
-    retag=${retag//rc/".rc."} ; \
+    retag=${t//a/"-alpha."} ; \
+    retag=${retag//b/"-beta."} ; \
+    retag=${retag//rc/"-rc."} ; \
     git clone --branch v${retag} --depth 1 --single-branch ${rb}/${r}.git ; \
     cd ${r} ; \
     git checkout -b ${t} ; \
