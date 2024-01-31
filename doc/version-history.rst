@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 34 revision 4
+===================
+
+* Updated components:
+
+    * ts_ess_common
+    * ts_ess_controller
+    * ts_genericcamera
+    * ts_pointing_common
+
+* Update mtmount startup script for CCW only mode
+
 Cycle 34 revision 3
 ===================
 
