@@ -12,9 +12,7 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     dnf -y --enablerepo=extras install make \
     gcc-toolset-10 \
     git \
-    gcc-c++ \
     catch-devel \
-    boost169-devel \
     readline-devel \
     spdlog-devel \
     yaml-cpp-devel && \
