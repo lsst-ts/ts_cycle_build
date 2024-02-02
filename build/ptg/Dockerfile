@@ -16,8 +16,8 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     wget \
     boost1.78 \
     boost1.78-devel \
-    boost-python3 \
-    boost-python3-devel \
+    boost1.78-python3 \
+    boost1.78-python3-devel \
     librdkafka-devel \
     jansson \
     curl-devel && \
