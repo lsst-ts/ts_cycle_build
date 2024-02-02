@@ -20,6 +20,7 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     boost1.78-python3-devel \
     librdkafka-devel \
     jansson \
+    snappy-devel \
     curl-devel && \
     dnf clean all
 
