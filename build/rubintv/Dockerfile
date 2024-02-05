@@ -13,6 +13,8 @@ RUN source /home/saluser/.setup_sal_env.sh && \
     mamba install -c lsstts \
     rubintv=${rubintv}
 
+RUN pip install safir
+
 RUN git clone https://github.com/lsst-ts/rubintv
 RUN cd rubintv && \
     git checkout v${rubintv} && \
