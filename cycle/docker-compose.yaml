@@ -301,6 +301,7 @@ x-mtm2_sim:
       deploy_env: ${hub}/${deploy_env}
       deploy_tag: ${CYCLE}
       m2: ${ts_m2}
+      m2com: ${ts_m2com}
       config: v${ts_config_mttcs}
 
 x-mtmount:
@@ -1316,11 +1317,11 @@ services:
   mtrotator_c:
     image: ${hub}/mtrotator:${CYCLE}
     <<: *base-mtrotator
-  
+
   rubintv:
     image: ${hub}/rubintv:${CYCLE}${rev}
     <<: *base-rubintv
-  
+
   rubintv_c:
     image: ${hub}/rubintv:${CYCLE}
     <<: *base-rubintv
