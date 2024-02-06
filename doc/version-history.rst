@@ -8,6 +8,19 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 35 revision 5
+===================
+
+* Updated component:
+
+  * ts_externalscripts
+  * ts_mtmount
+  * ts_config_mttcs
+  * ts_pointing_common
+
+* Fix issue with mtmount startup script.
+  It was doing the opposite of what it really had to do.
+
 Cycle 34 revision 4
 ===================
 

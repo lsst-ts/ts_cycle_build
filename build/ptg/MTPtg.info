@@ -115,3 +115,4 @@ sal_log_level {
 }
 
 disable_rotator 1;  Set 0 to enabled, 1 to disable
+disable_mount 0;  Set 0 to enabled, 1 to disable
