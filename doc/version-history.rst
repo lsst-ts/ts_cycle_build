@@ -8,6 +8,41 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 35 Revision 0
+===================
+Core products
+
+* ts_xml
+
+RSP
+
+* lsstsqre
+* stack
+
+Products
+
+* ts_develop
+* ts_hexrotcomm
+* ts_mtrotator
+* ts_mthexapod
+* ts_standardscripts
+* ts_m2
+* ts_m2com (new)
+* ts_m1m3support
+* ts_cRIOcpp
+* ts_criopy
+* ts_mtaos
+* ts_wep
+* ts_mtdome
+* ts_integrationtests
+* ts_fiberspectrograph
+* robotframework_efd
+* rubintv (new)
+* ts_config_mtcalsys
+* love_commander
+* love_frontend
+* love_manager
+
 Cycle 35 revision 6
 ===================
 

@@ -301,6 +301,7 @@ x-mtm2_sim:
       deploy_env: ${hub}/${deploy_env}
       deploy_tag: ${CYCLE}
       m2: ${ts_m2}
+      m2com: ${ts_m2com}
       config: v${ts_config_mttcs}
 
 x-mtmount:
@@ -356,6 +357,17 @@ x-ptg:
       hub: ${hub}
       rpm: 0:${ts_xml}-${ts_sal}.el8.x86_64
       ptg: ${ts_pointing_common}
+
+x-base-rubintv:
+  &base-rubintv
+  build:
+    context: ../build/rubintv/
+    labels:
+      com.description: "RubinTV frontend image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      rubintv: ${rubintv}
 
 x-base-rapid-analysis:
   &base-rapid-analysis
@@ -1305,6 +1317,14 @@ services:
   mtrotator_c:
     image: ${hub}/mtrotator:${CYCLE}
     <<: *base-mtrotator
+
+  rubintv:
+    image: ${hub}/rubintv:${CYCLE}${rev}
+    <<: *base-rubintv
+
+  rubintv_c:
+    image: ${hub}/rubintv:${CYCLE}
+    <<: *base-rubintv
 
   rapid-analysis:
     image: ${hub}/rapid-analysis:${CYCLE}${rev}
