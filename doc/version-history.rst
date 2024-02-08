@@ -8,6 +8,13 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 35 revision 6
+===================
+
+* Updated components:
+
+  * ts_mtdome
+
 Cycle 35 revision 5
 ===================
 
