@@ -70,6 +70,7 @@ RUN dnf module enable -y nodejs:${node} && \
 
 # Install Yarn package manager
 RUN npm install --global yarn
+RUN chown -R ${UID}:${GID} ${HOME}/.npm
 
 ARG dds_community_version=6.9.0
 ARG dds_community_build=1.el6
