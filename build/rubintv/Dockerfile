@@ -10,15 +10,23 @@ WORKDIR /home/saluser/
 ARG rubintv
 
 RUN source /home/saluser/.setup_sal_env.sh && \
+    pip install safir && \
     mamba install -c lsstts \
     rubintv=${rubintv}
 
-RUN pip install safir
-
 RUN git clone https://github.com/lsst-ts/rubintv
-RUN cd rubintv && \
-    git checkout v${rubintv} && \
+
+WORKDIR /home/saluser/rubintv
+
+# Handle npm built assets
+RUN git checkout v${rubintv}
+RUN source /home/saluser/.setup_sal_env.sh && \
+    npm install webpack && \
     npm run build
+
+RUN cp -R /home/saluser/rubintv/assets /home/saluser/assets
+
+WORKDIR /home/saluser/
 
 LABEL rubintv=${rubintv}
 
