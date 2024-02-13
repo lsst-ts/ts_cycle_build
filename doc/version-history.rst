@@ -8,8 +8,26 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 35 Revision 1
+===================
+
+* Update version of the following packages:
+
+  * ts_atdome
+  * ts_pointing_common
+  * ts_integrationtest
+  * robotframework_efd
+  * headerservice
+
+* Fix permission issue on `/home/saluser/.npm` folder
+
+* Add libglvnd-glx to love-commander
+
+* Better handle npm built assets for rubintv
+
 Cycle 35 Revision 0
 ===================
+
 Core products
 
 * ts_xml
