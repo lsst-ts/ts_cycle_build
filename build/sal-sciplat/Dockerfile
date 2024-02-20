@@ -60,7 +60,7 @@ RUN source ${LOADSTACK} && \
     ts-idl=${ts_idl}
 
 RUN source ${LOADSTACK} && \
-    mamba install -c lsstts/label/rc -y \
+    mamba install -c lsstts -c lsstts/label/rc -y \
     ts-salobj=${ts_salobj}
 
 RUN source ${LOADSTACK} && \
