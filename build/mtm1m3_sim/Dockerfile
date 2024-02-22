@@ -52,7 +52,7 @@ WORKDIR /home/saluser/ts_m1m3support/
 RUN git checkout davemills/DM-41747 && \
     source /home/saluser/.setup_sal_env.sh && \
     source scl_source enable gcc-toolset-10 && \
-    make simulator
+    make SIMULATOR=1 VERBOSE=1 
 
 WORKDIR /home/saluser/
 
