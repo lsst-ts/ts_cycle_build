@@ -29,6 +29,7 @@ RUN dnf install -y \
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
 ENV SAL_WORK_DIR=/opt/lsst/ts_sal
+ENV LSST_SAL_PREFIX=/opt/lsst/ts_sal
 
 USER saluser
 WORKDIR /home/saluser/
@@ -46,14 +47,14 @@ RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
     sed -i 's/boost169/boost1.78/' Makefile.inc && \
     make
 
-# WORKDIR /home/saluser/ts_m1m3support/
+WORKDIR /home/saluser/ts_m1m3support/
 
-# RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
-#     source /home/saluser/.setup_sal_env.sh && \
-#     source scl_source enable gcc-toolset-10 && \
-#     source /opt/lsst/ts_sal/setup.env && \
-#     export OSPL_HOME=${SAL_WORK_DIR} && \
-#     make simulator
+RUN git checkout davemills/DM-41747 && \
+    source /home/saluser/.setup_sal_env.sh && \
+    source scl_source enable gcc-toolset-10 && \
+    source /opt/lsst/ts_sal/setup.env && \
+    export OSPL_HOME=${SAL_WORK_DIR} && \
+    make simulator
 
 WORKDIR /home/saluser/
 
