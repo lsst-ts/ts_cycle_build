@@ -52,8 +52,6 @@ WORKDIR /home/saluser/ts_m1m3support/
 RUN git checkout davemills/DM-41747 && \
     source /home/saluser/.setup_sal_env.sh && \
     source scl_source enable gcc-toolset-10 && \
-    source /opt/lsst/ts_sal/setup.env && \
-    export OSPL_HOME=${SAL_WORK_DIR} && \
     make simulator
 
 WORKDIR /home/saluser/
