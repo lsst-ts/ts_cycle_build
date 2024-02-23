@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 35 Revision 2
+===================
+
+* Update version of the following packages:
+
+  * DM-stack 
+  * ts_atdome
+  * ts_mtrotator
+  * ts_standardscripts
+  * headerservice
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+
+* Stop building conda packages for Python 3.10.
+
 Cycle 35 Revision 1
 ===================
 
