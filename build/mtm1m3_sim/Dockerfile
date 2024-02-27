@@ -41,7 +41,10 @@ RUN git clone https://github.com/lsst-ts/ts_m1m3support && \
     git clone https://github.com/lsst-ts/ts_cRIOcpp
 
 WORKDIR /home/saluser/ts_cRIOcpp/
-RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
+
+# RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
+
+RUN git checkout davemills/DM-41747 && \
     source /home/saluser/.setup_sal_env.sh && \
     source scl_source enable gcc-toolset-11 && \
     sed -i 's/boost169/boost1.78/' Makefile.inc && \
