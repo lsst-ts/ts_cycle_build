@@ -16,9 +16,17 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     boost1.78 \
     boost1.78-devel \
     readline-devel \
+    snappy-devel \
     spdlog-devel \
     yaml-cpp-devel && \
     dnf clean all
+
+RUN ln -s /usr/lib64/libboost_filesystem.so.1.78.0 /usr/lib64/libboost_filesystem.so && \
+    ln -s /usr/lib64/libboost_iostreams.so.1.78.0 /usr/lib64/libboost_iostreams.so && \
+    ln -s /usr/lib64/libboost_program_options.so.1.78.0 /usr/lib64/libboost_program_options.so && \
+    ln -s /usr/lib64/libboost_system.so.1.78.0 /usr/lib64/libboost_system.so && \
+    ln -s /usr/lib64/libcurl.so.4 /usr/lib64/libcurl.so && \
+    ln -s /usr/lib64/libjansson.so.4 /usr/lib64/libjansson.so
 
 ARG rpm
 
