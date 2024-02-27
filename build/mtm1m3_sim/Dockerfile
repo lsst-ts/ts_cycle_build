@@ -18,6 +18,7 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     readline-devel \
     snappy-devel \
     spdlog-devel \
+    jansson \
     yaml-cpp-devel && \
     dnf clean all
 
@@ -63,7 +64,7 @@ WORKDIR /home/saluser/ts_m1m3support/
 RUN git checkout davemills/DM-41747 && \
     source /home/saluser/.setup_sal_env.sh && \
     source scl_source enable gcc-toolset-11 && \
-    make SIMULATOR=1 VERBOSE=1 || echo "Compilation failed... Continuing..."
+    make simulator 
 
 WORKDIR /home/saluser/
 
