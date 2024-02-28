@@ -10,7 +10,7 @@ WORKDIR /home/saluser/
 ARG ts_observatory_model
 ARG ts_astrosky_model
 ARG ts_dateloc
-ARG rubin_sim
+ARG rubin_scheduler
 ARG ts_fbs_utils
 ARG ts_scheduler
 ARG ts_observing
@@ -21,7 +21,7 @@ RUN source /home/saluser/.setup_sal_env.sh && \
     ts-astrosky-model=${ts_astrosky_model} \
     ts-dateloc=${ts_dateloc} \
     ts-observing=${ts_observing} \
-    rubin-sim=${rubin_sim} \
+    rubin-scheduler=${rubin_scheduler} \
     ts-scheduler=${ts_scheduler}  \
     ts-fbs-utils=${ts_fbs_utils}
 
@@ -41,6 +41,7 @@ RUN /home/saluser/.checkout_repo.sh ${config}
 WORKDIR /home/saluser/
 
 ENV TS_CONFIG_OCS_DIR=/home/saluser/ts_config_ocs
+ENV SIMS_SKYBRIGHTNESS_DATA=/home/saluser/rubin_sim_data/skybrightness_pre_full
 
 LABEL ts-scheduler=${ts_scheduler} \
     ts-scheduler=${ts_scheduler} \
@@ -48,7 +49,7 @@ LABEL ts-scheduler=${ts_scheduler} \
     ts-astrosky-model=${ts_astrosky_model} \
     ts-dateloc=${ts_dateloc} \
     ts-fbs-utils=${ts_fbs_utils} \
-    rubin-sim=${rubin_sim} \
+    rubin-scheduler=${rubin_scheduler} \
     lsst_efd_client=${lsst_efd_client} \
     ts_observing=${ts_observing} \
     ts_config_ocs=${config}
@@ -58,7 +59,7 @@ WORKDIR /home/saluser/
 
 ENV INDEX=1
 
-ENV SIMS_SKYBRIGHTNESS_DATA=/home/saluser/rubin_sim_data/skybrightness_pre_full
+ENV schedulerS_SKYBRIGHTNESS_DATA=/home/saluser/rubin_scheduler_data/skybrightness_pre_full
 
 COPY startup.sh /home/saluser/.startup.sh
 USER root
