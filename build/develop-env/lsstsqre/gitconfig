@@ -1,6 +1,2 @@
 [pull]
     ff = only
-[safe]
-    ; TODO DM-35282 Improve the next line to be less generic and therefore
-    ; not be a security risk.
-    directory = *
