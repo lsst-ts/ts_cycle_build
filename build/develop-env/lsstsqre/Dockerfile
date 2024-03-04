@@ -136,7 +136,7 @@ ARG openjdk
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     conda config --add channels conda-forge && \
-    conda install -y mamba "openssl<3.2"
+    conda install -y mamba
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     mamba install -y conda-build anaconda-client setuptools_scm maven=${maven} openjdk=${openjdk}
