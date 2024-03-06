@@ -8,6 +8,40 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 35 Revision 3
+===================
+
+* Update version of the following packages:
+
+  * lsstsqre
+  * stack
+  * ts_lasertracker
+  * ts_scheduler
+  * ts_mtdome
+  * ts_integrationtests
+  * robotframework_efd
+  * headerservice
+  * ts_nightreport
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+  * ts_astrosky_model
+  * ts_dateloc
+  * ts_fbs_utils
+  * rubin_scheduler
+
+* Add nightreport choice to Jenkinsfile.cycle
+
+* Remove safe declaration from develop-env/lsstsqre git config.
+
+* Update deploy-env/lsstsqre & develop-env/lsstsqre builds to remove pin for openssl.
+
+* Update sal-sciplat to include astrometry.net again.
+
+* Update Scheduler build to use rubin_scheduler package instead of rubin_sim.
+
+* DM-42847: Add ts_nighreport to cycle build
+
 Cycle 35 Revision 2
 ===================
 

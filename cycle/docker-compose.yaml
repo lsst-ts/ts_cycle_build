@@ -61,6 +61,17 @@ x-audio_broadcaster:
       cycle: ${CYCLE}
       ts_audio_broadcaster: ${ts_audio_broadcaster}
 
+x-nightreport:
+  &base-nightreport
+  build:
+    context: ../build/nightreport
+    labels:
+      com.description: "Nightreport REST API image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      ts_nightreport: ${ts_nightreport}
+
 x-lsst_sims:
   &base-lsst_sims
   build:
@@ -1237,6 +1248,14 @@ services:
   audio_broadcaster_c:
     image: ${hub}/audio_broadcaster:${CYCLE}
     <<: *base-audio_broadcaster
+  
+  nightreport:
+    image: ${hub}/nightreport:${CYCLE}${rev}
+    <<: *base-nightreport
+  
+  nightreport_c:
+    image: ${hub}/nightreport:${CYCLE}
+    <<: *base-nightreport
 
   mtaos:
     image: ${hub}/mtaos:${CYCLE}${rev}
