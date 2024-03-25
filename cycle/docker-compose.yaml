@@ -388,7 +388,7 @@ x-base-rapid-analysis:
     labels:
       com.description: "RubinTV Rapid Analysis image for cycle/revision ${CYCLE}${rev}."
     args:
-      image_tag: ${lsstsqre}
+      image_tag: 7-stack-lsst_distrib-${stack_ra}
       spectractor_work_branch: ${rubintv_spectractor}
       atmospec_work_branch: ${rubintv_atmospec}
       summit_utils_work_branch: ${rubintv_summit_utils}
