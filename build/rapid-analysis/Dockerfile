@@ -56,6 +56,24 @@ RUN git clone https://github.com/lsst/Spectractor.git && \
     git clone https://github.com/lsst-sitcom/rubintv_production.git && \
     git clone https://github.com/lsst-camera-dh/eo_pipe.git
 
+# TODO: (DM-43475) Resync RA images with the rest of the summit.
+RUN git clone https://github.com/lsst/obs_lsst.git && \
+    git clone https://github.com/lsst/drp_pipe.git
+
+WORKDIR /repos/obs_lsst
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    eups declare -r . -t saluser && \
+    setup obs_lsst -t saluser && \
+    scons
+
+WORKDIR /repos/drp_pipe
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    eups declare -r . -t saluser && \
+    setup drp_pipe -t saluser && \
+    scons version
+
 WORKDIR /repos/Spectractor
 
 ARG spectractor_work_branch

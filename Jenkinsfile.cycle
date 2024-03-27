@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 
+conda_packages = ["ataos", "atdome", "atdometrajectory", "athexapod", "atmcs_sim", "atmonochromator", "atpneumatics_sim", "atspectrograph", "atwhitelight", "audio_broadcaster", "authorize", "dimm", "dmocps", "dsm", "electrometer", "ess", "fiberspectrograph", "genericcamera", "gis", "headerservice", "hvac", "integrationtests", "lasertracker", "love-commander", "love-csc", "love-frontend", "love-frontend-k8s", "love-manager", "love-manager-static", "love-producer", "love-view-backup", "mtaircompressor", "mthexapod", "mtdome", "mtdometrajectory", "mtm2_sim", "mtmount", "mtrotator", "nightreport", "ospl-daemon", "pmd", "rubintv", "salkafka", "scheduler", "schedview", "test", "watcher", "weatherforecast"]
 pipeline {
 
   options {
@@ -20,8 +21,8 @@ pipeline {
   environment {
     registryCredential = "dockerhub-lssttsadmin"
     pub_registryCredential = "dockerhub-lssttsadmin"
-    CONDA_PACKAGES = "ataos atdome atdometrajectory athexapod atmcs_sim atmonochromator atpneumatics_sim atspectrograph atwhitelight audio_broadcaster authorize dimm dmocps dsm electrometer ess fiberspectrograph genericcamera gis headerservice hvac integrationtests lasertracker love-commander love-csc love-frontend love-frontend-k8s love-manager love-manager-static love-producer love-view-backup mtaircompressor mthexapod mtdome mtdometrajectory mtm2_sim mtmount mtrotator nightreport ospl-daemon pmd rubintv salkafka scheduler schedview test watcher weatherforecast"
-    CONDA_PACKAGES_C = "ataos_c atdome_c atdometrajectory_c athexapod_c atmcs_sim_c atmonochromator_c atpneumatics_sim_c atspectrograph_c atwhitelight_c audio_broadcaster_c authorize_c dimm_c dmocps_c dsm_c electrometer_c ess_c fiberspectrograph_c genericcamera_c gis_c headerservice_c hvac_c integrationtests_c lasertracker_c love-commander_c love-csc_c love-frontend_c love-frontend-k8s_c love-manager_c love-manager-static_c love-producer_c love-view-backup_c mtaircompressor_c mthexapod_c mtdome_c mtdometrajectory_c mtm2_sim_c mtmount_c mtrotator_c nightreport_c pmd_c rubintv_c salkafka_c scheduler_c schedview_c test_c watcher_c weatherforecast_c"
+    CONDA_PACKAGES = conda_packages.join(" ")
+    CONDA_PACKAGES_C = conda_packages.join("_c ").concat("_c")
     CAMSPEC_GENCAM = "genericcamera-canon genericcamera-vimba"
     CAMSPEC_GENCAM_C = "genericcamera-canon_c genericcamera-vimba_c"
   }
@@ -38,7 +39,7 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push lsstsqre deployment image (only run this if you are building revision 0 or updating the DM stack version).", name: 'deploy_lsstsqre'
       booleanParam defaultValue: false, description: "Build/push ts-cycle conda package.", name: 'ts_cycle'
       booleanParam defaultValue: false, description: "Build/push all components based on base deployment image.", name: 'base_components'
-      choice(name: 'component', choices: ["ALL", "ataos", "atdome", "atdometrajectory", "athexapod", "atmcs_sim", "atmonochromator", "atpneumatics_sim", "atspectrograph", "atwhitelight", "audio_broadcaster", "authorize", "dimm", "dmocps", "dsm", "electrometer", "ess", "fiberspectrograph", "genericcamera", "gis", "headerservice", "hvac", "integrationtests", "genericcamera", "lasertracker", "love-commander", "love-csc", "love-frontend", "love-frontend-k8s", "love-manager", "love-manager-static", "love-producer", "love-view-backup", "mtaircompressor", "mthexapod", "mtdome", "mtdometrajectory", "mtm2_sim", "mtmount", "mtrotator", "nightreport", "ospl-daemon", "pmd", "rubintv", "salkafka", "scheduler", "schedview", "test", "watcher", "weatherforecast"], description: "Select one component to build. Building all components is only allowed when building revision 0.")
+      choice(name: 'component', choices: ["ALL"] + conda_packages, description: "Select one component to build. Building all components is only allowed when building revision 0.")
       booleanParam defaultValue: false, description: "Build/push ESS Controller image.", name: 'build_ess_controller'
       booleanParam defaultValue: false, description: "Build/push camera-specific GenericCamera images.", name: 'build_camspec_gencam'
       booleanParam defaultValue: false, description: "Build/push M1M3 simulator image.", name: 'build_m1m3_sim'
