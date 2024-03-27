@@ -8,6 +8,38 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 35 Revision 4
+===================
+
+* Update rapid analysis build to checkout and use local versions of obs_lsst and drp_pipe.
+
+* Update rapid-analysis build to use its own version of the DM-stack.
+
+* Update version of ts-develop for develop and main develop-env builds.
+
+* Export PySide2 env vars for the develop environment.
+
+* Create single source for CONDA_PACKAGES ev and choices field in Jenkinfile.cycle
+
+* Update version of the following packages:
+
+  * lsstsqre=7-stack-lsst_distrib-w_2024_12
+  * stack=w_2024_12
+  * stack_ra=w_2024_12
+  * ts_scheduler=2.0.0rc9
+  * ts_mtdome=1.15.5
+  * ts_ess_labjack=1.2.1a1
+  * ts_genericcamera=1.4.2a1
+  * ts_pmd=0.6.1
+  * ts_hvac=0.15.0
+  * ts_weatherforecast=0.4.0
+  * headerservice=3.3.10
+  * ts_nightreport=0.1.2
+  * ts_config_mttcs=0.12.1a1
+  * ts_config_ocs=0.24.37
+  * love_frontend=5.30.0
+  * love_manager=5.18.0
+
 Cycle 35 Revision 3
 ===================
 
