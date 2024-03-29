@@ -55,6 +55,7 @@ RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
 WORKDIR /home/saluser/
 
 COPY mtm1m3_sim/startup.sh /home/saluser/.startup.sh
+
 USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
