@@ -326,7 +326,7 @@ x-mtmount:
       deploy_tag: ${CYCLE}
       mtmount: ${ts_mtmount}
       tcpip: ${ts_tcpip}
-      config: v${ts_config_mttcs}
+      config: ${ts_config_mttcs}
 
 x-mtrotator:
   &base-mtrotator
