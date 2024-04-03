@@ -30,9 +30,15 @@ WORKDIR /home/saluser/
 
 ARG m1m3
 ARG crio_cpp
+ARG config
 
 RUN git clone https://github.com/lsst-ts/ts_m1m3support && \
-    git clone https://github.com/lsst-ts/ts_cRIOcpp
+    git clone https://github.com/lsst-ts/ts_cRIOcpp && \
+    git clone https://github.com/lsst-ts/ts_config_mttcs.git
+
+WORKDIR /home/saluser/ts_config_mttcs
+
+RUN /home/saluser/.checkout_repo.sh ${config}
 
 WORKDIR /home/saluser/ts_cRIOcpp/
 RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
