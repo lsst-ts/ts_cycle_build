@@ -34,9 +34,14 @@ RUN dnf install -y \
     MTRotator-20.2.0-8.0.0.el8.x86_64 \
     ESS-20.2.0-8.0.0.el8.x86_64 \
     ATMCS-20.2.0-8.0.0.el8.x86_64 \
-    Guider-20.2.0-8.0.0.el8.x86_64
-
-
+    Guider-20.2.0-8.0.0.el8.x86_64 \
+    ATPtg_test-20.2.0-8.0.0.el8.x86_64 \
+    MTPtg_test-20.2.0-8.0.0.el8.x86_64 \
+    MTMount_test-20.2.0-8.0.0.el8.x86_64 \
+    MTRotator_test-20.2.0-8.0.0.el8.x86_64 \
+    ESS_test-20.2.0-8.0.0.el8.x86_64 \
+    ATMCS_test-20.2.0-8.0.0.el8.x86_64 \
+    Guider_test-20.2.0-8.0.0.el8.x86_64
 
 RUN mkdir /home/saluser/.ssh/ && chown saluser:saluser /home/saluser/.ssh/ && chmod 700 /home/saluser/.ssh/
 COPY ptg/id_rsa /home/saluser/.ssh/
