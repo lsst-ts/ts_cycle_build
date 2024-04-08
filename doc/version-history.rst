@@ -8,6 +8,26 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 35 revision 5
+===================
+
+* Update deploy-env/lsstsqre to fix command separation when installing libraries.
+
+* Update rapid-analysis usdf build to use its own version of the DM-stack.
+
+* Update version of the following packages:
+
+  * lsstsqre
+  * stack
+  * stack_ra
+  * ts_mtrotator
+  * ts_mthexapod
+  * ts_nightreport
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+    
 Cycle 35 Revision 4
 ===================
 
