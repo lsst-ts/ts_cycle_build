@@ -8,6 +8,49 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 36 revision 0
+===================
+
+* Fix conda build.
+* Add ts_config_ocs to m1m3simulator.
+* Fix config pass in mtmount.
+
+Update the versions of the following packages:
+
+* ts_xml
+* ts_salobj
+
+* lsstsqre
+* stack
+
+* ts_develop
+* ts_hexrotcomm
+* ts_simactuators
+* ts_athexapod
+* ts_atspec
+* ts_authorize
+* ts_mtrotator
+* ts_mthexapod
+* ts_observatory_control
+* ts_scriptqueue
+* ts_m2
+* ts_m2com
+* ts_watcher
+* ts_scheduler
+* ts_mtdome
+* ts_mtdometrajectory
+* ts_ess_common
+* ts_ess_controller
+* ts_ess_csc
+* ts_ess_labjack
+* ts_conda_build
+* ts_tcpip
+* ts_genericcamera
+* ts_hvac
+* ts_utils
+* robotframework_efd
+* rubintv
+
 Cycle 35 revision 5
 ===================
 
