@@ -481,6 +481,7 @@ x-test:
     args:
       hub: ${hub}
       cycle: ${CYCLE}
+      config_ocs: ${ts_config_ocs}
 
 x-watcher:
   &base-watcher
@@ -1249,11 +1250,11 @@ services:
   audio_broadcaster_c:
     image: ${hub}/audio_broadcaster:${CYCLE}
     <<: *base-audio_broadcaster
-  
+
   nightreport:
     image: ${hub}/nightreport:${CYCLE}${rev}
     <<: *base-nightreport
-  
+
   nightreport_c:
     image: ${hub}/nightreport:${CYCLE}
     <<: *base-nightreport
