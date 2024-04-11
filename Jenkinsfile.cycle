@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-conda_packages = ["ataos", "atdome", "atdometrajectory", "athexapod", "atmcs_sim", "atmonochromator", "atpneumatics_sim", "atspectrograph", "atwhitelight", "audio_broadcaster", "authorize", "dimm", "dmocps", "dsm", "electrometer", "ess", "fiberspectrograph", "genericcamera", "gis", "headerservice", "hvac", "integrationtests", "lasertracker", "love-commander", "love-csc", "love-frontend", "love-frontend-k8s", "love-manager", "love-manager-static", "love-producer", "love-view-backup", "mtaircompressor", "mthexapod", "mtdome", "mtdometrajectory", "mtm2_sim", "mtmount", "mtrotator", "nightreport", "ospl-daemon", "pmd", "rubintv", "salkafka", "scheduler", "schedview", "test", "watcher", "weatherforecast"]
+conda_packages = ["ataos", "atdome", "atdometrajectory", "athexapod", "atmcs_sim", "atmonochromator", "atpneumatics_sim", "atspectrograph", "atwhitelight", "audio_broadcaster", "authorize", "dimm", "dmocps", "dsm", "electrometer", "ess", "fiberspectrograph", "genericcamera", "gis", "headerservice", "hvac", "integrationtests", "lasertracker", "love-commander", "love-csc", "love-frontend", "love-frontend-k8s", "love-manager", "love-manager-static", "love-producer", "love-view-backup", "mtaircompressor", "mthexapod", "mtdome", "mtdometrajectory", "mtm2_sim", "mtmount", "mtrotator", "nightreport", "ospl-daemon", "pmd", "rubintv", "salkafka", "scheduler", "schedview", "test", "tunablelaser", "watcher", "weatherforecast"]
 pipeline {
 
   options {
