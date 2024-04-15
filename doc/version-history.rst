@@ -8,6 +8,29 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 36 revision 1
+===================
+
+* DM-44842: Add TunableLaser to cycle build
+
+* Update MTPtg pointing model and configuration.
+
+* Update docker-compose.yaml to pass ts_config_ocs version to test build.
+
+* Update test build to set ts_config_ocs version.
+
+* Update deploy-env/lsstsqre to downgrade jaraco.context.
+
+* Update version of the following packages:
+
+  * lsstsqre
+  * stack
+  * ts_m2
+  * ts_m2com
+  * ts_lasertracker
+  * ts_tunablelaser
+  * ts_config_mtcalsys
+
 Cycle 36 revision 0
 ===================
 
