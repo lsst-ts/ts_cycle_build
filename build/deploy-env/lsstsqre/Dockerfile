@@ -94,6 +94,10 @@ RUN source ${HOME}/.setup_sal_env.sh && \
   idl_path=$(python -c 'from lsst.ts import idl; import pathlib; print(pathlib.Path(idl.__file__).parents[0])') && \
   eups declare -m none -r ${idl_path} ts_idl ${ts_idl}
 
+# TODO (DM-43904): Remove command to explicity downgrade jaraco.context once this is fixed.
+RUN source ./.setup_sal_env.sh && \
+    mamba install -y jaraco.context=4
+
 USER saluser
 
 WORKDIR /home/saluser/

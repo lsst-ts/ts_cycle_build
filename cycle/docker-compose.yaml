@@ -1,3 +1,15 @@
+x-tunablelaser:
+  &base-tunablelaser
+  build:
+    context: ../build/tunablelaser
+    labels:
+      com.description: "TunableLaser deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      tunablelaser: ${ts_tunablelaser}
+      config: ${ts_config_mtcalsys}
+
 x-headerservice:
   &base-headerservice
   build:
@@ -481,6 +493,7 @@ x-test:
     args:
       hub: ${hub}
       cycle: ${CYCLE}
+      config_ocs: ${ts_config_ocs}
 
 x-watcher:
   &base-watcher
@@ -1249,11 +1262,11 @@ services:
   audio_broadcaster_c:
     image: ${hub}/audio_broadcaster:${CYCLE}
     <<: *base-audio_broadcaster
-  
+
   nightreport:
     image: ${hub}/nightreport:${CYCLE}${rev}
     <<: *base-nightreport
-  
+
   nightreport_c:
     image: ${hub}/nightreport:${CYCLE}
     <<: *base-nightreport
@@ -1671,3 +1684,11 @@ services:
   headerservice_c:
     image: ${hub}/headerservice:${CYCLE}
     <<: *base-headerservice
+
+  tunablelaser:
+    image: ${hub}/tunablelaser:${CYCLE}${rev}
+    <<: *base-tunablelaser
+
+  tunablelaser_c:
+    image: ${hub}/tunablelaser:${CYCLE}
+    <<: *base-tunablelaser
