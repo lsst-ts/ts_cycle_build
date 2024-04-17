@@ -33,8 +33,9 @@ ARG rpm
 
 RUN dnf install -y \
     --enablerepo=lsst-ts-test \
-    MTM1M3-20.2.0-8.0.0.el8 \
-    MTMount-20.2.0-8.0.0.el8
+    --disablerepo=lsst-ts \
+    MTM1M3-22.1.0-9.0.0.el8 \
+    MTMount-22.1.0-9.0.0.el8
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
 ENV SAL_WORK_DIR=/opt/lsst/ts_sal
@@ -67,7 +68,7 @@ ENV WITH_SAL_KAFKA=1
 
 WORKDIR /home/saluser/ts_m1m3support/
 
-RUN git checkout tickets/DM-41747 && \
+RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
     source /home/saluser/.setup_sal_env.sh && \
     source scl_source enable gcc-toolset-11 && \
     make simulator 
