@@ -33,8 +33,8 @@ ARG rpm
 
 RUN dnf install -y \
     --enablerepo=lsst-ts-test \
-    MTM1M3-20.2.0-8.0.0.el8 \
-    MTMount-20.2.0-8.0.0.el8
+    MTM1M3-21.0.0-8.0.0.el8 \
+    MTMount-21.0.0-8.0.0.el8
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
 ENV SAL_WORK_DIR=/opt/lsst/ts_sal
