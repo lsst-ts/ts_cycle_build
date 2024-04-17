@@ -25,7 +25,7 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -c lsstts ts-gis=${gis}
+    conda install -y -c lsstts ts-gis=${gis}
 
 USER saluser
 

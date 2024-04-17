@@ -9,7 +9,7 @@ ARG atmonochromator
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -c lsstts ts-atmonochromator=${atmonochromator}
+    conda install -y -c lsstts ts-atmonochromator=${atmonochromator}
 
 RUN git clone https://github.com/lsst-ts/ts_config_atcalsys.git
 
