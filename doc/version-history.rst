@@ -8,6 +8,29 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 36 revision 2
+===================
+
+* Update MT pointing model
+
+* Handle alembic migrations in nightreport
+
+* Update version of the following packages:
+
+  * lsstsqre
+  * stack
+  * ts_develop
+  * ts_mtaos
+  * ts_scheduler
+  * ts_genericcamera
+  * oods
+  * headerservice
+  * ts_tunablelaser
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+
 Cycle 36 revision 1
 ===================
 
@@ -93,7 +116,7 @@ Cycle 35 revision 5
   * ts_config_ocs
   * love_frontend
   * love_manager
-    
+
 Cycle 35 Revision 4
 ===================
 
@@ -165,7 +188,7 @@ Cycle 35 Revision 2
 
 * Update version of the following packages:
 
-  * DM-stack 
+  * DM-stack
   * ts_atdome
   * ts_mtrotator
   * ts_standardscripts
