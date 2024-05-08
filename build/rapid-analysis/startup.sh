@@ -7,7 +7,7 @@ git config --global --add safe.directory '*'
 # Perform updates to all repos before script launch
 # We start in rubintv_production/scripts and need to return there
 cd ../
-directories="obs_lsst drp_pipe Spectractor atmospec summit_utils summit_extras rubintv_production eo_pipe"
+directories="obs_lsst drp_pipe Spectractor atmospec summit_utils summit_extras rubintv_production eo_pipe rubintv_analysis_service"
 for directory in ${directories}
 do
   cd /repos/${directory}
