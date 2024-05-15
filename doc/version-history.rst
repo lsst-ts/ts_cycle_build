@@ -8,6 +8,27 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 36 revision 3
+===================
+
+* Build conda packages for both Python 3.11 and 3.12.
+
+* Update rapid-analysis build to include rubintv_analysis_service and to change most of scons runs to scons version.
+
+* Update the version of the following packages:
+
+  * stack_ra
+  * ts_atwhitelight
+  * ts_externalscripts
+  * ts_mtaos
+  * ts_wep
+  * ts_ess_common
+  * ts_ess_csc
+  * headerservice
+  * ts_tunablelaser
+  * ts_config_ocs
+  * love_manager
+
 Cycle 36 revision 2
 ===================
 
