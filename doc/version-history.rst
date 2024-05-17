@@ -8,6 +8,15 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 36 revision 4
+===================
+
+* In cycle/develop.env, fix ts_salobj version back to develop.
+
+* Update version of the following packages:
+
+  * stack_ra
+
 Cycle 36 revision 3
 ===================
 
