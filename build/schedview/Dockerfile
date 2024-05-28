@@ -15,7 +15,7 @@ RUN /home/saluser/.checkout_repo.sh ${schedview} && \
 
 ARG bokeh
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -y bokeh=${bokeh} \
+    conda install -y bokeh=${bokeh} \
     pytest-flake8 \
     pytest-black \
     selenium \

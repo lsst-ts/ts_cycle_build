@@ -11,7 +11,7 @@ ARG rubintv
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     pip install safir && \
-    mamba install -c lsstts \
+    conda install -y -c lsstts \
     rubintv=${rubintv}
 
 RUN git clone https://github.com/lsst-ts/rubintv
@@ -30,7 +30,7 @@ WORKDIR /home/saluser/
 
 LABEL rubintv=${rubintv}
 
-COPY startup.sh /home/saluser/.startup.sh 
+COPY startup.sh /home/saluser/.startup.sh
 USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh

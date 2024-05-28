@@ -12,7 +12,7 @@ WORKDIR /home/saluser/
 ENV RUN_ARG=""
 
 RUN source /opt/lsst/software/stack/miniconda/bin/activate && \
-    mamba install -y fitsio pyyaml && \
+    conda install -y fitsio pyyaml && \
     git clone https://github.com/lsst-dm/HeaderService -b ${headerservice} && \
     cd HeaderService && \
     export PYTHONPATH=$PYTHONPATH:$CONDA_PREFIX/HeaderService/python &&\

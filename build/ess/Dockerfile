@@ -28,7 +28,7 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -c lsstts ts-ess-common=${common} ts-ess-labjack=${labjack} ts-ess-csc=${ess} labjack-ljm=${labjack_ljm}
+    conda install -y -c lsstts ts-ess-common=${common} ts-ess-labjack=${labjack} ts-ess-csc=${ess} labjack-ljm=${labjack_ljm}
 
 USER saluser
 

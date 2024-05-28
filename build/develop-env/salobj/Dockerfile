@@ -95,7 +95,7 @@ ARG ts_dds
 
 WORKDIR /home/saluser/repos/ts_salobj
 RUN source /home/saluser/.setup_salobj.sh && \
-    mamba install -c lsstts -y ts-dds=${ts_dds} && \
+    conda install -c lsstts -y ts-dds=${ts_dds} && \
     setup ts_config_ocs -t current && \
     setup ts_xml -t current && \
     setup ts_sal -t current && \

@@ -38,7 +38,7 @@ done
 yum -y --enablerepo=extras install epel-release unzip
 
 cd /tmp
-curl -O https://labjack.com/sites/default/files/software/labjack_ljm_software_${labjack_file_version}_${labjack_arch}.tar.gz
+curl -O https://files.labjack.com/installers/LJM/Linux/x64/release/labjack_ljm_software_${labjack_file_version}_${labjack_arch}.tar.gz
 tar -xzf labjack_ljm_software_${labjack_file_version}_${labjack_arch}.tar.gz
 cd labjack_ljm_software_${labjack_file_version}_${labjack_arch}
 ./labjack_ljm_installer.run || echo "Expected failure! can't restart rules on docker."
@@ -49,5 +49,5 @@ rm -rf labjack_ljm_software_${labjack_file_version}_${labjack_arch}
 cd /tmp
 runuser - saluser -c """
 source "${saluser_env_script}" && \
-mamba install -c lsstts labjack-ljm=${labjack_ljm}
+conda install -y -c lsstts labjack-ljm=${labjack_ljm}
 """

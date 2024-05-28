@@ -13,15 +13,15 @@ ARG LSST_DIR=/opt/lsst/software/stack
 WORKDIR ${LSST_DIR}
 USER lsst
 
-RUN source ${WORKDIR}/loadLSST.bash \
-    && mamba install -y scikit-image
+RUN source ${WORKDIR}/loadLSST.bash && \
+    conda install -y scikit-image
 
 USER saluser
 WORKDIR /home/saluser/
 
 ARG lsst_sims
 # Install the lsst_sims and needed packages
-RUN source $LSST_DIR/loadLSST.bash \
-    && eups distrib install lsst_sims ${lsst_sims}
+RUN source $LSST_DIR/loadLSST.bash && \
+    eups distrib install lsst_sims ${lsst_sims}
 
 LABEL lsst_sims=${lsst_sims}

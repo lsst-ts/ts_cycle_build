@@ -16,7 +16,7 @@ ARG ts_scheduler
 ARG ts_observing
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -y -c lsstts \
+    conda install -y -c lsstts \
     ts-observatory-model=${ts_observatory_model} \
     ts-astrosky-model=${ts_astrosky_model} \
     ts-dateloc=${ts_dateloc} \

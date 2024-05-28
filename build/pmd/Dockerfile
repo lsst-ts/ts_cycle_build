@@ -9,7 +9,7 @@ ARG pmd
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -c lsstts ts-pmd=${pmd}
+    conda install -y -c lsstts ts-pmd=${pmd}
 
 RUN git clone https://github.com/lsst-ts/ts_config_ocs.git
 

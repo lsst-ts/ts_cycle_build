@@ -8,7 +8,7 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 ARG atmcs
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -c lsstts ts-atmcs-simulator=${atmcs}
+    conda install -y -c lsstts ts-atmcs-simulator=${atmcs}
 
 LABEL ts-atmcs-simulator=${atmcs}
 

@@ -9,7 +9,7 @@ ARG atdometrajectory
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -c lsstts ts-atdometrajectory=${atdometrajectory}
+    conda install -y -c lsstts ts-atdometrajectory=${atdometrajectory}
 
 RUN git clone https://github.com/lsst-ts/ts_config_attcs.git
 

@@ -76,11 +76,11 @@ WORKDIR ${HOME}
 
 RUN source ${HOME}/.setup_sal_env.sh && \
   conda config --add channels conda-forge && \
-  conda install -y mamba && \
+  conda config --set solver libmamba && \
   conda install -y cython
 
 RUN source ${HOME}/.setup_sal_env.sh && \
-  mamba install -y -c lsstts -c lsstts/label/dev \
+  conda install -y -c lsstts -c lsstts/label/dev \
   ts-xml=${ts_xml} \
   ts-dds=${ts_dds} \
   ts-ddsconfig=${ts_ddsconfig} \
@@ -96,7 +96,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
 
 # TODO (DM-43904): Remove command to explicity downgrade jaraco.context once this is fixed.
 RUN source ./.setup_sal_env.sh && \
-    mamba install -y jaraco.context=4
+    conda install -y jaraco.context=4
 
 USER saluser
 

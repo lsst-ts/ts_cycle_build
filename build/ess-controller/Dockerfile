@@ -28,13 +28,13 @@ RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Ma
     chmod +x mambaforge.sh && \
     ./mambaforge.sh -b -p ${HOME}/miniconda3 && \
     source ${HOME}/miniconda3/bin/activate && \
-    mamba install -y python=${PYTHON_VERSION} && \
+    conda config --set solver libmamba && \
+    conda install -y python=${PYTHON_VERSION} && \
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
-    # mamba update -y --all && \
-    mamba install -y conda-build anaconda-client setuptools_scm && \
-    mamba install -y numpy astropy && \
-    mamba install -y ts-ess-common=${common} ts-ess-controller=${controller} && \
+    conda install -y conda-build anaconda-client setuptools_scm && \
+    conda install -y numpy astropy && \
+    conda install -y ts-ess-common=${common} ts-ess-controller=${controller} && \
     pip install asyncio pyserial pylibftdi pyftdi jsonschema pyyaml
 
 RUN echo source ${HOME}/miniconda3/bin/activate >> ${HOME}/.bashrc

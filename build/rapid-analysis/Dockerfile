@@ -32,7 +32,7 @@ RUN mkdir -p /repos && \
 USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    mamba install -y -c conda-forge \
+    conda install -y -c conda-forge \
     rubin-env-rsp \
     astrometry \
     redis-py \

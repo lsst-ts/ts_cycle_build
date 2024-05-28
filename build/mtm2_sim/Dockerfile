@@ -8,7 +8,7 @@ ARG m2com=1.4.0
 ARG config=v0.2.0
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -c lsstts ts-m2com=${m2com} ts-m2=${m2}
+    conda install -y -c lsstts ts-m2com=${m2com} ts-m2=${m2}
 
 WORKDIR /home/saluser/
 

@@ -136,13 +136,13 @@ ARG openjdk
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     conda config --add channels conda-forge && \
-    conda install -y mamba
+    conda config --set solver libmamba
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    mamba install -y conda-build anaconda-client setuptools_scm maven=${maven} openjdk=${openjdk}
+    conda install -y conda-build anaconda-client setuptools_scm maven=${maven} openjdk=${openjdk}
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    mamba install -y -c lsstts ts-develop=${ts_develop}
+    conda install -y -c lsstts ts-develop=${ts_develop}
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     pip install ltd-conveyor

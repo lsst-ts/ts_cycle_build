@@ -75,13 +75,13 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
   chmod +x mambaforge.sh && \
   ./mambaforge.sh -b -p ${HOME}/miniconda3 && \
   source ${HOME}/miniconda3/bin/activate && \
-  mamba install -y python=${PYTHON_VERSION} && \
+  conda config --set solver libmamba && \
+  conda install -y python=${PYTHON_VERSION} && \
   conda config --add channels conda-forge && \
   conda config --add channels lsstts && \
-  # mamba update -y --all && \
-  mamba install -y Cython && \
-  mamba install -y conda-build anaconda-client setuptools_scm ts-ddsconfig boa conda-libmamba-solver=23.7 && \
-  mamba init bash
+  conda install -y Cython && \
+  conda install -y conda-build anaconda-client setuptools_scm ts-ddsconfig && \
+  conda init bash
 
 USER saluser
 WORKDIR /home/saluser
