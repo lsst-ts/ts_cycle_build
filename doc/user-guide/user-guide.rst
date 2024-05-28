@@ -340,7 +340,7 @@ You have now built the core package images and can move onto the product images.
 
 1. Build the ts-cycle package.
 2. Build all of the products.
-   
+
    .. important::
       Products that are tagged may not be built due to being tagged before a core package was released.
       Another reason might be that the job is not configured to build tags automatically.
@@ -349,7 +349,7 @@ You have now built the core package images and can move onto the product images.
 3. Build the ESS controller.
 4. Build the genericcamera specific images.
 5. Build the m1m3_sim.
-     
+
      .. note::
 	The M1M3 sim uses C++.
 
@@ -527,7 +527,6 @@ The steps in the build are as follows:
     - scheduler
     - watcher
     - weatherforecast
-    - weatherstation
 
   - build_ess_controller: Build ESS Controller Docker image.
   - build_camspec_gencam: Build/push camera-specific GenericCamera images.
