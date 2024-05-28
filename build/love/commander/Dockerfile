@@ -13,7 +13,7 @@ RUN dnf install -y libglvnd-glx
 USER saluser
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -y -c lsstts love-commander=${love_commander} ts-observatory-control=${ts_observatory_control} && \
+    conda install -y -c lsstts love-commander=${love_commander} ts-observatory-control=${ts_observatory_control} && \
     pip install kafkit[aiohttp] aiokafka lsst_efd_client
 
 LABEL love_commander=${love_commander}

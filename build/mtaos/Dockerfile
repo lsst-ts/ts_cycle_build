@@ -9,7 +9,7 @@ FROM ${hub}/deploy-sqre:${cycle}
 WORKDIR ${WORKDIR}
 RUN cd && \
     source ${WORKDIR}/loadLSST.bash && \
-    mamba install -c lsstts ts-develop=${ts_develop}
+    conda install -y -c lsstts ts-develop=${ts_develop}
 
 ARG LSST_USER=saluser
 ARG LSST_USER_HOME=/home/${LSST_USER}
