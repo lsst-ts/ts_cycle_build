@@ -543,18 +543,6 @@ x-weatherforecast:
       weatherforecast: ${ts_weatherforecast}
       config: ${ts_config_ocs}
 
-x-weatherstation:
-  &base-weatherstation
-  build:
-    context: ../build/weatherstation
-    labels:
-      com.description: "Weather Station CSC for cycle/revision ${CYCLE}${rev}."
-    args:
-      deploy_env: ${hub}/${deploy_env}
-      deploy_tag: ${CYCLE}
-      config: ${ts_config_ocs}
-      weatherstation: ${ts_weatherstation}
-
 x-atmcs_sim:
   &base-atmcs_sim
   build:
@@ -1488,14 +1476,6 @@ services:
   weatherforecast_c:
     image: ${hub}/weatherforecast:${CYCLE}
     <<: *base-weatherforecast
-
-  weatherstation:
-    image: ${hub}/weatherstation:${CYCLE}${rev}
-    <<: *base-weatherstation
-
-  weatherstation_c:
-    image: ${hub}/weatherstation:${CYCLE}
-    <<: *base-weatherstation
 
   atmcs_sim:
     image: ${hub}/atmcs_sim:${CYCLE}${rev}
