@@ -50,7 +50,7 @@ ARG ts_scriptqueue
 ARG ts_criopy
 
 RUN source ${HOME}/.setup_sal_env.sh && \
-    mamba install -y -c lsstts \
+    conda install -y -c lsstts \
     ts-atdome=${ts_atdome} \
     ts-atdometrajectory=${ts_atdometrajectory} \
     ts-atmcs-simulator=${ts_atmcssimulator} \
@@ -74,7 +74,7 @@ ARG ts_develop
 
 RUN cd && \
     source ${WORKDIR}/loadLSST.bash && \
-    mamba install -y -c lsstts ts-develop=${ts_develop}
+    conda install -y -c lsstts ts-develop=${ts_develop}
 
 ARG cwfs
 WORKDIR ${HOME}/cwfs
