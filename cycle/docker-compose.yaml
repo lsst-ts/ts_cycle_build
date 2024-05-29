@@ -737,6 +737,20 @@ x-integrationtests:
       integrationtests: ${ts_integrationtests}
       robot_efd: ${robotframework_efd}
 
+x-epm:
+  &base-epm
+  build:
+    context: ../build/epm
+    labels:
+      com.description: "EPM component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      epm: ${ts_epm}
+      ess: ${ts_ess_csc}
+      common: ${ts_ess_common}
+      config: ${ts_config_ocs}
+
 x-ess:
   &base-ess
   build:
@@ -1604,6 +1618,14 @@ services:
   integrationtests_c:
     image: ${hub}/integrationtests:${CYCLE}
     <<: *base-integrationtests
+
+  epm:
+    image: ${hub}/epm:${CYCLE}${rev}
+    <<: *base-epm
+
+  epm_c:
+    image: ${hub}/epm:${CYCLE}
+    <<: *base-epm
 
   ess:
     image: ${hub}/ess:${CYCLE}${rev}
