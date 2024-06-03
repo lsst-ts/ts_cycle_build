@@ -13,7 +13,7 @@ Cycle 36 revision 5
 
 * DM-44549: Add LinearStage to cycle build
 
-* DM-44492: Add CBP to cycle build
+* DM-44417: Add CBP to cycle build
 
 * Add SCRIPTS_LOCATION and rubintv_analysis_service to rapid-analysis startup
 
