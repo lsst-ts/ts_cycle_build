@@ -8,6 +8,29 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 36 revision 5
+===================
+
+* DM-44549: Add LinearStage to cycle build
+
+* DM-44492: Add CBP to cycle build
+
+* Add SCRIPTS_LOCATION and rubintv_analysis_service to rapid-analysis startup
+
+* Update version of the following packages:
+
+  * stack_ra
+  * ts_atwhitelight
+  * headerservice
+  * ts_tunablelaser
+  * ts_config_atcalsys
+  * ts_config_ocs
+  * love_commander
+  * love_producer
+  * love_frontend
+  * love_manager
+
+
 Cycle 36 revision 4
 ===================
 

@@ -16,7 +16,8 @@ do
   git checkout ${DEPLOY_BRANCH} && (git reset --hard origin/${DEPLOY_BRANCH}) || (git checkout ${branch} && git reset --hard origin/${branch})
 done
 
-cd /repos/rubintv_production/scripts
+# Move back to the scripts directory
+cd "${SCRIPTS_LOCATION:-/repos/rubintv_production/scripts}"
 
 source ${WORKDIR}/loadLSST.bash
 
@@ -28,6 +29,7 @@ setup -j atmospec -t saluser
 setup -j summit_utils -t saluser
 setup -j summit_extras -t saluser
 setup -j rubintv_production -t saluser
+setup -j rubintv_analysis_service -t saluser
 setup -j eo_pipe -t saluser
 
 python $RUN_ARG

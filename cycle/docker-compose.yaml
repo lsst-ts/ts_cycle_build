@@ -1,3 +1,27 @@
+x-cbp:
+  &base-cbp
+  build:
+    context: ../build/cbp
+    labels:
+      com.description: "CBP deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      cbp: ${ts_cbp}
+      config: ${ts_config_mtcalsys}
+
+x-linearstage:
+  &base-linearstage
+  build:
+    context: ../build/linearstage
+    labels:
+      com.description: "CBP deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      linearstage: ${ts_linearstage}
+      config: ${ts_config_mtcalsys}
+
 x-tunablelaser:
   &base-tunablelaser
   build:
@@ -1692,3 +1716,19 @@ services:
   tunablelaser_c:
     image: ${hub}/tunablelaser:${CYCLE}
     <<: *base-tunablelaser
+
+  linearstage:
+    image: ${hub}/linearstage:${CYCLE}${rev}
+    <<: *base-linearstage
+
+  linearstage_c:
+    image: ${hub}/linearstage:${CYCLE}
+    <<: *base-linearstage
+
+  cbp:
+    image: ${hub}/cbp:${CYCLE}${rev}
+    <<: *base-cbp
+
+  cbp_c: 
+    image: ${hub}/cbp:${CYCLE}
+    <<: *base-cbp
