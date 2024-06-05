@@ -56,33 +56,35 @@ def main(opts):
     views = []
     with opts.sql_file.open() as ifile:
         for line in ifile:
-            parts = line.split()
+            parts = line.split("\t")
             try:
                 fixture = int(parts[0])
+                if opts.verbose > 2:
+                    print("Parts:", parts)
                 view_spec = make_view_dict()
                 view_spec["pk"] = fixture
                 fields = view_spec["fields"]
-                fields["creation_timestamp"] = make_timestamp(parts[1:3])
-                fields["update_timestamp"] = make_timestamp(parts[3:5])
-                fields["thumbnail"] = parts[-1] if "thumbnail" in parts[-1] else ""
-                end_index = -1
-                if fields["thumbnail"] == "":
-                    end_index = None
-                offset = 5
-                for i, item in enumerate(parts[offset:]):
-                    if "{" in item:
-                        offset += i
-                        break
-                fields["name"] = " ".join(parts[5:offset])
-                fields["data"] = json.loads(" ".join(parts[slice(offset, end_index)]))
-                if opts.verbose:
-                    print(view_spec)
+                fields["creation_timestamp"] = make_timestamp(parts[1].split())
+                fields["update_timestamp"] = make_timestamp(parts[2].split())
+
+                if opts.verbose > 2:
+                    print("First fields:", fields)
+
+                fields["name"] = parts[3]
+                if opts.verbose > 2:
+                    print(f"Name: {fields['name']}")
+                fields["data"] = json.loads(parts[4])
+                fields["thumbnail"] = parts[5]
+
+                if opts.verbose > 1:
+                    print("Spec:", view_spec)
                 views.append(view_spec)
             except (IndexError, ValueError):
                 pass
 
     views.sort(key=operator.itemgetter("pk"))
-    if opts.verbose:
+    print(f"Total number of views: {len(views)}")
+    if opts.show_views:
         print(views)
 
     if opts.site_tag is not None:
@@ -102,12 +104,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=" ".join(description))
 
     parser.add_argument("sql_file", type=pathlib.Path, help="The SQL file to convert.")
+
     parser.add_argument(
         "--site-tag", type=str, help="Site specific tag to add to the filename."
     )
 
     parser.add_argument(
-        "-v", "--verbose", action="store_true", help="Increase script output."
+        "-v", "--verbose", action="count", default=0, help="Increase script output."
+    )
+
+    parser.add_argument(
+        "--show-views", action="store_true", help="Show constructed views."
     )
 
     args = parser.parse_args()
