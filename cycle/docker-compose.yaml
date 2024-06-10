@@ -339,12 +339,12 @@ x-lasertracker:
       ts_lasertracker: ${ts_lasertracker}
       config: ${ts_config_mttcs}
 
-x-mtm2_sim:
-  &base-mtm2_sim
+x-mtm2:
+  &base-mtm2
   build:
-    context: ../build/mtm2_sim
+    context: ../build/mtm2
     labels:
-      com.description: "M2 simulator deployment image for cycle/revision ${CYCLE}${rev}."
+      com.description: "M2 deployment image for cycle/revision ${CYCLE}${rev}."
     args:
       deploy_env: ${hub}/${deploy_env}
       deploy_tag: ${CYCLE}
@@ -1353,13 +1353,13 @@ services:
     image: ${hub}/lasertracker:${CYCLE}
     <<: *base-lasertracker
 
-  mtm2_sim:
+  mtm2:
     image: ${hub}/m2:${CYCLE}${rev}
-    <<: *base-mtm2_sim
+    <<: *base-mtm2
 
-  mtm2_sim_c:
+  mtm2_c:
     image: ${hub}/m2:${CYCLE}
-    <<: *base-mtm2_sim
+    <<: *base-mtm2
 
   mtmount:
     image: ${hub}/mtmount:${CYCLE}${rev}
@@ -1731,6 +1731,6 @@ services:
     image: ${hub}/cbp:${CYCLE}${rev}
     <<: *base-cbp
 
-  cbp_c: 
+  cbp_c:
     image: ${hub}/cbp:${CYCLE}
     <<: *base-cbp
