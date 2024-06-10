@@ -518,7 +518,7 @@ The steps in the build are as follows:
     - mthexapod
     - mtdome
     - mtdometrajectory
-    - mtm2_sim
+    - mtm2
     - mtmount
     - mtrotator
     - ospl-daemon
