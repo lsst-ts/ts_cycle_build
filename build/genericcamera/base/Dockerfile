@@ -29,7 +29,7 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
 USER saluser
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -y -c lsstts ts-genericcamera=${genericcamera}
+    conda install -y -c lsstts ts-genericcamera=${genericcamera}
 
 LABEL ts-genericcamera=${genericcamera} \
       ts_config_ocs=${config}

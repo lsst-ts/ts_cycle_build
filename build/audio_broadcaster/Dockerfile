@@ -10,12 +10,12 @@ WORKDIR /home/saluser/
 ARG ts_audio_broadcaster
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -c lsstts \
+    conda install -y -c lsstts \
     ts-audio-broadcaster=${ts_audio_broadcaster}
 
 LABEL ts_audio_broadcaster=${ts_audio_broadcaster}
 
-COPY startup.sh /home/saluser/.startup.sh 
+COPY startup.sh /home/saluser/.startup.sh
 USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh

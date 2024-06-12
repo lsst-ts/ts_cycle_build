@@ -339,12 +339,12 @@ x-lasertracker:
       ts_lasertracker: ${ts_lasertracker}
       config: ${ts_config_mttcs}
 
-x-mtm2_sim:
-  &base-mtm2_sim
+x-mtm2:
+  &base-mtm2
   build:
-    context: ../build/mtm2_sim
+    context: ../build/mtm2
     labels:
-      com.description: "M2 simulator deployment image for cycle/revision ${CYCLE}${rev}."
+      com.description: "M2 deployment image for cycle/revision ${CYCLE}${rev}."
     args:
       deploy_env: ${hub}/${deploy_env}
       deploy_tag: ${CYCLE}
@@ -543,18 +543,6 @@ x-weatherforecast:
       weatherforecast: ${ts_weatherforecast}
       config: ${ts_config_ocs}
 
-x-weatherstation:
-  &base-weatherstation
-  build:
-    context: ../build/weatherstation
-    labels:
-      com.description: "Weather Station CSC for cycle/revision ${CYCLE}${rev}."
-    args:
-      deploy_env: ${hub}/${deploy_env}
-      deploy_tag: ${CYCLE}
-      config: ${ts_config_ocs}
-      weatherstation: ${ts_weatherstation}
-
 x-atmcs_sim:
   &base-atmcs_sim
   build:
@@ -748,6 +736,20 @@ x-integrationtests:
       hub: ${hub}
       integrationtests: ${ts_integrationtests}
       robot_efd: ${robotframework_efd}
+
+x-epm:
+  &base-epm
+  build:
+    context: ../build/epm
+    labels:
+      com.description: "EPM component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      epm: ${ts_epm}
+      ess: ${ts_ess_csc}
+      common: ${ts_ess_common}
+      config: ${ts_config_ocs}
 
 x-ess:
   &base-ess
@@ -1351,13 +1353,13 @@ services:
     image: ${hub}/lasertracker:${CYCLE}
     <<: *base-lasertracker
 
-  mtm2_sim:
+  mtm2:
     image: ${hub}/m2:${CYCLE}${rev}
-    <<: *base-mtm2_sim
+    <<: *base-mtm2
 
-  mtm2_sim_c:
+  mtm2_c:
     image: ${hub}/m2:${CYCLE}
-    <<: *base-mtm2_sim
+    <<: *base-mtm2
 
   mtmount:
     image: ${hub}/mtmount:${CYCLE}${rev}
@@ -1489,14 +1491,6 @@ services:
     image: ${hub}/weatherforecast:${CYCLE}
     <<: *base-weatherforecast
 
-  weatherstation:
-    image: ${hub}/weatherstation:${CYCLE}${rev}
-    <<: *base-weatherstation
-
-  weatherstation_c:
-    image: ${hub}/weatherstation:${CYCLE}
-    <<: *base-weatherstation
-
   atmcs_sim:
     image: ${hub}/atmcs_sim:${CYCLE}${rev}
     <<: *base-atmcs_sim
@@ -1625,6 +1619,14 @@ services:
     image: ${hub}/integrationtests:${CYCLE}
     <<: *base-integrationtests
 
+  epm:
+    image: ${hub}/epm:${CYCLE}${rev}
+    <<: *base-epm
+
+  epm_c:
+    image: ${hub}/epm:${CYCLE}
+    <<: *base-epm
+
   ess:
     image: ${hub}/ess:${CYCLE}${rev}
     <<: *base-ess
@@ -1729,6 +1731,6 @@ services:
     image: ${hub}/cbp:${CYCLE}${rev}
     <<: *base-cbp
 
-  cbp_c: 
+  cbp_c:
     image: ${hub}/cbp:${CYCLE}
     <<: *base-cbp

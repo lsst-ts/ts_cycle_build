@@ -73,7 +73,7 @@ docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \
   hexapod \
   mtdome \
   mtdometrajectory \
-  mtm2_sim \
+  mtm2 \
   mtmount \
   ospl-daemon \
   rotator \
@@ -92,7 +92,7 @@ docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push \
   hexapod \
   mtdome \
   mtdometrajectory \
-  mtm2_sim \
+  mtm2 \
   mtmount \
   ospl-daemon \
   rotator \

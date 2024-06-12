@@ -10,7 +10,7 @@ source ${HOME}/.setup_sal_env.sh
 # until the simulator is implemented.
 # Run the CCCamera tests when running on the TTS.
 if [[ "${ENV_EFD}" == "base_efd" ]]; then
-    skipped="-e bigcamera -e mtocps"
+    skipped="-e bigcamera -e mtocps -e mtptg"
 else
     skipped=""
 fi

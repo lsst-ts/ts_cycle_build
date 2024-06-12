@@ -8,7 +8,7 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 ARG ts_lasertracker
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -y -c lsstts ts-lasertracker=${ts_lasertracker}
+    conda install -y -c lsstts ts-lasertracker=${ts_lasertracker}
 
 RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
 
