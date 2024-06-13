@@ -20,7 +20,7 @@ ENV RUN_ARG=""
 WORKDIR /home/saluser/
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsst-dm dm-ocps=${dmocps}
+    conda install -y -c lsst-dm -c lsstts dm-ocps=${dmocps}
 
 LABEL dm_ocps=${dmocps} \
       dm_config_ocps=${config}
