@@ -55,9 +55,11 @@ ARG ts_salobj
 WORKDIR ${HOME}
 
 RUN source ${HOME}/.setup_sal_env.sh && \
-  conda config --add channels conda-forge && \
+  conda config --add channels lsstts/label/dev && \
+  conda config --add channels lsstts/label/rc && \
+  conda config --add channels lsstts && \
+  conda config --add channels conda-forge && \ 
   conda config --set solver libmamba && \
-  conda install -y -c lsstts -c lsstts/label/dev -c lsstts/label/rc && \
   conda install -y cython
 
 RUN source ${HOME}/.setup_sal_env.sh && \
