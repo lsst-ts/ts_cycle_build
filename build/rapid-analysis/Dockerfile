@@ -29,6 +29,8 @@ RUN mkdir -p /repos && \
     chmod a+rw /repos && \
     chown saluser:saluser /repos
 
+RUN yum install -y nano
+
 USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash && \
@@ -37,6 +39,8 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     rubin-env-rsp \
     astrometry \
     redis-py \
+    batoid \
+    danish \
     rubin-libradtran
 
 USER saluser
