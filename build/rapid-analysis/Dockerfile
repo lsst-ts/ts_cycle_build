@@ -55,6 +55,7 @@ RUN git clone https://github.com/lsst/Spectractor.git && \
     git clone https://github.com/lsst-sitcom/summit_extras.git && \
     git clone https://github.com/lsst-sitcom/rubintv_production.git && \
     git clone https://github.com/lsst-ts/rubintv_analysis_service.git && \
+    git clone https://github.com/lsst-ts/ts_wep.git && \
     git clone https://github.com/lsst-camera-dh/eo_pipe.git
 
 # TODO: (DM-43475) Resync RA images with the rest of the summit.
