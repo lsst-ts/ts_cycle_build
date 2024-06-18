@@ -32,6 +32,7 @@ RUN mkdir -p /repos && \
 USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash && \
+    conda config --set solver libmamba && \
     conda install -y -c conda-forge \
     rubin-env-rsp \
     astrometry \
@@ -172,6 +173,14 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     setup obs_lsst && \
     setup sconsUtils && \
     scons version 
+
+WORKDIR /repos/ts_wep
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    /home/saluser/.checkout_repo.sh ${rubintv_production_work_branch} && \
+    eups declare -r . ts_wep ${ts_wep} -t saluser && \
+    setup ts_wep -t saluser && \
+    scons version
 
 ENV RUN_ARG="-v"
 ENV DEPLOY_BRANCH=${rubintv_production_work_branch}
