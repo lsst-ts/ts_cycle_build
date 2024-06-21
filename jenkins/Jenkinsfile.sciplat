@@ -1,11 +1,6 @@
 pipeline {
     agent {
-      docker {
-        alwaysPull true
-        label 'CSC_Conda_Node'
-        image 'docker/compose:latest'
-        args "--entrypoint='' --user root -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
-      }
+      label 'CSC_Conda_Node'
     }
 
     triggers {
@@ -24,74 +19,130 @@ pipeline {
             }
           }
         }
-        stage("Build/push daily sal-sciplat licensed") {
+        stage("Build daily sal-sciplat licensed") {
           steps {
             withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=d_latest", "stack=d_latest"]) {
               script {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-licensed
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-licensed
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-licensed
+                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-licensed
+                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-licensed
                   """
                 }
               }
             }
           }
         }
-        stage("Build/push daily sal-sciplat community") {
+        stage("Push daily sal-sciplat licensed") {
+          steps {
+            withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=d_latest", "stack=d_latest"]) {
+              script {
+                retry(3) {
+                  docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                    sh """
+                      docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-licensed
+                    """
+                  }
+                }
+              }
+            }
+          }
+        }
+        stage("Build daily sal-sciplat community") {
           steps {
             withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=d_latest", "stack=d_latest"]) {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-community
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-community
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-community
+                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-community
+                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-community
                   """
                 }
               }
             }
           }
         }
-        stage("Build/push weekly sal-sciplat licensed") {
+        stage("Push daily sal-sciplat community") {
           steps {
-            withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=w_latest", "stack=w_latest"]) {
-            script {
-              docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                sh """
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-licensed
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-licensed
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-licensed
-                """
+            withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=d_latest", "stack=d_latest"]) {
+              script {
+                retry(3) {
+                  docker.withRegistry("", registryCredential) {
+                    sh """
+                      docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-community
+                    """
+                  }
+                }
               }
             }
           }
         }
-      }
-      stage("Build/push weekly sal-sciplat community") {
+        stage("Build weekly sal-sciplat licensed") {
           steps {
             withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=w_latest", "stack=w_latest"]) {
-            script {
-              docker.withRegistry("", registryCredential) {
-                sh """
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-community
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-community
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-community
-                """
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
+                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-licensed
+                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-licensed
+                  """
+                }
               }
             }
           }
         }
-      }
-      stage("Trigger lab build") {
-        when {
-            expression { env.BRANCH_NAME == 'main' }
+        stage("Push weekly sal-sciplat licensed") {
+            steps {
+              withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=w_latest", "stack=w_latest"]) {
+                script {
+                  retry(3) {
+                    docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                      sh """
+                          docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-licensed
+                      """
+                    }
+                  }
+                }
+              }
+            }
         }
-        steps {
-            build job: 'SalSciplatLab/main', parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: false)], wait: false
+        stage("Build weekly sal-sciplat community") {
+            steps {
+              withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=w_latest", "stack=w_latest"]) {
+              script {
+                docker.withRegistry("", registryCredential) {
+                  sh """
+                      docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-community
+                      docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-community
+                  """
+                }
+              }
+            }
+          }
         }
-      }
+        stage("Push weekly sal-sciplat community") {
+            steps {
+              withEnv(["HOME=${env.WORKSPACE}", "lsstsqre=w_latest", "stack=w_latest"]) {
+              script {
+                retry(3){
+                  docker.withRegistry("", registryCredential) {
+                    sh """
+                        docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-community
+                    """
+                  }
+                }
+              }
+            }
+          }
+        }
+        stage("Trigger lab build") {
+          when {
+              expression { env.BRANCH_NAME == 'main' }
+          }
+          steps {
+              build job: 'SalSciplatLab/main', parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: false)], wait: false
+          }
+        }
     }
     post {
         always {
