@@ -29,13 +29,18 @@ RUN mkdir -p /repos && \
     chmod a+rw /repos && \
     chown saluser:saluser /repos
 
+RUN yum install -y nano
+
 USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash && \
+    conda config --set solver libmamba && \
     conda install -y -c conda-forge \
     rubin-env-rsp \
     astrometry \
     redis-py \
+    batoid \
+    danish \
     rubin-libradtran
 
 USER saluser
@@ -55,6 +60,8 @@ RUN git clone https://github.com/lsst/Spectractor.git && \
     git clone https://github.com/lsst-sitcom/summit_extras.git && \
     git clone https://github.com/lsst-sitcom/rubintv_production.git && \
     git clone https://github.com/lsst-ts/rubintv_analysis_service.git && \
+    git clone https://github.com/lsst-ts/ts_wep.git && \
+    git clone https://github.com/lsst-ts/donut_viz.git && \
     git clone https://github.com/lsst-camera-dh/eo_pipe.git
 
 # TODO: (DM-43475) Resync RA images with the rest of the summit.
@@ -171,6 +178,22 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     setup obs_lsst && \
     setup sconsUtils && \
     scons version 
+
+WORKDIR /repos/ts_wep
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    /home/saluser/.checkout_repo.sh ${rubintv_production_work_branch} && \
+    eups declare -r . ts_wep ${ts_wep} -t saluser && \
+    setup ts_wep -t saluser && \
+    scons version
+
+WORKDIR /repos/donut_viz
+
+RUN source ${WORKDIR}/loadLSST.bash && \
+    /home/saluser/.checkout_repo.sh ${rubintv_production_work_branch} && \
+    eups declare -r . donut_viz ${ts_wep} -t saluser && \
+    setup donut_viz -t saluser && \
+    scons version
 
 ENV RUN_ARG="-v"
 ENV DEPLOY_BRANCH=${rubintv_production_work_branch}

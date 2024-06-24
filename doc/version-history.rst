@@ -8,55 +8,97 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
-  Cycle 37
-  ========
+Cycle 37 revision 1
+===================
 
-  * Add EPM
-  * Remove WeatherStation
-  * Switch from Mamba to conda with lib-mamba solver
-  * Rename MTM2-sim to MTM2
-  * Update pre-commit hooks
-  * Fix SQL to JSON translation in love-backup
+* Update base develop image to make sure all packages installed with pip are not pulling any dependencies.
 
-  Core products
-  * ts_xml
-  * ts_sal
-  * ts_salobj
+  Updates include:
 
-  Products
-  * ts_develop
-  * ts_atmcssimulator
-  * ts_athexapod
-  * ts_atwhitelight
-  * ts_observatory_control
-  * ts_standardscripts
-  * ts_ataos
-  * ts_m2
-  * ts_m2com
-  * ts_mtmount
-  * ts_pointing_common
-  * ts_lasertracker
-  * ts_wep
-  * ts_watcher
-  * ts_mtdome
-  * ts_dsm
-  * ts_epm
-  * ts_ess_common
-  * ts_ess_csc
-  * ts_ess_labjack
-  * ts_conda_build
-  * ts_tcpip
-  * ts_genericcamera
-  * ts_utils
-  * robotframework_efd
-  * ts_integrationtests
+  * Pin version of rawpy.
+  * Stop installing Pillow with pip (it is already installed as a conda package).
+  * Install ltd-conveyor with conda.
+  * Remove safir.
+    In principle this is a temporary removal, until we can get a conda package for it.
+
+* Update sciplat build script to stop using the docker agent
+
+* Install donut_viz in rapid analysis.
+
+* Install nano, batoid and danish on rapid analysis.
+
+* Update rapid analysis build to use libmamba solver.
+
+* Add ts_wep to rapid analysis.
+
+* Update OCPS build to install redis.
+
+* Update OCPS build to use package from lsstts org as well as lsst-dm.
+
+* Update version of the following packages:
+
+  * DM stack
+  * DM stack for rapid analysis
+  * dm_OCPS
   * headerservice
-  * rubintv
-
-  Configuration
+  * ts_linearstage
   * ts_config_mtcalsys
-  * ts_config_mttcs
-  * ts_config_ocs
+  * love_frontend
+  * love_manager
+  * ts_fbs_utils
+
+Cycle 37
+========
+
+* Add EPM
+* Remove WeatherStation
+* Switch from Mamba to conda with lib-mamba solver
+* Rename MTM2-sim to MTM2
+* Update pre-commit hooks
+* Fix SQL to JSON translation in love-backup
+
+Core products
+-------------
+* ts_xml
+* ts_sal
+* ts_salobj
+
+Products
+--------
+* ts_develop
+* ts_atmcssimulator
+* ts_athexapod
+* ts_atwhitelight
+* ts_observatory_control
+* ts_standardscripts
+* ts_ataos
+* ts_m2
+* ts_m2com
+* ts_mtmount
+* ts_pointing_common
+* ts_lasertracker
+* ts_wep
+* ts_watcher
+* ts_mtdome
+* ts_dsm
+* ts_epm
+* ts_ess_common
+* ts_ess_csc
+* ts_ess_labjack
+* ts_conda_build
+* ts_tcpip
+* ts_genericcamera
+* ts_utils
+* robotframework_efd
+* ts_integrationtests
+* headerservice
+* rubintv
+
+Configuration
+-------------
+* ts_config_mtcalsys
+* ts_config_mttcs
+* ts_config_ocs
 
 Cycle 36 revision 5
 ===================
