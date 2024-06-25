@@ -462,7 +462,7 @@ x-scheduler:
       ts_dateloc: ${ts_dateloc}
       ts_observing: ${ts_observing}
       ts_fbs_utils: ${ts_fbs_utils}
-      rubin_sim: ${rubin_sim}
+      rubin_scheduler: ${rubin_scheduler}
       lsst_efd_client: ${lsst_efd_client}
 
 x-schedview:
