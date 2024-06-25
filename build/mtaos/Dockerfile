@@ -68,7 +68,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
 WORKDIR ${AOS_REPOS}/ts_ofc
 RUN source ${HOME}/.setup_sal_env.sh && \
     setup ts_ofc -t current && \
-    scons
+    scons version
 
 # mtaos
 WORKDIR ${AOS_REPOS}/ts_mtaos
