@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-conda_packages = ["love-manager","atmcs_sim","atmonochromator","test","dimm","fiberspectrograph","lasertracker","mthexapod","genericcamera","scheduler","mtaircompressor","atpneumatics_sim","love-producer","mtm2_sim","atspectrograph","mtmount","nightreport","atdometrajectory","schedview","dsm","ospl-daemon","rubintv","pmd","watcher","headerservice","integrationtests","weatherforecast","electrometer","athexapod","hvac","love-commander","linearstage","cbp","love-manager-static","audio_broadcaster","salkafka","mtdome","love-view-backup","ataos","love-frontend","gis","tunablelaser","dmocps","ess","atwhitelight","epm","love-csc","authorize","mtm2","mtrotator","mtdometrajectory","love-frontend-k8s","atdome"] 
+conda_packages = ["love-manager","atmcs_sim","atmonochromator","test","dimm","fiberspectrograph","lasertracker","mthexapod","genericcamera","scheduler","mtaircompressor","atpneumatics_sim","love-producer","atspectrograph","mtmount","nightreport","atdometrajectory","schedview","dsm","ospl-daemon","rubintv","pmd","watcher","headerservice","integrationtests","weatherforecast","electrometer","athexapod","hvac","love-commander","linearstage","cbp","love-manager-static","audio_broadcaster","salkafka","mtdome","love-view-backup","ataos","love-frontend","gis","tunablelaser","dmocps","ess","atwhitelight","epm","love-csc","authorize","mtm2","mtrotator","mtdometrajectory","love-frontend-k8s","atdome"] 
 pipeline {
 
   options {
