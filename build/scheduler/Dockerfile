@@ -17,6 +17,7 @@ ARG ts_observing
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts \
+    scipy=1.13 \
     ts-observatory-model=${ts_observatory_model} \
     ts-astrosky-model=${ts_astrosky_model} \
     ts-dateloc=${ts_dateloc} \
