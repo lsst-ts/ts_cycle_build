@@ -28,6 +28,7 @@ ARG rpm
 
 RUN dnf install -y \
     --enablerepo=lsst-ts-test \
+    --disablerepo=lsst-ts \
     ATPtg-21.0.0-8.0.0.el8.x86_64 \
     MTPtg-21.0.0-8.0.0.el8.x86_64 \
     MTMount-21.0.0-8.0.0.el8.x86_64 \
