@@ -28,20 +28,13 @@ ARG rpm
 
 RUN dnf install -y \
     --enablerepo=lsst-ts-test \
-    ATPtg-20.2.0-8.0.0.el8.x86_64 \
-    MTPtg-20.2.0-8.0.0.el8.x86_64 \
-    MTMount-20.2.0-8.0.0.el8.x86_64 \
-    MTRotator-20.2.0-8.0.0.el8.x86_64 \
-    ESS-20.2.0-8.0.0.el8.x86_64 \
-    ATMCS-20.2.0-8.0.0.el8.x86_64 \
-    Guider-20.2.0-8.0.0.el8.x86_64 \
-    ATPtg_test-20.2.0-8.0.0.el8.x86_64 \
-    MTPtg_test-20.2.0-8.0.0.el8.x86_64 \
-    MTMount_test-20.2.0-8.0.0.el8.x86_64 \
-    MTRotator_test-20.2.0-8.0.0.el8.x86_64 \
-    ESS_test-20.2.0-8.0.0.el8.x86_64 \
-    ATMCS_test-20.2.0-8.0.0.el8.x86_64 \
-    Guider_test-20.2.0-8.0.0.el8.x86_64
+    ATPtg-21.0.0-8.0.0.el8.x86_64 \
+    MTPtg-21.0.0-8.0.0.el8.x86_64 \
+    MTMount-21.0.0-8.0.0.el8.x86_64 \
+    MTRotator-21.0.0-8.0.0.el8.x86_64 \
+    ESS-21.0.0-8.0.0.el8.x86_64 \
+    ATMCS-21.0.0-8.0.0.el8.x86_64 \
+    Guider-21.0.0-8.0.0.el8.x86_64
 
 RUN mkdir /home/saluser/.ssh/ && chown saluser:saluser /home/saluser/.ssh/ && chmod 700 /home/saluser/.ssh/
 COPY ptg/id_rsa /home/saluser/.ssh/
