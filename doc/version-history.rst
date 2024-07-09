@@ -8,6 +8,33 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 37 revision 2
+===================
+
+* Update mtaos build to only generate version file for ts_ofc.
+
+* Update mtaos build to only generate version file for ts_mtaos.
+
+* Pin version of scipy to 1.13.
+
+* Update docker-compose.yaml to pass version of rubin_scheduler to scheduler build and stop passing rubin_sim.
+
+* Update Jenkinsfile.cycle to have conda packages listed one per line.
+
+* Update version of the following packages:
+
+  * stack_ra
+  * ts_m2
+  * ts_m2com
+  * ts_mtaos
+  * ts_scheduler
+  * ts_epm
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+  * ts_observing
+
+
 Cycle 37 revision 1
 ===================
 
