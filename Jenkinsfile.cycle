@@ -127,15 +127,15 @@ pipeline {
           sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
         }
 
-        withEnv(["HOME=${env.WORKSPACE}"]) {
-          sh """
-          docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} conda-builder-private
-          """
-        }
-
         script {
 
           def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+            sh """
+            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} conda-builder-private
+            """
+          }
 
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
