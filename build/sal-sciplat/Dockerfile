@@ -38,7 +38,7 @@ ARG ts_salobj
 
 RUN source ${LOADSTACK} && \
     conda list && \
-    mamba install -c lsstts -c lsstts/label/rc -y \
+    mamba install -c conda-forge -c lsstts -c lsstts/label/rc -y \
     ts-salobj=${ts_salobj}
 
 RUN source ${LOADSTACK} && \
