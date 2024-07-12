@@ -145,16 +145,7 @@ RUN source ${WORKDIR}/loadLSST.bash && \
     conda install -y -c lsstts ts-develop=${ts_develop}
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    pip install ltd-conveyor
-
-# Install python-gphoto2
-RUN source ${WORKDIR}/loadLSST.bash && \
-    pip install gphoto2==${gphoto2} --only-binary :all: && \
-    pip install Pillow rawpy
-
-# Install safir
-RUN source ${WORKDIR}/loadLSST.bash && \
-    pip install safir
+    conda install -y ltd-conveyor
 
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current
