@@ -10,6 +10,11 @@ USER root
 ARG UID=73006
 ARG GID=73006
 
+# Workaround for centos
+RUN sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo && \
+    sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo && \
+    sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
+
 # Create user and group
 RUN if [ $UID -eq 1000 ] && [ $GID -eq 1000 ]; then  \
     echo "Renaming lsst to saluser" && \

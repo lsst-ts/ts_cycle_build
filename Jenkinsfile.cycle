@@ -86,8 +86,7 @@ pipeline {
         name: 'set_cache_option'
       )
       choice choices: ['Node3_4CPU', 'CSC_Conda_Node', 'Node1_4CPU', 'Node2_8CPU'], description: 'Select the build agent', name: 'build_agent'
-      booleanParam defaultValue: false, description: "Build/push Conda Package Builder arm64 and aarch64 images.", name: 'build_conda_package_builder_arm'
-      booleanParam defaultValue: false, description: "Build/push Conda Package Builder x86 images.", name: 'build_conda_package_builder_x86'
+      booleanParam defaultValue: false, description: "Build/push Conda Package Builder arm64 and aarch64 images.", name: 'build_conda_package_builder'
       booleanParam defaultValue: false, description: "Build/push base deployment image (only run this if you are building revision 0).", name: 'deploy_conda'
       booleanParam defaultValue: false, description: "Build/push lsstsqre deployment image (only run this if you are building revision 0 or updating the DM stack version).", name: 'deploy_lsstsqre'
       booleanParam defaultValue: false, description: "Build/push ts-cycle conda package.", name: 'ts_cycle'
@@ -108,45 +107,13 @@ pipeline {
 
   stages {
 
-    stage ('Build Conda Package Builder ARM images') {
+    stage ('Build Conda Package Builder images') {
       when {
-          expression { params.build_conda_package_builder_arm }
+          expression { params.build_conda_package_builder }
       }
       steps {
           build job: "CondaPackageBuilder_amd64/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_conda_package_builder', value: true)], wait: false
           build job: "CondaPackageBuilder_aarch64/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_conda_package_builder_aarch64', value: true)], wait: false
-      }
-    }
-    stage ('Build Conda Package Builder x86 images') {
-      when {
-          expression { params.build_conda_package_builder_x86 }
-      }
-      steps {
-
-        withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-          sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
-        }
-
-        withEnv(["HOME=${env.WORKSPACE}"]) {
-          sh """
-          docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} conda-builder-private
-          """
-        }
-
-        script {
-
-          def cacheOption = params.set_cache_option ? "--no-cache" : ""
-
-          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-            sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push conda-builder-private
-              source cycle/cycle.env
-              docker tag ts-dockerhub.lsst.org/conda_package_builder:\${CYCLE}\${rev} ts-dockerhub.lsst.org/conda_package_builder
-              docker push ts-dockerhub.lsst.org/conda_package_builder
-            """
-          }
-        }
-
       }
     }
     stage ('Build deploy-conda-private') {

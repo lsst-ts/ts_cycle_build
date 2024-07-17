@@ -8,6 +8,34 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 37 revision 3
+===================
+
+* Implement workaround on rapid-analysis Dockerfile due to EOL of centos.
+
+* Remove root and privileged arguments from Jenkinsfile.conda_package_builder_aarch64 file.
+
+* Remove root and privileged arguments from Jenkinsfile.ess-controller file.
+
+* Remove root and privileged arguments from Jenkinsfile.conda_package_builder file.
+
+* Fix missing cacheOption property in Jenkinsfile.cycle file.
+
+* Consolidate building the arm64 and aarch64 conda builder containers into one stage.
+
+* Update version of the following packages:
+
+  * stack_ra
+  * ts_observatory_control
+  * ts_standardscripts
+  * ts_externalscripts
+  * ts_mtdome
+  * ts_epm
+  * ts_ess_csc
+  * ts_config_mttcs
+  * ts_config_ocs
+
+
 Cycle 37 revision 2
 ===================
 
