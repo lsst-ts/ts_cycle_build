@@ -10,7 +10,7 @@ RUN cd && \
 
 ARG LSST_USER=saluser
 ARG LSST_USER_HOME=/home/${LSST_USER}
-
+ARG oods
 
 USER root
 RUN dnf install -y \
