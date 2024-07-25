@@ -8,6 +8,20 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 37 revison 4
+==================
+
+* Update version of the following packages:
+
+  * ts_m2
+  * ts_m2com
+  * ts_electrometer
+  * ts_tunablelaser
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+
 Cycle 37 revision 3
 ===================
 
