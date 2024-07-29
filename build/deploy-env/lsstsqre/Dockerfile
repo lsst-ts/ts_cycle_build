@@ -11,6 +11,8 @@ ENV WORKDIR /opt/lsst/software/stack
 
 USER root
 
+RUN dnf install -y mesa-libEGL
+
 RUN groupadd --gid ${GID} saluser && \
   adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 

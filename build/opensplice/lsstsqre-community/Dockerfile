@@ -8,6 +8,10 @@ SHELL ["/bin/bash", "-lc"]
 
 WORKDIR /tmp
 
+RUN sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo && \
+    sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo && \
+    sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
+
 RUN yum install -y https://repo.ius.io/ius-release-el7.rpm
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
