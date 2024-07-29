@@ -8,6 +8,31 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 38
+========
+
+* Add missing oods arg to oods dockerfile.
+* Add libegl dependency to deploy-sqre dockerfile.
+* Add libvnd-opengl to oods dockerfile.
+* Remov skip tags from integration tests startup script.
+* Update version of the following packages:
+
+    * Core Products
+      * ts_xml
+
+    * Products
+      * lsstsqre
+      * stack
+      * ts_athexapod
+      * ts_atwhitelight
+      * ts_cRIOcpp
+      * ts_wep
+      * ts_scheduler
+      * robotframework_efd
+      * ts_integrationtests
+      * headerservice
+      * ts_cbp
+
 Cycle 37 revison 4
 ==================
 
