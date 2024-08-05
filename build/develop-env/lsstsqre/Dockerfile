@@ -1,4 +1,4 @@
-FROM almalinux:8
+FROM almalinux:9
 
 ARG UID=73006
 ARG GID=73006
@@ -21,7 +21,9 @@ COPY develop-env/lsstsqre/setup_env.sh /home/saluser/.setup_salobj.sh
 
 ARG node
 
-RUN dnf module enable -y nodejs:${node} && \
+RUN dnf install -y yum-utils && \
+    dnf module enable -y nodejs:${node} && \
+    dnf config-manager --set-enabled crb && \
     dnf install -y \
     automake \
     bzip2 \
