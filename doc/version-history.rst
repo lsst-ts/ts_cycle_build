@@ -8,6 +8,19 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 38 revision 2
+===================
+
+* Update love-manager image to use python 3.11.
+
+* Build all the develop containers with AlmaLinux9.
+
+* Update version of the following packages:
+
+  * dds_community_build_el9
+  * dds_private_build_el9
+  * love_manager
+
 Cycle 38 revision 1
 ===================
 

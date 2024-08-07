@@ -5,14 +5,13 @@ WORKDIR /usr/src/love
 ARG love_manager
 RUN git clone --branch ${love_manager} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-manager.git || git clone --branch v${love_manager} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-manager.git
 
-FROM python:3.8.2-buster as builder
+FROM python:3.11-bookworm as builder
 COPY --from=cloner /usr/src/love/LOVE-manager /usr/src/love
 
 # Install required packages
 RUN apt-get update && \
     apt-get install -y \
     libsasl2-dev \
-    python-dev \
     libldap2-dev \
     libssl-dev &&\
     rm -rf /var/lib/apt/lists/*
