@@ -149,7 +149,6 @@ RUN source ${WORKDIR}/loadLSST.bash && \
 RUN source ${WORKDIR}/loadLSST.bash && \
     conda install -y ltd-conveyor
 
-# Install python-gphoto2
 RUN source ${WORKDIR}/loadLSST.bash && \
     pip install gphoto2==${gphoto2} --no-deps --only-binary :all: && \
     pip install --no-deps rawpy==0.21 
