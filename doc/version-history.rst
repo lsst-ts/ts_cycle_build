@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 38 revision 3
+===================
+
+* Install Azul JDK and Apache Maven in the BaseDev container.
+
+* Update version of the following packages:
+
+  * stack_ra
+  * love_manager
+  * maven
+  * openjdk
+
 Cycle 38 revision 2
 ===================
 
