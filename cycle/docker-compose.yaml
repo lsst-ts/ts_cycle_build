@@ -128,15 +128,10 @@ x-base-deploy-lsstsqre-private:
       com.description: "Base deployment image for cycle ${CYCLE}${rev}."
     args:
       stack: ${stack}
-      dds_community_version: ${dds_community_version}
-      dds_community_build: ${dds_community_build_el8}
-      dds_private_version: ${dds_private_version}
-      dds_private_build: ${dds_private_build_el8}
       ts_utils: ${ts_utils}
       ts_salobj: ${ts_salobj}
-      ts_dds: ${ts_dds_private}
-      ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
-      ts_ddsconfig: ${ts_ddsconfig}
+      ts_xml: ${ts_xml}
+      ts_idl: ${ts_idl}
 
 x-dimm:
   &base-dimm
@@ -408,18 +403,6 @@ x-mtrotator:
       tcpip: ${ts_tcpip}
       config: ${ts_config_mttcs}
 
-x-ospl-daemon:
-  &base-ospl-daemon
-  build:
-    context: ../build/ospl-daemon
-    labels:
-      com.description: "OSPL Daemon for cycle ${CYCLE}."
-      deploy_env: ${deploy_env}
-      deploy_tag: ${CYCLE}
-    args:
-      deploy_env: ${hub}/${deploy_env}
-      deploy_tag: ${CYCLE}
-
 x-ptg:
   &base-ptg
   build:
@@ -460,20 +443,6 @@ x-base-rapid-analysis:
       summit_utils_work_branch: ${rubintv_summit_utils}
       summit_extras_work_branch: ${rubintv_summit_extras}
       rubintv_production_work_branch: ${rubintv_production}
-
-x-salkafka:
-  &base-salkafka
-  build:
-    context: ../build/salkafka
-    labels:
-      com.description: "SAL kafka producers deployment image for cycle/revision ${CYCLE}${rev}."
-      deploy_env: ${deploy_env}
-      deploy_tag: ${CYCLE}
-      salkafka: ${ts_salkafka}
-    args:
-      deploy_env: ${hub}/${deploy_env}
-      deploy_tag: ${CYCLE}
-      salkafka: ${ts_salkafka}
 
 x-scheduler:
   &base-scheduler
@@ -920,12 +889,10 @@ services:
       labels:
         com.description: "Base deployment image for cycle/revision ${CYCLE}."
       args:
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
-        ts_dds: ${ts_dds_community}
         ts_idl: ${ts_idl}
+        ts_xml: ${ts_xml}
         PYTHON_VERSION: ${PYTHON_VERSION}
 
   deploy-conda-private:
@@ -936,13 +903,8 @@ services:
       labels:
         com.description: "Base deployment image for cycle ${CYCLE}."
       args:
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
-        dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build_el8}
-        ts_dds: ${ts_dds_private}=${ts_dds_private_conda_build}
-        ts_ddsconfig: ${ts_ddsconfig}
-        ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
+        ts_xml: ${ts_xml}
+        ts_idl: ${ts_idl}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         PYTHON_VERSION: ${PYTHON_VERSION}
@@ -956,13 +918,10 @@ services:
         com.description: "Base deployment image for cycle ${CYCLE}."
       args:
         stack: ${stack}
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
-        ts_dds: ${ts_dds_community}
-        ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
-        ts_ddsconfig: ${ts_ddsconfig}
+        ts_idl: ${ts_idl}
+        ts_xml: ${ts_xml}
 
   deploy-lsstsqre-private:
     image: ts-dockerhub.lsst.org/deploy-sqre:${CYCLE}${rev}
@@ -989,8 +948,6 @@ services:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
         stack: ${stack}
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
         ts_develop: ${ts_develop}
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
@@ -1011,10 +968,6 @@ services:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
         stack: ${stack}
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
-        dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build_el8}
         ts_develop: ${ts_develop}
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
@@ -1026,37 +979,13 @@ services:
         UID: ${B_UID}
         GID: ${B_GID}
 
-  opensplice-lsstsqre-community:
-    image: opensplice-lsstsqre:community
-    build:
-      context: ../build/
-      dockerfile: ./opensplice/lsstsqre-community/Dockerfile
-      args:
-        stack: ${stack}
-        java_v: ${java_v}
-        osplice_v: ${dds_community_version}
-        osplice_build: ${dds_community_build_el7}
-        osplice_py: ${ts_dds_community_conda_build}
-
-  opensplice-lsstsqre-licensed:
-    image: opensplice-lsstsqre:licensed
-    build:
-      context: ../build/
-      dockerfile: ./opensplice/lsstsqre-licensed/Dockerfile
-      args:
-        stack: ${stack}
-        java_v: ${java_v}
-        osplice_v: ${dds_private_version}
-        osplice_build: ${dds_private_build_el7}
-        osplice_py: ${ts_dds_private_conda_build}
-
   sal-sciplat-community:
     image: lsstts/sal-sciplat:${stack}_${CYCLE}${rev}
     build:
       context: ../build/
       dockerfile: ./sal-sciplat/Dockerfile
       args:
-        image_tag: community
+        image_tag: ${lsstsqre}
         black_v: ${black_v}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
@@ -1065,7 +994,6 @@ services:
         ts_config_latiss: ${ts_config_latiss}
         ts_config_mttcs: ${ts_config_mttcs}
         ts_config_atcalsys: ${ts_config_atcalsys}
-        ts_ddsconfig: ${ts_ddsconfig}
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_utils: ${ts_utils}
@@ -1085,7 +1013,7 @@ services:
       context: ../build/
       dockerfile: ./sal-sciplat/Dockerfile
       args:
-        image_tag: licensed
+        image_tag: ${lsstsqre}
         black_v: ${black_v}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
@@ -1094,7 +1022,6 @@ services:
         ts_config_latiss: ${ts_config_latiss}
         ts_config_mttcs: ${ts_config_mttcs}
         ts_config_atcalsys: ${ts_config_atcalsys}
-        ts_ddsconfig: ${ts_ddsconfig}
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_utils: ${ts_utils}
@@ -1117,7 +1044,6 @@ services:
       args:
         hub: lsstts
         base_image_tag: ${CYCLE}
-        ts_dds: ${ts_dds_community}=${ts_dds_community_conda_build}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
         ts_config_mtcalsys: ${ts_config_mtcalsys}
@@ -1125,7 +1051,6 @@ services:
         ts_config_latiss: ${ts_config_latiss}
         ts_config_mttcs: ${ts_config_mttcs}
         ts_config_atcalsys: ${ts_config_atcalsys}
-        ts_ddsconfig: ${ts_ddsconfig}
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_sal: ${ts_sal}
@@ -1141,7 +1066,6 @@ services:
       args:
         hub: ts-dockerhub.lsst.org
         base_image_tag: ${CYCLE}
-        ts_dds: ${ts_dds_private}=${ts_dds_private_conda_build}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
         ts_config_mtcalsys: ${ts_config_mtcalsys}
@@ -1149,7 +1073,6 @@ services:
         ts_config_latiss: ${ts_config_latiss}
         ts_config_mttcs: ${ts_config_mttcs}
         ts_config_atcalsys: ${ts_config_atcalsys}
-        ts_ddsconfig: ${ts_ddsconfig}
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_sal: ${ts_sal}
@@ -1226,8 +1149,6 @@ services:
       labels:
         com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
@@ -1240,29 +1161,9 @@ services:
       labels:
         com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
-        dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build_el8}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
-
-  ospl-daemon:
-    image: ${hub}/ospl-daemon:${CYCLE}
-    <<: *base-ospl-daemon
-
-  ospl-daemon_c:
-    image: ${hub}/ospl-daemon:${CYCLE}
-    <<: *base-ospl-daemon
-
-  lsst_sims:
-    image: ${hub}/lsst_sims:${CYCLE}${rev}
-    <<: *base-lsst_sims
-
-  lsst_sims_c:
-    image: ${hub}/lsst_sims:${CYCLE}
-    <<: *base-lsst_sims
 
   dimm:
     image: ${hub}/dimm:${CYCLE}${rev}
@@ -1513,14 +1414,6 @@ services:
   ptg_c:
     image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}
     <<: *base-ptg
-
-  salkafka:
-    image: ${hub}/salkafka:${CYCLE}${rev}
-    <<: *base-salkafka
-
-  salkafka_c:
-    image: ${hub}/salkafka:${CYCLE}
-    <<: *base-salkafka
 
   scheduler:
     image: ${hub}/scheduler:${CYCLE}${rev}
