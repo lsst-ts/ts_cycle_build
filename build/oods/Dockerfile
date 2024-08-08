@@ -16,8 +16,7 @@ USER root
 RUN dnf install -y \
     git-lfs \
     bzip2 \
-    libglvnd-glx \
-    libglvnd-opengl
+    libglvnd-glx
 
 USER ${LSST_USER}
 
