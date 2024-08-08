@@ -128,20 +128,32 @@ RUN chmod +x /tmp/install_labjack.sh && \
     --labjack_arch=${labjack_arch} --labjack_ljm=${labjack_ljm} \
     --saluser_env_script="/opt/lsst/software/stack/loadLSST.bash"
 
+ARG maven
+ARG openjdk
+
+# Install Azul
+RUN dnf install -y https://cdn.azul.com/zulu/bin/zulu-repo-1.0.0-1.noarch.rpm && \
+    dnf install -y zulu${openjdk}-jdk
+
+ENV WORKDIR /usr/lib/maven
+
+RUN mkdir ${WORKDIR} && \
+    curl -LO https://archive.apache.org/dist/maven/maven-3/${maven}/binaries/apache-maven-${maven}-bin.tar.gz && \
+    tar zxf apache-maven-${maven}-bin.tar.gz
+
 # Install TSSW development dependencies
+ENV WORKDIR /opt/lsst/software/stack
 USER saluser
 WORKDIR /home/saluser
 
 ARG ts_develop
-ARG maven
-ARG openjdk
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     conda config --add channels conda-forge && \
     conda config --set solver libmamba
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    conda install -y conda-build anaconda-client setuptools_scm maven=${maven} openjdk=${openjdk}
+    conda install -y conda-build anaconda-client setuptools_scm
 
 RUN source ${WORKDIR}/loadLSST.bash && \
     conda install -y -c lsstts ts-develop=${ts_develop}
@@ -156,6 +168,8 @@ RUN source ${WORKDIR}/loadLSST.bash && \
 
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current
+ENV JAVA_HOME=/usr/lib/jvm/zulu${openjdk}
+ENV MAVEN_HOME=/usr/lib/maven/apache-maven-${maven}
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org> \
     image_tag=${lsstsqre} \
