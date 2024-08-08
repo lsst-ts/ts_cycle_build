@@ -21,8 +21,27 @@ RUN mkdir -p ${SRCDIR} && \
 
 USER lsst
 
+# Conda install TSSW packages that are frozen. These are seldom changed by
+# users during operations.
+ARG ts_xml
+ARG ts_idl
+ARG ts_utils
+
 RUN source ${LOADSTACK} && \
     conda config --set solver libmamba && \
+    conda install -c lsstts -y \
+    ts-xml=${ts_xml} \
+    ts-utils=${ts_utils} \
+    ts-idl=${ts_idl}
+
+ARG ts_salobj
+
+RUN source ${LOADSTACK} && \
+    conda list && \
+    mamba install -c lsstts -c lsstts/label/rc -y \
+    ts-salobj=${ts_salobj}
+
+RUN source ${LOADSTACK} && \
     conda install -c conda-forge -y \
     librdkafka \
     aiokafka \
@@ -40,16 +59,8 @@ RUN source ${LOADSTACK} && \
     python3 -c 'from astropy.utils.data import clear_download_cache; \
     clear_download_cache()'
 
-# Conda install TSSW packages that are frozen. These are seldom changed by
-# users during operations.
-
-ARG ts_ddsconfig
-ARG ts_xml
-ARG ts_idl
 ARG ts_sal
-ARG ts_utils
 ARG ts_criopy
-ARG ts_salobj
 ARG ts_atdome
 ARG ts_atdometrajectory
 ARG ts_atmcssimulator
