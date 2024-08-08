@@ -47,9 +47,8 @@ conda_packages = [
   "mtmount",
   "mtrotator",
   "nightreport",
-  "ospl-daemon",
   "pmd",
-  "salkafka",
+  "rubintv",
   "scheduler",
   "schedview",
   "test",
@@ -485,7 +484,6 @@ pipeline {
 
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} opensplice-lsstsqre-licensed
             docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} sal-sciplat-licensed
             """
           }
