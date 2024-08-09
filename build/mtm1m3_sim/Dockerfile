@@ -34,8 +34,8 @@ ARG rpm
 RUN dnf install -y \
     --enablerepo=lsst-ts-test \
     --disablerepo=lsst-ts \
-    MTM1M3-21.0.0-8.0.0.el8 \
-    MTMount-21.0.0-8.0.0.el8
+    MTM1M3-21.0.0-8.1.0.el8 \
+    MTMount-21.0.0-8.1.0.el8
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
 ENV SAL_WORK_DIR=/opt/lsst/ts_sal
@@ -84,5 +84,8 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.create_topics_mtm1m3.py && \
     chmod a+x /home/saluser/.startup.sh
 USER saluser
+
+ENV LSST_KAFKA_MAX_QUEUE_MS=1
+ENV LSST_KAFKA_MAX_QUEUE_MSG=0
 
 ENV RUN_ARG=""
