@@ -845,7 +845,7 @@ services:
         com.description: "Base deployment image for cycle/revision ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
+        dds_community_build: ${dds_community_build_el9}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_dds: ${ts_dds_community}
@@ -875,9 +875,9 @@ services:
         com.description: "Base deployment image for cycle ${CYCLE}."
       args:
         dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
+        dds_community_build: ${dds_community_build_el9}
         dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build_el8}
+        dds_private_build: ${dds_private_build_el9}
         ts_dds: ${ts_dds_private}=${ts_dds_private_conda_build}
         ts_ddsconfig: ${ts_ddsconfig}
         ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}

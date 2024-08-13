@@ -1,4 +1,4 @@
-FROM almalinux:8
+FROM almalinux:9
 
 ARG UID=73006
 ARG GID=73006
@@ -48,6 +48,7 @@ RUN mkdir -p ${WORKDIR} && \
       OpenSpliceDDS-${dds_private_version}-${dds_private_build} || exit  ; \
       echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${HOME}/.ospl_env.sh ; \
   fi; \
+  chown -R ${UID}:${GID} ${HOME}/.cache ; \
   (rm /etc/yum.repos.d/lsst-ts-nexus-private.repo || echo "No Private repo")
 
 # Make sure that saluser can use the ping command
