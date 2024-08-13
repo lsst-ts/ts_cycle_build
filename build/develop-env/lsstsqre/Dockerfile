@@ -7,7 +7,8 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ENV USER ${USER:-saluser}
 ENV HOME /home/saluser
-ENV WORKDIR /opt/lsst/software/stack
+ENV STACKDIR /opt/lsst/software/stack
+ENV WORKDIR ${STACKDIR}
 
 USER root
 
@@ -93,11 +94,12 @@ RUN mkdir -p ${WORKDIR} && \
     dnf install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
     OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
     echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
-    fi
+    fi ;\
+    chown -R ${UID}:${GID} ${HOME}/.cache
 
 RUN rm /etc/yum.repos.d/lsst-ts-private.repo
 
-WORKDIR /usr/share/zoneinfo
+ENV WORKDIR /usr/share/zoneinfo
 
 RUN curl -O ftp://ftp.boulder.nist.gov/pub/time/leap-seconds.list
 
@@ -106,7 +108,7 @@ ARG gphoto2=${gphoto2}
 # Install DM stack using lsstinstall
 USER saluser
 
-WORKDIR ${WORKDIR}
+WORKDIR ${STACKDIR}
 
 ARG stack
 
@@ -118,7 +120,7 @@ RUN source ./loadLSST.bash && \
 
 # Install labjack
 USER root
-WORKDIR /tmp
+ENV WORKDIR /tmp
 ARG labjack_file_version
 ARG labjack_arch
 ARG labjack_ljm
@@ -142,27 +144,26 @@ RUN mkdir ${WORKDIR} && \
     tar zxf apache-maven-${maven}-bin.tar.gz
 
 # Install TSSW development dependencies
-ENV WORKDIR /opt/lsst/software/stack
 USER saluser
 WORKDIR /home/saluser
 
 ARG ts_develop
 
-RUN source ${WORKDIR}/loadLSST.bash && \
+RUN source ${STACKDIR}/loadLSST.bash && \
     conda config --add channels conda-forge && \
     conda config --set solver libmamba
 
-RUN source ${WORKDIR}/loadLSST.bash && \
+RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y conda-build anaconda-client setuptools_scm
 
-RUN source ${WORKDIR}/loadLSST.bash && \
+RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y -c lsstts ts-develop=${ts_develop}
 
-RUN source ${WORKDIR}/loadLSST.bash && \
+RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y ltd-conveyor
 
 # Install python-gphoto2
-RUN source ${WORKDIR}/loadLSST.bash && \
+RUN source ${STACKDIR}/loadLSST.bash && \
     pip install gphoto2==${gphoto2} --no-deps --only-binary :all: && \
     pip install --no-deps rawpy==0.21 
 
