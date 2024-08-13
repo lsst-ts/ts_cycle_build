@@ -852,20 +852,6 @@ services:
         ts_idl: ${ts_idl}
         PYTHON_VERSION: ${PYTHON_VERSION}
 
-  deploy-conda-community-aarch64:
-    image: lsstts/deploy-env-aarch64:${CYCLE}
-    build:
-      context: ../build/
-      dockerfile: ./deploy-env/conda-aarch64/Dockerfile
-      labels:
-        com.description: "Base aarch64 deployment image for cycle/revision ${CYCLE}."
-      args:
-        dds_community_version: ${dds_community_version}
-        ts_utils: ${ts_utils}
-        ts_salobj: ${ts_salobj}
-        ts_dds: ${ts_dds_community}
-        ts_idl: ${ts_idl}
-
   deploy-conda-private:
     image: ts-dockerhub.lsst.org/deploy-env:${CYCLE}
     build:
