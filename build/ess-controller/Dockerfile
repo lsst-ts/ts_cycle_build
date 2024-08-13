@@ -1,4 +1,4 @@
-FROM almalinux:8
+FROM almalinux:9
 
 RUN dnf install -y epel-release && \
     dnf update -y && \
@@ -24,7 +24,7 @@ ARG controller
 
 ARG PYTHON_VERSION
 
-RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh -O mambaforge.sh && \
+RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-${ARCH}.sh -O mambaforge.sh && \
     chmod +x mambaforge.sh && \
     ./mambaforge.sh -b -p ${HOME}/miniconda3 && \
     source ${HOME}/miniconda3/bin/activate && \
