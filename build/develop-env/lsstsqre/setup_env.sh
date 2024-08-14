@@ -34,9 +34,9 @@ export LDFLAGS="-L/usr/local/lib -L/usr/local/lib/libgphoto2/${gphoto2} -L/usr/l
 # Suppress several OpenGL warnings
 export LIBGL_ALWAYS_INDIRECT=1
 
-# Needed for PySide2
-export QT_API="PySide2"
-export PYTEST_QT_API="PySide2"
+# Needed for PySide6
+export QT_API="PySide6"
+export PYTEST_QT_API="PySide6"
 
 export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:$CONDA_PREFIX/share/pkgconfig:$CONDA_PREFIX/lib/pkgconfig
 

@@ -1,4 +1,4 @@
-FROM almalinux:8
+FROM almalinux:9
 
 ARG UID=73006
 ARG GID=73006
@@ -33,7 +33,7 @@ RUN dnf install -y gcc-c++ \
   libglvnd-glx \
   unzip \
   epel-release \
-  qt5-qtbase-devel \
+  freeglut-devel \
   mesa-dri-drivers \
   xorg-x11-server-Xvfb
 
@@ -64,6 +64,7 @@ RUN chown saluser:saluser /home/saluser/.setup.sh && \
   dnf install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
   echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${HOME}/.ospl_env.sh ; \
   fi; \
+  chown -R ${UID}:${GID} ${HOME}/.cache ; \
   rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
 
 USER saluser

@@ -28,7 +28,7 @@ pipeline {
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
                 sh """
-                  docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre-community
+                  docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre-community
                 """
               }
             }
@@ -41,7 +41,7 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-community
+                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-community
                   """
                 }
               }
@@ -58,7 +58,7 @@ pipeline {
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
                 sh """
-                  docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre-private
+                  docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre-private
                 """
               }
             }
@@ -71,7 +71,7 @@ pipeline {
               script {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
-                    docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-private
+                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-private
                   """
                 }
               }
@@ -87,8 +87,8 @@ pipeline {
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
                 sh """
-                  docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre-community
-                  docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull base-sqre-community
+                  docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre-community
+                  docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull base-sqre-community
                 """
               }
             }
@@ -98,8 +98,8 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre-community
-                    docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml push base-sqre-community
+                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre-community
+                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push base-sqre-community
                   """
                 }
               }
@@ -114,8 +114,8 @@ pipeline {
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
                 sh """
-                  docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre-private
-                  docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull base-sqre-private
+                  docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre-private
+                  docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull base-sqre-private
                 """
               }
             }
@@ -125,8 +125,8 @@ pipeline {
               script {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
-                    docker-compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre-private
-                    docker-compose --env-file cycle/main.env -f cycle/docker-compose.yaml push base-sqre-private
+                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre-private
+                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push base-sqre-private
                   """
                 }
               }

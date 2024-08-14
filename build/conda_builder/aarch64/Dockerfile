@@ -1,4 +1,4 @@
-FROM almalinux:8
+FROM almalinux:9
 
 ARG UID=73006
 ARG GID=73006

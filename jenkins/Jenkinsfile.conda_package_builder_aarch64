@@ -26,7 +26,7 @@ pipeline {
                     docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                         sh """
                             source cycle/cycle.env
-                            docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build conda-builder-aarch64-private
+                            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build conda-builder-aarch64-private
                             docker tag ts-dockerhub.lsst.org/conda_package_builder_aarch64:\${CYCLE} ts-dockerhub.lsst.org/conda_package_builder_aarch64
                             docker push ts-dockerhub.lsst.org/conda_package_builder_aarch64:\${CYCLE}
                             docker push ts-dockerhub.lsst.org/conda_package_builder_aarch64
