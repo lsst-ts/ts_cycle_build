@@ -33,7 +33,7 @@ RUN dnf install -y gcc-c++ \
   libglvnd-glx \
   unzip \
   epel-release \
-  qt5-qtbase-devel \
+  freeglut-devel \
   mesa-dri-drivers \
   xorg-x11-server-Xvfb
 
