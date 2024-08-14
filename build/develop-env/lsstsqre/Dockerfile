@@ -67,7 +67,7 @@ RUN dnf install -y yum-utils && \
     xorg-x11-fonts-misc \
     xterm \
     epel-release \
-    qt5-qtbase-devel \
+    freeglut-devel \
     mesa-dri-drivers \
     xorg-x11-server-Xvfb
 
