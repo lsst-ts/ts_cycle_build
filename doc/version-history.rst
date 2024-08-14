@@ -8,6 +8,19 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 38 revision 4
+===================
+
+* Build all containers with docker compose instead of docker-compose.
+* Build all containers with AlmaLinux9.
+* Remove the unused deploy-conda-community-aarch64 container.
+* Remove obsolete "version" attribute from the docker-compose.yaml file.
+* Replace PySide2 and its dependencies with PySide6 and its dependencies.
+
+* Update version of the following package:
+
+  * ts_ess_controller
+
 Cycle 38 revision 3
 ===================
 
