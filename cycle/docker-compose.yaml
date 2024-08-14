@@ -832,8 +832,6 @@ x-gis:
       gis: ${ts_gis}
       config: ${ts_config_ocs}
 
-version: "3.7"
-
 services:
 
   deploy-conda-community:
