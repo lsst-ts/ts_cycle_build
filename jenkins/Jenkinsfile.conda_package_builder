@@ -1,11 +1,6 @@
 pipeline {
     agent {
-        docker {
-            alwaysPull true
-            label 'CSC_Conda_Node'
-            image 'docker/compose:latest'
-            args "--entrypoint='' --user root -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
-        }
+        label 'CSC_Conda_Node'
     }
 
     parameters {
@@ -20,7 +15,7 @@ pipeline {
         stage("Copy credentials"){
           steps{
             withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-              sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+              sh "umask 002 && cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
             }
           }
         }
@@ -34,9 +29,9 @@ pipeline {
                         sh """
                             source cycle/cycle.env
                             docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build conda-builder-private
-                            docker tag ts-dockerhub.lsst.org/conda_package_builder:\${CYCLE}\${rev} ts-dockerhub.lsst.org/conda_package_builder
                             docker push ts-dockerhub.lsst.org/conda_package_builder:\${CYCLE}\${rev}
-                            docker push ts-dockerhub.lsst.org/conda_package_builder
+                            docker tag ts-dockerhub.lsst.org/conda_package_builder:\${CYCLE}\${rev} ts-dockerhub.lsst.org/conda_package_builder:latest
+                            docker push ts-dockerhub.lsst.org/conda_package_builder:latest
                         """
                     }
                 }

@@ -5,12 +5,7 @@ properties (
 )
 pipeline {
     agent {
-      docker {
-        alwaysPull true
-        label 'CSC_Conda_Node || Node2_8CPU'
-        image 'docker/compose:latest'
-        args "--entrypoint='' --user root -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
-      }
+        label 'CSC_Conda_Node'
     }
     environment {
         registryCredential = "dockerhub-lssttsadmin"
