@@ -96,6 +96,10 @@ RUN mkdir -p ${WORKDIR} && \
     echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
     fi
 
+RUN if [ -f "${HOME}/.cache" ]; then \
+      chown -R "${UID}:${GID}" "${HOME}/.cache"; \
+    fi
+
 RUN rm /etc/yum.repos.d/lsst-ts-private.repo
 
 WORKDIR /usr/share/zoneinfo
