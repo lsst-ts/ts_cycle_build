@@ -1082,7 +1082,6 @@ services:
     image: lsstts/develop-env:${CYCLE}${rev}
     build:
       context: ../build/develop-env/develop-env/
-      network: ${build_network}
       labels:
         com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args:
@@ -1105,7 +1104,6 @@ services:
     image: ts-dockerhub.lsst.org/develop-env:${CYCLE}${rev}
     build:
       context: ../build/develop-env/develop-env/
-      network: ${build_network}
       labels:
         com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args:
