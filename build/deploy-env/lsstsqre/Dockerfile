@@ -48,7 +48,7 @@ RUN if [ -z "${dds_private_version}" ]; then \
   OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
   echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl_env.sh ; \
   fi ; \
-  chown -R ${UID}:${GID} ${HOME}/.cache
+  chown -R ${UID}:${GID} ${HOME}/.cache | :
 
 RUN rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
 
