@@ -8,6 +8,54 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 38 revision 5
+===================
+
+* Updated version of the following packages:
+
+  * dds_community_build_el9
+  * ts_hexrotcomm
+  * ts_atmonochromator
+  * ts_mthexapod
+  * ts_mtmount
+  * ts_lasertracker
+  * ts_mtaos
+  * ts_wep
+  * ts_ofc
+  * oods
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_commander
+  * love_producer
+  * love_frontend
+  * love_manager
+
+* Fix Jenkinsfiles that were building with ``docker compose`` instead of ``docker-compose`` but still using the docker agent.
+
+ When building with ``docker compose`` we should use the node docker engine.
+
+ Also update the cycle build jenkinsfile to build for linux-64 architecture.
+
+* Fix name of dds_comminity_build_el9 to remove ".el9" extention.
+
+* Update lsstsqre build to check that cache file exists before changing ownership.
+
+* Remove build network from salobj-community build configuration.
+
+  This option is no longer supported.
+
+* Update salobj jenkins build to remove docker network setup.
+
+  This is no longer supported by docker compose.
+
+* Remove build network from develop-env-community and develop-env-private builds configuration.
+
+  This option is no longer supported.
+
+* Update dev jenkins build to remove docker network setup.
+
+  This is no longer supported by docker compose.
+
 Cycle 38 revision 4
 ===================
 
