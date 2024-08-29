@@ -94,12 +94,11 @@ RUN mkdir -p ${WORKDIR} && \
     dnf install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
     OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
     echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
-    fi ;\
-    chown -R ${UID}:${GID} ${HOME}/.cache
+    fi
 
 RUN rm /etc/yum.repos.d/lsst-ts-private.repo
 
-ENV WORKDIR /usr/share/zoneinfo
+WORKDIR /usr/share/zoneinfo
 
 RUN curl -O ftp://ftp.boulder.nist.gov/pub/time/leap-seconds.list
 
@@ -125,7 +124,8 @@ ARG labjack_file_version
 ARG labjack_arch
 ARG labjack_ljm
 COPY common/install_labjack.sh /tmp/install_labjack.sh
-RUN chmod +x /tmp/install_labjack.sh && \
+RUN chown -R ${UID}:${GID} ${HOME}/.cache; \
+    chmod +x /tmp/install_labjack.sh && \
     /tmp/install_labjack.sh --labjack_file_version=${labjack_file_version} \
     --labjack_arch=${labjack_arch} --labjack_ljm=${labjack_ljm} \
     --saluser_env_script="/opt/lsst/software/stack/loadLSST.bash"
@@ -138,9 +138,9 @@ RUN dnf install -y https://cdn.azul.com/zulu/bin/zulu-repo-1.0.0-1.noarch.rpm &&
     dnf install -y zulu${openjdk}-jdk
 
 ENV WORKDIR /usr/lib/maven
+WORKDIR /usr/lib/maven
 
-RUN mkdir ${WORKDIR} && \
-    curl -LO https://archive.apache.org/dist/maven/maven-3/${maven}/binaries/apache-maven-${maven}-bin.tar.gz && \
+RUN curl -LO https://archive.apache.org/dist/maven/maven-3/${maven}/binaries/apache-maven-${maven}-bin.tar.gz && \
     tar zxf apache-maven-${maven}-bin.tar.gz
 
 # Install TSSW development dependencies
@@ -171,6 +171,7 @@ ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current
 ENV JAVA_HOME=/usr/lib/jvm/zulu${openjdk}
 ENV MAVEN_HOME=/usr/lib/maven/apache-maven-${maven}
+ENV PATH=${PATH}:${MAVEN_HOME}/bin
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org> \
     image_tag=${lsstsqre} \

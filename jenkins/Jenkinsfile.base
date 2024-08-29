@@ -1,12 +1,6 @@
 pipeline {
     agent {
-      docker {
-        alwaysPull true
         label 'CSC_Conda_Node'
-        // label '!Node3_4CPU && !CSC_Conda_Node'
-        image 'docker/compose:latest'
-        args "--entrypoint='' --user root -v /var/run/docker.sock:/var/run/docker.sock -e COMPOSE_HTTP_TIMEOUT=240 -e DOCKER_HOST"
-      }
     }
     environment {
         registryCredential = "dockerhub-lssttsadmin"
@@ -23,7 +17,7 @@ pipeline {
             }
             steps {
               withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/ && chmod u+rw -R ${env.WORKSPACE}"
               }
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
@@ -53,7 +47,7 @@ pipeline {
             }
             steps {
               withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/ && chmod u+rw -R ${env.WORKSPACE}"
               }
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
@@ -82,7 +76,7 @@ pipeline {
             steps {
 
               withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/ && chmod u+rw -R ${env.WORKSPACE}"
               }
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
@@ -109,7 +103,7 @@ pipeline {
             steps {
 
               withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/ && chmod u+rw -R ${env.WORKSPACE}"
               }
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
