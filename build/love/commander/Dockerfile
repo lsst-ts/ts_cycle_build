@@ -25,4 +25,8 @@ USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
+RUN dnf install -y \
+    libglvnd-glx \
+    libglvnd-opengl
+
 USER saluser
