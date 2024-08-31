@@ -46,7 +46,6 @@ conda_packages = [
   "pmd",
   "rubintv",
   "scheduler",
-  "schedview",
   "test",
   "tunablelaser",
   "watcher",
