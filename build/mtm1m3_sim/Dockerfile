@@ -68,7 +68,7 @@ ENV WITH_SAL_KAFKA=1
 
 WORKDIR /home/saluser/ts_m1m3support/
 
-RUN git checkout tickets/DM-41747 && \
+RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
     source /home/saluser/.setup_sal_env.sh && \
     source scl_source enable gcc-toolset-11 && \
     make simulator 
