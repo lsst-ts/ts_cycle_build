@@ -22,26 +22,9 @@ RUN mkdir -p ${SRCDIR} && \
 USER lsst
 
 # Conda install TSSW packages that are frozen. These are seldom changed by
-# users during operations.
-ARG ts_xml
-ARG ts_idl
-ARG ts_utils
 
 RUN source ${LOADSTACK} && \
     conda config --set solver libmamba && \
-    conda install -c lsstts -y \
-    ts-xml=${ts_xml} \
-    ts-utils=${ts_utils} \
-    ts-idl=${ts_idl}
-
-ARG ts_salobj
-
-RUN source ${LOADSTACK} && \
-    conda list && \
-    mamba install -c conda-forge -c lsstts -c lsstts/label/rc -y \
-    ts-salobj=${ts_salobj}
-
-RUN source ${LOADSTACK} && \
     conda install -c conda-forge -y \
     librdkafka \
     aiokafka \
@@ -54,6 +37,23 @@ RUN source ${LOADSTACK} && \
     setuptools_scm \
     astroplan
 
+# users during operations.
+ARG ts_xml
+ARG ts_idl
+ARG ts_utils
+
+RUN source ${LOADSTACK} && \
+    conda install -c lsstts -y \
+    ts-xml=${ts_xml} \
+    ts-utils=${ts_utils} \
+    ts-idl=${ts_idl}
+
+ARG ts_salobj
+
+RUN source ${LOADSTACK} && \
+    conda list && \
+    conda install -c conda-forge -c lsstts -c lsstts/label/rc -y \
+    ts-salobj=${ts_salobj}
 #### Clear the astropy download cache
 RUN source ${LOADSTACK} && \
     python3 -c 'from astropy.utils.data import clear_download_cache; \
@@ -72,7 +72,7 @@ RUN source ${LOADSTACK} && \
     ts-idl=${ts_idl}
 
 RUN source ${LOADSTACK} && \
-    mamba install -c lsstts -c lsstts/label/rc -y \
+    conda install -c lsstts -c lsstts/label/rc -y \
     ts-salobj=${ts_salobj}
 
 RUN source ${LOADSTACK} && \
