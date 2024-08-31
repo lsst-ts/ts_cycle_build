@@ -29,13 +29,13 @@ ARG rpm
 RUN dnf install -y \
     --enablerepo=lsst-ts-test \
     --disablerepo=lsst-ts \
-    ATPtg-21.0.0-8.0.0.el8.x86_64 \
-    MTPtg-21.0.0-8.0.0.el8.x86_64 \
-    MTMount-21.0.0-8.0.0.el8.x86_64 \
-    MTRotator-21.0.0-8.0.0.el8.x86_64 \
-    ESS-21.0.0-8.0.0.el8.x86_64 \
-    ATMCS-21.0.0-8.0.0.el8.x86_64 \
-    Guider-21.0.0-8.0.0.el8.x86_64
+    ATPtg-22.1.0-9.0.0.el8.x86_64 \
+    MTPtg-22.1.0-9.0.0.el8.x86_64 \
+    MTMount-22.1.0-9.0.0.el8.x86_64 \
+    MTRotator-22.1.0-9.0.0.el8.x86_64 \
+    ESS-22.1.0-9.0.0.el8.x86_64 \
+    ATMCS-22.1.0-9.0.0.el8.x86_64 \
+    Guider-22.1.0-9.0.0.el8.x86_64
 
 RUN mkdir /home/saluser/.ssh/ && chown saluser:saluser /home/saluser/.ssh/ && chmod 700 /home/saluser/.ssh/
 COPY ptg/id_rsa /home/saluser/.ssh/
