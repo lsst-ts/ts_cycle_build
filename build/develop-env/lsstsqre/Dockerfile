@@ -1,4 +1,4 @@
-FROM almalinux:9
+FROM almalinux:8
 
 ARG UID=73006
 ARG GID=73006
@@ -24,7 +24,7 @@ ARG node
 
 RUN dnf install -y yum-utils && \
     dnf module enable -y nodejs:${node} && \
-    dnf config-manager --set-enabled crb && \
+    dnf config-manager --set-enabled powertools && \
     dnf install -y \
     automake \
     bzip2 \

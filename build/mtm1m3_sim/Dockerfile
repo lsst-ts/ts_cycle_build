@@ -8,9 +8,9 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 USER root
 
 RUN dnf install -y dnf-plugins-core epel-release && \
-    dnf config-manager --set-enabled crb && \
+    dnf config-manager --set-enabled powertools && \
     dnf -y --enablerepo=extras install make \
-    gcc-toolset-12 \
+    gcc-toolset-10 \
     git \
     catch-devel \
     readline-devel \
@@ -43,13 +43,13 @@ RUN /home/saluser/.checkout_repo.sh ${config}
 WORKDIR /home/saluser/ts_cRIOcpp/
 RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-12 && \
+    source scl_source enable gcc-toolset-10 && \
     make
 
 WORKDIR /home/saluser/ts_m1m3support/
 RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-12 && \
+    source scl_source enable gcc-toolset-10 && \
     make simulator
 
 WORKDIR /home/saluser/

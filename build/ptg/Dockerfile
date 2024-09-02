@@ -6,9 +6,9 @@ FROM ${hub}/deploy-env:${cycle}
 USER root
 
 RUN dnf install -y dnf-plugins-core epel-release && \
-    dnf config-manager --set-enabled crb && \
+    dnf config-manager --set-enabled powertools && \
     dnf -y --enablerepo=extras install make \
-    gcc-toolset-12 \
+    gcc-toolset-10 \
     wget \
     git \
     make \
@@ -68,10 +68,10 @@ ENV LSST_TS_XML_DIR=/home/saluser/repos/ts_xml
 ENV TELESCOPE=MT
 
 WORKDIR /home/saluser/repos/slalib_source_lsst_161203
-RUN source scl_source enable gcc-toolset-12 && make
+RUN source scl_source enable gcc-toolset-10 && make
 
 WORKDIR /home/saluser/repos/tcspk_source_lsst_161203
-RUN source scl_source enable gcc-toolset-12 && make
+RUN source scl_source enable gcc-toolset-10 && make
 
 WORKDIR /home/saluser/repos/ts_pointing_common
 RUN mkdir build
@@ -80,7 +80,7 @@ ARG ptg
 WORKDIR /home/saluser/repos/ts_pointing_common/build
 RUN /home/saluser/.checkout_repo.sh ${ptg} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-12 && \
+    source scl_source enable gcc-toolset-10 && \
     cmake -DRPM=ON .. && make && \
     cmake -DRPM=ON -DAT=ON .. && make
 
