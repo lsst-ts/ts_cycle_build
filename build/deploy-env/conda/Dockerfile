@@ -27,6 +27,8 @@ ARG dds_community_build
 ARG dds_private_version
 ARG dds_private_build
 
+RUN export QT_API="PySide6"; export PYTEST_QT_API="PySide6"
+
 RUN mkdir -p ${WORKDIR} && \
   chmod -R a+rw ${WORKDIR}/../ && \
   chown -R saluser:saluser /opt/lsst/ && \

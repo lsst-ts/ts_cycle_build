@@ -75,6 +75,8 @@ ARG ts_idl
 ARG ts_utils
 ARG ts_salobj
 
+RUN export QT_API="PySide6"; export PYTEST_QT_API="PySide6"
+
 WORKDIR ${HOME}
 
 RUN source ${HOME}/.setup_sal_env.sh && \
