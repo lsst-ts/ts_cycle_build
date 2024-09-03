@@ -47,7 +47,6 @@ RUN source ${LOADSTACK} && \
     boto3 \
     fastavro \
     jsonschema \
-    moto=5 \
     python-confluent-kafka=1.9 \
     pyyaml \
     ts-xml=${ts_xml} \
