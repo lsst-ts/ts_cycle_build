@@ -47,6 +47,13 @@ RUN source ${LOADSTACK} && \
     ts-xml=${ts_xml} \
     ts-utils=${ts_utils} \
     ts-idl=${ts_idl}
+    boto3 \
+    fastavro \
+    jsonschema \
+    moto=5 \
+    python-confluent-kafka=1.9 \
+    pyyaml \
+    ts-utils
 
 ARG ts_salobj
 
