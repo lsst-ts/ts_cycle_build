@@ -39,11 +39,11 @@ RUN source ${LOADSTACK} && \
 
 RUN source ${LOADSTACK} && \
     conda install -c conda-forge -y \
-    boto3
-    fastavro
-    jsonschema
-    moto=5
-    python-confluent-kafka=1.9
+    boto3 \
+    fastavro \
+    jsonschema \
+    moto=5 \
+    python-confluent-kafka=1.9 \
     pyyaml
 
 # users during operations.
