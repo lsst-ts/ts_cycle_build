@@ -61,7 +61,7 @@ ARG ts_salobj
 
 RUN source ${LOADSTACK} && \
     conda list && \
-    conda install -c conda-forge -c lsstts -c lsstts/label/rc -y \
+    conda install -c lsstts/label/rc -y \
     ts-salobj=${ts_salobj}
 
 #### Clear the astropy download cache
