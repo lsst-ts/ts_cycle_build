@@ -8,6 +8,27 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 38 revision 6
+===================
+
+* Update love commander to receive version of ts_criopy.
+
+* Update cycle/docker-compose to pass version of ts_criopy to love-commander build.
+
+* Update love commander to install libglvnd-glx and libglvnd-opengl.
+
+* Updated version of the following packages:
+
+  * ts_hexrotcomm
+  * ts_mtrotator
+  * ts_m2
+  * ts_m2com
+  * ts_lasertracker
+  * ts_scheduler
+  * love_commander
+  * love_manager
+  * ts_fbs_utils 
+
 Cycle 38 revision 5
 ===================
 
