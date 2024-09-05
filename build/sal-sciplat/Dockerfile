@@ -37,6 +37,15 @@ RUN source ${LOADSTACK} && \
     setuptools_scm \
     astroplan
 
+RUN source ${LOADSTACK} && \
+    conda install -c conda-forge -y \
+    boto3
+    fastavro
+    jsonschema
+    moto=5
+    python-confluent-kafka=1.9
+    pyyaml
+
 # users during operations.
 ARG ts_xml
 ARG ts_idl
@@ -44,11 +53,6 @@ ARG ts_utils
 
 RUN source ${LOADSTACK} && \
     conda install -c lsstts -y \
-    boto3 \
-    fastavro \
-    jsonschema \
-    python-confluent-kafka=1.9 \
-    pyyaml \
     ts-xml=${ts_xml} \
     ts-utils=${ts_utils} \
     ts-idl=${ts_idl}
@@ -59,6 +63,7 @@ RUN source ${LOADSTACK} && \
     conda list && \
     conda install -c conda-forge -c lsstts -c lsstts/label/rc -y \
     ts-salobj=${ts_salobj}
+
 #### Clear the astropy download cache
 RUN source ${LOADSTACK} && \
     python3 -c 'from astropy.utils.data import clear_download_cache; \
