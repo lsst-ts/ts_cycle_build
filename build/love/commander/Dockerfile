@@ -15,6 +15,8 @@ RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts -c lsstts/label/rc love-commander=${love_commander} ts-observatory-control=${ts_observatory_control} && \
     pip install kafkit[aiohttp] aiokafka lsst_efd_client
 
+ENV QT_API=pyside6
+
 LABEL love_commander=${love_commander}
 
 COPY startup.sh /home/saluser/.startup.sh
