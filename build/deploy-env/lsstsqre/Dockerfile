@@ -75,7 +75,8 @@ ARG ts_idl
 ARG ts_utils
 ARG ts_salobj
 
-RUN export QT_API="PySide6"; export PYTEST_QT_API="PySide6"
+ENV QT_API="PySide6"
+ENV PYTEST_QT_API="PySide6"
 
 WORKDIR ${HOME}
 
