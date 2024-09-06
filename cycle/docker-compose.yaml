@@ -782,6 +782,17 @@ x-ess-controller-aarch64:
       common: ${ts_ess_common}
       PYTHON_VERSION: ${PYTHON_VERSION}
 
+x-vents-controller-aarch64:
+  &base-controller-aarch64
+  build:
+    context: ../build/atbuilding_vents
+    labels:
+      com.description: "ATVents aarch64 Controller for cycle {$CYCLE}"
+    args:
+      hub: lsstts
+      controller: ${ts_atbuilding_vents}
+      PYTHON_VERSION: ${PYTHON_VERSION}
+
 x-hvac:
   &base-hvac
   build:
@@ -1621,6 +1632,10 @@ services:
 
   ess-controller-aarch64:
     image: lsstts/ess-controller-aarch64
+    <<: *base-controller-aarch64
+
+  vents-controller:aarch64:
+    image: lsstts/vents-controller-aarch64
     <<: *base-controller-aarch64
 
   hvac:
