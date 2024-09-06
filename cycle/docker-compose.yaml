@@ -167,6 +167,7 @@ x-love-commander:
       cycle: ${CYCLE}
       love_commander: ${love_commander}
       ts_observatory_control: ${ts_observatory_control}
+      ts_criopy: ${ts_criopy}
 
 x-love-frontend:
   &base-love-frontend
