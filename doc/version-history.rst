@@ -29,6 +29,8 @@ Cycle 38 revision 6
   * love_manager
   * ts_fbs_utils 
 
+* Added docker container build for the vents controller.
+
 Cycle 38 revision 5
 ===================
 
