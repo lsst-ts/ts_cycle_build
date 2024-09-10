@@ -7,7 +7,9 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ARG love_commander
 ARG ts_observatory_control
-ARG ts_criopy
+# We are pinning ts-criopy to 0.7.0 because the love-commander is complaining for some missing
+# libGL libraries when using pyside6 that comes with ts-criopy 0.8.0
+ARG ts_criopy=0.7.0
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts love-commander=${love_commander} ts-observatory-control=${ts_observatory_control} ts-criopy=${ts_criopy} && \
