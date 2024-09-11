@@ -783,7 +783,7 @@ x-ess-controller-aarch64:
       PYTHON_VERSION: ${PYTHON_VERSION}
 
 x-vents-controller-aarch64:
-  &base-controller-aarch64
+  &base-controller-vents-aarch64
   build:
     context: ../build/atbuilding_vents
     labels:
@@ -1634,9 +1634,9 @@ services:
     image: lsstts/ess-controller-aarch64
     <<: *base-controller-aarch64
 
-  vents-controller:aarch64:
+  vents-controller-aarch64:
     image: lsstts/vents-controller-aarch64
-    <<: *base-controller-aarch64
+    <<: *base-controller-vents-aarch64
 
   hvac:
     image: ${hub}/hvac:${CYCLE}${rev}
