@@ -789,8 +789,7 @@ x-vents-controller-aarch64:
     labels:
       com.description: "ATVents aarch64 Controller for cycle {$CYCLE}"
     args:
-      hub: lsstts
-      controller: ${ts_atbuilding_vents}
+      vents_version: ${ts_atbuilding_vents}
       PYTHON_VERSION: ${PYTHON_VERSION}
 
 x-hvac:
@@ -1634,7 +1633,7 @@ services:
     image: lsstts/ess-controller-aarch64
     <<: *base-controller-aarch64
 
-  vents-controller:aarch64:
+  vents-controller-aarch64:
     image: lsstts/vents-controller-aarch64
     <<: *base-controller-aarch64
 

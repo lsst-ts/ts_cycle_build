@@ -10,14 +10,11 @@ RUN groupadd -g 70014 docker
 RUN adduser -G wheel,docker saluser
 
 WORKDIR ${HOME}
-COPY . ./ts_atbuilding_vents/
-RUN chown -R saluser ${HOME}/ts_atbuilding_vents/
 
 USER saluser
 ENV ARCH=aarch64
 
 ARG vents_version
-
 ARG PYTHON_VERSION
 
 RUN \
@@ -30,10 +27,8 @@ RUN \
     conda install -y python=${PYTHON_VERSION} && \
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
-    conda install -y conda-build anaconda-client setuptools_scm astropy numpy && \
-    conda install -y pymodbus smbus3 && \
-    conda install -y -c lsstts ts-tcpip ts-utils ts-atbuilding-vents
+    conda install -y -c lsstts ts-atbuilding-vents=${vents_version}
 
 LABEL ts-atbuilding-vents=${vents_version}
 
-ENTRYPOINT ["/home/saluser/miniconda3/bin/conda", "run", "python", "-m", "lsst.ts.vent.controller.run_dispatcher"]
+ENTRYPOINT ["/home/saluser/miniconda3/bin/conda", "run", "run_dispatcher"]
