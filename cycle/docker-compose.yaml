@@ -554,6 +554,7 @@ x-atmcs_sim:
       cycle: ${CYCLE}
       hub: ${hub}
       atmcs: ${ts_atmcssimulator}
+      config: ${ts_config_attcs}
 
 x-atmonochromator:
   &base-atmonochromator
@@ -601,6 +602,7 @@ x-atpneumatics_sim:
       cycle: ${CYCLE}
       hub: ${hub}
       atpneumatics_sim: ${ts_atpneumaticssimulator}
+      config: ${ts_config_attcs}
 
 x-ataos:
   &base-ataos

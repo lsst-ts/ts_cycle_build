@@ -6,6 +6,17 @@ FROM ${hub}/deploy-env:${cycle}
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
 ARG atmcs
+ARG config
+
+RUN git clone https://github.com/lsst-ts/ts_config_attcs.git
+
+WORKDIR /home/saluser/ts_config_attcs
+
+RUN /home/saluser/.checkout_repo.sh ${config}
+
+WORKDIR /home/saluser/
+
+ENV TS_CONFIG_ATTCS_DIR=/home/saluser/ts_config_attcs
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts ts-atmcs-simulator=${atmcs}
