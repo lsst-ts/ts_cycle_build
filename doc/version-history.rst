@@ -8,6 +8,24 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 38 revision 7
+===================
+
+* Tweaks for vents docker image.
+
+* Add ATTCS config to ATMCS and ATPneumatics.
+
+* Update version of the following packages:
+
+  * ts_mtmount=0.29.1
+  * ts_wep=11.2.0
+  * ts_watcher=1.19.0
+  * ts_ess_csc=0.18.10
+  * ts_config_attcs=0.13.1-alpha.1
+  * ts_config_ocs=0.25.2a2
+  * love_commander=6.2.1
+  * love_manager=7.1.0
+
 Cycle 38 revision 6
 ===================
 

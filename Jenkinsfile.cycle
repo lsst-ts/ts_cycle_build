@@ -278,7 +278,7 @@ pipeline {
     }
     stage ('Build Vents Controller Docker image') {
       when {
-          expresion { params.build_vents_controller }
+          expression { params.build_vents_controller }
       }
       steps {
           build job: "VentsController/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_vents_controller', value: true)], wait: false
