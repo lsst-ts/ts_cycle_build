@@ -1,4 +1,4 @@
-FROM almalinux:9
+FROM almalinux:8
 
 ARG UID=73006
 ARG GID=73006
@@ -24,7 +24,7 @@ ARG node
 
 RUN dnf install -y yum-utils && \
     dnf module enable -y nodejs:${node} && \
-    dnf config-manager --set-enabled crb && \
+    dnf config-manager --set-enabled powertools && \
     dnf install -y \
     automake \
     bzip2 \
@@ -94,6 +94,10 @@ RUN mkdir -p ${WORKDIR} && \
     dnf install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
     OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
     echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
+    fi
+
+RUN if [ -f "${HOME}/.cache" ]; then \
+      chown -R "${UID}:${GID}" "${HOME}/.cache"; \
     fi
 
 RUN rm /etc/yum.repos.d/lsst-ts-private.repo

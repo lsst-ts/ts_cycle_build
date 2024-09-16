@@ -8,6 +8,50 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 39
+========
+
+* Revert the deploy and develop containers to AlmaLinux 8.
+
+* Change build to python-build in schedview dockerfile.
+
+* M1M3-sim: Switch to CRB instead of powertools and compile with gcc-toolset-12.
+
+* PTG: Switch to CRB and gcc-toolset-12.
+
+* Add libvlnd-opengl to scriptqueue image for criopy qt6 support.
+
+* Set QT_API to pyside6 for several containers.
+
+* love-commander: pin ts-criopy to 0.7.0
+
+* Update version of the following packages:
+
+    * Core Products
+      * ts_xml
+      * ts_sal
+      * ts_salobj
+
+    * Products
+      * ts_develop
+      * ts_atmonochromator
+      * ts_observatory_control
+      * ts_standardscripts
+      * ts_externalscripts
+      * ts_m1m3support
+      * ts_criopy
+      * ts_mtaircompressor
+      * ts_mtdome
+      * ts_epm
+      * ts_ess_common
+      * ts_ess_labjack
+      * ts_conda_build
+      * ts_hvac
+      * robotframework_efd
+      * ts_integrationtests
+      * ts_linearstage
+      * ts_config_ocs
+
 Cycle 38 revision 7
 ===================
 

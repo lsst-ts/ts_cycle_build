@@ -1,4 +1,4 @@
-FROM almalinux:9
+FROM almalinux:8
 
 ARG UID=73006
 ARG GID=73006
@@ -48,7 +48,7 @@ RUN if [ -z "${dds_private_version}" ]; then \
   OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
   echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl_env.sh ; \
   fi ; \
-  chown -R ${UID}:${GID} ${HOME}/.cache
+  chown -R ${UID}:${GID} ${HOME}/.cache | :
 
 RUN rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
 
@@ -74,6 +74,9 @@ ARG ts_ddsconfig
 ARG ts_idl
 ARG ts_utils
 ARG ts_salobj
+
+ENV QT_API="PySide6"
+ENV PYTEST_QT_API="PySide6"
 
 WORKDIR ${HOME}
 

@@ -21,7 +21,7 @@ RUN source /home/saluser/.setup_sal_env.sh && \
     selenium \
     firefox \
     geckodriver \
-    build
+    python-build
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     python -m pip install --no-deps --ignore-installed .

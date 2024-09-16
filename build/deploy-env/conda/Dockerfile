@@ -1,4 +1,4 @@
-FROM almalinux:9
+FROM almalinux:8
 
 ARG UID=73006
 ARG GID=73006
@@ -26,6 +26,9 @@ ARG dds_community_version
 ARG dds_community_build
 ARG dds_private_version
 ARG dds_private_build
+
+ENV QT_API="PySide6"
+ENV PYTEST_QT_API="PySide6"
 
 RUN mkdir -p ${WORKDIR} && \
   chmod -R a+rw ${WORKDIR}/../ && \
