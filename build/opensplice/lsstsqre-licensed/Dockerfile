@@ -1,21 +1,15 @@
-ARG image_tag
-
-FROM lsstsqre/centos:${image_tag}
+FROM almalinux:8
 
 USER root
 
 SHELL ["/bin/bash", "-lc"]
 
-WORKDIR /tmp
+ENV STACKDIR /opt/lsst/software/stack
+
+WORKDIR ${STACKDIR}
 
 ENV QT_API="PySide6"
 ENV PYTEST_QT_API="PySide6"
-
-RUN sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo && \
-    sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo && \
-    sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
-
-RUN yum install -y https://repo.ius.io/ius-release-el7.rpm
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-private.repo
@@ -25,7 +19,7 @@ ARG  osplice_v
 ARG  osplice_build
 ARG  osplice_py
 
-RUN  yum install -y --enablerepo=extras --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
+RUN dnf install -y --enablerepo=extras --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
     dos2unix \
     iproute \
     iptables \
@@ -38,6 +32,23 @@ RUN  yum install -y --enablerepo=extras --enablerepo=lsst-ts-private --disablere
 RUN rm -rf /etc/yum.repos.d/lsst-ts-private.repo
 
 ENV OSPL_HOME=/opt/OpenSpliceDDS/V${osplice_v}/HDE/x86_64.linux
-ENV  osplice_v=${osplice_v}
-ENV  osplice_build=${osplice_build}
-ENV  osplice_py=${osplice_py}
+ENV osplice_v=${osplice_v}
+ENV osplice_build=${osplice_build}
+ENV osplice_py=${osplice_py}
+
+RUN groupadd --gid 1000 lsst && \
+    adduser -u 1000 -m -g 1000 -s /bin/bash lsst
+
+RUN chown -R lsst:lsst ${STACKDIR}
+
+USER lsst
+
+ARG stack
+
+RUN curl -LO https://ls.st/lsstinstall && \
+    bash lsstinstall -T ${stack}
+
+RUN source ./loadLSST.bash && \
+    eups distrib install -t ${stack} lsst_distrib && \
+    eups distrib install -t ${stack} lsst_sitcom
+

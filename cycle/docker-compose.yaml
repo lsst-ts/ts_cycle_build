@@ -966,7 +966,7 @@ services:
       context: ../build/
       dockerfile: ./opensplice/lsstsqre-community/Dockerfile
       args:
-        image_tag: ${lsstsqre}
+        stack: ${stack}
         java_v: ${java_v}
         osplice_v: ${dds_community_version}
         osplice_build: ${dds_community_build_el7}
@@ -978,7 +978,7 @@ services:
       context: ../build/
       dockerfile: ./opensplice/lsstsqre-licensed/Dockerfile
       args:
-        image_tag: ${lsstsqre}
+        stack: ${stack}
         java_v: ${java_v}
         osplice_v: ${dds_private_version}
         osplice_build: ${dds_private_build_el7}

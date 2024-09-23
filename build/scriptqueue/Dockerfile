@@ -93,7 +93,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     eups declare -r . ts_wep ${ts_wep} -t current && \
     setup lsst_distrib && \
     setup ts_wep -t current && \
-    scons || echo "WEP build failed, ignoring."
+    scons
 
 ARG atmospec
 WORKDIR ${HOME}/atmospec
@@ -102,7 +102,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     setup lsst_distrib && \
     eups declare -r . atmospec -t ${USER} && \
     setup atmospec -t $USER && \
-    scons || echo "Atmospec failed... Ignoring..."
+    scons version
 
 ARG summit_utils
 WORKDIR ${HOME}/summit_utils
@@ -111,7 +111,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     setup lsst_distrib && \
     eups declare -r . summit_utils -t ${USER} && \
     setup summit_utils -t $USER && \
-    scons || echo "Summit utils failed... Ignoring..."
+    scons version
 
 ARG summit_extras
 WORKDIR ${HOME}/summit_extras
@@ -120,7 +120,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     setup lsst_distrib && \
     eups declare -r . summit_extras -t ${USER} && \
     setup summit_extras -t $USER && \
-    scons || echo "Summit extras build failed... Ignoring..."
+    scons version
 
 ARG ts_observatory_control
 WORKDIR ${HOME}/ts_observatory_control

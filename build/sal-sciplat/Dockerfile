@@ -2,6 +2,8 @@ ARG image_tag
 
 FROM opensplice-lsstsqre:${image_tag}
 
+USER root
+
 WORKDIR /usr/share/zoneinfo
 
 RUN curl https://www.ietf.org/timezones/data/leap-seconds.list -o leap-seconds.list
@@ -13,9 +15,13 @@ ENV SALSTACK=/opt/lsst/sal/salbldsteps.bash
 ENV TZ="UTC"
 
 COPY sal-sciplat/salbldsteps.bash ${SALSTACK}
+COPY sal-sciplat/print_stack_version.sh /opt/lsst/sal/print_stack_version.sh
+
 RUN mkdir -p ${SRCDIR} && \
     chown -R lsst:lsst ${SRCDIR} && \
-    chmod a+x ${SALSTACK}
+    chown -R lsst:lsst /opt/lsst/sal/print_stack_version.sh && \
+    chmod a+x ${SALSTACK} && \
+    chmod a+x /opt/lsst/sal/print_stack_version.sh
 
 USER lsst
 
@@ -124,3 +130,4 @@ RUN source ${SALSTACK} && \
 
 USER lsst
 WORKDIR /opt/lsst/software/stack/
+

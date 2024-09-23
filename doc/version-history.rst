@@ -8,6 +8,36 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 39 revision 1
+===================
+
+* Update opensplice builds to start from alma8 and install the stack manually.
+
+* Update sal-sciplat build with modifications required by update in openslice build.
+
+  We are now building the images based out of raw alma8 instead of using DM-provided images.
+
+* Update script queue build to just run scons version when building some of the 3rd party packages.
+
+* Update cycle/docker-compose.yaml build configuration to pass stack version to the opensplice builds.
+
+* Refactor of Jenkinsfile.lab build script.
+
+  Remove unused community builds.
+
+  Update how EUPS_TAG is set, by using a script provided in the sciplat image.
+
+* Update version of the following packages:
+
+  * lsstsqre
+  * stack
+  * ts_develop
+  * ts_scriptqueue
+  * ts_scheduler
+  * oods
+  * ts_config_attcs
+  * ts_config_ocs
+
 Cycle 39
 ========
 
