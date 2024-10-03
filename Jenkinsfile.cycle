@@ -463,26 +463,6 @@ pipeline {
       }
       steps {
 
-        script{
-
-          def cacheOption = params.set_cache_option ? "--no-cache" : ""
-
-          withEnv(["HOME=${env.WORKSPACE}"]) {
-            sh """
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} opensplice-lsstsqre-community
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} sal-sciplat-community
-            """
-          }
-        }
-
-        script {
-          docker.withRegistry("", pub_registryCredential) {
-            sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-community
-            """
-          }
-        }
-
         withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
           sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
         }

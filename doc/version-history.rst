@@ -8,6 +8,36 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 39 revision 2
+===================
+
+* Update opensplice builds to install openssh-clients and rsync.
+
+* Update Jenkinsfile.cycle to stop building community edition of the sciplat image.
+
+  This image is no longer used.
+
+* Downgrade conda builder image to alma8.
+
+* Replace conda with mamba in SalObjContainer Dockerfile.
+
+* Update version of the following packages:
+
+  * lsstsqre
+  * stack
+  * ts_atmcssimulator
+  * ts_atmonochromator
+  * ts_atpneumaticssimulator
+  * ts_ataos
+  * ts_m2
+  * ts_watcher
+  * ts_gis
+  * ts_integrationtests
+  * ts_config_attcs
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_manager
+
 Cycle 39 revision 1
 ===================
 

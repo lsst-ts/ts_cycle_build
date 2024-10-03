@@ -25,6 +25,8 @@ RUN dnf install -y --enablerepo=extras \
     libmnl \
     libnfnetlink \
     libnetfilter_conntrack \
+    rsync \
+    openssh-clients \
     "java-${java_v}-openjdk-devel" \
     "OpenSpliceDDS-${osplice_v}-${osplice_build}"
 
