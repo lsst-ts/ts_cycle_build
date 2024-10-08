@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 39 revision 3
+===================
+
+* Improve Rapid Analysis pod startup script.
+
+* Update version of the following packages:
+
+  * stack_ra
+  * ts_atwhitelight
+  * ts_ataos
+  * ts_mtmount
+  * ts_atbuilding_vents
+  * ts_electrometer
+  * ts_config_attcs
+  * ts_config_ocs
+
 Cycle 39 revision 2
 ===================
 
