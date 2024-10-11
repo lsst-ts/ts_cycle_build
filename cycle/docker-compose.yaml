@@ -1402,7 +1402,7 @@ services:
         summit_utils_work_branch: ${rubintv_summit_utils}
         summit_extras_work_branch: ${rubintv_summit_extras}
         rubintv_production_work_branch: ${rubintv_production}
-        UID: 15517
+        UID: 17951
         GID: 4085
 
   rapid-analysis-usdf_c:
@@ -1419,7 +1419,7 @@ services:
         summit_utils_work_branch: ${rubintv_summit_utils}
         summit_extras_work_branch: ${rubintv_summit_extras}
         rubintv_production_work_branch: ${rubintv_production}
-        UID: 15517
+        UID: 17951
         GID: 4085
 
   ptg:
