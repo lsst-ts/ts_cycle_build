@@ -17,6 +17,8 @@ Cycle 39 revision 4
 
 * Make sure that the checkout_repo script expects a dash instead of a dot.
 
+* Update Jenkinsfiles to use Slack UIDs from new Workspace.
+
 * Update version of the following packages:
 
   * ts_watcher
