@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 39 revision 4
+===================
+
+* Update UID set for usdf rapid-analysis images
+
+* Add Michael Reuter to the build notifications in jenkins/Jenkinsfile.sciplat.
+
+* Make sure that the checkout_repo script expects a dash instead of a dot.
+
+* Update version of the following packages:
+
+  * ts_watcher
+  * ts_config_ocs
+  * love_manager
+
 Cycle 39 revision 3
 ===================
 
