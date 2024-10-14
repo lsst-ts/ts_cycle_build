@@ -11,9 +11,9 @@ git fetch --all -p
 git pull
 
 while [ "$1" != "" ]; do
-    retag=${1//a/".alpha."}
-    retag=${retag//b/".beta."}
-    retag=${retag//rc/".rc."}
+    retag=${1//a/"-alpha."}
+    retag=${retag//b/"-beta."}
+    retag=${retag//rc/"-rc."}
     if [[ "$1" == tags/* ]] ;
     then
         echo checkout $1 -b $1

@@ -148,20 +148,22 @@ pipeline {
         always {
             step([$class: 'Mailer',
                 notifyEveryUnstableBuild: false,
-                recipients: "tribeiro@lsst.org",
+                recipients: "tribeiro@lsst.org", "mareuter@lsst.org",
                 sendToIndividuals: true])
         }
         regression {
             script {
                 def userId = "U72CH91L2"
-                slackSend(color: "danger", message: "<@$userId> ${JOB_NAME} has suffered a regression ${BUILD_URL}", channel: "#jenkins-builds, @$userId")
+                def userId_2 = "U2JPDUE86"
+                slackSend(color: "danger", message: "<@$userId> <@$userId_2> ${JOB_NAME} has suffered a regression ${BUILD_URL}", channel: "#jenkins-builds, @$userId, @$userId_2")
             }
 
         }
         fixed {
             script {
                 def userId = "U72CH91L2"
-                slackSend(color: "good", message: "<@$userId> ${JOB_NAME} has been fixed ${BUILD_URL}", channel: "#jenkins-builds, @$userId")
+                def userId_2 = "U2JPDUE86"
+                slackSend(color: "good", message: "<@$userId> <@$userId_2> ${JOB_NAME} has been fixed ${BUILD_URL}", channel: "#jenkins-builds, @$userId, @$userId_2")
             }
         }
     }
