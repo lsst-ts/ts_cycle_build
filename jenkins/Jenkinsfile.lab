@@ -86,14 +86,14 @@ pipeline{
     post{
         regression {
             script {
-                def userId = "U72CH91L2"
+                def userId = "U07N2QKCTJP"
                 slackSend(color: "danger", message: "<@$userId> ${JOB_NAME} has suffered a regression ${BUILD_URL}", channel: "#jenkins-builds")
             }
 
         }
         fixed {
             script {
-                def userId = "U72CH91L2"
+                def userId = "U07N2QKCTJP"
                 slackSend(color: "good", message: "<@$userId> ${JOB_NAME} has been fixed ${BUILD_URL}", channel: "#jenkins-builds")
             }
         }
