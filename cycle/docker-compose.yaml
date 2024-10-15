@@ -567,6 +567,18 @@ x-atmonochromator:
       atmonochromator: ${ts_atmonochromator}
       config: ${ts_config_atcalsys}
 
+x-atbuilding:
+  &base-atbuilding
+  build:
+    context: ../build/atbuilding_csc
+    labels:
+      com.description: "ATBuilding component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      atbuilding_csc: ${ts_atbuilding}
+      config: ${ts_config_attcs}
+
 x-atdome:
   &base-atdome
   build:
@@ -1501,6 +1513,14 @@ services:
   atmonochromator_c:
     image: ${hub}/atmonochromator:${CYCLE}
     <<: *base-atmonochromator
+
+  atbuilding:
+    image: ${hub}/atbuilding:${CYCLE}${rev}
+    <<: *base-atbuilding
+
+  atbuilding_c:
+    image: ${hub}/atbuilding:${CYCLE}
+    <<: *base-atbuilding
 
   atdome:
     image: ${hub}/atdome:${CYCLE}${rev}

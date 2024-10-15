@@ -2,6 +2,7 @@
 
 conda_packages = [
   "ataos",
+  "atbuilding",
   "atdome",
   "atdometrajectory",
   "athexapod",
