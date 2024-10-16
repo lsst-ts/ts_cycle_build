@@ -8,6 +8,7 @@ LABEL maintainer Wouter van Reeven <wvanreeven@lsst.org>
 ARG ess
 ARG common
 ARG config
+ARG earthquake
 ARG labjack
 ARG labjack_ljm
 
@@ -28,12 +29,13 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-ess-common=${common} ts-ess-labjack=${labjack} ts-ess-csc=${ess} labjack-ljm=${labjack_ljm}
+    conda install -y -c lsstts ts-ess-common=${common} ts-ess-earthquake=${earthquake} ts-ess-labjack=${labjack} ts-ess-csc=${ess} labjack-ljm=${labjack_ljm}
 
 USER saluser
 
 LABEL ts-ess-csc=${ess} \
       ts-ess-common=${common} \
+      ts-ess-earthquake=${earthquake} \
       ts-ess-labjack=${labjack} \
       ts_config_ocs=${config} \
       labjack-ljm=${labjack_ljm}
