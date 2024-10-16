@@ -8,6 +8,28 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 39 revision 5
+===================
+
+* Fix mailer list syntax in salsciplat jenkinsfile.
+
+* Add Dockerfile for atbuilding_csc.
+
+* Add Dockerfile for DREAM.
+
+* Add ts-ess_earthquake to the ESS deployment container.
+
+* Downgrade JDK from 17 to 11 for develop.
+
+* Update version of the following packages:
+
+  * stack_ra
+  * ts_atbuilding
+  * ts_dream
+  * ts_ess_earthquake
+  * ts_config_attcs
+
+
 Cycle 39 revision 4
 ===================
 
