@@ -150,6 +150,20 @@ x-dimm:
       dimm: ${ts_dimm}
       config: ${ts_config_ocs}
 
+x-dream:
+  &base-dream
+  build:
+    context: ../build/dream
+    labels:
+      com.description: "DREAM deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+      dream: ${ts_dream}
+      config: ${ts_config_ocs}
+
 x-dsm:
   &base-dsm
   build:
@@ -1215,6 +1229,14 @@ services:
   dimm_c:
     image: ${hub}/dimm:${CYCLE}
     <<: *base-dimm
+
+  dream:
+    image: ${hub}/dream:${CYCLE}${rev}
+    <<: *base-dream
+
+  dream_c:
+    image: ${hub}/dream:${CYCLE}
+    <<: *base-dream
 
   dsm:
     image: ${hub}/dsm:${CYCLE}${rev}
