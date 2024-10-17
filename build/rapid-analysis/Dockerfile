@@ -78,7 +78,7 @@ WORKDIR /repos/obs_lsst
 RUN source ${WORKDIR}/loadLSST.bash && \
     eups declare -r . -t saluser && \
     setup obs_lsst -t saluser && \
-    scons
+    scons -j 4
 
 WORKDIR /repos/drp_pipe
 
