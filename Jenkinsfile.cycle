@@ -2,6 +2,7 @@
 
 conda_packages = [
   "ataos",
+  "atbuilding",
   "atdome",
   "atdometrajectory",
   "athexapod",
@@ -14,6 +15,7 @@ conda_packages = [
   "authorize",
   "cbp",
   "dimm",
+  "dream",
   "dmocps",
   "dsm",
   "electrometer",

@@ -150,6 +150,20 @@ x-dimm:
       dimm: ${ts_dimm}
       config: ${ts_config_ocs}
 
+x-dream:
+  &base-dream
+  build:
+    context: ../build/dream
+    labels:
+      com.description: "DREAM deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+      dream: ${ts_dream}
+      config: ${ts_config_ocs}
+
 x-dsm:
   &base-dsm
   build:
@@ -567,6 +581,18 @@ x-atmonochromator:
       atmonochromator: ${ts_atmonochromator}
       config: ${ts_config_atcalsys}
 
+x-atbuilding:
+  &base-atbuilding
+  build:
+    context: ../build/atbuilding_csc
+    labels:
+      com.description: "ATBuilding component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      atbuilding_csc: ${ts_atbuilding}
+      config: ${ts_config_attcs}
+
 x-atdome:
   &base-atdome
   build:
@@ -766,6 +792,7 @@ x-ess:
       ess: ${ts_ess_csc}
       common: ${ts_ess_common}
       config: ${ts_config_ocs}
+      earthquake: ${ts_ess_earthquake}
       labjack: ${ts_ess_labjack}
       labjack_file_version: ${labjack_file_version}
       labjack_arch: ${labjack_arch}
@@ -1204,6 +1231,14 @@ services:
     image: ${hub}/dimm:${CYCLE}
     <<: *base-dimm
 
+  dream:
+    image: ${hub}/dream:${CYCLE}${rev}
+    <<: *base-dream
+
+  dream_c:
+    image: ${hub}/dream:${CYCLE}
+    <<: *base-dream
+
   dsm:
     image: ${hub}/dsm:${CYCLE}${rev}
     <<: *base-dsm
@@ -1501,6 +1536,14 @@ services:
   atmonochromator_c:
     image: ${hub}/atmonochromator:${CYCLE}
     <<: *base-atmonochromator
+
+  atbuilding:
+    image: ${hub}/atbuilding:${CYCLE}${rev}
+    <<: *base-atbuilding
+
+  atbuilding_c:
+    image: ${hub}/atbuilding:${CYCLE}
+    <<: *base-atbuilding
 
   atdome:
     image: ${hub}/atdome:${CYCLE}${rev}
