@@ -20,6 +20,7 @@ RUN /home/saluser/.checkout_repo.sh ${config}
 WORKDIR /home/saluser/
 
 ENV TS_CONFIG_OCS_DIR=/home/saluser/ts_config_ocs
+ENV RUN_ARG=""
 
 LABEL ts-dream=${dream} \
       ts_config_ocs=${config}
