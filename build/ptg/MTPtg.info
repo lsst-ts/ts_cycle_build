@@ -114,5 +114,5 @@ sal_log_level {
     event 0;        ATPtg event SAL logging  Set 0 or 1
 }
 
-disable_rotator 1;  Set 0 to enabled, 1 to disable
+disable_rotator 0;  Set 0 to enabled, 1 to disable
 disable_mount 0;  Set 0 to enabled, 1 to disable
