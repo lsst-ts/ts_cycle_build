@@ -37,7 +37,7 @@ setup -j rubintv_production -t saluser
 setup -j rubintv_analysis_service -t saluser
 setup -j eo_pipe -t saluser
 
-echo -e "\nOutput of eups list -s | grep LOCAL:"
-eups list -s | grep LOCAL
+echo -e "\nOutput of eups list -s | grep tag:saluser:"
+eups list -s | grep tag:saluser
 
 python $RUN_ARG
