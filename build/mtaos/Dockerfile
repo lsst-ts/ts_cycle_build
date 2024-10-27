@@ -28,11 +28,6 @@ ARG LSST_USER_HOME=/home/${LSST_USER}
 WORKDIR ${WORKDIR}
 
 ARG AOS_REPOS=${LSST_USER_HOME}/repos
-ARG phosim_utils
-ARG ts_wep
-ARG ts_ofc
-ARG mtaos=develop
-ARG ts_config_mttcs
 
 # Download the required repos and checkout correct versions
 RUN source ${HOME}/.setup_sal_env.sh && \
@@ -42,40 +37,39 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     && git clone https://github.com/lsst-ts/ts_wep.git \
     && git clone https://github.com/lsst-ts/ts_ofc.git \
     && git clone https://github.com/lsst-ts/ts_mtaos.git \
-    && git clone https://github.com/lsst-ts/ts_config_mttcs.git \
-    && cd ${AOS_REPOS}/ts_wep \
+    && git clone https://github.com/lsst-ts/ts_config_mttcs.git
+
+ARG ts_wep
+RUN cd ${AOS_REPOS}/ts_wep \
+    && source ${HOME}/.setup_sal_env.sh \
     && /home/saluser/.checkout_repo.sh ${ts_wep} \
     && eups declare -r . ts_wep ${ts_wep} -t current \
-    && cd ${AOS_REPOS}/ts_ofc \
+    && setup lsst_distrib \
+    && setup ts_wep -t current \
+    && scons python
+
+ARG ts_ofc
+RUN cd ${AOS_REPOS}/ts_ofc \
+    && source ${HOME}/.setup_sal_env.sh \
     && /home/saluser/.checkout_repo.sh ${ts_ofc} \
     && eups declare -r . ts_ofc ${ts_ofc} -t current \
-    && cd ${AOS_REPOS}/ts_mtaos/ \
-    && /home/saluser/.checkout_repo.sh ${mtaos} \
-    && eups declare -r . ts_mtaos ${mtaos} -t current \
-    && cd ../ts_config_mttcs \
+    && setup ts_ofc -t current \
+    && scons version
+
+ARG ts_config_mttcs
+RUN cd ${AOS_REPOS}/ts_config_mttcs \
+    && source ${HOME}/.setup_sal_env.sh \
     && /home/saluser/.checkout_repo.sh ${ts_config_mttcs} \
     && eups declare -r . ts_config_mttcs ${ts_config_mttcs} -t current
 
-# Run scons on each package
-# wep
-WORKDIR ${AOS_REPOS}/ts_wep
-RUN source ${HOME}/.setup_sal_env.sh && \
-    setup lsst_distrib && \
-    setup ts_wep -t current && \
-    scons python
-
-# ofc
-WORKDIR ${AOS_REPOS}/ts_ofc
-RUN source ${HOME}/.setup_sal_env.sh && \
-    setup ts_ofc -t current && \
-    scons version
-
-# mtaos
-WORKDIR ${AOS_REPOS}/ts_mtaos
-RUN source ${HOME}/.setup_sal_env.sh && \
-    setup ts_mtaos -t current && \
-    scons version && \
-    run_mtaos --version
+ARG mtaos=develop
+RUN cd ${AOS_REPOS}/ts_mtaos/ \
+    && source ${HOME}/.setup_sal_env.sh \
+    && /home/saluser/.checkout_repo.sh ${mtaos} \
+    && eups declare -r . ts_mtaos ${mtaos} -t current \
+    && setup ts_mtaos -t current \
+    && scons version \
+    && run_mtaos --version
 
 LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
     phosim_utils=${phosim_utils} \
