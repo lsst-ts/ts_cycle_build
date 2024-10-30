@@ -8,6 +8,49 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 39 revision 6
+===================
+
+* Add ts_attcpip dependency to ts_atmcssimulator and ts_atpneumaticssimulator.
+
+* Add RUN_ARG to DREAM and ATBuilding.
+
+* Update MTPtg configuration to enable rotator.
+
+* Fix Rapid Analysis startup logging.
+
+* In MTAOS build, breakdown cloning/checkout to make layer more reusable.
+
+* Update MTPtg configuration to apply PA translation.
+
+* Update version of the following packages:
+
+  * lsstsqre
+  * stack
+  * stack_ra
+  * ts_atmcssimulator
+  * ts_atpneumaticssimulator
+  * ts_attcpip
+  * ts_mtmount
+  * ts_pointing_common
+  * ts_lasertracker
+  * ts_mtaos
+  * ts_wep
+  * ts_ofc
+  * ts_scheduler
+  * ts_mtdome
+  * ts_ess_common
+  * ts_ess_earthquake
+  * headerservice
+  * ts_mtmount
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+  * ts_fbs_utils
+  * rubin_scheduler
+
+
 Cycle 39 revision 5
 ===================
 
