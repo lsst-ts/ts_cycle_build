@@ -20,6 +20,7 @@ RUN /home/saluser/.checkout_repo.sh ${config}
 WORKDIR /home/saluser/
 
 ENV TS_CONFIG_ATTCS_DIR=/home/saluser/ts_config_attcs
+ENV RUN_ARG=""
 
 LABEL ts-atbuilding-csc=${atbuilding_csc} \
       ts_config_attcs=${config}
