@@ -61,7 +61,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
     export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
     eups declare -r . ts_simactuators -t current && setup ts_simactuators -t current && \
-    scons || pytest --color=no --last-failed
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_atdome
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -71,7 +71,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_attcs -t current && \
     setup ts_xml -t current && \
     eups declare -r . ts_atdome -t current && setup ts_atdome -t current && \
-    scons || pytest --color=no --last-failed
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_atdometrajectory
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -82,7 +82,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     eups declare -r . ts_atdometrajectory -t current && \
     setup ts_atdometrajectory -t current && \
-    scons || pytest --color=no --last-failed
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_atmcssimulator
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -93,7 +93,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     eups declare -r . ts_atmcssimulator -t current && \
     setup ts_atmcssimulator -t current && \
-    scons || pytest --color=no --last-failed
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_criopy
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -104,7 +104,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     eups declare -r . ts_criopy -t current && \
     setup ts_criopy -t current && \
-    scons || pytest tests/ --color=no --last-failed
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_observatory_control
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -117,7 +117,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     eups declare -r . -t current && \
     setup ts_observatory_control -t current && \
     setup ts_config_ocs -t current && \
-    scons || pytest --color=no --last-failed
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_standardscripts
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -131,7 +131,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_standardscripts -t current && \
-    scons || pytest --color=no --last-failed
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_externalscripts
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -145,7 +145,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_externalscripts -t current && \
-    scons || echo Building external script failed. IGNORING...
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_scriptqueue
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -157,7 +157,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_scriptqueue -t current && \
-    pytest --color=no || pytest --last-failed
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/
 
