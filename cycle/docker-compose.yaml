@@ -873,6 +873,18 @@ x-gis:
       gis: ${ts_gis}
       config: ${ts_config_ocs}
 
+x-ledprojector:
+  &base-ledprojector
+  build:
+    context: ../build/ledprojector
+    labels:
+      com.description: "LEDProjector component for cycle {$CYCLE}"
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      ledprojector: ${ts_ledprojector}
+      config: ${ts_config_mtcalsys}
+
 services:
 
   deploy-conda-community:
@@ -1778,3 +1790,11 @@ services:
   cbp_c:
     image: ${hub}/cbp:${CYCLE}
     <<: *base-cbp
+
+  ledprojector:
+    image: ${hub}/ledprojector:${CYCLE}${rev}
+    <<: *base-ledprojector
+
+  ledprojector_c:
+    image: ${hub}/ledprojector:${CYCLE}
+    <<: *base-ledprojector

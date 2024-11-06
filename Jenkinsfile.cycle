@@ -28,6 +28,7 @@ conda_packages = [
   "hvac",
   "integrationtests",
   "lasertracker",
+  "ledprojector",
   "linearstage",
   "love-commander",
   "love-csc",
