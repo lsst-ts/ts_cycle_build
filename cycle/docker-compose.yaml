@@ -822,6 +822,16 @@ x-vents-controller-aarch64:
       vents_version: ${ts_atbuilding_vents}
       PYTHON_VERSION: ${PYTHON_VERSION}
 
+x-audiotrigger-controller-aarch64:
+  &base-controller-aarch64
+  build:
+    context: ../build/audiotrigger
+    labels:
+      com.description: "Audiotrigger aarch64 Controller for cycle {$CYCLE}"
+    args:
+      audiotrigger: ${ts_audiotrigger}
+      PYTHON_VERSION: ${PYTHON_VERSION}
+
 x-hvac:
   &base-hvac
   build:
@@ -1693,6 +1703,10 @@ services:
 
   vents-controller-aarch64:
     image: lsstts/vents-controller-aarch64
+    <<: *base-controller-aarch64
+
+  audiotrigger-controller-aarch64:
+    image: lsstts/audiotrigger-controller-aarch64
     <<: *base-controller-aarch64
 
   hvac:

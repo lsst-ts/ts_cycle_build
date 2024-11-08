@@ -97,6 +97,7 @@ pipeline {
       choice(name: 'component', choices: ["ALL"] + conda_packages, description: "Select one component to build. Building all components is only allowed when building revision 0.")
       booleanParam defaultValue: false, description: "Build/push ESS Controller image.", name: 'build_ess_controller'
       booleanParam defaultValue: false, description: "Build/push Vents Controller image.", name: 'build_vents_controller'
+      booleanParam defaultValue: false, description: "Build/push AudioTrigger Controller image.", name: 'build_audiotrigger_controller'
       booleanParam defaultValue: false, description: "Build/push camera-specific GenericCamera images.", name: 'build_camspec_gencam'
       booleanParam defaultValue: false, description: "Build/push M1M3 simulator image.", name: 'build_m1m3_sim'
       booleanParam defaultValue: false, description: "Build/push pointing component deployment image.", name: 'build_ptg'
@@ -285,6 +286,14 @@ pipeline {
       }
       steps {
           build job: "VentsController/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_vents_controller', value: true)], wait: false
+      }
+    }
+    stage ('Build AudioTrigger Controller Docker image') {
+      when {
+          expression { params.build_audiotrigger_controller }
+      }
+      steps {
+          build job: "AudioTriggerController/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_audiotrigger_controller', value: true)], wait: false
       }
     }
     stage ('Build camera specific GenericCamera Docker images') {
