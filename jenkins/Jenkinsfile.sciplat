@@ -148,7 +148,7 @@ pipeline {
         always {
             step([$class: 'Mailer',
                 notifyEveryUnstableBuild: false,
-                recipients: ["tribeiro@lsst.org", "mareuter@lsst.org"],
+                recipients: "tribeiro@lsst.org mareuter@lsst.org",
                 sendToIndividuals: true])
         }
         regression {
