@@ -8,6 +8,38 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 39 revision 7
+===================
+
+* Update version of the following packages:
+
+  * ts_attcpip
+  * ts_mthexapod
+  * ts_mtaos
+  * ts_ofc
+  * ts_mtdome
+  * ts_mtdometrajectory
+  * ts_ess_common
+  * ts_ess_earthquake
+  * ts_hvac
+  * ts_electrometer
+  * oods
+  * ts_cbp
+  * ts_ledprojector
+  * ts_audiotrigger
+  * ts_config_mttcs
+  * ts_config_ocs
+
+* Update mtaos startup script to use configuration from obs-env, if it is available.
+
+* Update develop-env build to just run scons version for the packages.
+
+* Fix sciplat notifications mailing argument.
+
+* Add LEDProjector to cycle build.
+
+* Add audiotrigger.
+
 Cycle 39 revision 6
 ===================
 
