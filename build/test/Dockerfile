@@ -22,5 +22,5 @@ COPY startup.sh /home/saluser/.startup.sh
 USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
-RUN dnf install -y iperf3
+RUN dnf install -y iperf3 java-11-openjdk
 USER saluser
