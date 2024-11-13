@@ -38,8 +38,8 @@ pa_translation -180.0              ; degrees
 ; Axis limits
 horizon_limit 15.0
 elevation_tracking_high_limit 86.5
-azimuth_low_limit -180.0
-azimuth_high_limit 180.0
+azimuth_low_limit -260.0
+azimuth_high_limit 260.0
 rotator_low_limit -80.0
 rotator_high_limit 80.0
 
