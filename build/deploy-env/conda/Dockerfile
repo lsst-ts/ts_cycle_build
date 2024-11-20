@@ -49,9 +49,9 @@ ARG ts_salobj
 
 ARG PYTHON_VERSION
 
-RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o mambaforge.sh && \
-  chmod +x mambaforge.sh && \
-  ./mambaforge.sh -b -p ${WORKDIR}/miniconda && \
+RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o miniforge.sh && \
+  chmod +x miniforge.sh && \
+  ./miniforge.sh -b -p ${WORKDIR}/miniconda && \
   source /home/saluser/.setup_sal_env.sh && \
   conda config --set solver libmamba && \
   conda install -y python=${PYTHON_VERSION} && \
