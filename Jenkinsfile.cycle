@@ -47,7 +47,6 @@ conda_packages = [
   "mtrotator",
   "nightreport",
   "pmd",
-  "rubintv",
   "scheduler",
   "test",
   "tunablelaser",
