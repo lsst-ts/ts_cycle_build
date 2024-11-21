@@ -48,7 +48,6 @@ conda_packages = [
   "nightreport",
   "ospl-daemon",
   "pmd",
-  "rubintv",
   "salkafka",
   "scheduler",
   "schedview",
