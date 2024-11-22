@@ -16,6 +16,9 @@ ENV SRCDIR=/opt/lsst/src
 ENV SALSTACK=/opt/lsst/sal/salbldsteps.bash
 ENV TZ="UTC"
 
+ENV QT_API="PySide6"
+ENV PYTEST_QT_API="PySide6"
+
 COPY sal-sciplat/salbldsteps.bash ${SALSTACK}
 COPY sal-sciplat/print_stack_version.sh /opt/lsst/sal/print_stack_version.sh
 
