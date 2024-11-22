@@ -175,6 +175,20 @@ x-dsm:
       cycle: ${CYCLE}
       dsm: ${ts_dsm}
 
+x-eas:
+  &base-eas
+  build:
+    context: ../build/eas
+    labels:
+      com.description: "EAS deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      deploy_env: ${hub}/${deploy_env}
+      deploy_tag: ${CYCLE}
+      eas: ${ts_eas}
+      config: ${ts_config_ocs}
+
 x-love-commander:
   &base-love-commander
   build:
@@ -1270,6 +1284,14 @@ services:
   dsm_c:
     image: ${hub}/dsm:${CYCLE}
     <<: *base-dsm
+
+  eas:
+    image: ${hub}/eas:${CYCLE}${rev}
+    <<: *base-eas
+
+  eas_c:
+    image: ${hub}/eas:${CYCLE}
+    <<: *base-eas
 
   love-commander:
     image: ${hub}/love-commander:${CYCLE}${rev}
