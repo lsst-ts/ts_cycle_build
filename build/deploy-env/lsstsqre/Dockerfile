@@ -72,7 +72,8 @@ RUN source ${HOME}/.setup_sal_env.sh && \
   ts-xml=${ts_xml} \
   ts-salobj=${ts_salobj} \
   ts-idl=${ts_idl} \
-  ts-utils=${ts_utils} && \
+  ts-utils=${ts_utils} \
+  astropy=6 && \
   salobj_path=$(python -c 'from lsst.ts import salobj; import pathlib; print(pathlib.Path(salobj.__file__).parents[0])') && \
   eups declare -m none -r ${salobj_path} ts_salobj ${ts_salobj}  && \
   idl_path=$(python -c 'from lsst.ts import idl; import pathlib; print(pathlib.Path(idl.__file__).parents[0])') && \
