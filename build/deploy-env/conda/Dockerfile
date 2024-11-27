@@ -57,7 +57,7 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
   conda install -y python=${PYTHON_VERSION} && \
   conda config --add channels conda-forge && \
   conda config --add channels lsstts && \
-  conda install -y -c lsstts -c lsstts/label/dev -c lsstts/label/rc ts-xml=${ts_xml} ts-salobj=${ts_salobj} ts-idl=${ts_idl} ts-utils=${ts_utils}
+  conda install -y -c lsstts -c lsstts/label/dev -c lsstts/label/rc ts-xml=${ts_xml} ts-salobj=${ts_salobj} ts-idl=${ts_idl} ts-utils=${ts_utils} astropy=6
 
 WORKDIR /home/saluser/
 
