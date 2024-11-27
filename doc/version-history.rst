@@ -8,6 +8,42 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 39 revision 8
+===================
+
+* Updated version of the following packages:
+
+  * stack
+  * ts_attcpip
+  * ts_mtrotator
+  * ts_mthexapod
+  * ts_pointing_common
+  * ts_mtaos
+  * ts_watcher
+  * ts_mtdome
+  * ts_eas
+  * ts_hvac
+  * ts_electrometer
+  * ts_tunablelaser
+  * ts_cbp
+  * ts_audiotrigger
+  * ts_config_mtcalsys
+  * ts_config_ocs
+  * love_producer
+  * love_frontend
+  * love_manager
+  * ts_fbs_utils
+  * rubin_scheduler
+
+* Updated mthexapod startup to use configuration from obs-env if available.
+* Updated laser tracker startup script to use configuration obs-env if available.
+* Updated MTPtg confeiguration to increase azimuth limits to +/- 260.
+* Fixed startup.sh in audiotrigger.
+* Removed rubintv from the conda packages list.
+* Added EAS CSC.
+* Updated pointing model.
+* Changed trigger time for sciplat build.
+
 Cycle 39 revision 7
 ===================
 

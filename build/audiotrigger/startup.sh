@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
-source /home/saluser/miniconda3/bin/activate
-# Start the script here.
-run_audiotrigger
+source $HOME/miniconda3/bin/activate
+
+run_audiotrigger $RUN_ARG &
+
+pid="$!"
+
+wait ${pid}
