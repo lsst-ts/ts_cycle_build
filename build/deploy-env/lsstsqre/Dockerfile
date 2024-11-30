@@ -65,7 +65,9 @@ RUN source ${HOME}/.setup_sal_env.sh && \
   conda config --add channels lsstts && \
   conda config --add channels conda-forge && \ 
   conda config --set solver libmamba && \
-  conda install -y cython
+  conda install -y cython && \
+  conda install -y pyopenssl
+
 
 RUN source ${HOME}/.setup_sal_env.sh && \
   conda install -y \
