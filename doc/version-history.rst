@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 39 revision 9
+===================
+
+* Updated version of the following packages:
+
+  * ts_watcher
+  * ts_config_ocs
+  * love_producer
+  * rubin_scheduler
+
+* Installed the pyopenssl conda package in lsstsqre build.
+
 Cycle 39 revision 8
 ===================
 
