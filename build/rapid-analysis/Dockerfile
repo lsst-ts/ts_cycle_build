@@ -36,6 +36,9 @@ RUN mkdir -p /repos && \
 
 RUN yum install -y nano
 
+# Install OpenGL development libraries
+RUN yum install -y mesa-libGL-devel
+
 USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash && \
