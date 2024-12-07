@@ -8,6 +8,33 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 39 revision 10
+====================
+
+* Updated version of the following packages:
+
+  * stack_ra
+  * ts_scriptqueue
+  * ts_pointing_common
+  * ts_mtdome
+  * ts_electrometer
+  * ts_tunablelaser
+  * ts_cbp
+  * ts_config_attcs
+  * ts_config_mtcalsys
+  * ts_config_ocs
+  * love_producer
+  * love_frontend
+  * love_manager
+
+* Added easyocr package to rapid-analysis Dockerfile.
+
+* ATMCS: Added $RUN_ARG to startup script.
+
+* ATPneumatics: Added $RUN_ARG to startup script.
+
+* Added OpenGL development libraries to rapid-analysis Dockerfile.
+
 Cycle 39 revision 9
 ===================
 

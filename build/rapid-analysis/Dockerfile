@@ -36,6 +36,9 @@ RUN mkdir -p /repos && \
 
 RUN yum install -y nano
 
+# Install OpenGL development libraries
+RUN yum install -y mesa-libGL-devel
+
 USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash && \
@@ -51,10 +54,9 @@ RUN source ${WORKDIR}/loadLSST.bash && \
 USER saluser
 
 RUN source ${WORKDIR}/loadLSST.bash && \
-    pip install google-cloud-storage
-
-RUN source ${WORKDIR}/loadLSST.bash && \
-    pip install lsst-efd-client
+    pip install google-cloud-storage \
+    lsst-efd-client \
+    easyocr
 
 WORKDIR /repos
 
