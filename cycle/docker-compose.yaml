@@ -296,6 +296,7 @@ x-mtdome:
       cycle: ${CYCLE}
       hub: ${hub}
       mtdome: ${ts_mtdome}
+      mtdomecom: ${ts_mtdomecom}
       config: ${ts_config_mttcs}
 
 x-mtdometrajectory:
