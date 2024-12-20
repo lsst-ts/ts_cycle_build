@@ -540,6 +540,8 @@ x-scriptqueue:
       ts_observatory_control: ${ts_observatory_control}
       ts_externalscripts: ${ts_externalscripts}
       ts_standardscripts: ${ts_standardscripts}
+      ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+      ts_maintel_standardscripts: ${ts_maintel_standardscripts}
       ts_scriptqueue: ${ts_scriptqueue}
       ts_idl: ${ts_idl}
       ts_atdome: ${ts_atdome}
@@ -1033,6 +1035,8 @@ services:
         ts_m1m3_utils: ${ts_m1m3_utils}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
+        ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+        ts_maintel_standardscripts: ${ts_maintel_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
@@ -1064,6 +1068,8 @@ services:
         ts_salobj: ${ts_salobj}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
+        ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+        ts_maintel_standardscripts: ${ts_maintel_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
@@ -1106,6 +1112,8 @@ services:
         ts_scriptqueue: ${ts_scriptqueue}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
+        ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+        ts_maintel_standardscripts: ${ts_maintel_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
