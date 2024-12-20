@@ -26,7 +26,9 @@ RUN git clone https://github.com/lsst-ts/ts_config_attcs.git && \
     git clone https://github.com/lsst-sitcom/summit_utils.git && \
     git clone https://github.com/lsst-sitcom/summit_extras.git && \
     git clone https://github.com/lsst-ts/ts_externalscripts.git && \
-    git clone https://github.com/lsst-ts/ts_standardscripts.git
+    git clone https://github.com/lsst-ts/ts_standardscripts.git && \
+    git clone https://github.com/lsst-ts/ts_auxtel_standardscripts.git && \
+    git clone https://github.com/lsst-ts/ts_maintel_standardscripts.git
 
 ARG ts_config_attcs
 ARG ts_config_ocs
@@ -138,6 +140,18 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${ts_standardscripts}  && \
     eups declare -r . ts_standardscripts ${ts_standardscripts} -t current
 
+ARG ts_auxtel_standardscripts
+WORKDIR ${HOME}/ts_auxtel_standardscripts
+RUN source ${HOME}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${ts_auxtel_standardscripts}  && \
+    eups declare -r . ts_auxtel_standardscripts ${ts_auxtel_standardscripts} -t current
+
+ARG ts_maintel_standardscripts
+WORKDIR ${HOME}/ts_maintel_standardscripts
+RUN source ${HOME}/.setup_sal_env.sh && \
+    /home/saluser/.checkout_repo.sh ${ts_maintel_standardscripts}  && \
+    eups declare -r . ts_maintel_standardscripts ${ts_maintel_standardscripts} -t current
+
 WORKDIR ${HOME}
 
 COPY scriptqueue/startup.sh /home/saluser/.startup.sh
@@ -168,4 +182,6 @@ LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
     ts_observatory_control=${ts_observatory_control} \
     ts_externalscripts=${ts_externalscripts} \
     ts_standardscripts=${ts_standardscripts} \
+    ts_auxtel_standardscripts=${ts_auxtel_standardscripts} \
+    ts_maintel_standardscripts=${ts_maintel_standardscripts} \
     ts_scriptqueue=${ts_scriptqueue}
