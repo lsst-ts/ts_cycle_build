@@ -24,6 +24,8 @@ setup ts_salobj -t current
 setup ts_scriptqueue -t current
 setup ts_simactuators -t current
 setup ts_standardscripts -t current
+setup ts_auxtel_standardscripts -t current
+setup ts_maintel_standardscripts -t current
 setup ts_tcpip -t current
 setup ts_xml -t current
 

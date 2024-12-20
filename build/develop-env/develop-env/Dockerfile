@@ -13,6 +13,8 @@ USER saluser
 ARG ts_scriptqueue="develop"
 ARG ts_observatory_control="develop"
 ARG ts_standardscripts="develop"
+ARG ts_auxtel_standardscripts="develop"
+ARG ts_maintel_standardscripts="develop"
 ARG ts_externalscripts="develop"
 ARG ts_atmcssimulator="develop"
 ARG ts_atdome="develop"
@@ -29,6 +31,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
     gitsrc="ts_scriptqueue:${ts_scriptqueue} \
     ts_observatory_control:${ts_observatory_control} \
     ts_standardscripts:${ts_standardscripts} \
+    ts_auxtel_standardscripts:${ts_auxtel_standardscripts} \
+    ts_maintel_standardscripts:${ts_maintel_standardscripts} \
     ts_externalscripts:${ts_externalscripts} \
     ts_atmcssimulator:${ts_atmcssimulator} \
     ts_atdome:${ts_atdome} \
@@ -127,12 +131,44 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_standardscripts -t current && \
     scons version || echo "Cannot generate scons version."
 
+WORKDIR /home/saluser/repos/ts_auxtel_standardscripts
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
+    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
+    setup ts_sal -t current && \
+    setup ts_salobj -t current && \
+    setup ts_config_attcs -t current && \
+    setup ts_config_ocs -t current && \
+    setup ts_atmcssimulator -t current && \
+    setup ts_xml -t current && \
+    setup ts_standardscripts -t current && \
+    eups declare -r . -t current && \
+    setup ts_auxtel_standardscripts -t current && \
+    scons version || echo "Cannot generate scons version."
+
+WORKDIR /home/saluser/repos/ts_maintel_standardscripts
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
+    export LSST_DDS_IP=`ip route get 1 | awk '{print $7;exit}'` && \
+    setup ts_sal -t current && \
+    setup ts_salobj -t current && \
+    setup ts_config_attcs -t current && \
+    setup ts_config_ocs -t current && \
+    setup ts_atmcssimulator -t current && \
+    setup ts_xml -t current && \
+    setup ts_standardscripts -t current && \
+    eups declare -r . -t current && \
+    setup ts_maintel_standardscripts -t current && \
+    scons version || echo "Cannot generate scons version."
+
 WORKDIR /home/saluser/repos/ts_externalscripts
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
     setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_standardscripts -t current && \
+    setup ts_auxtel_standardscripts -t current && \
+    setup ts_maintel_standardscripts -t current && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
     eups declare -r . -t current && \
@@ -153,6 +189,8 @@ WORKDIR /home/saluser/
 LABEL ts_scriptqueue="${ts_scriptqueue}" \
     ts_observatory_control="${ts_observatory_control}" \
     ts_standardscripts="${ts_standardscripts}" \
+    ts_auxtel_standardscripts="${ts_auxtel_standardscripts}" \
+    ts_maintel_standardscripts="${ts_maintel_standardscripts}" \
     ts_externalscripts="${ts_externalscripts}" \
     ts_atmcssimulator="${ts_atmcssimulator}" \
     ts_atdome="${ts_atdome}" \
