@@ -339,6 +339,7 @@ x-mtm1m3_sim:
       m1m3: ${ts_m1m3support}
       crio_cpp: ${ts_cRIOcpp}
       config: ${ts_config_mttcs}
+      sal: ${ts_sal}
 
 x-mtaircompressor:
   &base-mtaircompressor

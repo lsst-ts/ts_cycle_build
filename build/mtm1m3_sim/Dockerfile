@@ -23,8 +23,8 @@ ARG rpm
 RUN dnf install -y \
     --enablerepo=lsst-ts-test \
     --disablerepo=lsst-ts \
-    MTM1M3-22.1.0-10.0.0.el8 \
-    MTMount-22.1.0-10.0.0.el8
+    MTM1M3-22.1.1-10.0.0.el8 \
+    MTMount-22.1.1-10.0.0.el8
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
 ENV SAL_WORK_DIR=/opt/lsst/ts_sal
@@ -53,7 +53,7 @@ RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
 WORKDIR /home/saluser/ts_m1m3support/
 RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-10 && \
+    source scl_source enable gcc-toolset-11 && \
     make simulator
 
 WORKDIR /home/saluser/
