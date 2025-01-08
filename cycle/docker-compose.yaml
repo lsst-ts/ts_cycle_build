@@ -1177,6 +1177,7 @@ services:
         ts_hexrotcomm: ${ts_hexrotcomm}
         ts_tcpip: ${ts_tcpip}
         ts_criopy: ${ts_criopy}
+        ts_m1m3_utils: ${ts_m1m3_utils}
 
   develop-env-private:
     image: ts-dockerhub.lsst.org/develop-env:${CYCLE}${rev}
@@ -1199,6 +1200,7 @@ services:
         ts_hexrotcomm: ${ts_hexrotcomm}
         ts_tcpip: ${ts_tcpip}
         ts_criopy: ${ts_criopy}
+        ts_m1m3_utils: ${ts_m1m3_utils}
 
   conda-builder-aarch64-community:
     image: lsstts/conda_package_builder_aarch64:${CYCLE}
