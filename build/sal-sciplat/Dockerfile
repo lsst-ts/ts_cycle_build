@@ -35,7 +35,6 @@ USER lsst
 RUN source ${LOADSTACK} && \
     conda config --set solver libmamba && \
     conda install -c conda-forge -y \
-    librdkafka \
     aiokafka \
     astroquery \
     asynctest \
@@ -52,7 +51,6 @@ RUN source ${LOADSTACK} && \
     fastavro \
     jsonschema \
     moto=5 \
-    python-confluent-kafka=1.9 \
     pyyaml
 
 # users during operations.
@@ -66,11 +64,18 @@ RUN source ${LOADSTACK} && \
     ts-utils=${ts_utils} \
     ts-idl=${ts_idl}
 
+# Workaround for pin on python-confluent-kafka.
+RUN sed -i 's/    "python-confluent-kafka >=1.9.2,<2",/    "python-confluent-kafka >=1.9.2",/' /opt/lsst/software/stack/conda/envs/lsst-scipipe-9.0.0/conda-meta/rubin-env-nosysroot*
+
 ARG ts_salobj
+ARG librdkafka
+ARG python_confluent_kafka
 
 RUN source ${LOADSTACK} && \
     conda list && \
     conda install -c lsstts/label/rc -y \
+    librdkafka=${librdkafka} \
+    python-confluent-kafka=${python_confluent_kafka} \
     ts-salobj=${ts_salobj}
 
 #### Clear the astropy download cache
