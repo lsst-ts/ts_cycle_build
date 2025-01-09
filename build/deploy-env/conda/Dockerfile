@@ -25,6 +25,7 @@ ENV PYTEST_QT_API="PySide6"
 RUN mkdir -p ${WORKDIR} && \
   chmod -R a+rw ${WORKDIR}/../ && \
   chown -R saluser:saluser /opt/lsst/ && \
+  chown -R saluser:saluser ${HOME} && \
   chown saluser:saluser /home/saluser/.startup.sh && \
   chown saluser:saluser /home/saluser/.setup_sal_env.sh && \
   chown saluser:saluser /home/saluser/.checkout_repo.sh && \
@@ -46,6 +47,8 @@ ARG ts_idl
 ARG ts_xml
 ARG ts_utils
 ARG ts_salobj
+ARG librdkafka
+ARG python_confluent_kafka
 
 ARG PYTHON_VERSION
 
@@ -57,6 +60,7 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
   conda install -y python=${PYTHON_VERSION} && \
   conda config --add channels conda-forge && \
   conda config --add channels lsstts && \
+  conda install -y librdkafka=${librdkafka} python-confluent-kafka=${python_confluent_kafka} && \
   conda install -y -c lsstts -c lsstts/label/dev -c lsstts/label/rc ts-xml=${ts_xml} ts-salobj=${ts_salobj} ts-idl=${ts_idl} ts-utils=${ts_utils} astropy=6 pyopenssl
 
 WORKDIR /home/saluser/
