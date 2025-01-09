@@ -152,6 +152,8 @@ USER saluser
 WORKDIR /home/saluser
 
 ARG ts_develop
+ARG librdkafka
+ARG python_confluent_kafka
 
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda config --add channels conda-forge && \
@@ -159,6 +161,9 @@ RUN source ${STACKDIR}/loadLSST.bash && \
 
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y conda-build anaconda-client setuptools_scm
+
+RUN source ${STACKDIR}/loadLSST.bash && \
+    conda install -y librdkafka=${librdkafka} python-confluent-kafka=${python_confluent_kafka}
 
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y -c lsstts ts-develop=${ts_develop}
