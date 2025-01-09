@@ -49,10 +49,15 @@ RUN curl -LO https://ls.st/lsstinstall && \
 RUN source ./loadLSST.bash && \
   eups distrib install -t ${stack} lsst_distrib
 
+# Workaround for pin on python-confluent-kafka.
+RUN sed -i 's/    "python-confluent-kafka >=1.9.2,<2",/    "python-confluent-kafka >=1.9.2",/' conda/envs/lsst-scipipe-9.0.0/conda-meta/rubin-env-nosysroot*
+
 ARG ts_xml
 ARG ts_idl
 ARG ts_utils
 ARG ts_salobj
+ARG librdkafka
+ARG python_confluent_kafka
 
 ENV QT_API="PySide6"
 ENV PYTEST_QT_API="PySide6"
@@ -64,10 +69,15 @@ RUN source ${HOME}/.setup_sal_env.sh && \
   conda config --add channels lsstts/label/rc && \
   conda config --add channels lsstts && \
   conda config --add channels conda-forge && \ 
-  conda config --set solver libmamba && \
+  conda config --set solver libmamba
+
+RUN source ${HOME}/.setup_sal_env.sh && \
+  conda install -y python-confluent-kafka=${python_confluent_kafka} && \
+  conda install -y librdkafka=${librdkafka}
+
+RUN source ${HOME}/.setup_sal_env.sh && \
   conda install -y cython && \
   conda install -y pyopenssl
-
 
 RUN source ${HOME}/.setup_sal_env.sh && \
   conda install -y \
