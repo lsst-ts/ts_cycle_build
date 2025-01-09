@@ -132,6 +132,8 @@ x-base-deploy-lsstsqre-private:
       ts_salobj: ${ts_salobj}
       ts_xml: ${ts_xml}
       ts_idl: ${ts_idl}
+      librdkafka: ${librdkafka}
+      python_confluent_kafka: ${python_confluent_kafka}
 
 x-dimm:
   &base-dimm
@@ -895,6 +897,8 @@ services:
         ts_salobj: ${ts_salobj}
         ts_idl: ${ts_idl}
         ts_xml: ${ts_xml}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
         PYTHON_VERSION: ${PYTHON_VERSION}
 
   deploy-conda-private:
@@ -909,6 +913,8 @@ services:
         ts_idl: ${ts_idl}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
         PYTHON_VERSION: ${PYTHON_VERSION}
 
   deploy-lsstsqre-community:
@@ -924,6 +930,8 @@ services:
         ts_salobj: ${ts_salobj}
         ts_idl: ${ts_idl}
         ts_xml: ${ts_xml}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
 
   deploy-lsstsqre-private:
     image: ts-dockerhub.lsst.org/deploy-sqre:${CYCLE}${rev}
@@ -958,6 +966,8 @@ services:
         maven: ${maven}
         node: ${node}
         openjdk: ${openjdk}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
         UID: ${B_UID}
         GID: ${B_GID}
 
@@ -979,6 +989,8 @@ services:
         maven: ${maven}
         node: ${node}
         openjdk: ${openjdk}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
         UID: ${B_UID}
         GID: ${B_GID}
 
@@ -1009,6 +1021,8 @@ services:
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
         ts_atdometrajectory: ${ts_atdometrajectory}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
 
   sal-sciplat-licensed:
     image: ts-dockerhub.lsst.org/sal-sciplat:${stack}_${CYCLE}${rev}
@@ -1037,6 +1051,8 @@ services:
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
         ts_atdometrajectory: ${ts_atdometrajectory}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
 
   salobj-community:
     image: lsstts/salobj:${CYCLE}${rev}
