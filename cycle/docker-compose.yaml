@@ -343,6 +343,26 @@ x-mtm1m3_sim:
       config: ${ts_config_mttcs}
       sal: ${ts_sal}
 
+x-vms_sim:
+  &base-vms_sim
+  build:
+    context: ../build/
+    dockerfile: ./vms_sim/Dockerfile
+    labels:
+      com.description: "VMS simulator deployment image for cycle/revision ${CYCLE}${rev}."
+      sal: ${ts_sal}
+      xml: ${ts_xml}
+      vms: ${ts_vms}
+      crio_cpp: ${ts_cRIOcpp}
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      rpm: ${ts_xml}-${ts_sal}.el8.x86_64
+      vms: ${ts_vms}
+      crio_cpp: ${ts_cRIOcpp}
+      config: ${ts_config_mttcs}
+      sal: ${ts_sal}
+
 x-mtaircompressor:
   &base-mtaircompressor
   build:
@@ -1337,6 +1357,14 @@ services:
   mtm1m3_sim_c:
     image: ${hub}/mtm1m3_sim:${CYCLE}
     <<: *base-mtm1m3_sim
+
+  vms_sim:
+    image: ${hub}/vms_sim:${CYCLE}${rev}
+    <<: *base-vms_sim
+
+  vms_sim_c:
+    image: ${hub}/vms_sim:${CYCLE}
+    <<: *base-vms_sim
 
   mtaircompressor:
     image: ${hub}/mtaircompressor:${CYCLE}${rev}
