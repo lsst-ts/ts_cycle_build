@@ -71,12 +71,6 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     scriptqueue_path=$(python -c 'from lsst.ts import scriptqueue; import pathlib; print(pathlib.Path(scriptqueue.__file__).parents[0])') && \
     eups declare -m none -r ${scriptqueue_path} ts_scriptqueue ${ts_scriptqueue}
 
-ARG ts_develop
-
-RUN cd && \
-    source ${WORKDIR}/loadLSST.bash && \
-    conda install -y -c lsstts ts-develop=${ts_develop}
-
 ARG cwfs
 WORKDIR ${HOME}/cwfs
 RUN source ${HOME}/.setup_sal_env.sh && \
