@@ -343,6 +343,26 @@ x-mtm1m3_sim:
       config: ${ts_config_mttcs}
       sal: ${ts_sal}
 
+x-mtm1m3ts_sim:
+  &base-mtm1m3ts_sim
+  build:
+    context: ../build/
+    dockerfile: ./mtm1m3ts_sim/Dockerfile
+    labels:
+      com.description: "M1M3 thermal deployment image for cycle/revision ${CYCLE}${rev}."
+      sal: ${ts_sal}
+      xml: ${ts_xml}
+      m1m3ts: ${ts_m1m3thermal}
+      crio_cpp: ${ts_cRIOcpp}
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      rpm: ${ts_xml}-${ts_sal}.el8.x86_64
+      m1m3ts: ${ts_m1m3thermal}
+      crio_cpp: ${ts_cRIOcpp}
+      config: ${ts_config_mttcs}
+      sal: ${ts_sal}
+
 x-vms_sim:
   &base-vms_sim
   build:
@@ -1357,6 +1377,14 @@ services:
   mtm1m3_sim_c:
     image: ${hub}/mtm1m3_sim:${CYCLE}
     <<: *base-mtm1m3_sim
+
+  mtm1m3ts_sim:
+    image: ${hub}/mtm1m3ts_sim:${CYCLE}${rev}
+    <<: *base-mtm1m3ts_sim
+
+  mtm1m3ts_sim_c:
+    image: ${hub}/mtm1m3ts_sim:${CYCLE}
+    <<: *base-mtm1m3ts_sim
 
   vms_sim:
     image: ${hub}/vms_sim:${CYCLE}${rev}
