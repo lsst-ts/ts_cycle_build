@@ -51,6 +51,7 @@ ARG ts_scriptqueue
 ARG ts_criopy
 
 RUN source ${HOME}/.setup_sal_env.sh && \
+    conda install -y astroplan && \
     conda install -y -c lsstts \
     ts-atdome=${ts_atdome} \
     ts-atdometrajectory=${ts_atdometrajectory} \
