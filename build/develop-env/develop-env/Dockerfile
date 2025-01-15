@@ -22,6 +22,7 @@ ARG ts_simactuators="develop"
 ARG ts_hexrotcomm="develop"
 ARG ts_tcpip="develop"
 ARG ts_criopy="develop"
+ARG ts_m1m3_utils="develop"
 
 RUN source /home/saluser/.setup_salobj.sh && \
     cd ${TSSW_PATH} && \
@@ -36,7 +37,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_simactuators:${ts_simactuators} \
     ts_hexrotcomm:${ts_hexrotcomm} \
     ts_tcpip:${ts_tcpip} \
-    ts_criopy:${ts_criopy}" && \
+    ts_criopy:${ts_criopy} \
+    ts_m1m3_utils:${ts_m1m3_utils}" && \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
     r=$(echo ${g} | cut -d ':' -f 1) \

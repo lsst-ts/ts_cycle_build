@@ -8,6 +8,42 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+
+Cycle 39 revision 11
+====================
+
+* Updated version of the following packages:
+
+  * lsstsqre
+  * stack
+  * ts_atmcssimulator
+  * ts_atpneumaticssimulator
+  * ts_attcpip
+  * ts_mtrotator
+  * ts_criopy
+  * ts_m1m3_utils
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_hvac
+  * ts_weatherforecast
+  * robotframework_efd
+  * ts_integrationtests
+  * ts_tunablelaser
+  * ts_cbp
+  * ts_audiotrigger
+  * ts_config_latiss
+  * ts_config_mtcalsys
+  * ts_config_ocs
+  * love_producer
+  * love_frontend
+  * love_manager
+  * ts_astrosky_model
+  * ts_fbs_utils
+
+* Changed executable name in audiotrigger.
+* Added ts_m1m3_utils to develop-env.
+* Added ts_mtdomecom to mtdome.
+
 Cycle 39 revision 10
 ====================
 
