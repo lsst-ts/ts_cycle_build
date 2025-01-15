@@ -91,6 +91,8 @@ ARG ts_config_mttcs
 ARG ts_config_atcalsys
 ARG ts_observatory_control
 ARG ts_standardscripts
+ARG ts_auxtel_standardscripts
+ARG ts_maintel_standardscripts
 ARG ts_externalscripts
 
 # Only clone and setup the packages that are really necessary to be managed
@@ -106,6 +108,8 @@ RUN source ${LOADSTACK} && \
     ts_config_atcalsys:${ts_config_atcalsys} \
     ts_observatory_control:${ts_observatory_control} \
     ts_standardscripts:${ts_standardscripts} \
+    ts_auxtel_standardscripts:${ts_auxtel_standardscripts} \
+    ts_maintel_standardscripts:${ts_maintel_standardscripts} \
     ts_externalscripts:${ts_externalscripts}" && \
     rb="https://github.com/lsst-ts" && \
     set -e && \
@@ -126,7 +130,9 @@ RUN source ${LOADSTACK} && \
 RUN source ${SALSTACK} && \
     python -c "from lsst.ts.observatory import control" && \
     python -c "from lsst.ts import standardscripts" && \
-    python -c "from lsst.ts import externalscripts"
+    python -c "from lsst.ts import externalscripts" && \
+    python -c "from lsst.ts import auxtel_standardscripts" && \
+    python -c "from lsst.ts import maintel_standardscripts"
 
 USER lsst
 WORKDIR /opt/lsst/software/stack/

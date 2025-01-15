@@ -528,6 +528,8 @@ x-scriptqueue:
       ts_observatory_control: ${ts_observatory_control}
       ts_externalscripts: ${ts_externalscripts}
       ts_standardscripts: ${ts_standardscripts}
+      ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+      ts_maintel_standardscripts: ${ts_maintel_standardscripts}
       ts_criopy: ${ts_criopy}
       ts_scriptqueue: ${ts_scriptqueue}
       ts_idl: ${ts_idl}
@@ -1074,6 +1076,8 @@ services:
         ts_criopy: ${ts_criopy}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
+        ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+        ts_maintel_standardscripts: ${ts_maintel_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
@@ -1103,6 +1107,8 @@ services:
         ts_salobj: ${ts_salobj}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
+        ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+        ts_maintel_standardscripts: ${ts_maintel_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
@@ -1168,6 +1174,8 @@ services:
         ts_scriptqueue: ${ts_scriptqueue}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
+        ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+        ts_maintel_standardscripts: ${ts_maintel_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
@@ -1191,6 +1199,8 @@ services:
         ts_scriptqueue: ${ts_scriptqueue}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
+        ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+        ts_maintel_standardscripts: ${ts_maintel_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
