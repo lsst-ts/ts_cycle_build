@@ -73,7 +73,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    setup ts_xml -t current && \
     eups declare -r . ts_atdometrajectory -t current && \
     setup ts_atdometrajectory -t current && \
     scons version || echo "Cannot generate scons version."
@@ -84,7 +83,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    setup ts_xml -t current && \
     eups declare -r . ts_atmcssimulator -t current && \
     setup ts_atmcssimulator -t current && \
     scons version || echo "Cannot generate scons version."
@@ -95,10 +93,15 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    setup ts_xml -t current && \
     eups declare -r . ts_criopy -t current && \
     setup ts_criopy -t current && \
     scons version || echo "Cannot generate scons version."
+
+WORKDIR /home/saluser/repos/ts_m1m3_utils
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
+    eups declare -r . ts_m1m3_utils -t current && \
+    setup ts_m1m3_utils -t current
 
 WORKDIR /home/saluser/repos/ts_observatory_control
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -108,7 +111,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     git lfs checkout && \
     setup ts_xml -t current && \
     eups declare -r . -t current && \
-    setup ts_xml -t current && \
     setup ts_observatory_control -t current && \
     setup ts_config_ocs -t current && \
     scons version || echo "Cannot generate scons version."
@@ -121,7 +123,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
     setup ts_atmcssimulator -t current && \
-    setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_standardscripts -t current && \
     pytest -v || pytest -vs --last-failed
@@ -134,7 +135,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_standardscripts -t current && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
-    setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_externalscripts -t current && \
     pytest -vx || echo Building external script failed. IGNORING...
@@ -145,7 +145,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_idl -t current && \
     setup ts_salobj -t current && \
-    setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_scriptqueue -t current && \
     scons version || echo "Cannot generate scons version."

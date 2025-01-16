@@ -541,7 +541,6 @@ x-scriptqueue:
       ts_observatory_control: ${ts_observatory_control}
       ts_externalscripts: ${ts_externalscripts}
       ts_standardscripts: ${ts_standardscripts}
-      ts_criopy: ${ts_criopy}
       ts_scriptqueue: ${ts_scriptqueue}
       ts_idl: ${ts_idl}
       ts_atdome: ${ts_atdome}
@@ -1055,6 +1054,7 @@ services:
         ts_sal: ${ts_sal}
         ts_salobj: ${ts_salobj}
         ts_criopy: ${ts_criopy}
+        ts_m1m3_utils: ${ts_m1m3_utils}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
@@ -1084,6 +1084,7 @@ services:
         ts_utils: ${ts_utils}
         ts_sal: ${ts_sal}
         ts_criopy: ${ts_criopy}
+        ts_m1m3_utils: ${ts_m1m3_utils}
         ts_salobj: ${ts_salobj}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
