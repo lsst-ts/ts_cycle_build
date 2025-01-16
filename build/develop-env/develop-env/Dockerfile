@@ -22,6 +22,7 @@ ARG ts_simactuators="develop"
 ARG ts_hexrotcomm="develop"
 ARG ts_tcpip="develop"
 ARG ts_criopy="develop"
+ARG ts_m1m3_utils="develop"
 
 RUN source /home/saluser/.setup_salobj.sh && \
     cd ${TSSW_PATH} && \
@@ -36,7 +37,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_simactuators:${ts_simactuators} \
     ts_hexrotcomm:${ts_hexrotcomm} \
     ts_tcpip:${ts_tcpip} \
-    ts_criopy:${ts_criopy}" && \
+    ts_criopy:${ts_criopy}  \
+    ts_m1m3_utils:${ts_m1m3_utils}" && \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
     r=$(echo ${g} | cut -d ':' -f 1) \
@@ -71,7 +73,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    setup ts_xml -t current && \
     eups declare -r . ts_atdometrajectory -t current && \
     setup ts_atdometrajectory -t current && \
     scons version || echo "Cannot generate scons version."
@@ -82,7 +83,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    setup ts_xml -t current && \
     eups declare -r . ts_atmcssimulator -t current && \
     setup ts_atmcssimulator -t current && \
     scons version || echo "Cannot generate scons version."
@@ -93,10 +93,15 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    setup ts_xml -t current && \
     eups declare -r . ts_criopy -t current && \
     setup ts_criopy -t current && \
     scons version || echo "Cannot generate scons version."
+
+WORKDIR /home/saluser/repos/ts_m1m3_utils
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup lsst_distrib && \
+    eups declare -r . ts_m1m3_utils -t current && \
+    setup ts_m1m3_utils -t current
 
 WORKDIR /home/saluser/repos/ts_observatory_control
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -106,7 +111,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     git lfs checkout && \
     setup ts_xml -t current && \
     eups declare -r . -t current && \
-    setup ts_xml -t current && \
     setup ts_observatory_control -t current && \
     setup ts_config_ocs -t current && \
     scons version || echo "Cannot generate scons version."
@@ -119,7 +123,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
     setup ts_atmcssimulator -t current && \
-    setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_standardscripts -t current && \
     pytest -v || pytest -vs --last-failed
@@ -132,7 +135,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_standardscripts -t current && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
-    setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_externalscripts -t current && \
     pytest -vx || echo Building external script failed. IGNORING...
@@ -143,7 +145,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_idl -t current && \
     setup ts_salobj -t current && \
-    setup ts_xml -t current && \
     eups declare -r . -t current && \
     setup ts_scriptqueue -t current && \
     scons version || echo "Cannot generate scons version."

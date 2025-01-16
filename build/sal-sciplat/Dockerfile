@@ -85,6 +85,7 @@ RUN source ${LOADSTACK} && \
 
 ARG ts_sal
 ARG ts_criopy
+ARG ts_m1m3_utils
 ARG ts_atdome
 ARG ts_atdometrajectory
 ARG ts_atmcssimulator
@@ -104,7 +105,8 @@ RUN source ${LOADSTACK} && \
     ts-atdome=${ts_atdome} \
     ts-atdometrajectory=${ts_atdometrajectory} \
     ts-atmcs-simulator=${ts_atmcssimulator} \
-    ts-criopy=${ts_criopy}
+    ts-criopy=${ts_criopy} \
+    ts-m1m3-utils=${ts_m1m3_utils}
 
 RUN source ${LOADSTACK} && \
     xml_path=$(python -c 'from lsst.ts import xml; import pathlib; print(pathlib.Path(xml.__file__).parents[0])') && \
