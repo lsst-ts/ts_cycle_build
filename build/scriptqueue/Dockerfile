@@ -48,7 +48,6 @@ ARG ts_atdome
 ARG ts_atdometrajectory
 ARG ts_atmcssimulator
 ARG ts_scriptqueue
-ARG ts_criopy
 
 RUN source ${HOME}/.setup_sal_env.sh && \
     conda install -y astroplan && \
