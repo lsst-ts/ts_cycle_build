@@ -828,7 +828,7 @@ x-ess:
       labjack_ljm: ${labjack_ljm}
 
 x-ess-controller-aarch64:
-  &base-controller-aarch64
+  &base-ess-controller-aarch64
   build:
     context: ../build/ess-controller
     labels:
@@ -840,7 +840,7 @@ x-ess-controller-aarch64:
       PYTHON_VERSION: ${PYTHON_VERSION}
 
 x-vents-controller-aarch64:
-  &base-controller-aarch64
+  &base-vents-controller-aarch64
   build:
     context: ../build/atbuilding_vents
     labels:
@@ -850,7 +850,7 @@ x-vents-controller-aarch64:
       PYTHON_VERSION: ${PYTHON_VERSION}
 
 x-audiotrigger-controller-aarch64:
-  &base-controller-aarch64
+  &base-audiotrigger-controller-aarch64
   build:
     context: ../build/audiotrigger
     labels:
@@ -1695,15 +1695,15 @@ services:
 
   ess-controller-aarch64:
     image: lsstts/ess-controller-aarch64
-    <<: *base-controller-aarch64
+    <<: *base-ess-controller-aarch64
 
   vents-controller-aarch64:
     image: lsstts/vents-controller-aarch64
-    <<: *base-controller-aarch64
+    <<: *base-vents-controller-aarch64
 
   audiotrigger-controller-aarch64:
     image: lsstts/audiotrigger-controller-aarch64
-    <<: *base-controller-aarch64
+    <<: *base-audiotrigger-controller-aarch64
 
   hvac:
     image: ${hub}/hvac:${CYCLE}${rev}
