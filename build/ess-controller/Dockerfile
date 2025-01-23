@@ -24,9 +24,9 @@ ARG controller
 
 ARG PYTHON_VERSION
 
-RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-${ARCH}.sh -O mambaforge.sh && \
-    chmod +x mambaforge.sh && \
-    ./mambaforge.sh -b -p ${HOME}/miniconda3 && \
+RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-${ARCH}.sh -O miniforge.sh && \
+    chmod +x miniforge.sh && \
+    ./miniforge.sh -b -p ${HOME}/miniconda3 && \
     source ${HOME}/miniconda3/bin/activate && \
     conda config --set solver libmamba && \
     conda install -y python=${PYTHON_VERSION} && \
