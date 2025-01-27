@@ -75,6 +75,10 @@ RUN source ${HOME}/.setup_sal_env.sh && \
   conda install -y python-confluent-kafka=${python_confluent_kafka} && \
   conda install -y librdkafka=${librdkafka}
 
+# Workaround for too old s3transfer version.
+RUN source ${HOME}/.setup_sal_env.sh && \
+  conda install -y s3transfer>=0.11
+
 RUN source ${HOME}/.setup_sal_env.sh && \
   conda install -y cython && \
   conda install -y pyopenssl
