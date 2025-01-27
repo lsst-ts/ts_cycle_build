@@ -1,3 +1,7 @@
+networks:
+  kafka:
+    driver: bridge
+
 x-cbp:
   &base-cbp
   build:
@@ -268,10 +272,11 @@ x-love-view-backup:
 
 x-mtaos:
   &base-mtaos
+  networks:
+    - kafka
   build:
     context: ../build/
     dockerfile: ./mtaos/Dockerfile
-    network: kafka
     labels:
       com.description: "MTAOS deployment image for cycle/revision ${CYCLE}${rev}."
     args:
@@ -1012,10 +1017,11 @@ services:
 
   base-sqre-private:
     image: ts-dockerhub.lsst.org/base-sqre:${CYCLE}
+    networks:
+      - kafka
     build:
       context: ../build/
       dockerfile: ./develop-env/lsstsqre/Dockerfile
-      network: kafka
       labels:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
@@ -1119,9 +1125,10 @@ services:
 
   salobj-private:
     image: ts-dockerhub.lsst.org/salobj:${CYCLE}${rev}
+    networks:
+      - kafka
     build:
       context: ../build/develop-env/salobj/
-      network: kafka
       labels:
         com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
       args:
@@ -1165,9 +1172,10 @@ services:
 
   develop-env-private:
     image: ts-dockerhub.lsst.org/develop-env:${CYCLE}${rev}
+    networks:
+      - kafka
     build:
       context: ../build/develop-env/develop-env/
-      network: kafka
       labels:
         com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args:
