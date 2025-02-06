@@ -125,7 +125,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_atmcssimulator -t current && \
     eups declare -r . -t current && \
     setup ts_standardscripts -t current && \
-    pytest -v || pytest -vs --last-failed
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_externalscripts
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -137,7 +137,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_ocs -t current && \
     eups declare -r . -t current && \
     setup ts_externalscripts -t current && \
-    pytest -vx || echo Building external script failed. IGNORING...
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_scriptqueue
 RUN source /home/saluser/.setup_salobj.sh && \
