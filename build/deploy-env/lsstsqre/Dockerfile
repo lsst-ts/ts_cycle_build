@@ -68,7 +68,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
   conda config --add channels lsstts/label/dev && \
   conda config --add channels lsstts/label/rc && \
   conda config --add channels lsstts && \
-  conda config --add channels conda-forge && \ 
+  conda config --add channels conda-forge && \
   conda config --set solver libmamba
 
 RUN source ${HOME}/.setup_sal_env.sh && \

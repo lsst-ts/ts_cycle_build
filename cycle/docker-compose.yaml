@@ -1,6 +1,6 @@
 networks:
   kafka:
-    driver: bridge
+    external: true
 
 x-cbp:
   &base-cbp
