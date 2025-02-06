@@ -8,6 +8,88 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Kafka 03 revision 1
+===================
+
+* Fix a bug in dockerc-ompose.yaml so that ess-controller and vent controller will build correctly.
+
+* Switch from Mambaforge to Miniforge for atbuilding_vents and ess-controller.
+
+* Fix the use of the kafka network.
+
+* Updated version of the following packages:
+
+  * ts_hexrotcomm
+  * ts_mthexapod
+  * ts_watcher
+  * oods
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+
+Kafka 03 revision 0
+===================
+
+* Switch from Mambaforge to Miniforge.
+
+* Install pyopenssl to avoid ssl errors.
+
+* Make sure that newer versions of librdkafka and python-confluent-kafka are used.
+
+* Add the MTM1M3 Thermal and VMS deployment containers.
+
+* Updated version of the following packages:
+
+    * Core Products
+      * ts_xml
+      * ts_sal
+      * ts_salobj
+
+    * Products
+      * ts_atbuilding
+      * ts_atmcssimulator
+      * ts_atpneumaticssimulator
+      * ts_pointing_common
+      * ts_m1m3support
+      * ts_cRIOcpp
+      * ts_m1m3_utils
+      * ts_scheduler
+      * ts_mtdome
+      * ts_mtdomecom
+      * ts_atbuilding_vents
+      * ts_electrometer
+      * robotframework_efd
+      * ts_integrationtests
+      * oods
+      * ts_linearstage
+      * ts_config_latiss
+      * ts_config_mtcalsys
+      * ts_config_mttcs
+      * ts_config_ocs
+      * love_commander
+      * love_producer
+      * love_frontend
+
+
+Kafka 02 revision 0
+===================
+
+* Removed DDS.
+
+* Removed unneccesary build scripts and Jenkins builds.
+
+* Updated nearly all Dockerfiles to work with Kafka.
+
+* Updated version of the following packages:
+
+    * Core Products
+      * ts_sal
+      * ts_salobj
+
+    * Products
+      * ts_develop
+
 
 Cycle 39 revision 11
 ====================
