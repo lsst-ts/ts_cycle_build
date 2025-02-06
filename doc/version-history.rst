@@ -8,10 +8,25 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Kafka 04 revision 0
+===================
+
+* Workaround for too old s3transfer and aiohttp versions in deploy-lsstsqre.
+
+* Fix the use of the kafka network.
+
+* Updated version of the following packages:
+
+    * Core Products
+      * ts_salobj
+
+    * Products
+      * oods
+
 Kafka 03 revision 1
 ===================
 
-* Fix a bug in dockerc-ompose.yaml so that ess-controller and vent controller will build correctly.
+* Fix a bug in docker-compose.yaml so that ess-controller and vent controller will build correctly.
 
 * Switch from Mambaforge to Miniforge for atbuilding_vents and ess-controller.
 
