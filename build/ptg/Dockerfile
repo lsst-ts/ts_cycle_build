@@ -14,14 +14,21 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     make \
     cmake \
     wget \
-    boost-python3 \
-    boost-python3-devel \
+    boost1.78 \
+    boost1.78-devel \
+    boost1.78-python3 \
+    boost1.78-python3-devel \
+    librdkafka-devel \
+    jansson \
+    snappy-devel \
     curl-devel && \
     dnf clean all
 
 ARG rpm
 
 RUN dnf install -y \
+    --enablerepo=lsst-ts-test \
+    --disablerepo=lsst-ts \
     ATPtg-${rpm} \
     MTPtg-${rpm} \
     MTMount-${rpm} \
@@ -111,6 +118,9 @@ COPY ptg/at.mod /home/saluser/repos/ts_pointing_common/install/data/at.mod
 COPY ptg/mt_20221128.mod /home/saluser/repos/ts_pointing_common/install/data/mt_20221128.mod
 COPY ptg/mt_ia_ie_tf_tx10_ca_an_aw_20230220.mod /home/saluser/repos/ts_pointing_common/install/data/mt_ia_ie_tf_tx10_ca_an_aw_20230220.mod
 COPY ptg/mt.mod /home/saluser/repos/ts_pointing_common/install/data/mt.mod
+COPY ptg/sal_setup.sh /opt/lsst/ts_sal/sal_setup.env
+COPY --chown=saluser:saluser ptg/create_topics_atptg.py /home/saluser/.create_topics_atptg.py
+COPY --chown=saluser:saluser ptg/create_topics_mtptg.py /home/saluser/.create_topics_mtptg.py
 
 USER root
 RUN chown -R saluser:saluser /home/saluser/repos/ts_pointing_common/install/data/ && \

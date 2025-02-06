@@ -7,7 +7,5 @@ setup ts_observatory_control -t current
 setup ts_standardscripts -t current
 setup ts_externalscripts -t current
 
-source ${STACKDIR}/ospl.env
-source ${OSPL_HOME}/release.com
-
-export OSPL_URI=$(python -c "from lsst.ts import ddsconfig; print( (ddsconfig.get_config_dir() / 'ospl-shmem.xml').as_uri())")
+export LSST_KAFKA_SECURITY_USERNAME=$(cat ${LSST_KAFKA_PASSFILE} | cut -d: -f1)
+export LSST_KAFKA_SECURITY_PASSWORD=$(cat ${LSST_KAFKA_PASSFILE} | cut -d: -f2)

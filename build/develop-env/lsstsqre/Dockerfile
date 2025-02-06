@@ -152,6 +152,8 @@ USER saluser
 WORKDIR /home/saluser
 
 ARG ts_develop
+ARG librdkafka
+ARG python_confluent_kafka
 
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda config --add channels conda-forge && \
@@ -162,6 +164,13 @@ RUN source ${STACKDIR}/loadLSST.bash && \
 
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y -c lsstts ts-develop=${ts_develop}
+
+# Workaround for pin on python-confluent-kafka.
+RUN sed -i 's/    "python-confluent-kafka >=1.9.2,<2",/    "python-confluent-kafka >=1.9.2",/' ${STACKDIR}/conda/envs/lsst-scipipe-9.0.0/conda-meta/rubin-env-nosysroot* && \
+    sed -i 's/    "python-confluent-kafka 1.9.*",/    "python-confluent-kafka >=1.9.2",/' ${STACKDIR}/conda/envs/lsst-scipipe-9.0.0/conda-meta/ts-develop*
+
+RUN source ${STACKDIR}/loadLSST.bash && \
+    conda install -y librdkafka=${librdkafka} python-confluent-kafka=${python_confluent_kafka}
 
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y ltd-conveyor

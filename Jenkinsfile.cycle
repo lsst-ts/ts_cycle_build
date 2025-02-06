@@ -47,11 +47,8 @@ conda_packages = [
   "mtmount",
   "mtrotator",
   "nightreport",
-  "ospl-daemon",
   "pmd",
-  "salkafka",
   "scheduler",
-  "schedview",
   "test",
   "tunablelaser",
   "watcher",
@@ -100,6 +97,8 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push AudioTrigger Controller image.", name: 'build_audiotrigger_controller'
       booleanParam defaultValue: false, description: "Build/push camera-specific GenericCamera images.", name: 'build_camspec_gencam'
       booleanParam defaultValue: false, description: "Build/push M1M3 simulator image.", name: 'build_m1m3_sim'
+      booleanParam defaultValue: false, description: "Build/push M1M3 thermal image.", name: 'build_m1m3ts_sim'
+      booleanParam defaultValue: false, description: "Build/push VMS simulator image.", name: 'build_vms_sim'
       booleanParam defaultValue: false, description: "Build/push pointing component deployment image.", name: 'build_ptg'
       booleanParam defaultValue: false, description: "Build/push MTAOS image.", name: 'build_mtaos'
       booleanParam defaultValue: false, description: "Build/push OODS image.", name: 'build_oods'
@@ -229,7 +228,9 @@ pipeline {
               for comp in \${CONDA_PACKAGES}; do
                 docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${comp}
               done
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \${CONDA_PACKAGES_C}
+              for comp in \${CONDA_PACKAGES_C}; do
+                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${comp}
+              done
               """
               }
           }
@@ -349,6 +350,62 @@ pipeline {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push mtm1m3_sim mtm1m3_sim_c
+            """
+          }
+        }
+      }
+    }
+    stage ('Build M1M3 thermal simulator') {
+      when {
+          expression { params.build_m1m3ts_sim }
+      }
+      steps {
+
+        script{
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+            docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+              sh """
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} mtm1m3ts_sim
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build mtm1m3ts_sim_c
+              """
+              }
+          }
+        }
+        script {
+          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+            sh """
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push mtm1m3ts_sim mtm1m3ts_sim_c
+            """
+          }
+        }
+      }
+    }
+    stage ('Build VMS simulator') {
+      when {
+          expression { params.build_vms_sim }
+      }
+      steps {
+
+        script{
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
+          withEnv(["HOME=${env.WORKSPACE}"]) {
+            docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+              sh """
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} vms_sim
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build vms_sim_c
+              """
+              }
+          }
+        }
+        script {
+          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+            sh """
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push vms_sim vms_sim_c
             """
           }
         }
@@ -485,7 +542,6 @@ pipeline {
 
           withEnv(["HOME=${env.WORKSPACE}"]) {
             sh """
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} opensplice-lsstsqre-licensed
             docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} sal-sciplat-licensed
             """
           }

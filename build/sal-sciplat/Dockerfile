@@ -1,10 +1,12 @@
 ARG image_tag
 
-FROM opensplice-lsstsqre:${image_tag}
+FROM lsstsqre/centos:${image_tag}
 
 USER root
 
 WORKDIR /usr/share/zoneinfo
+
+USER root
 
 RUN curl https://www.ietf.org/timezones/data/leap-seconds.list -o leap-seconds.list
 
@@ -13,6 +15,9 @@ ENV LOADSTACK=/opt/lsst/software/stack/loadLSST.bash
 ENV SRCDIR=/opt/lsst/src
 ENV SALSTACK=/opt/lsst/sal/salbldsteps.bash
 ENV TZ="UTC"
+
+ENV QT_API="PySide6"
+ENV PYTEST_QT_API="PySide6"
 
 COPY sal-sciplat/salbldsteps.bash ${SALSTACK}
 COPY sal-sciplat/print_stack_version.sh /opt/lsst/sal/print_stack_version.sh
@@ -25,48 +30,87 @@ RUN mkdir -p ${SRCDIR} && \
 
 USER lsst
 
+# Conda install TSSW packages that are frozen. These are seldom changed by
+
 RUN source ${LOADSTACK} && \
     conda config --set solver libmamba && \
     conda install -c conda-forge -y \
-    librdkafka aiokafka astroquery asynctest \
-    ephem kafkacat pre-commit pytest-tornasync \
-    setuptools_scm pytest-black \
-    astrometry \
+    aiokafka \
+    astroquery \
+    asynctest \
+    ephem \
+    kafkacat \
+    pre-commit \
+    pytest-tornasync \
+    setuptools_scm \
     astroplan
+
+RUN source ${LOADSTACK} && \
+    conda install -c conda-forge -y \
+    boto3 \
+    fastavro \
+    jsonschema \
+    moto=5 \
+    pyyaml
+
+# users during operations.
+ARG ts_xml
+ARG ts_idl
+ARG ts_utils
+
+RUN source ${LOADSTACK} && \
+    conda install -c lsstts -y \
+    ts-xml=${ts_xml} \
+    ts-utils=${ts_utils} \
+    ts-idl=${ts_idl}
+
+# Workaround for pin on python-confluent-kafka.
+RUN sed -i 's/    "python-confluent-kafka >=1.9.2,<2",/    "python-confluent-kafka >=1.9.2",/' /opt/lsst/software/stack/conda/envs/lsst-scipipe-9.0.0/conda-meta/rubin-env-nosysroot*
+
+ARG ts_salobj
+ARG librdkafka
+ARG python_confluent_kafka
+
+RUN source ${LOADSTACK} && \
+    conda list && \
+    conda install -c lsstts/label/rc -y \
+    librdkafka=${librdkafka} \
+    python-confluent-kafka=${python_confluent_kafka} \
+    ts-salobj=${ts_salobj}
 
 #### Clear the astropy download cache
 RUN source ${LOADSTACK} && \
     python3 -c 'from astropy.utils.data import clear_download_cache; \
     clear_download_cache()'
 
-# Conda install TSSW packages that are frozen. These are seldom changed by
-# users during operations.
-
-ARG ts_ddsconfig
-ARG ts_xml
-ARG ts_idl
 ARG ts_sal
-ARG ts_utils
 ARG ts_criopy
-ARG ts_salobj
+ARG ts_m1m3_utils
 ARG ts_atdome
 ARG ts_atdometrajectory
 ARG ts_atmcssimulator
 
-RUN source ${SALSTACK} && \
-    source ${OSPL_HOME}/release.com && \
+RUN source ${LOADSTACK} && \
     conda install -c lsstts -y \
-    ts-dds=${osplice_v}=${osplice_py} \
-    ts-ddsconfig=${ts_ddsconfig} \
-    ts-idl=${ts_idl}=${ts_xml}_${ts_sal} \
-    ts-salobj=${ts_salobj} \
+    ts-xml=${ts_xml} \
+    ts-utils=${ts_utils} \
+    ts-idl=${ts_idl}
+
+RUN source ${LOADSTACK} && \
+    conda install -c lsstts -c lsstts/label/rc -y \
+    ts-salobj=${ts_salobj}
+
+RUN source ${LOADSTACK} && \
+    conda install -c lsstts -y \
     ts-atdome=${ts_atdome} \
     ts-atdometrajectory=${ts_atdometrajectory} \
     ts-atmcs-simulator=${ts_atmcssimulator} \
     ts-criopy=${ts_criopy} \
-    ts-utils=${ts_utils} && \
-    ddsconfig_path=$(python -c 'from lsst.ts import ddsconfig; import pathlib; print(pathlib.Path(ddsconfig.__file__).parents[0])') && \
-    eups declare -m none -r ${ddsconfig_path} ts_ddsconfig ${ts_ddsconfig}  && \
+    ts-m1m3-utils=${ts_m1m3_utils}
+
+RUN source ${LOADSTACK} && \
+    xml_path=$(python -c 'from lsst.ts import xml; import pathlib; print(pathlib.Path(xml.__file__).parents[0])') && \
+    eups declare -m none -r ${xml_path} ts_xml ${ts_xml}  && \
     utils_path=$(python -c 'from lsst.ts import utils; import pathlib; print(pathlib.Path(utils.__file__).parents[0])') && \
     eups declare -m none -r ${utils_path} ts_utils ${ts_utils}  && \
     salobj_path=$(python -c 'from lsst.ts import salobj; import pathlib; print(pathlib.Path(salobj.__file__).parents[0])') && \
@@ -115,6 +159,7 @@ RUN source ${LOADSTACK} && \
     retag=${t//a/"-alpha."} ; \
     retag=${retag//b/"-beta."} ; \
     retag=${retag//rc/"-rc."} ; \
+    retag=$(echo "$retag" | sed 's/\.$//') ; \
     git clone --branch v${retag} --depth 1 --single-branch ${rb}/${r}.git ; \
     cd ${r} ; \
     git checkout -b ${t} ; \

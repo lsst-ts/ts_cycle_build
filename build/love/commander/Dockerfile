@@ -11,8 +11,11 @@ ARG ts_observatory_control
 # libGL libraries when using pyside6 that comes with ts-criopy 0.8.0
 ARG ts_criopy=0.7.0
 
+# Set the QT_API to an empty string to avoid conflicts with the QT_API set by base images
+ENV QT_API=""
+
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts love-commander=${love_commander} ts-observatory-control=${ts_observatory_control} ts-criopy=${ts_criopy} && \
+    conda install -y -c lsstts -c lsstts/label/rc love-commander=${love_commander} ts-observatory-control=${ts_observatory_control} ts-criopy=${ts_criopy} && \
     pip install kafkit[aiohttp] aiokafka lsst_efd_client
 
 LABEL love_commander=${love_commander}

@@ -48,15 +48,14 @@ ARG ts_atdome
 ARG ts_atdometrajectory
 ARG ts_atmcssimulator
 ARG ts_scriptqueue
-ARG ts_criopy
 
 RUN source ${HOME}/.setup_sal_env.sh && \
+    conda install -y astroplan && \
     conda install -y -c lsstts \
     ts-atdome=${ts_atdome} \
     ts-atdometrajectory=${ts_atdometrajectory} \
     ts-atmcs-simulator=${ts_atmcssimulator} \
     ts-utils=${ts_utils} \
-    ts-criopy=${ts_criopy} \
     ts-scriptqueue=${ts_scriptqueue} && \
     utils_path=$(python -c 'from lsst.ts import utils; import pathlib; print(pathlib.Path(utils.__file__).parents[0])') && \
     eups declare -m none -r ${utils_path} ts_utils ${ts_utils} && \
@@ -66,16 +65,8 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     eups declare -m none -r ${atdometrajectory_path} ts_atdometrajectory ${ts_atdometrajectory} && \
     atmcssimulator_path=$(python -c 'from lsst.ts import atmcssimulator; import pathlib; print(pathlib.Path(atmcssimulator.__file__).parents[0])') && \
     eups declare -m none -r ${atmcssimulator_path} ts_atmcssimulator ${ts_atmcssimulator} && \
-    criopy_path=$(python -c 'from lsst.ts import criopy; import pathlib; print(pathlib.Path(criopy.__file__).parents[0])') && \
-    eups declare -m none -r ${criopy_path} ts_criopy ${ts_criopy} && \
     scriptqueue_path=$(python -c 'from lsst.ts import scriptqueue; import pathlib; print(pathlib.Path(scriptqueue.__file__).parents[0])') && \
     eups declare -m none -r ${scriptqueue_path} ts_scriptqueue ${ts_scriptqueue}
-
-ARG ts_develop
-
-RUN cd && \
-    source ${WORKDIR}/loadLSST.bash && \
-    conda install -y -c lsstts ts-develop=${ts_develop}
 
 ARG cwfs
 WORKDIR ${HOME}/cwfs
@@ -93,7 +84,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     eups declare -r . ts_wep ${ts_wep} -t current && \
     setup lsst_distrib && \
     setup ts_wep -t current && \
-    scons
+    scons version
 
 ARG atmospec
 WORKDIR ${HOME}/atmospec

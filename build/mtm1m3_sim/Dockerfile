@@ -20,7 +20,11 @@ RUN dnf install -y dnf-plugins-core epel-release && \
 
 ARG rpm
 
-RUN dnf install -y MTMount-${rpm} MTM1M3-${rpm}
+RUN dnf install -y \
+    --enablerepo=lsst-ts-test \
+    --disablerepo=lsst-ts \
+    MTM1M3-${rpm} \
+    MTMount-${rpm}
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
 ENV SAL_WORK_DIR=/opt/lsst/ts_sal
@@ -49,14 +53,20 @@ RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
 WORKDIR /home/saluser/ts_m1m3support/
 RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-10 && \
+    source scl_source enable gcc-toolset-11 && \
     make simulator
 
 WORKDIR /home/saluser/
 
 COPY mtm1m3_sim/startup.sh /home/saluser/.startup.sh
+
+COPY mtm1m3_sim/startup.sh /home/saluser/.startup.sh
+COPY mtm1m3_sim/sal_setup.sh /home/saluser/.sal_setup.sh
+COPY mtm1m3_sim/create_topics_mtm1m3.py /home/saluser/.create_topics_mtm1m3.py
 USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
+    chown saluser:saluser /home/saluser/.create_topics_mtm1m3.py && \
+    chmod a+x /home/saluser/.create_topics_mtm1m3.py && \
     chmod a+x /home/saluser/.startup.sh
 USER saluser
 

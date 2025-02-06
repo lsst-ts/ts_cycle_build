@@ -1,3 +1,7 @@
+networks:
+  kafka:
+    driver: bridge
+
 x-cbp:
   &base-cbp
   build:
@@ -128,15 +132,12 @@ x-base-deploy-lsstsqre-private:
       com.description: "Base deployment image for cycle ${CYCLE}${rev}."
     args:
       stack: ${stack}
-      dds_community_version: ${dds_community_version}
-      dds_community_build: ${dds_community_build_el8}
-      dds_private_version: ${dds_private_version}
-      dds_private_build: ${dds_private_build_el8}
       ts_utils: ${ts_utils}
       ts_salobj: ${ts_salobj}
-      ts_dds: ${ts_dds_private}
-      ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
-      ts_ddsconfig: ${ts_ddsconfig}
+      ts_xml: ${ts_xml}
+      ts_idl: ${ts_idl}
+      librdkafka: ${librdkafka}
+      python_confluent_kafka: ${python_confluent_kafka}
 
 x-dimm:
   &base-dimm
@@ -271,6 +272,8 @@ x-love-view-backup:
 
 x-mtaos:
   &base-mtaos
+  networks:
+    - kafka
   build:
     context: ../build/
     dockerfile: ./mtaos/Dockerfile
@@ -343,6 +346,47 @@ x-mtm1m3_sim:
       m1m3: ${ts_m1m3support}
       crio_cpp: ${ts_cRIOcpp}
       config: ${ts_config_mttcs}
+      sal: ${ts_sal}
+
+x-mtm1m3ts_sim:
+  &base-mtm1m3ts_sim
+  build:
+    context: ../build/
+    dockerfile: ./mtm1m3ts_sim/Dockerfile
+    labels:
+      com.description: "M1M3 thermal deployment image for cycle/revision ${CYCLE}${rev}."
+      sal: ${ts_sal}
+      xml: ${ts_xml}
+      m1m3ts: ${ts_m1m3thermal}
+      crio_cpp: ${ts_cRIOcpp}
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      rpm: ${ts_xml}-${ts_sal}.el8.x86_64
+      m1m3ts: ${ts_m1m3thermal}
+      crio_cpp: ${ts_cRIOcpp}
+      config: ${ts_config_mttcs}
+      sal: ${ts_sal}
+
+x-vms_sim:
+  &base-vms_sim
+  build:
+    context: ../build/
+    dockerfile: ./vms_sim/Dockerfile
+    labels:
+      com.description: "VMS simulator deployment image for cycle/revision ${CYCLE}${rev}."
+      sal: ${ts_sal}
+      xml: ${ts_xml}
+      vms: ${ts_vms}
+      crio_cpp: ${ts_cRIOcpp}
+    args:
+      cycle: ${CYCLE}
+      hub: ${hub}
+      rpm: ${ts_xml}-${ts_sal}.el8.x86_64
+      vms: ${ts_vms}
+      crio_cpp: ${ts_cRIOcpp}
+      config: ${ts_config_mttcs}
+      sal: ${ts_sal}
 
 x-mtaircompressor:
   &base-mtaircompressor
@@ -408,18 +452,6 @@ x-mtrotator:
       tcpip: ${ts_tcpip}
       config: ${ts_config_mttcs}
 
-x-ospl-daemon:
-  &base-ospl-daemon
-  build:
-    context: ../build/ospl-daemon
-    labels:
-      com.description: "OSPL Daemon for cycle ${CYCLE}."
-      deploy_env: ${deploy_env}
-      deploy_tag: ${CYCLE}
-    args:
-      deploy_env: ${hub}/${deploy_env}
-      deploy_tag: ${CYCLE}
-
 x-ptg:
   &base-ptg
   build:
@@ -460,20 +492,6 @@ x-base-rapid-analysis:
       summit_utils_work_branch: ${rubintv_summit_utils}
       summit_extras_work_branch: ${rubintv_summit_extras}
       rubintv_production_work_branch: ${rubintv_production}
-
-x-salkafka:
-  &base-salkafka
-  build:
-    context: ../build/salkafka
-    labels:
-      com.description: "SAL kafka producers deployment image for cycle/revision ${CYCLE}${rev}."
-      deploy_env: ${deploy_env}
-      deploy_tag: ${CYCLE}
-      salkafka: ${ts_salkafka}
-    args:
-      deploy_env: ${hub}/${deploy_env}
-      deploy_tag: ${CYCLE}
-      salkafka: ${ts_salkafka}
 
 x-scheduler:
   &base-scheduler
@@ -528,7 +546,6 @@ x-scriptqueue:
       ts_observatory_control: ${ts_observatory_control}
       ts_externalscripts: ${ts_externalscripts}
       ts_standardscripts: ${ts_standardscripts}
-      ts_criopy: ${ts_criopy}
       ts_scriptqueue: ${ts_scriptqueue}
       ts_idl: ${ts_idl}
       ts_atdome: ${ts_atdome}
@@ -816,7 +833,7 @@ x-ess:
       labjack_ljm: ${labjack_ljm}
 
 x-ess-controller-aarch64:
-  &base-controller-aarch64
+  &base-ess-controller-aarch64
   build:
     context: ../build/ess-controller
     labels:
@@ -828,7 +845,7 @@ x-ess-controller-aarch64:
       PYTHON_VERSION: ${PYTHON_VERSION}
 
 x-vents-controller-aarch64:
-  &base-controller-aarch64
+  &base-vents-controller-aarch64
   build:
     context: ../build/atbuilding_vents
     labels:
@@ -838,7 +855,7 @@ x-vents-controller-aarch64:
       PYTHON_VERSION: ${PYTHON_VERSION}
 
 x-audiotrigger-controller-aarch64:
-  &base-controller-aarch64
+  &base-audiotrigger-controller-aarch64
   build:
     context: ../build/audiotrigger
     labels:
@@ -920,12 +937,12 @@ services:
       labels:
         com.description: "Base deployment image for cycle/revision ${CYCLE}."
       args:
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
-        ts_dds: ${ts_dds_community}
         ts_idl: ${ts_idl}
+        ts_xml: ${ts_xml}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
         PYTHON_VERSION: ${PYTHON_VERSION}
 
   deploy-conda-private:
@@ -936,15 +953,12 @@ services:
       labels:
         com.description: "Base deployment image for cycle ${CYCLE}."
       args:
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
-        dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build_el8}
-        ts_dds: ${ts_dds_private}=${ts_dds_private_conda_build}
-        ts_ddsconfig: ${ts_ddsconfig}
-        ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
+        ts_xml: ${ts_xml}
+        ts_idl: ${ts_idl}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
         PYTHON_VERSION: ${PYTHON_VERSION}
 
   deploy-lsstsqre-community:
@@ -956,13 +970,12 @@ services:
         com.description: "Base deployment image for cycle ${CYCLE}."
       args:
         stack: ${stack}
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
-        ts_dds: ${ts_dds_community}
-        ts_idl: ${ts_idl}=${ts_xml}_${ts_sal}
-        ts_ddsconfig: ${ts_ddsconfig}
+        ts_idl: ${ts_idl}
+        ts_xml: ${ts_xml}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
 
   deploy-lsstsqre-private:
     image: ts-dockerhub.lsst.org/deploy-sqre:${CYCLE}${rev}
@@ -989,8 +1002,6 @@ services:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
         stack: ${stack}
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
         ts_develop: ${ts_develop}
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
@@ -999,11 +1010,15 @@ services:
         maven: ${maven}
         node: ${node}
         openjdk: ${openjdk}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
         UID: ${B_UID}
         GID: ${B_GID}
 
   base-sqre-private:
     image: ts-dockerhub.lsst.org/base-sqre:${CYCLE}
+    networks:
+      - kafka
     build:
       context: ../build/
       dockerfile: ./develop-env/lsstsqre/Dockerfile
@@ -1011,10 +1026,6 @@ services:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
         stack: ${stack}
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
-        dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build_el8}
         ts_develop: ${ts_develop}
         gphoto2: ${gphoto2}
         labjack_file_version: ${labjack_file_version}
@@ -1023,32 +1034,10 @@ services:
         maven: ${maven}
         node: ${node}
         openjdk: ${openjdk}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
         UID: ${B_UID}
         GID: ${B_GID}
-
-  opensplice-lsstsqre-community:
-    image: opensplice-lsstsqre:community
-    build:
-      context: ../build/
-      dockerfile: ./opensplice/lsstsqre-community/Dockerfile
-      args:
-        stack: ${stack}
-        java_v: ${java_v}
-        osplice_v: ${dds_community_version}
-        osplice_build: ${dds_community_build_el7}
-        osplice_py: ${ts_dds_community_conda_build}
-
-  opensplice-lsstsqre-licensed:
-    image: opensplice-lsstsqre:licensed
-    build:
-      context: ../build/
-      dockerfile: ./opensplice/lsstsqre-licensed/Dockerfile
-      args:
-        stack: ${stack}
-        java_v: ${java_v}
-        osplice_v: ${dds_private_version}
-        osplice_build: ${dds_private_build_el7}
-        osplice_py: ${ts_dds_private_conda_build}
 
   sal-sciplat-community:
     image: lsstts/sal-sciplat:${stack}_${CYCLE}${rev}
@@ -1056,7 +1045,7 @@ services:
       context: ../build/
       dockerfile: ./sal-sciplat/Dockerfile
       args:
-        image_tag: community
+        image_tag: ${lsstsqre}
         black_v: ${black_v}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
@@ -1065,19 +1054,21 @@ services:
         ts_config_latiss: ${ts_config_latiss}
         ts_config_mttcs: ${ts_config_mttcs}
         ts_config_atcalsys: ${ts_config_atcalsys}
-        ts_ddsconfig: ${ts_ddsconfig}
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_utils: ${ts_utils}
         ts_sal: ${ts_sal}
         ts_salobj: ${ts_salobj}
         ts_criopy: ${ts_criopy}
+        ts_m1m3_utils: ${ts_m1m3_utils}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
         ts_atdometrajectory: ${ts_atdometrajectory}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
 
   sal-sciplat-licensed:
     image: ts-dockerhub.lsst.org/sal-sciplat:${stack}_${CYCLE}${rev}
@@ -1085,7 +1076,7 @@ services:
       context: ../build/
       dockerfile: ./sal-sciplat/Dockerfile
       args:
-        image_tag: licensed
+        image_tag: ${lsstsqre}
         black_v: ${black_v}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
@@ -1094,12 +1085,12 @@ services:
         ts_config_latiss: ${ts_config_latiss}
         ts_config_mttcs: ${ts_config_mttcs}
         ts_config_atcalsys: ${ts_config_atcalsys}
-        ts_ddsconfig: ${ts_ddsconfig}
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_utils: ${ts_utils}
         ts_sal: ${ts_sal}
         ts_criopy: ${ts_criopy}
+        ts_m1m3_utils: ${ts_m1m3_utils}
         ts_salobj: ${ts_salobj}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
@@ -1107,6 +1098,8 @@ services:
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
         ts_atdometrajectory: ${ts_atdometrajectory}
+        librdkafka: ${librdkafka}
+        python_confluent_kafka: ${python_confluent_kafka}
 
   salobj-community:
     image: lsstts/salobj:${CYCLE}${rev}
@@ -1117,7 +1110,6 @@ services:
       args:
         hub: lsstts
         base_image_tag: ${CYCLE}
-        ts_dds: ${ts_dds_community}=${ts_dds_community_conda_build}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
         ts_config_mtcalsys: ${ts_config_mtcalsys}
@@ -1125,7 +1117,6 @@ services:
         ts_config_latiss: ${ts_config_latiss}
         ts_config_mttcs: ${ts_config_mttcs}
         ts_config_atcalsys: ${ts_config_atcalsys}
-        ts_ddsconfig: ${ts_ddsconfig}
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_sal: ${ts_sal}
@@ -1134,6 +1125,8 @@ services:
 
   salobj-private:
     image: ts-dockerhub.lsst.org/salobj:${CYCLE}${rev}
+    networks:
+      - kafka
     build:
       context: ../build/develop-env/salobj/
       labels:
@@ -1141,7 +1134,6 @@ services:
       args:
         hub: ts-dockerhub.lsst.org
         base_image_tag: ${CYCLE}
-        ts_dds: ${ts_dds_private}=${ts_dds_private_conda_build}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
         ts_config_mtcalsys: ${ts_config_mtcalsys}
@@ -1149,7 +1141,6 @@ services:
         ts_config_latiss: ${ts_config_latiss}
         ts_config_mttcs: ${ts_config_mttcs}
         ts_config_atcalsys: ${ts_config_atcalsys}
-        ts_ddsconfig: ${ts_ddsconfig}
         ts_xml: ${ts_xml}
         ts_idl: ${ts_idl}
         ts_sal: ${ts_sal}
@@ -1181,6 +1172,8 @@ services:
 
   develop-env-private:
     image: ts-dockerhub.lsst.org/develop-env:${CYCLE}${rev}
+    networks:
+      - kafka
     build:
       context: ../build/develop-env/develop-env/
       labels:
@@ -1226,8 +1219,6 @@ services:
       labels:
         com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
@@ -1240,29 +1231,9 @@ services:
       labels:
         com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
-        dds_community_version: ${dds_community_version}
-        dds_community_build: ${dds_community_build_el8}
-        dds_private_version: ${dds_private_version}
-        dds_private_build: ${dds_private_build_el8}
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
-
-  ospl-daemon:
-    image: ${hub}/ospl-daemon:${CYCLE}
-    <<: *base-ospl-daemon
-
-  ospl-daemon_c:
-    image: ${hub}/ospl-daemon:${CYCLE}
-    <<: *base-ospl-daemon
-
-  lsst_sims:
-    image: ${hub}/lsst_sims:${CYCLE}${rev}
-    <<: *base-lsst_sims
-
-  lsst_sims_c:
-    image: ${hub}/lsst_sims:${CYCLE}
-    <<: *base-lsst_sims
 
   dimm:
     image: ${hub}/dimm:${CYCLE}${rev}
@@ -1416,6 +1387,22 @@ services:
     image: ${hub}/mtm1m3_sim:${CYCLE}
     <<: *base-mtm1m3_sim
 
+  mtm1m3ts_sim:
+    image: ${hub}/mtm1m3ts_sim:${CYCLE}${rev}
+    <<: *base-mtm1m3ts_sim
+
+  mtm1m3ts_sim_c:
+    image: ${hub}/mtm1m3ts_sim:${CYCLE}
+    <<: *base-mtm1m3ts_sim
+
+  vms_sim:
+    image: ${hub}/vms_sim:${CYCLE}${rev}
+    <<: *base-vms_sim
+
+  vms_sim_c:
+    image: ${hub}/vms_sim:${CYCLE}
+    <<: *base-vms_sim
+
   mtaircompressor:
     image: ${hub}/mtaircompressor:${CYCLE}${rev}
     <<: *base-mtaircompressor
@@ -1513,14 +1500,6 @@ services:
   ptg_c:
     image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}
     <<: *base-ptg
-
-  salkafka:
-    image: ${hub}/salkafka:${CYCLE}${rev}
-    <<: *base-salkafka
-
-  salkafka_c:
-    image: ${hub}/salkafka:${CYCLE}
-    <<: *base-salkafka
 
   scheduler:
     image: ${hub}/scheduler:${CYCLE}${rev}
@@ -1724,15 +1703,15 @@ services:
 
   ess-controller-aarch64:
     image: lsstts/ess-controller-aarch64
-    <<: *base-controller-aarch64
+    <<: *base-ess-controller-aarch64
 
   vents-controller-aarch64:
     image: lsstts/vents-controller-aarch64
-    <<: *base-controller-aarch64
+    <<: *base-vents-controller-aarch64
 
   audiotrigger-controller-aarch64:
     image: lsstts/audiotrigger-controller-aarch64
-    <<: *base-controller-aarch64
+    <<: *base-audiotrigger-controller-aarch64
 
   hvac:
     image: ${hub}/hvac:${CYCLE}${rev}

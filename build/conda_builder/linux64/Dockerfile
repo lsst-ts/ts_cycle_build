@@ -37,44 +37,18 @@ RUN dnf install -y gcc-c++ \
   mesa-dri-drivers \
   xorg-x11-server-Xvfb
 
-COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
-COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-nexus-private.repo
 COPY conda_builder/linux64/setup.sh /home/saluser/.setup.sh
 COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
 COPY common/conda_build_config.yaml /home/saluser/conda_build_config.yaml
-
-ARG dds_community_version=6.9.0
-ARG dds_community_build=2.el8
-ARG dds_private_version
-ARG dds_private_build
-
-RUN chown saluser:saluser /home/saluser/.setup.sh && \
-  chown saluser:saluser /home/saluser/.checkout_repo.sh && \
-  chown saluser:saluser /home/saluser/conda_build_config.yaml && \
-  chmod a+x /home/saluser/.setup.sh && \
-  chmod a+x /home/saluser/.checkout_repo.sh && \
-  touch ${HOME}/.ospl_env.sh && \
-  chown -R saluser:saluser ${HOME}/.ospl_env.sh && \
-  chmod a+x ${HOME}/.ospl_env.sh && \
-  dnf install -y git make gcc-c++ && \
-  if [ -z "${dds_private_version}" ]; then \
-  dnf install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} ; \
-  echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux" >> ${HOME}/.ospl_env.sh ; \
-  else \
-  dnf install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
-  echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${HOME}/.ospl_env.sh ; \
-  fi; \
-  chown -R ${UID}:${GID} ${HOME}/.cache ; \
-  rm /etc/yum.repos.d/lsst-ts-nexus-private.repo
 
 USER saluser
 WORKDIR /home/saluser
 
 ARG PYTHON_VERSION=3.11
 
-RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o mambaforge.sh && \
-  chmod +x mambaforge.sh && \
-  ./mambaforge.sh -b -p ${HOME}/miniconda3 && \
+RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o miniforge.sh && \
+  chmod +x miniforge.sh && \
+  ./miniforge.sh -b -p ${HOME}/miniconda3 && \
   source ${HOME}/miniconda3/bin/activate && \
   conda config --set solver libmamba && \
   conda install -y python=${PYTHON_VERSION} && \
