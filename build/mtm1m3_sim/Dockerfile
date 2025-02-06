@@ -60,8 +60,13 @@ WORKDIR /home/saluser/
 
 COPY mtm1m3_sim/startup.sh /home/saluser/.startup.sh
 
+COPY mtm1m3_sim/startup.sh /home/saluser/.startup.sh
+COPY mtm1m3_sim/sal_setup.sh /home/saluser/.sal_setup.sh
+COPY mtm1m3_sim/create_topics_mtm1m3.py /home/saluser/.create_topics_mtm1m3.py
 USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
+    chown saluser:saluser /home/saluser/.create_topics_mtm1m3.py && \
+    chmod a+x /home/saluser/.create_topics_mtm1m3.py && \
     chmod a+x /home/saluser/.startup.sh
 USER saluser
 
