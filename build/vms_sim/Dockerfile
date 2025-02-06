@@ -37,7 +37,7 @@ ARG rpm
 RUN dnf install -y \
     --enablerepo=lsst-ts-test \
     --disablerepo=lsst-ts \
-    MTVMS-22.1.1-10.0.0.el8
+    MTVMS-${rpm}
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
 ENV SAL_WORK_DIR=/opt/lsst/ts_sal/
