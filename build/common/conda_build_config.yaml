@@ -10,6 +10,8 @@ setuptools:
 setuptools_scm:
   - 7.0
   - 8.1
+idl_version:
+  - ""
 zip_keys:
   - python
   - numpy
