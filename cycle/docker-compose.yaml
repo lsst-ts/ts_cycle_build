@@ -1103,6 +1103,8 @@ services:
 
   salobj-community:
     image: lsstts/salobj:${CYCLE}${rev}
+    networks:
+      - kafka
     build:
       context: ../build/develop-env/salobj/
       labels:
