@@ -8,6 +8,31 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Kafka 04 revision 2
+===================
+
+* Removed unset S3_ENDPOINT_URL for oods builds.
+* Updated conda build setup script to remove DDS-related steps.
+* Updated develop-env Jenkinsfile to use DOCKER_BUILDKIT=0, which allows passing the network to the build container.
+* Updated salobj Jenkinsfile to use DOCKER_BUILDKIT=0, which allows passing the network to the build container.
+* Fixed use of external network for docker compose.
+* Added kafka network to the salobj-community build configuration.
+* Updated Sciplat Jenkinsfile to remove old opensplice step that was deprecated for kafka.
+* Added idl_version to conda_build_config.
+
+* Updated version of the following packages:
+  
+  * lsstsqre
+  * stack
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_weatherforecast
+  * oods
+  * ts_tunablelaser
+  * ts_config_mtcalsys
+  * ts_config_mttcs
+  * ts_config_ocs
+
 Kafka 04 revision 0
 ===================
 
