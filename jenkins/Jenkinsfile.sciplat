@@ -25,7 +25,6 @@ pipeline {
               script {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
-                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-licensed
                     docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-licensed
                   """
                 }
@@ -54,7 +53,6 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-community
                     docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-community
                   """
                 }
@@ -83,7 +81,6 @@ pipeline {
               script {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
-                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-licensed
                     docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-licensed
                   """
                 }
@@ -112,7 +109,6 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                      docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull opensplice-lsstsqre-community
                       docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build sal-sciplat-community
                   """
                 }

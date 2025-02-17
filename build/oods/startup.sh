@@ -3,7 +3,6 @@
 source ${HOME}/.setup_sal_env.sh
 
 LSST_USER_HOME=/home/saluser
-unset S3_ENDPOINT_URL
 
 setup lsst_distrib
 setup obs_lsst
