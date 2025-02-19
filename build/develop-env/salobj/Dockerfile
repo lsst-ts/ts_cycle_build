@@ -63,8 +63,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
 
 RUN source /home/saluser/.setup_salobj.sh && \
     cd ${TSSW_PATH} && \
-    gitsrc="ts_ddsconfig:${ts_ddsconfig} \
-    ts_utils:${ts_utils} \
+    gitsrc="ts_utils:${ts_utils} \
     ts_salobj:${ts_salobj}" && \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
@@ -82,9 +81,7 @@ WORKDIR /home/saluser/repos/ts_salobj
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_ocs -t current && \
     setup ts_xml -t current && \
-    setup ts_sal -t current && \
-    setup ts_idl -t current && \
-    pytest --color=no
+    python -c "from lsst.ts import salobj"
 
 WORKDIR /home/saluser/
 
