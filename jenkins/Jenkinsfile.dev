@@ -16,7 +16,7 @@ pipeline {
       booleanParam defaultValue: false, description: 'Build cycle.', name: 'build_cycle'
     }
     stages {
-        stage("Build/push main - community") {
+        stage("Build/push main") {
           when {
               expression { return params.build_main }
           }
@@ -25,7 +25,7 @@ pipeline {
                 script {
                   docker.withRegistry("", registryCredential) {
                     sh """
-                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull develop-env-community
+                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull develop-env
                     """
                   }
                 }
@@ -33,13 +33,22 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push develop-env-community
+                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push develop-env
+                  """
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
+                    source cycle/main.env
+                    docker tag lsstts/develop-env:\${CYCLE} ts-dockerhub.lsst.org/develop-env:\${CYCLE}
+                    docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}
                   """
                 }
               }
             }
         }
-        stage("Build/push develop - community") {
+        stage("Build/push develop") {
           when {
               expression { return params.build_develop }
           }
@@ -48,7 +57,7 @@ pipeline {
                 script {
                   docker.withRegistry("", registryCredential) {
                     sh """
-                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull develop-env-community
+                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull develop-env
                     """
                   }
                 }
@@ -56,13 +65,22 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push develop-env-community
+                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push develop-env
+                  """
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
+                    source cycle/develop.env
+                    docker tag lsstts/develop-env:\${CYCLE} ts-dockerhub.lsst.org/develop-env:\${CYCLE}
+                    docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}
                   """
                 }
               }
             }
         }
-        stage("Build/push cycle - community") {
+        stage("Build/push cycle") {
           when {
               expression { return params.build_cycle }
           }
@@ -71,7 +89,7 @@ pipeline {
                 script {
                   docker.withRegistry("", registryCredential) {
                     sh """
-                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull develop-env-community
+                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull develop-env
                     """
                   }
                 }
@@ -79,76 +97,16 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env-community
+                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env
                   """
-                }
-              }
-            }
-        }
-        stage("Build/push main - private") {
-          when {
-              expression { return params.build_main }
-          }
-            steps {
-              withEnv(["HOME=${env.WORKSPACE}"]) {
-                script {
-                  docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                    sh """
-                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull develop-env-private
-                    """
-                  }
                 }
               }
               script {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
-                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push develop-env-private
-                  """
-                }
-              }
-            }
-        }
-        stage("Build/push develop - private") {
-          when {
-              expression { return params.build_develop }
-          }
-            steps {
-              withEnv(["HOME=${env.WORKSPACE}"]) {
-                script {
-                  docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                    sh """
-                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull develop-env-private
-                    """
-                  }
-                }
-              }
-              script {
-                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                  sh """
-                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push develop-env-private
-                  """
-                }
-              }
-            }
-        }
-        stage("Build/push cycle - private") {
-          when {
-              expression { return params.build_cycle }
-          }
-            steps {
-              withEnv(["HOME=${env.WORKSPACE}"]) {
-                script {
-                  docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                    sh """
-                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull develop-env-private
-                    """
-                  }
-                }
-              }
-              script {
-                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                  sh """
-                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env-private
+                    source cycle/cycle.env
+                    docker tag lsstts/develop-env:\${CYCLE} ts-dockerhub.lsst.org/develop-env:\${CYCLE}
+                    docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}
                   """
                 }
               }
