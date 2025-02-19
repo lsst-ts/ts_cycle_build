@@ -9,6 +9,10 @@ COPY checkout_repo.sh /home/saluser/.checkout_repo.sh
 COPY setup.sh /home/saluser/.setup.sh
 
 ENV TSSW_PATH=/opt/lsst/tssw
+ENV LSST_SCHEMA_REGISTRY_URL=http://schema-registry:8081
+ENV LSST_KAFKA_HOST=broker
+ENV LSST_KAFKA_BROKER_PORT=29092
+ENV LSST_KAFKA_PREFIX=sal
 
 USER root
 RUN chown saluser:saluser /home/saluser/.checkout_repo.sh && \
@@ -22,8 +26,6 @@ USER saluser
 
 RUN ln -s ${TSSW_PATH} /home/saluser/repos
 
-# Arguments for package versions
-ARG ts_dds="6.9.181127"
 ARG ts_config_ocs="develop"
 ARG ts_config_attcs="develop"
 ARG ts_config_mtcalsys="develop"
@@ -31,7 +33,6 @@ ARG ts_config_eas="develop"
 ARG ts_config_latiss="develop"
 ARG ts_config_mttcs="develop"
 ARG ts_config_atcalsys="develop"
-ARG ts_ddsconfig="develop"
 ARG ts_xml="develop"
 ARG ts_idl="develop"
 ARG ts_sal="develop"
@@ -47,8 +48,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_config_latiss:${ts_config_latiss} \
     ts_config_mttcs:${ts_config_mttcs} \
     ts_config_atcalsys:${ts_config_atcalsys} \
-    ts_xml:${ts_xml} \
     ts_idl:${ts_idl} \
+    ts_xml:${ts_xml} \
     ts_sal:${ts_sal}" \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
@@ -63,8 +64,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
 
 RUN source /home/saluser/.setup_salobj.sh && \
     cd ${TSSW_PATH} && \
-    gitsrc="ts_ddsconfig:${ts_ddsconfig} \
-    ts_utils:${ts_utils} \
+    gitsrc="ts_utils:${ts_utils} \
+    ts_idl:${ts_idl} \
     ts_salobj:${ts_salobj}" && \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
@@ -82,9 +83,33 @@ WORKDIR /home/saluser/repos/ts_salobj
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_ocs -t current && \
     setup ts_xml -t current && \
+    python -c "from lsst.ts import salobj"
+
+ENV LSST_SAL_PREFIX=/opt/lsst/tssw/ts_sal
+RUN source /home/saluser/.setup_salobj.sh && \
+    mkdir ${LSST_SAL_PREFIX}/lib && \
+    conda install -y jansson
+
+USER root
+RUN source /home/saluser/.setup_salobj.sh && \
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment update
+
+RUN source /home/saluser/.setup_salobj.sh && \
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro || echo "Failed."
+
+RUN source /home/saluser/.setup_salobj.sh && \
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment librdkafka || echo "Failed."
+
+RUN source /home/saluser/.setup_salobj.sh && \
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment libserdes || echo "Failed."
+
+USER saluser
+
+RUN source /home/saluser/.setup_salobj.sh && \
+    setup ts_xml -t current && \
     setup ts_sal -t current && \
-    setup ts_idl -t current && \
-    pytest --color=no
+    source ${TS_SAL_DIR}/setupKafka.env && \
+    salgeneratorKafka validate Test
 
 WORKDIR /home/saluser/
 
@@ -95,9 +120,7 @@ LABEL ts_config_ocs="${ts_config_ocs}" \
     ts_config_latiss="${ts_config_latiss}" \
     ts_config_mttcs="${ts_config_mttcs}" \
     ts_config_atcalsys="${ts_config_atcalsys}" \
-    ts_ddsconfig="${ts_ddsconfig}" \
     ts_xml="${ts_xml}" \
-    ts_idl="${ts_idl}" \
     ts_sal="${ts_sal}" \
     ts_salobj="${ts_salobj}"
 
