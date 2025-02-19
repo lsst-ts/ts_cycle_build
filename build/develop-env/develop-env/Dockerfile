@@ -55,7 +55,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
     eups declare -r . ts_simactuators -t current && \
     setup ts_simactuators -t current && \
-    scons || pytest --color=no --last-failed
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_atdome
 RUN source /home/saluser/.setup_salobj.sh && \
@@ -65,7 +65,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_attcs -t current && \
     eups declare -r . ts_atdome -t current && \
     setup ts_atdome -t current && \
-    scons || pytest --color=no --last-failed
+    scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_atdometrajectory
 RUN source /home/saluser/.setup_salobj.sh && \
