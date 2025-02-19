@@ -88,6 +88,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_sal -t current && \
     source ${TS_SAL_DIR}/setupKafka.env && \
     export LSST_SCHEMA_REGISTRY_URL=http://schema-registry:8081 && \
+    export LSST_KAFKA_HOST=broker && \
+    export LSST_KAFKA_BROKER_PORT=29092 && \
     salgeneratorKafka validate Test
 
 WORKDIR /home/saluser/
