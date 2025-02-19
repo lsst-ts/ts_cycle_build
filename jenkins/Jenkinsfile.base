@@ -54,8 +54,8 @@ pipeline {
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
                 sh """
-                  docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre-community
-                  docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull base-sqre-community
+                  docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre
+                  docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull base-sqre
                 """
               }
             }
@@ -65,8 +65,8 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre-community
-                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push base-sqre-community
+                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre
+                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push base-sqre
                     source cycle/develop.env
                     docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
                     docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}
