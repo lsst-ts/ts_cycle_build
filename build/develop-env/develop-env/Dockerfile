@@ -143,7 +143,6 @@ WORKDIR /home/saluser/repos/ts_scriptqueue
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
     setup ts_xml -t current && \
-    setup ts_idl -t current && \
     setup ts_salobj -t current && \
     eups declare -r . -t current && \
     setup ts_scriptqueue -t current && \
