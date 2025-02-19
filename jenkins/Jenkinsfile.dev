@@ -34,6 +34,12 @@ pipeline {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push develop-env
+                  """
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
                     source cycle/main.env
                     docker tag lsstts/develop-env:\${CYCLE} ts-dockerhub.lsst.org/develop-env:\${CYCLE}
                     docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}
@@ -60,6 +66,12 @@ pipeline {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push develop-env
+                  """
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
                     source cycle/develop.env
                     docker tag lsstts/develop-env:\${CYCLE} ts-dockerhub.lsst.org/develop-env:\${CYCLE}
                     docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}
@@ -86,13 +98,19 @@ pipeline {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env
+                  """
+                }
+              }
+            }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
                     source cycle/cycle.env
                     docker tag lsstts/develop-env:\${CYCLE} ts-dockerhub.lsst.org/develop-env:\${CYCLE}
                     docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}
                   """
                 }
               }
-            }
         }
     }
     post {

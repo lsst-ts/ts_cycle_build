@@ -37,9 +37,15 @@ pipeline {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push salobj
+                  """
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
                     source cycle/main.env
                     docker tag lsstts/salobj:\${CYCLE} ts-dockerhub.lsst.org/salobj:\${CYCLE}
-                    docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}
+                    docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
                   """
                 }
               }
@@ -63,6 +69,12 @@ pipeline {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push salobj
+                  """
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
                     source cycle/develop.env
                     docker tag lsstts/salobj:\${CYCLE} ts-dockerhub.lsst.org/salobj:\${CYCLE}
                     docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}
@@ -89,6 +101,12 @@ pipeline {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj
+                  """
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
                     source cycle/cycle.env
                     docker tag lsstts/salobj:\${CYCLE} ts-dockerhub.lsst.org/salobj:\${CYCLE}
                     docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}
