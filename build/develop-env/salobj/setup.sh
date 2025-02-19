@@ -9,7 +9,6 @@ setup ts_config_latiss -t current
 setup ts_config_mtcalsys -t current
 setup ts_config_mttcs -t current
 setup ts_config_ocs -t current
-setup ts_idl -t current
 setup ts_sal -t current
 setup ts_salobj -t current
 setup ts_xml -t current

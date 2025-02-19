@@ -79,6 +79,12 @@ RUN source /home/saluser/.setup_salobj.sh && \
 
 WORKDIR /home/saluser/repos/ts_salobj
 RUN source /home/saluser/.setup_salobj.sh && \
+    setup ts_xml -t current && \
+    setup ts_sal -t current && \
+    salgeneratorKafka validate Test
+
+WORKDIR /home/saluser/repos/ts_salobj
+RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_ocs -t current && \
     setup ts_xml -t current && \
     python -c "from lsst.ts import salobj"
@@ -92,9 +98,7 @@ LABEL ts_config_ocs="${ts_config_ocs}" \
     ts_config_latiss="${ts_config_latiss}" \
     ts_config_mttcs="${ts_config_mttcs}" \
     ts_config_atcalsys="${ts_config_atcalsys}" \
-    ts_ddsconfig="${ts_ddsconfig}" \
     ts_xml="${ts_xml}" \
-    ts_idl="${ts_idl}" \
     ts_sal="${ts_sal}" \
     ts_salobj="${ts_salobj}"
 
