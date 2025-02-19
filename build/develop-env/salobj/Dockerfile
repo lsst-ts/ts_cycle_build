@@ -81,6 +81,7 @@ WORKDIR /home/saluser/repos/ts_salobj
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_sal -t current && \
+    source ${TS_SAL_DIR}/setupKafka.env && \
     salgeneratorKafka validate Test
 
 WORKDIR /home/saluser/repos/ts_salobj
