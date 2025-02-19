@@ -271,7 +271,6 @@ x-mtaos:
   build:
     context: ../build/
     dockerfile: ./mtaos/Dockerfile
-    network: kafka
     labels:
       com.description: "MTAOS deployment image for cycle/revision ${CYCLE}${rev}."
     args:
