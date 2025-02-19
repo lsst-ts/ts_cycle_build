@@ -9,6 +9,10 @@ COPY checkout_repo.sh /home/saluser/.checkout_repo.sh
 COPY setup.sh /home/saluser/.setup.sh
 
 ENV TSSW_PATH=/opt/lsst/tssw
+ENV LSST_SCHEMA_REGISTRY_URL=http://schema-registry:8081
+ENV LSST_KAFKA_HOST=broker
+ENV LSST_KAFKA_BROKER_PORT=29092
+ENV LSST_KAFKA_PREFIX=sal
 
 USER root
 RUN chown saluser:saluser /home/saluser/.checkout_repo.sh && \
@@ -22,8 +26,6 @@ USER saluser
 
 RUN ln -s ${TSSW_PATH} /home/saluser/repos
 
-# Arguments for package versions
-ARG ts_dds="6.9.181127"
 ARG ts_config_ocs="develop"
 ARG ts_config_attcs="develop"
 ARG ts_config_mtcalsys="develop"
@@ -31,9 +33,7 @@ ARG ts_config_eas="develop"
 ARG ts_config_latiss="develop"
 ARG ts_config_mttcs="develop"
 ARG ts_config_atcalsys="develop"
-ARG ts_ddsconfig="develop"
 ARG ts_xml="develop"
-ARG ts_idl="develop"
 ARG ts_sal="develop"
 ARG ts_utils="develop"
 ARG ts_salobj="develop"
@@ -87,10 +87,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_sal -t current && \
     source ${TS_SAL_DIR}/setupKafka.env && \
-    export LSST_SCHEMA_REGISTRY_URL=http://schema-registry:8081 && \
-    export LSST_KAFKA_HOST=broker && \
-    export LSST_KAFKA_BROKER_PORT=29092 && \
-    export LSST_KAFKA_PREFIX=sal &&\
     salgeneratorKafka validate Test
 
 WORKDIR /home/saluser/
