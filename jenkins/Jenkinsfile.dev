@@ -65,7 +65,7 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push develop-env-community
+                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push develop-env
                   """
                 }
               }
