@@ -35,8 +35,8 @@ RUN ln -s /usr/lib64/libboost_filesystem.so.1.78.0 /usr/lib64/libboost_filesyste
 ARG rpm
 
 RUN dnf install -y \
-    --enablerepo=lsst-ts-test \
-    --disablerepo=lsst-ts \
+    --enablerepo=lsst-ts \
+    --disablerepo=lsst-ts-test \
     MTVMS-${rpm}
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
