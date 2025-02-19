@@ -988,34 +988,11 @@ services:
       labels:
         com.description: "docker-compose aarch64 image."
 
-  base-sqre-community:
+  base-sqre:
     image: lsstts/base-sqre:${CYCLE}
     build:
       context: ../build/
       dockerfile: ./develop-env/lsstsqre/Dockerfile
-      labels:
-        com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
-      args:
-        stack: ${stack}
-        ts_develop: ${ts_develop}
-        gphoto2: ${gphoto2}
-        labjack_file_version: ${labjack_file_version}
-        labjack_arch: ${labjack_arch}
-        labjack_ljm: ${labjack_ljm}
-        maven: ${maven}
-        node: ${node}
-        openjdk: ${openjdk}
-        librdkafka: ${librdkafka}
-        python_confluent_kafka: ${python_confluent_kafka}
-        UID: ${B_UID}
-        GID: ${B_GID}
-
-  base-sqre-private:
-    image: ts-dockerhub.lsst.org/base-sqre:${CYCLE}
-    build:
-      context: ../build/
-      dockerfile: ./develop-env/lsstsqre/Dockerfile
-      network: kafka
       labels:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
@@ -1095,7 +1072,7 @@ services:
         librdkafka: ${librdkafka}
         python_confluent_kafka: ${python_confluent_kafka}
 
-  salobj-community:
+  salobj:
     image: lsstts/salobj:${CYCLE}${rev}
     build:
       context: ../build/develop-env/salobj/
@@ -1118,30 +1095,7 @@ services:
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
 
-  salobj-private:
-    image: ts-dockerhub.lsst.org/salobj:${CYCLE}${rev}
-    build:
-      context: ../build/develop-env/salobj/
-      network: kafka
-      labels:
-        com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
-      args:
-        hub: ts-dockerhub.lsst.org
-        base_image_tag: ${CYCLE}
-        ts_config_ocs: ${ts_config_ocs}
-        ts_config_attcs: ${ts_config_attcs}
-        ts_config_mtcalsys: ${ts_config_mtcalsys}
-        ts_config_eas: ${ts_config_eas}
-        ts_config_latiss: ${ts_config_latiss}
-        ts_config_mttcs: ${ts_config_mttcs}
-        ts_config_atcalsys: ${ts_config_atcalsys}
-        ts_xml: ${ts_xml}
-        ts_idl: ${ts_idl}
-        ts_sal: ${ts_sal}
-        ts_utils: ${ts_utils}
-        ts_salobj: ${ts_salobj}
-
-  develop-env-community:
+  develop-env:
     image: lsstts/develop-env:${CYCLE}${rev}
     build:
       context: ../build/develop-env/develop-env/
@@ -1149,30 +1103,6 @@ services:
         com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args:
         hub: lsstts
-        base_image_tag: ${CYCLE}${rev}
-        ts_scriptqueue: ${ts_scriptqueue}
-        ts_observatory_control: ${ts_observatory_control}
-        ts_standardscripts: ${ts_standardscripts}
-        ts_externalscripts: ${ts_externalscripts}
-        ts_atmcssimulator: ${ts_atmcssimulator}
-        ts_atdome: ${ts_atdome}
-        ts_atdometrajectory: ${ts_atdometrajectory}
-        ts_attcpip: ${ts_attcpip}
-        ts_simactuators: ${ts_simactuators}
-        ts_hexrotcomm: ${ts_hexrotcomm}
-        ts_tcpip: ${ts_tcpip}
-        ts_criopy: ${ts_criopy}
-        ts_m1m3_utils: ${ts_m1m3_utils}
-
-  develop-env-private:
-    image: ts-dockerhub.lsst.org/develop-env:${CYCLE}${rev}
-    build:
-      context: ../build/develop-env/develop-env/
-      network: kafka
-      labels:
-        com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
-      args:
-        hub: ts-dockerhub.lsst.org
         base_image_tag: ${CYCLE}${rev}
         ts_scriptqueue: ${ts_scriptqueue}
         ts_observatory_control: ${ts_observatory_control}
