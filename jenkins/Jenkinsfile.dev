@@ -16,7 +16,7 @@ pipeline {
       booleanParam defaultValue: false, description: 'Build cycle.', name: 'build_cycle'
     }
     stages {
-        stage("Build/push main - community") {
+        stage("Build/push main") {
           when {
               expression { return params.build_main }
           }
@@ -48,7 +48,7 @@ pipeline {
               }
             }
         }
-        stage("Build/push develop - community") {
+        stage("Build/push develop") {
           when {
               expression { return params.build_develop }
           }
@@ -65,7 +65,7 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push develop-env
+                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push develop-env-community
                   """
                 }
               }
@@ -101,7 +101,6 @@ pipeline {
                   """
                 }
               }
-            }
               script {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
@@ -111,6 +110,7 @@ pipeline {
                   """
                 }
               }
+            }
         }
     }
     post {
