@@ -87,8 +87,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_sal -t current && \
     source ${TS_SAL_DIR}/setupKafka.env && \
+    export LSST_SCHEMA_REGISTRY_URL=http://schema-registry:8081 && \
     salgeneratorKafka validate Test
-
 
 WORKDIR /home/saluser/
 
