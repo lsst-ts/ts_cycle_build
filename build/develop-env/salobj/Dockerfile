@@ -48,7 +48,6 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_config_mttcs:${ts_config_mttcs} \
     ts_config_atcalsys:${ts_config_atcalsys} \
     ts_xml:${ts_xml} \
-    ts_idl:${ts_idl} \
     ts_sal:${ts_sal}" \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
