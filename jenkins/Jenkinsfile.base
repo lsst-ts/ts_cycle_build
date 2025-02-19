@@ -38,6 +38,12 @@ pipeline {
                     docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre
                     source cycle/cycle.env
                     docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
+                  """
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
                     docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
                   """
                 }
@@ -67,6 +73,12 @@ pipeline {
                   sh """
                     docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre
                     docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push base-sqre
+                  """
+                }
+              }
+              script {
+                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                  sh """
                     source cycle/develop.env
                     docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
                     docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
