@@ -1015,7 +1015,6 @@ services:
     build:
       context: ../build/
       dockerfile: ./develop-env/lsstsqre/Dockerfile
-      network: kafka
       labels:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
