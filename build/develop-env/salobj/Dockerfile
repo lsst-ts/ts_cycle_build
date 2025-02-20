@@ -97,14 +97,10 @@ RUN source /home/saluser/.setup_salobj.sh && \
 USER saluser
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    conda install -y boost-cpp
-
-RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_sal -t current && \
     source ${TS_SAL_DIR}/setupKafka.env && \
-    salgeneratorKafka validate Test && \
-    salgeneratorKafka sal cpp Test
+    salgeneratorKafka validate Test
 
 WORKDIR /home/saluser/
 
