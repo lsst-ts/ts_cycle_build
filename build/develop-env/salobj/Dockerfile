@@ -34,6 +34,7 @@ ARG ts_config_latiss="develop"
 ARG ts_config_mttcs="develop"
 ARG ts_config_atcalsys="develop"
 ARG ts_xml="develop"
+ARG ts_idl="develop"
 ARG ts_sal="develop"
 ARG ts_utils="develop"
 ARG ts_salobj="develop"
@@ -47,6 +48,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_config_latiss:${ts_config_latiss} \
     ts_config_mttcs:${ts_config_mttcs} \
     ts_config_atcalsys:${ts_config_atcalsys} \
+    ts_idl:${ts_idl} \
     ts_xml:${ts_xml} \
     ts_sal:${ts_sal}" \
     rb="https://github.com/lsst-ts" && \
@@ -63,6 +65,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
 RUN source /home/saluser/.setup_salobj.sh && \
     cd ${TSSW_PATH} && \
     gitsrc="ts_utils:${ts_utils} \
+    ts_idl:${ts_idl}" && \
     ts_salobj:${ts_salobj}" && \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
