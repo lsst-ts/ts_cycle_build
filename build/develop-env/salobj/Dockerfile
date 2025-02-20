@@ -89,7 +89,7 @@ ENV LSST_SAL_PREFIX=/opt/lsst/tssw/ts_sal
 
 USER root
 RUN source /home/saluser/.setup_salobj.sh && \
-    dnf install -y jansson jansson-devel
+    dnf install -y jansson jansson-devel && \
     pkg-config jansson
 
 RUN source /home/saluser/.setup_salobj.sh && \
