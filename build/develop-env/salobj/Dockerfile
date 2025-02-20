@@ -86,7 +86,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
     python -c "from lsst.ts import salobj"
 
 ENV LSST_SAL_PREFIX=/opt/lsst/tssw/ts_sal
-RUN conda install -y jansson
+RUN source /home/saluser/.setup_salobj.sh && \
+    conda install -y jansson
 
 USER root
 RUN source /home/saluser/.setup_salobj.sh && \
