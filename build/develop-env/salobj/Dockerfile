@@ -89,6 +89,7 @@ ENV LSST_SAL_PREFIX=/opt/lsst/tssw/ts_sal
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_sal -t current && \
+    ${TS_SAL_DIR}/bin/setupSALKafkaBuildEnvironment && \
     source ${TS_SAL_DIR}/setupKafka.env && \
     salgeneratorKafka validate Test && \
     salgeneratorKafka sal cpp Test
