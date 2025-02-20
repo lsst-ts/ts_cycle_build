@@ -92,8 +92,15 @@ RUN source /home/saluser/.setup_salobj.sh && \
 
 USER root
 RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment librdkafka && \
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment update_dependencies
+
+RUN source /home/saluser/.setup_salobj.sh && \
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro
+
+RUN source /home/saluser/.setup_salobj.sh && \
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment librdkafka
+
+RUN source /home/saluser/.setup_salobj.sh && \
     ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment libserdes
 
 USER saluser
