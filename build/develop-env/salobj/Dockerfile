@@ -91,6 +91,8 @@ USER root
 RUN source /home/saluser/.setup_salobj.sh && \
     ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment
 
+RUN dnf install -y jansson
+
 USER saluser
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
