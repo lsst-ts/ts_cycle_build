@@ -92,7 +92,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
 
 USER root
 RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment update_dependencies
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment update
 
 RUN source /home/saluser/.setup_salobj.sh && \
     ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro
