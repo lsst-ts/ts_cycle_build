@@ -65,7 +65,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
 RUN source /home/saluser/.setup_salobj.sh && \
     cd ${TSSW_PATH} && \
     gitsrc="ts_utils:${ts_utils} \
-    ts_idl:${ts_idl}" && \
+    ts_idl:${ts_idl} \
     ts_salobj:${ts_salobj}" && \
     rb="https://github.com/lsst-ts" && \
     for g in $gitsrc ; do \
