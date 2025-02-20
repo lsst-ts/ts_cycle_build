@@ -87,6 +87,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
 
 ENV LSST_SAL_PREFIX=/opt/lsst/tssw/ts_sal
 RUN source /home/saluser/.setup_salobj.sh && \
+    mkdir ${LSST_SAL_PREFIX}/lib && \
     conda install -y jansson
 
 USER root
