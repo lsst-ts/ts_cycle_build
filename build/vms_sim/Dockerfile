@@ -22,7 +22,7 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     fftw-devel \
     fmt-devel \
     iproute \
-    yaml-cpp-devel && \
+    yaml-cpp-devel cyrus-sasl-devel && \
     dnf clean all
 
 RUN ln -s /usr/lib64/libboost_filesystem.so.1.78.0 /usr/lib64/libboost_filesystem.so && \
