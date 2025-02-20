@@ -89,7 +89,7 @@ ENV LSST_SAL_PREFIX=/opt/lsst/tssw/ts_sal
 
 USER root
 RUN source /home/saluser/.setup_salobj.sh && \
-    ${TS_SAL_DIR}/bin/setupSALKafkaBuildEnvironment
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment
 
 USER saluser
 RUN source /home/saluser/.setup_salobj.sh && \
