@@ -92,7 +92,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
 
 USER root
 RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment || echo "Failed..."
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment all
 
 USER saluser
 
