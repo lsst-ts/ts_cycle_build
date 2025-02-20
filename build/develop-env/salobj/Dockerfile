@@ -86,7 +86,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_sal -t current && \
     source ${TS_SAL_DIR}/setupKafka.env && \
-    salgeneratorKafka validate Test
+    salgeneratorKafka validate Test && \
+    salgeneratorKafka sal cpp Test
 
 WORKDIR /home/saluser/
 
