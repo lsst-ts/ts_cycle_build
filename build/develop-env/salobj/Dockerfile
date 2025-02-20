@@ -85,6 +85,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     python -c "from lsst.ts import salobj"
 
+ENV LSST_SAL_PREFIX=/opt/lsst/tssw/ts_sal
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_sal -t current && \
