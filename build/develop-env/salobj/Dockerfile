@@ -89,9 +89,8 @@ ENV LSST_SAL_PREFIX=/opt/lsst/tssw/ts_sal
 
 USER root
 RUN source /home/saluser/.setup_salobj.sh && \
+    dnf install -y jansson && \
     ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment
-
-RUN dnf install -y jansson
 
 USER saluser
 RUN source /home/saluser/.setup_salobj.sh && \
