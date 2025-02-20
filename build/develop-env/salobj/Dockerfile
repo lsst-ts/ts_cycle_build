@@ -86,10 +86,15 @@ RUN source /home/saluser/.setup_salobj.sh && \
     python -c "from lsst.ts import salobj"
 
 ENV LSST_SAL_PREFIX=/opt/lsst/tssw/ts_sal
+
+USER root
+RUN source /home/saluser/.setup_salobj.sh && \
+    ${TS_SAL_DIR}/bin/setupSALKafkaBuildEnvironment
+
+USER saluser
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_sal -t current && \
-    ${TS_SAL_DIR}/bin/setupSALKafkaBuildEnvironment && \
     source ${TS_SAL_DIR}/setupKafka.env && \
     salgeneratorKafka validate Test && \
     salgeneratorKafka sal cpp Test
