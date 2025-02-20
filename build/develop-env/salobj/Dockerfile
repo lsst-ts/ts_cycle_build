@@ -95,6 +95,10 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment || echo "Failed..."
 
 USER saluser
+
+RUN source /home/saluser/.setup_salobj.sh && \
+    conda install -y boost-cpp
+
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_xml -t current && \
     setup ts_sal -t current && \
