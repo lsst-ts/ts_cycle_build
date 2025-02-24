@@ -53,7 +53,7 @@ RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
 WORKDIR /home/saluser/ts_m1m3support/
 RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-11 && \
+    source scl_source enable gcc-toolset-10 && \
     make simulator
 
 WORKDIR /home/saluser/
