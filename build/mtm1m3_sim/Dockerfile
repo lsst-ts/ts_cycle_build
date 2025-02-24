@@ -10,13 +10,25 @@ USER root
 RUN dnf install -y dnf-plugins-core epel-release && \
     dnf config-manager --set-enabled powertools && \
     dnf -y --enablerepo=extras install make \
-    gcc-toolset-10 \
+    gcc-toolset-11 \
     git \
     catch-devel \
+    boost1.78 \
+    boost1.78-devel \
     readline-devel \
+    snappy-devel \
     spdlog-devel \
-    yaml-cpp-devel && \
+    jansson \
+    iproute \
+    yaml-cpp-devel cyrus-sasl-devel && \
     dnf clean all
+
+RUN ln -s /usr/lib64/libboost_filesystem.so.1.78.0 /usr/lib64/libboost_filesystem.so && \
+    ln -s /usr/lib64/libboost_iostreams.so.1.78.0 /usr/lib64/libboost_iostreams.so && \
+    ln -s /usr/lib64/libboost_program_options.so.1.78.0 /usr/lib64/libboost_program_options.so && \
+    ln -s /usr/lib64/libboost_system.so.1.78.0 /usr/lib64/libboost_system.so && \
+    ln -s /usr/lib64/libcurl.so.4 /usr/lib64/libcurl.so && \
+    ln -s /usr/lib64/libjansson.so.4 /usr/lib64/libjansson.so
 
 ARG rpm
 
@@ -27,7 +39,8 @@ RUN dnf install -y \
     MTMount-${rpm}
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
-ENV SAL_WORK_DIR=/opt/lsst/ts_sal
+ENV SAL_WORK_DIR=/opt/lsst/ts_sal/
+ENV LSST_SAL_PREFIX=/opt/lsst/ts_sal/
 
 USER saluser
 WORKDIR /home/saluser/
@@ -47,13 +60,15 @@ RUN /home/saluser/.checkout_repo.sh ${config}
 WORKDIR /home/saluser/ts_cRIOcpp/
 RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-10 && \
+    source scl_source enable gcc-toolset-11 && \
     make
 
+ENV WITH_SAL_KAFKA=1
 WORKDIR /home/saluser/ts_m1m3support/
+
 RUN /home/saluser/.checkout_repo.sh ${m1m3} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-10 && \
+    source scl_source enable gcc-toolset-11 && \
     make simulator
 
 WORKDIR /home/saluser/
