@@ -39,6 +39,9 @@ RUN yum install -y nano
 # Install OpenGL development libraries
 RUN yum install -y mesa-libGL-devel
 
+# Install rsync package
+RUN yum install -y rsync
+
 USER lsst
 
 RUN source ${WORKDIR}/loadLSST.bash && \
