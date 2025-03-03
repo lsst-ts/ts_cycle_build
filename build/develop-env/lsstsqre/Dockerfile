@@ -180,9 +180,6 @@ RUN source ${STACKDIR}/loadLSST.bash && \
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y ltd-conveyor
 
-RUN source ${STACKDIR}/loadLSST.bash && \
-    conda update -y pyopenssl
-
 # Install python-gphoto2
 RUN source ${STACKDIR}/loadLSST.bash && \
     pip install gphoto2==${gphoto2} --no-deps --only-binary :all: && \
