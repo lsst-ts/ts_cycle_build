@@ -11,7 +11,7 @@ pipeline {
         booleanParam defaultValue: false, description: 'Trigger the DevelopEnvironment build?', name: 'BuildDevEnv'
     }
     stages {
-        stage("Build cycle - community") {
+        stage("Build cycle") {
             when {
                 expression { return params.build_cycle }
             }
@@ -22,12 +22,12 @@ pipeline {
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
                 sh """
-                  docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre-community
+                  docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre
                 """
               }
             }
         }
-        stage("Push cycle docker image - community") {
+        stage("Push cycle docker image") {
             when {
                 expression { return params.build_cycle }
             }
@@ -35,44 +35,24 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-community
+                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre
+                    source cycle/cycle.env
+                    docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
                   """
                 }
               }
-            }
-        }
-        stage("Build cycle - private") {
-            when {
-                expression { return params.build_cycle }
-            }
-            steps {
-              withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/ && chmod u+rw -R ${env.WORKSPACE}"
-              }
-
-              withEnv(["HOME=${env.WORKSPACE}"]) {
-                sh """
-                  docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre-private
-                """
-              }
-            }
-        }
-        stage("Push cycle docker image - private") {
-            when {
-                expression { return params.build_cycle }
-            }
-            steps {
               script {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
-                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-private
+                    source cycle/cycle.env
+                    docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
                   """
                 }
               }
             }
         }
 
-        stage("Build Docker image - community") {
+        stage("Build Docker image") {
             steps {
 
               withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
@@ -81,46 +61,31 @@ pipeline {
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
                 sh """
-                  docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre-community
-                  docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull base-sqre-community
+                  docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre
+                  docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull base-sqre
                 """
               }
             }
         }
-        stage("Push Docker image - community") {
+        stage("Push Docker image") {
             steps {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre-community
-                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push base-sqre-community
+                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre
+                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push base-sqre
                   """
                 }
               }
-            }
-        }
-        stage("Build Docker image - private") {
-            steps {
-
-              withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/ && chmod u+rw -R ${env.WORKSPACE}"
-              }
-
-              withEnv(["HOME=${env.WORKSPACE}"]) {
-                sh """
-                  docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre-private
-                  docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull base-sqre-private
-                """
-              }
-            }
-        }
-        stage("Push Docker image - private") {
-            steps {
               script {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
-                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre-private
-                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push base-sqre-private
+                    source cycle/develop.env
+                    docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
+                    docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
+                    source cycle/main.env
+                    docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
+                    docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
                   """
                 }
               }
