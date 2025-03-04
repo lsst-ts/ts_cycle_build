@@ -8,6 +8,34 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Kafka 04 revision 3
+===================
+
+* Kafka cycle 4 revision 3.
+
+  * ts_hexrotcomm.
+  * ts_mthexapod.
+  * gphoto2.
+  * ts_fbs_utils.
+
+* Removes network from the base-sqre-private build.
+
+* Updates base, salobj and dev Jenkins build scripts to stop building separate private versions of the containers and just retag the community edition.
+    
+  With kafka, the private containers are no longer different from the public images so there's no need to build them separately.
+
+* Updates salobj build to just check that salobj is importable instead of running the unit test.
+
+* Updates develop-env build to remove reference to ts-idl.
+
+* Updates lsstsqre build to skip errors when working around pin for python-confluent-kafka.
+
+* Adds versions of kafka libraries to main and develop env files.
+
+* Removes step to update pyopenssl from lsstsqre image.
+
+* Updates version of gphoto2 for develop and main env.
+
 Kafka 04 revision 2
 ===================
 
