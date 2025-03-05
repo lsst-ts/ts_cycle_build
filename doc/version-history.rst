@@ -8,6 +8,55 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 40 revision 0
+===================
+
+* Updated version of the following packages.
+
+  * ts_xml
+  * ts_sal
+  * ts_salobj
+  * lsstsqre
+  * stack
+  * stack_ra
+  * ts_hexrotcomm
+  * ts_mtrotator
+  * ts_mthexapod
+  * ts_observatory_control
+  * ts_standardscripts
+  * ts_externalscripts
+  * ts_m2
+  * ts_m2com
+  * ts_mtmount
+  * ts_m1m3support
+  * ts_m1m3thermal
+  * ts_vms
+  * ts_mtaircompressor
+  * ts_mtaos
+  * ts_dsm
+  * ts_dimm
+  * ts-conda-build
+  * ts_genericcamera
+  * ts_hvac
+  * robotframework_efd
+  * oods
+  * headerservice
+  * rubintv
+  * ts_tunablelaser
+  * ts_config_ocs
+  * dm_config_ocps
+  * love_frontend
+  * love_manager
+  * gphoto2
+  * ts_fbs_utils
+
+* Added rsync to rapid-analysis Dockerfile.
+* Updated m1m3 to use gcc toolset 11.
+* Removed ts-idl and DDS references from ts-cycle conda package.
+* Fixed compilation errors for m1m3ts_sm and vms_sim.
+* Switched to lsst-ts repo from lsst-ts-test repo for M1M3, M1M3Thermal, VMS and PTG.
+* Removed network:kafka from mtaos.
+
 Kafka 04 revision 3
 ===================
 

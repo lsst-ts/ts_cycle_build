@@ -5,7 +5,6 @@ package:
 
 requirements:
   run:
-    - ts-ddsconfig =={{ data.get('ts_ddsconfig_version') }}
-    - ts-idl =={{ data.get('ts_idl_version') }}
     - ts-salobj =={{ data.get('ts_salobj_version') }}
+    - ts-xml =={{ data.get('ts_xml_version')}}
     - python

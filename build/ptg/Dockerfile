@@ -27,8 +27,8 @@ RUN dnf install -y dnf-plugins-core epel-release && \
 ARG rpm
 
 RUN dnf install -y \
-    --enablerepo=lsst-ts-test \
-    --disablerepo=lsst-ts \
+    --enablerepo=lsst-ts \
+    --disablerepo=lsst-ts-test \
     ATPtg-${rpm} \
     MTPtg-${rpm} \
     MTMount-${rpm} \
