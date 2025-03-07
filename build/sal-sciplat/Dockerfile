@@ -65,7 +65,7 @@ RUN source ${LOADSTACK} && \
     ts-idl=${ts_idl}
 
 # Workaround for pin on python-confluent-kafka.
-RUN sed -i 's/    "python-confluent-kafka >=1.9.2,<2",/    "python-confluent-kafka >=1.9.2",/' /opt/lsst/software/stack/conda/envs/lsst-scipipe-9.0.0/conda-meta/rubin-env-nosysroot*
+RUN sed -i 's/    "python-confluent-kafka >=1.9.2,<2",/    "python-confluent-kafka >=1.9.2",/' /opt/lsst/software/stack/conda/envs/lsst-scipipe-9.0.0/conda-meta/rubin-env-nosysroot* || echo "Failed to work around python-confluent-kafka pin."
 
 ARG ts_salobj
 ARG librdkafka
