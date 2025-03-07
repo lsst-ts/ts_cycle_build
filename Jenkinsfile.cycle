@@ -45,6 +45,7 @@ conda_packages = [
   "mtdometrajectory",
   "mtm2",
   "mtmount",
+  "mtreflector",
   "mtrotator",
   "nightreport",
   "pmd",
