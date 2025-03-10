@@ -1,3 +1,15 @@
+x-mtreflector:
+  &base-mtreflector
+  build:
+    context: ../build/mtreflector
+    labels:
+      com.description: "MTReflector deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      mtreflector: ${ts_mtreflector}
+      config: ${ts_config_mtcalsys}
+
 x-cbp:
   &base-cbp
   build:
@@ -1746,3 +1758,11 @@ services:
   ledprojector_c:
     image: ${hub}/ledprojector:${CYCLE}
     <<: *base-ledprojector
+
+  mtreflector:
+    image: ${hub}/mtreflector:${CYCLE}${rev}
+    <<: *base-mtreflector
+  
+  mtreflector_c:
+    image: ${hub}/mtreflector:${CYCLE}
+    <<: *base-mtreflector
