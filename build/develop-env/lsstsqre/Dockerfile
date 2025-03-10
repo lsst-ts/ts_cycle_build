@@ -183,7 +183,7 @@ RUN source ${STACKDIR}/loadLSST.bash && \
 # Install python-gphoto2
 RUN source ${STACKDIR}/loadLSST.bash && \
     pip install gphoto2==${gphoto2} --no-deps --only-binary :all: && \
-    pip install --no-deps rawpy==0.21 
+    pip install --no-deps rawpy==0.24
 
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current
