@@ -8,6 +8,37 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 40 revision 1
+===================
+
+* Updated the version of the following packages:
+
+  * ts_observatory_control
+    
+  * ts_standardscripts
+
+  * ts_auxtel_standardscripts (new package)
+
+  * ts_maintel_standardscripts (new package)
+
+  * ts_watcher
+
+  * love_producer
+
+* Added split repos from ts_standardscripts.
+    
+  Split repos ts_auxtel_standardscripts and ts_maintel_standardscripts have been added to ts_cycle_build.
+
+* In sal-sciplat build, ignores error in freezing pin on python-confluent-kafka.
+
+* In sal-sciplat build, removed unnecessary packages.
+    
+  These are now part of the observatory-env and don't need to be shipped with the container anymore.
+
+* Added MTReflector build scripts.
+
+* In lsstsqre base image, updated version of rawpy.
+
 Cycle 40 revision 0
 ===================
 

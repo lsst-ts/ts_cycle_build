@@ -1,3 +1,15 @@
+x-mtreflector:
+  &base-mtreflector
+  build:
+    context: ../build/mtreflector
+    labels:
+      com.description: "MTReflector deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      mtreflector: ${ts_mtreflector}
+      config: ${ts_config_mtcalsys}
+
 x-cbp:
   &base-cbp
   build:
@@ -540,6 +552,8 @@ x-scriptqueue:
       ts_observatory_control: ${ts_observatory_control}
       ts_externalscripts: ${ts_externalscripts}
       ts_standardscripts: ${ts_standardscripts}
+      ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+      ts_maintel_standardscripts: ${ts_maintel_standardscripts}
       ts_scriptqueue: ${ts_scriptqueue}
       ts_idl: ${ts_idl}
       ts_atdome: ${ts_atdome}
@@ -1033,6 +1047,8 @@ services:
         ts_m1m3_utils: ${ts_m1m3_utils}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
+        ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+        ts_maintel_standardscripts: ${ts_maintel_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
@@ -1064,6 +1080,8 @@ services:
         ts_salobj: ${ts_salobj}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
+        ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+        ts_maintel_standardscripts: ${ts_maintel_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
@@ -1106,6 +1124,8 @@ services:
         ts_scriptqueue: ${ts_scriptqueue}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
+        ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+        ts_maintel_standardscripts: ${ts_maintel_standardscripts}
         ts_externalscripts: ${ts_externalscripts}
         ts_atmcssimulator: ${ts_atmcssimulator}
         ts_atdome: ${ts_atdome}
@@ -1738,3 +1758,11 @@ services:
   ledprojector_c:
     image: ${hub}/ledprojector:${CYCLE}
     <<: *base-ledprojector
+
+  mtreflector:
+    image: ${hub}/mtreflector:${CYCLE}${rev}
+    <<: *base-mtreflector
+  
+  mtreflector_c:
+    image: ${hub}/mtreflector:${CYCLE}
+    <<: *base-mtreflector
