@@ -8,6 +8,23 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 40 revision 2
+===================
+
+* Updated version of the following packages:
+
+  * ts_atbuilding
+  * ts_atspec
+  * ts_externalscripts
+  * ts_mtmount
+  * ts_fiberspectrograph
+  * headerservice
+  * ts_config_ocs
+  * love_commander
+  * love_manager
+  * ts_observatory_model
+  * rubin_scheduler
+
 Cycle 40 revision 1
 ===================
 
