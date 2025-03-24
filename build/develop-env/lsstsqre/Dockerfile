@@ -1,4 +1,4 @@
-FROM almalinux:8
+FROM almalinux:9
 
 ARG UID=73006
 ARG GID=73006
@@ -24,7 +24,7 @@ ARG node
 
 RUN dnf install -y yum-utils && \
     dnf module enable -y nodejs:${node} && \
-    dnf config-manager --set-enabled powertools && \
+    dnf config-manager --set-enabled crb && \
     dnf install -y \
     automake \
     bzip2 \
@@ -75,26 +75,28 @@ RUN dnf install -y yum-utils && \
 RUN npm install --global yarn
 RUN chown -R ${UID}:${GID} ${HOME}/.npm
 
-ARG dds_community_version=6.9.0
-ARG dds_community_build=1.el6
-ARG dds_private_version
-ARG dds_private_build
+# DDS Plumbing, remove if not needed for whatever reason.
 
-RUN mkdir -p ${WORKDIR} && \
-    touch ${WORKDIR}/ospl.env && \
-    chown -R ${UID}:${GID} ${HOME}/.gitconfig && \
-    chown -R ${UID}:${GID} ${WORKDIR}/ && \
-    chmod a+x ${WORKDIR}/ospl.env && \
-    chown ${UID}:${GID} /home/saluser/.setup_salobj.sh && \
-    chmod a+x /home/saluser/.setup_salobj.sh && \
-    if [ -z "${dds_private_version}" ]; then \
-    dnf install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} ; \
-    echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
-    else \
-    dnf install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
-    OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
-    echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
-    fi
+# ARG dds_community_version=6.9.0
+# ARG dds_community_build=1.el6
+# ARG dds_private_version
+# ARG dds_private_build
+
+# RUN mkdir -p ${WORKDIR} && \
+#     touch ${WORKDIR}/ospl.env && \
+#     chown -R ${UID}:${GID} ${HOME}/.gitconfig && \
+#     chown -R ${UID}:${GID} ${WORKDIR}/ && \
+#     chmod a+x ${WORKDIR}/ospl.env && \
+#     chown ${UID}:${GID} /home/saluser/.setup_salobj.sh && \
+#     chmod a+x /home/saluser/.setup_salobj.sh && \
+#     if [ -z "${dds_private_version}" ]; then \
+#     dnf install -y OpenSpliceDDS-${dds_community_version}-${dds_community_build} ; \
+#     echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_community_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
+#     else \
+#     dnf install -y --enablerepo=lsst-ts-private --disablerepo=lsst-ts \
+#     OpenSpliceDDS-${dds_private_version}-${dds_private_build} ; \
+#     echo "export OSPL_HOME=/opt/OpenSpliceDDS/V${dds_private_version}/HDE/x86_64.linux" >> ${WORKDIR}/ospl.env ; \
+#     fi
 
 RUN if [ -f "${HOME}/.cache" ]; then \
       chown -R "${UID}:${GID}" "${HOME}/.cache"; \
