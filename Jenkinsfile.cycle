@@ -615,14 +615,14 @@ pipeline {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               export DOCKER_BUILDKIT=0
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre-private
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-private
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre
 
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull salobj-private
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj-private
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull salobj
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj
 
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env-private
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env-private
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env
             """
           }
         }
