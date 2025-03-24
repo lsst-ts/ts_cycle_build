@@ -612,17 +612,33 @@ pipeline {
 
           def cacheOption = params.set_cache_option ? "--no-cache" : ""
 
+          docker.withRegistry("", registryCredential) {
+            sh """
+              export DOCKER_BUILDKIT=1
+              source cycle/cycle.env
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre
+
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull salobj
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj
+
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env
+            """
+          }
+
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              export DOCKER_BUILDKIT=0
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre-private
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-private
+              export DOCKER_BUILDKIT=1
+              source cycle/cycle.env
+              docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
+              docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
 
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull salobj-private
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj-private
+              docker tag lsstts/salobj:\${CYCLE}\${rev} ts-dockerhub.lsst.org/salobj:\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}\${rev}
 
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env-private
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env-private
+              docker tag lsstts/develop-env:\${CYCLE}\${rev} ts-dockerhub.lsst.org/develop-env:\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}\${rev}
             """
           }
         }

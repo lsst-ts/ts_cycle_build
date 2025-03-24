@@ -1095,7 +1095,7 @@ services:
     image: lsstts/salobj:${CYCLE}${rev}
     build:
       context: ../build/develop-env/salobj/
-      network: kafka
+      # network: kafka
       labels:
         com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
       args:
