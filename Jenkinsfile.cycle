@@ -614,7 +614,7 @@ pipeline {
 
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              export DOCKER_BUILDKIT=0
+              export DOCKER_BUILDKIT=1
               docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre
               docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre
 
