@@ -615,6 +615,7 @@ pipeline {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               export DOCKER_BUILDKIT=1
+              source cycle/cycle.env
               docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre
               docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
               docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
