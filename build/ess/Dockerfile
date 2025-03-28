@@ -9,8 +9,10 @@ ARG ess
 ARG common
 ARG config
 ARG earthquake
+ARG epm
 ARG labjack
 ARG labjack_ljm
+ARG ringss
 
 RUN git clone https://github.com/lsst-ts/ts_config_ocs.git
 
@@ -29,7 +31,7 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-ess-common=${common} ts-ess-earthquake=${earthquake} ts-ess-labjack=${labjack} ts-ess-csc=${ess} labjack-ljm=${labjack_ljm}
+    conda install -y -c lsstts ts-ess-common=${common} ts-ess-earthquake=${earthquake} ts-ess-epm=${epm} ts-ess-labjack=${labjack} ts-ess-csc=${ess} ts-ess-ringss=${ringss} labjack-ljm=${labjack_ljm}
 
 USER saluser
 
