@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 40 revision 3
+===================
+
+* Updated version of the following packages:
+
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_config_ocs
+
+* Added the following new packages:
+
+  * ts_ess_epm
+  * ts_ess_ringss
+
+* Updated ess build for new packages
+
 Cycle 40 revision 2
 ===================
 
@@ -31,7 +47,7 @@ Cycle 40 revision 1
 * Updated the version of the following packages:
 
   * ts_observatory_control
-    
+
   * ts_standardscripts
 
   * ts_auxtel_standardscripts (new package)
@@ -43,13 +59,13 @@ Cycle 40 revision 1
   * love_producer
 
 * Added split repos from ts_standardscripts.
-    
+
   Split repos ts_auxtel_standardscripts and ts_maintel_standardscripts have been added to ts_cycle_build.
 
 * In sal-sciplat build, ignores error in freezing pin on python-confluent-kafka.
 
 * In sal-sciplat build, removed unnecessary packages.
-    
+
   These are now part of the observatory-env and don't need to be shipped with the container anymore.
 
 * Added MTReflector build scripts.
@@ -118,7 +134,7 @@ Kafka 04 revision 3
 * Removes network from the base-sqre-private build.
 
 * Updates base, salobj and dev Jenkins build scripts to stop building separate private versions of the containers and just retag the community edition.
-    
+
   With kafka, the private containers are no longer different from the public images so there's no need to build them separately.
 
 * Updates salobj build to just check that salobj is importable instead of running the unit test.
@@ -146,7 +162,7 @@ Kafka 04 revision 2
 * Added idl_version to conda_build_config.
 
 * Updated version of the following packages:
-  
+
   * lsstsqre
   * stack
   * ts_mtdome
@@ -637,7 +653,7 @@ Cycle 38 revision 6
   * ts_scheduler
   * love_commander
   * love_manager
-  * ts_fbs_utils 
+  * ts_fbs_utils
 
 * Added docker container build for the vents controller.
 
