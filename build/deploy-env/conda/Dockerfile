@@ -1,4 +1,4 @@
-FROM almalinux:8
+FROM almalinux:9
 
 ARG UID=73006
 ARG GID=73006
@@ -13,6 +13,8 @@ USER root
 
 RUN groupadd --gid ${GID} saluser && \
   adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
+
+RUN dnf install -y dnf-plugins-core && dnf config-manager --set-enabled crb
 
 COPY deploy-env/conda/startup.sh /home/saluser/.startup.sh
 COPY deploy-env/conda/setup_sal_env.sh /home/saluser/.setup_sal_env.sh
