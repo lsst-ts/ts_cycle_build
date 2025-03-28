@@ -835,10 +835,12 @@ x-ess:
       common: ${ts_ess_common}
       config: ${ts_config_ocs}
       earthquake: ${ts_ess_earthquake}
+      epm: ${ts_ess_epm}
       labjack: ${ts_ess_labjack}
       labjack_file_version: ${labjack_file_version}
       labjack_arch: ${labjack_arch}
       labjack_ljm: ${labjack_ljm}
+      ringss: ${ts_ess_ringss}
 
 x-ess-controller-aarch64:
   &base-ess-controller-aarch64
