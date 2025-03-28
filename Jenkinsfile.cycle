@@ -239,7 +239,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push \${CONDA_PACKAGES} \${CONDA_PACKAGES_C}
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push --ignore-push-failures \${CONDA_PACKAGES} \${CONDA_PACKAGES_C}
             """
           }
         }
