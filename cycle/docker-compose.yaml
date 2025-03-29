@@ -388,7 +388,7 @@ x-vms_sim:
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: ${ts_xml}-${ts_sal}.el8.x86_64
+      rpm: ${ts_xml}-${ts_sal}.el9.x86_64
       vms: ${ts_vms}
       crio_cpp: ${ts_cRIOcpp}
       config: ${ts_config_mttcs}

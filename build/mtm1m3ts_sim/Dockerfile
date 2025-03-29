@@ -9,6 +9,7 @@ USER root
 
 RUN dnf install -y dnf-plugins-core epel-release && \
     dnf -y --enablerepo=extras install make \
+    gcc-toolset-13 \
     git \
     catch-devel \
     boost1.78 \
@@ -18,7 +19,10 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     spdlog-devel \
     jansson \
     iproute \
-    yaml-cpp-devel cyrus-sasl-devel && \
+    openssl \
+    compat-openssl11-1:1.1.1k \
+    yaml-cpp-devel \
+    cyrus-sasl-devel && \
     dnf clean all
 
 RUN ln -s /usr/lib64/libboost_filesystem.so.1.78.0 /usr/lib64/libboost_filesystem.so && \
@@ -58,7 +62,7 @@ WORKDIR /home/saluser/ts_cRIOcpp/
 
 RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
     source /home/saluser/.setup_sal_env.sh && \
-    # source scl_source enable gcc-toolset-11 && \
+    source scl_source enable gcc-toolset-13 && \
     sed -i 's/boost169/boost1.78/' Makefile.inc && \
     make
 
@@ -68,7 +72,7 @@ WORKDIR /home/saluser/ts_m1m3thermal/
 
 RUN /home/saluser/.checkout_repo.sh ${m1m3ts} && \
     source /home/saluser/.setup_sal_env.sh && \
-    # source scl_source enable gcc-toolset-11 && \
+    source scl_source enable gcc-toolset-13 && \
     make simulator
 
 WORKDIR /home/saluser/
