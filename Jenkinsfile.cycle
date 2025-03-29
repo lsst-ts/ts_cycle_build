@@ -12,7 +12,6 @@ conda_packages = [
   "atspectrograph",
   "atwhitelight",
   "audio_broadcaster",
-  "authorize",
   "cbp",
   "dimm",
   "dream",
