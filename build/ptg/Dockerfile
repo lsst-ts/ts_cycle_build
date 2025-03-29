@@ -6,9 +6,8 @@ FROM ${hub}/deploy-env:${cycle}
 USER root
 
 RUN dnf install -y dnf-plugins-core epel-release && \
-    dnf config-manager --set-enabled powertools && \
     dnf -y --enablerepo=extras install make \
-    gcc-toolset-10 \
+    gcc-toolset-13 \
     wget \
     git \
     make \
@@ -21,6 +20,8 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     librdkafka-devel \
     jansson \
     snappy-devel \
+    openssl \
+    compat-openssl11-1:1.1.1k \
     curl-devel && \
     dnf clean all
 
@@ -43,7 +44,8 @@ COPY ptg/id_rsa /home/saluser/.ssh/
 RUN chown saluser:saluser /home/saluser/.ssh/id_rsa && \
     ssh-keyscan -H github.com >> /home/saluser/.ssh/known_hosts && \
     chown saluser:saluser /home/saluser/.ssh/known_hosts && \
-    chmod 400 /home/saluser/.ssh/id_rsa && \
+    chmod 700 /home/saluser/.ssh && \
+    chmod 600 /home/saluser/.ssh/id_rsa && \
     chmod 644 /home/saluser/.ssh/known_hosts
 
 USER saluser
@@ -75,10 +77,10 @@ ENV LSST_TS_XML_DIR=/home/saluser/repos/ts_xml
 ENV TELESCOPE=MT
 
 WORKDIR /home/saluser/repos/slalib_source_lsst_161203
-RUN source scl_source enable gcc-toolset-10 && make
+RUN source scl_source enable gcc-toolset-13 && make
 
 WORKDIR /home/saluser/repos/tcspk_source_lsst_161203
-RUN source scl_source enable gcc-toolset-10 && make
+RUN source scl_source enable gcc-toolset-13 && make
 
 WORKDIR /home/saluser/repos/ts_pointing_common
 RUN mkdir build
@@ -87,7 +89,7 @@ ARG ptg
 WORKDIR /home/saluser/repos/ts_pointing_common/build
 RUN /home/saluser/.checkout_repo.sh ${ptg} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-10 && \
+    source scl_source enable gcc-toolset-13 && \
     cmake -DRPM=ON .. && make && \
     cmake -DRPM=ON -DAT=ON .. && make
 
