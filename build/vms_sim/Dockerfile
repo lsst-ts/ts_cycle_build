@@ -8,9 +8,7 @@ LABEL maintainer Wouter van Reeven <wvreeven@lsst.org>
 USER root
 
 RUN dnf install -y dnf-plugins-core epel-release && \
-    dnf config-manager --set-enabled powertools && \
     dnf -y --enablerepo=extras install make \
-    gcc-toolset-11 \
     git \
     catch-devel \
     boost1.78 \
@@ -62,7 +60,7 @@ WORKDIR /home/saluser/ts_cRIOcpp/
 
 RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-11 && \
+    # source scl_source enable gcc-toolset-11 && \
     sed -i 's/boost169/boost1.78/' Makefile.inc && \
     make
 
@@ -72,7 +70,7 @@ WORKDIR /home/saluser/ts_vms/
 
 RUN /home/saluser/.checkout_repo.sh ${vms} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-11 && \
+    # source scl_source enable gcc-toolset-11 && \
     make simulator
 
 WORKDIR /home/saluser/
