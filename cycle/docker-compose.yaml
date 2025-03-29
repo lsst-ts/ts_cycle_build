@@ -465,12 +465,12 @@ x-ptg:
     dockerfile: ./ptg/Dockerfile
     labels:
       com.description: "Pointing component deployment image for cycle/revision ${CYCLE}${rev}."
-      rpm: 0:${ts_xml}-${ts_sal}.el8.x86_64
+      rpm: 0:${ts_xml}-${ts_sal}.el9.x86_64
       ptg: ${ts_pointing_common}
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: 0:${ts_xml}-${ts_sal}.el8.x86_64
+      rpm: 0:${ts_xml}-${ts_sal}.el9.x86_64
       ptg: ${ts_pointing_common}
 
 x-base-rubintv:

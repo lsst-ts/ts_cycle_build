@@ -6,7 +6,6 @@ FROM ${hub}/deploy-env:${cycle}
 USER root
 
 RUN dnf install -y dnf-plugins-core epel-release && \
-    dnf config-manager --set-enabled powertools && \
     dnf -y --enablerepo=extras install make \
     gcc-toolset-10 \
     wget \
