@@ -368,7 +368,7 @@ x-mtm1m3ts_sim:
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: ${ts_xml}-${ts_sal}.el8.x86_64
+      rpm: ${ts_xml}-${ts_sal}.el9.x86_64
       m1m3ts: ${ts_m1m3thermal}
       crio_cpp: ${ts_cRIOcpp}
       config: ${ts_config_mttcs}
