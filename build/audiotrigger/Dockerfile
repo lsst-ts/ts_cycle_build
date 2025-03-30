@@ -33,7 +33,7 @@ RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Mi
     conda config --add channels anaconda && \
     conda install -y conda-build anaconda-client setuptools_scm && \
     conda install -y numpy==${NUMPY_VERSION} astropy && \
-    conda install -y matplotlib python-sounddevice scipy aiohttp pyaudio pigpio ts-audiotrigger=${audiotrigger}
+    conda install -y ts-audiotrigger=${audiotrigger}
 
 RUN echo source ${HOME}/miniconda3/bin/activate >> ${HOME}/.bashrc
 
