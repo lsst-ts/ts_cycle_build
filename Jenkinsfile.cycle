@@ -19,7 +19,6 @@ conda_packages = [
   "dsm",
   "eas",
   "electrometer",
-  "epm",
   "ess",
   "fiberspectrograph",
   "genericcamera",
