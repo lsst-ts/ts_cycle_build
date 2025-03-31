@@ -523,7 +523,6 @@ The steps in the build are as follows:
     - mtrotator
     - ospl-daemon
     - pmd
-    - salkafka
     - scheduler
     - watcher
     - weatherforecast
