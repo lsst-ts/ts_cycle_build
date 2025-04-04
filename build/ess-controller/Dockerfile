@@ -17,7 +17,8 @@ RUN chown saluser:saluser ${HOME}/.setup.sh && \
 
 USER saluser
 WORKDIR ${HOME}
-ENV ARCH=aarch64
+ARG ARCH=aarch64
+ENV ARCH=${ARCH}
 
 ARG common
 ARG controller

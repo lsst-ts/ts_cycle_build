@@ -823,6 +823,20 @@ x-ess-controller-aarch64:
     labels:
       com.description: "ESS aarch64 Controller for cycle {$CYCLE}"
     args:
+      ARCH: aarch64
+      hub: lsstts
+      controller: ${ts_ess_controller}
+      common: ${ts_ess_common}
+      PYTHON_VERSION: ${PYTHON_VERSION}
+
+x-ess-controller-x86_64:
+  &base-ess-controller-x86_64
+  build:
+    context: ../build/ess-controller
+    labels:
+      com.description: "ESS aarch64 Controller for cycle {$CYCLE}"
+    args:
+      ARCH: x86_64
       hub: lsstts
       controller: ${ts_ess_controller}
       common: ${ts_ess_common}
@@ -1616,6 +1630,10 @@ services:
   ess-controller-aarch64:
     image: lsstts/ess-controller-aarch64
     <<: *base-ess-controller-aarch64
+
+  ess-controller-x86_64:
+    image: lsstts/ess-controller-x86_64
+    <<: *base-ess-controller-x86_64
 
   vents-controller-aarch64:
     image: lsstts/vents-controller-aarch64

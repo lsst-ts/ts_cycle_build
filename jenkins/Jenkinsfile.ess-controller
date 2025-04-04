@@ -1,12 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            alwaysPull true
-            label 'Arm64_2CPU'
-            image 'lsstts/docker-compose-aarch64'
-            args "--entrypoint='' --user root -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
-        }
-    }
+    agent none
 
     parameters {
         booleanParam defaultValue: false, description: "Build/push ess-controller image?", name: 'build_ess_controller'
@@ -17,9 +10,17 @@ pipeline {
     }
 
     stages {
-        stage ('Build and Push ESS Controller image') {
+        stage ('Build and Push ESS Controller image (aarch64)') {
             when {
                 expression { params.build_ess_controller }
+            }
+            agent {
+                docker {
+                    alwaysPull true
+                    label 'Arm64_2CPU'
+                    image 'lsstts/docker-compose-aarch64'
+                    args "--entrypoint='' --user root -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST"
+                }
             }
             steps {
                 script {
@@ -30,6 +31,28 @@ pipeline {
                             docker tag lsstts/ess-controller-aarch64 lsstts/ess-controller-aarch64:\${CYCLE}\${rev}
                             docker push lsstts/ess-controller-aarch64
                             docker push lsstts/ess-controller-aarch64:\${CYCLE}\${rev}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Build and Push ESS Controller image (x86_64)') {
+            when {
+                expression { params.build_ess_controller }
+            }
+            agent {
+                label 'CSC_Conda_Node'
+            }
+            steps {
+                script {
+                    docker.withRegistry("", registryCredential) {
+                        sh """
+                            source cycle/cycle.env
+                            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ess-controller-x86_64
+                            docker tag lsstts/ess-controller-x86_64 lsstts/ess-controller-x86_64:\${CYCLE}\${rev}
+                            docker push lsstts/ess-controller-x86_64
+                            docker push lsstts/ess-controller-x86_64:\${CYCLE}\${rev}
                         """
                     }
                 }
@@ -48,7 +71,6 @@ pipeline {
                 def userId = "U07PMHC954K"
                 slackSend(color: "danger", message: "<@$userId> ${JOB_NAME} has suffered a regression ${BUILD_URL}", channel: "#jenkins-builds, @$userId")
             }
-
         }
         fixed {
             script {
