@@ -10,7 +10,7 @@ ARG labjack_ljm
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-atwhitelight=${atwhitelight} labjack-ljm=${labjack_ljm}
+    conda install -y -c lsstts ts-atwhitelight=${atwhitelight} labjack-ljm=${labjack_ljm} libusb
 
 RUN git clone https://github.com/lsst-ts/ts_config_atcalsys.git
 
