@@ -1,0 +1,108 @@
+pipeline{
+    agent{
+      label 'Node3_4CPU'
+    }
+
+    parameters {
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image?", name: 'build_sciplat_lab_recommended'
+      booleanParam defaultValue: false, description: "Build used-provided tag?", name: 'build_user_tag'
+      string defaultValue: 'w_latest', description: 'DM stack tag to build.', name: 'user_tag'
+    }
+
+    environment {
+        registryCredential = "dockerhub-lssttsadmin"
+    }
+
+    stages{
+
+      stage ('Build Sal Sciplat Lab licensed-edition recommended image') {
+        when {
+          expression { params.build_sciplat_lab_recommended }
+        }
+        steps {
+          script{
+            docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+              sh """
+                cp cycle/cycle.env build/sal-sciplat-2py/cycle.env
+                cd build/sal-sciplat-2py/
+                source ./cycle.env
+                make tag=\${stack}_\${CYCLE}\${rev} input=ghcr.io/lsst-sqre/sciplat-lab:\${stack} image=ts-dockerhub.lsst.org/sal-sciplat-lab
+              """
+            }
+          }
+        }
+      }
+
+      stage ('Build User Tag Sal Sciplat') {
+        when {
+          expression { params.build_user_tag}
+        }
+        steps {
+          script{
+            docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+              sh """
+                cp cycle/cycle.env build/sal-sciplat-2py/cycle.env
+                cd build/sal-sciplat-2py/
+                source ./cycle.env
+                make tag=${params.user_tag}_\${CYCLE}\${rev} input=ghcr.io/lsst-sqre/sciplat-lab:${params.user_tag} image=ts-dockerhub.lsst.org/sal-sciplat-lab
+              """
+            }
+          }
+        }
+      }
+      stage ('Build Sal Sciplat Lab licensed-edition daily image') {
+        when {
+          expression { params.build_sciplat_lab_recommended == false && params.build_user_tag == false }
+        }
+        steps {
+          script{
+            docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+              sh """
+                cp cycle/cycle.env build/sal-sciplat-2py/cycle.env
+                cd build/sal-sciplat-2py/
+                source ./cycle.env
+                make tag=latest_daily_\${CYCLE}\${rev} input=ghcr.io/lsst-sqre/sciplat-lab:latest_daily image=ts-dockerhub.lsst.org/sal-sciplat-lab
+              """
+            }
+          }
+        }
+      }
+
+      stage ('Build Sal Sciplat Lab licensed-edition weekly image') {
+        when {
+          expression { params.build_sciplat_lab_recommended == false && params.build_user_tag == false}
+        }
+        steps {
+          script{
+            docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+              sh """
+                cp cycle/cycle.env build/sal-sciplat-2py/cycle.env
+                cd build/sal-sciplat-2py/
+                source ./cycle.env
+                make tag=latest_weekly_\${CYCLE}\${rev} input=ghcr.io/lsst-sqre/sciplat-lab:latest_weekly image=ts-dockerhub.lsst.org/sal-sciplat-lab
+              """
+            }
+          }
+        }
+      }
+    }
+    post{
+        regression {
+            script {
+                def userId = "U07N2QKCTJP"
+                slackSend(color: "danger", message: "<@$userId> ${JOB_NAME} has suffered a regression ${BUILD_URL}", channel: "#jenkins-builds")
+            }
+
+        }
+        fixed {
+            script {
+                def userId = "U07N2QKCTJP"
+                slackSend(color: "good", message: "<@$userId> ${JOB_NAME} has been fixed ${BUILD_URL}", channel: "#jenkins-builds")
+            }
+        }
+       cleanup {
+            deleteDir()
+        }
+    }
+}
+

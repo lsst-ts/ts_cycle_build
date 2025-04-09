@@ -77,7 +77,6 @@ docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \
   mtmount \
   ospl-daemon \
   rotator \
-  salkafka \
   watcher
 
 docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push \
@@ -96,7 +95,6 @@ docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push \
   mtmount \
   ospl-daemon \
   rotator \
-  salkafka \
   watcher
 
 ```

@@ -10,8 +10,8 @@ ARG integrationtests
 
 RUN source /home/saluser/.setup_sal_env.sh && \
 conda install -y -c lsstts ts-integrationtests=${integrationtests} -y && \
-conda install -y -c conda-forge robotframework PyYAML && \
-pip3 install -U lsst-efd-client
+conda install -y -c conda-forge robotframework PyYAML aioinflux pandas astropy pytables kafkit && \
+pip3 install --no-deps -U lsst-efd-client
 
 RUN git clone https://github.com/lsst-ts/robotframework_EFD.git
 

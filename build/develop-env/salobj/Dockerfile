@@ -91,8 +91,8 @@ RUN source /home/saluser/.setup_salobj.sh && \
     conda install -y jansson
 
 USER root
-RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment update
+# RUN source /home/saluser/.setup_salobj.sh && \
+#     ${LSST_SAL_PREFIX}/bin/setupStackBuildEnvironment
 
 RUN source /home/saluser/.setup_salobj.sh && \
     ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro || echo "Failed."

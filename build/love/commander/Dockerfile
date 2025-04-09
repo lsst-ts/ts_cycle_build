@@ -9,7 +9,7 @@ ARG love_commander
 ARG ts_observatory_control
 # We are pinning ts-criopy to 0.7.0 because the love-commander is complaining for some missing
 # libGL libraries when using pyside6 that comes with ts-criopy 0.8.0
-ARG ts_criopy=0.7.0
+ARG ts_criopy
 
 # Set the QT_API to an empty string to avoid conflicts with the QT_API set by base images
 ENV QT_API=""

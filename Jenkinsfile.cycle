@@ -12,7 +12,6 @@ conda_packages = [
   "atspectrograph",
   "atwhitelight",
   "audio_broadcaster",
-  "authorize",
   "cbp",
   "dimm",
   "dream",
@@ -20,7 +19,6 @@ conda_packages = [
   "dsm",
   "eas",
   "electrometer",
-  "epm",
   "ess",
   "fiberspectrograph",
   "genericcamera",
@@ -104,8 +102,7 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push MTAOS image.", name: 'build_mtaos'
       booleanParam defaultValue: false, description: "Build/push OODS image.", name: 'build_oods'
       booleanParam defaultValue: false, description: "Build/push scriptqueue image.", name: 'build_scriptqueue'
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image? This adds Telescope and Site layer to a lsstsqre/centos image in prepartion for building nublado images.", name: 'build_sciplat'
-      booleanParam defaultValue: false, description: "Build/push sal-sciplat-lab recommended image? Adds SQuaRe layer to sal-sciplat to produce a nublado-ready image.", name: 'build_sciplat_lab_recommended'
+      booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image? This adds Telescope and Site layer to a lsst-sqre/sciplat-lab image for nublado images.", name: 'build_sciplat'
       booleanParam defaultValue: false, description: "Build/push RubinTV Rapid Analysis.", name: 'rapid_analysis'
       booleanParam defaultValue: false, description: "Build/push development image.", name: 'develop_env'
   }
@@ -225,12 +222,12 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              export DOCKER_BUILDKIT=0
+              export DOCKER_BUILDKIT=1
               for comp in \${CONDA_PACKAGES}; do
-                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${comp}
+                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${comp} || echo "\${comp} FAILED."
               done
               for comp in \${CONDA_PACKAGES_C}; do
-                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${comp}
+                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${comp} || echo "\${comp} FAILED."
               done
               """
               }
@@ -239,7 +236,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push \${CONDA_PACKAGES} \${CONDA_PACKAGES_C}
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push --ignore-push-failures \${CONDA_PACKAGES} \${CONDA_PACKAGES_C}
             """
           }
         }
@@ -527,42 +524,12 @@ pipeline {
         }
       }
     }
-    stage ('Build Sal Sciplat (pre-nublado) recommended image') {
+    stage ('Build Sal Sciplat (nublado) recommended image') {
       when {
           expression { params.build_sciplat }
       }
       steps {
-
-        withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-          sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
-        }
-
-        script{
-
-          def cacheOption = params.set_cache_option ? "--no-cache" : ""
-
-          withEnv(["HOME=${env.WORKSPACE}"]) {
-            sh """
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} sal-sciplat-licensed
-            """
-          }
-        }
-
-        script {
-          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-            sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push sal-sciplat-licensed
-            """
-          }
-        }
-      }
-    }
-    stage ('Build Sal Sciplat Lab (nublado) recommended image') {
-      when {
-          expression { params.build_sciplat_lab_recommended }
-      }
-      steps {
-          build job: "SalSciplatLab/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: true)], wait: false
+          build job: "SalSciplatLab2Py/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: true)], wait: false
       }
     }
     stage ('Build RubinTV Rapid Analysis') {
@@ -612,17 +579,33 @@ pipeline {
 
           def cacheOption = params.set_cache_option ? "--no-cache" : ""
 
+          docker.withRegistry("", registryCredential) {
+            sh """
+              export DOCKER_BUILDKIT=1
+              source cycle/cycle.env
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre
+
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull salobj
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj
+
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env
+            """
+          }
+
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              export DOCKER_BUILDKIT=0
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre-private
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre-private
+              export DOCKER_BUILDKIT=1
+              source cycle/cycle.env
+              docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
+              docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
 
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull salobj-private
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj-private
+              docker tag lsstts/salobj:\${CYCLE}\${rev} ts-dockerhub.lsst.org/salobj:\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}\${rev}
 
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env-private
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env-private
+              docker tag lsstts/develop-env:\${CYCLE}\${rev} ts-dockerhub.lsst.org/develop-env:\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}\${rev}
             """
           }
         }

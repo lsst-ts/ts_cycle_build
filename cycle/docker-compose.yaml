@@ -348,7 +348,7 @@ x-mtm1m3_sim:
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: ${ts_xml}-${ts_sal}.el8.x86_64
+      rpm: ${ts_xml}-${ts_sal}.el9.x86_64
       m1m3: ${ts_m1m3support}
       crio_cpp: ${ts_cRIOcpp}
       config: ${ts_config_mttcs}
@@ -368,7 +368,7 @@ x-mtm1m3ts_sim:
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: ${ts_xml}-${ts_sal}.el8.x86_64
+      rpm: ${ts_xml}-${ts_sal}.el9.x86_64
       m1m3ts: ${ts_m1m3thermal}
       crio_cpp: ${ts_cRIOcpp}
       config: ${ts_config_mttcs}
@@ -388,7 +388,7 @@ x-vms_sim:
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: ${ts_xml}-${ts_sal}.el8.x86_64
+      rpm: ${ts_xml}-${ts_sal}.el9.x86_64
       vms: ${ts_vms}
       crio_cpp: ${ts_cRIOcpp}
       config: ${ts_config_mttcs}
@@ -465,12 +465,12 @@ x-ptg:
     dockerfile: ./ptg/Dockerfile
     labels:
       com.description: "Pointing component deployment image for cycle/revision ${CYCLE}${rev}."
-      rpm: 0:${ts_xml}-${ts_sal}.el8.x86_64
+      rpm: 0:${ts_xml}-${ts_sal}.el9.x86_64
       ptg: ${ts_pointing_common}
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: 0:${ts_xml}-${ts_sal}.el8.x86_64
+      rpm: 0:${ts_xml}-${ts_sal}.el9.x86_64
       ptg: ${ts_pointing_common}
 
 x-base-rubintv:
@@ -721,18 +721,6 @@ x-atwhitelight:
       labjack_ljm: ${labjack_ljm}
       config: ${ts_config_atcalsys}
 
-x-authorize:
-  &base-authorize
-  build:
-    context: ../build/authorize
-    labels:
-      com.description: "Authorize component for cycle {$CYCLE}"
-    args:
-      cycle: ${CYCLE}
-      hub: ${hub}
-      authorize: ${ts_authorize}
-      config: ${ts_config_ocs}
-
 x-dmocps:
   &base-dmocps
   build:
@@ -807,20 +795,6 @@ x-integrationtests:
       integrationtests: ${ts_integrationtests}
       robot_efd: ${robotframework_efd}
 
-x-epm:
-  &base-epm
-  build:
-    context: ../build/epm
-    labels:
-      com.description: "EPM component for cycle {$CYCLE}"
-    args:
-      cycle: ${CYCLE}
-      hub: ${hub}
-      epm: ${ts_epm}
-      ess: ${ts_ess_csc}
-      common: ${ts_ess_common}
-      config: ${ts_config_ocs}
-
 x-ess:
   &base-ess
   build:
@@ -849,6 +823,20 @@ x-ess-controller-aarch64:
     labels:
       com.description: "ESS aarch64 Controller for cycle {$CYCLE}"
     args:
+      ARCH: aarch64
+      hub: lsstts
+      controller: ${ts_ess_controller}
+      common: ${ts_ess_common}
+      PYTHON_VERSION: ${PYTHON_VERSION}
+
+x-ess-controller-x86_64:
+  &base-ess-controller-x86_64
+  build:
+    context: ../build/ess-controller
+    labels:
+      com.description: "ESS aarch64 Controller for cycle {$CYCLE}"
+    args:
+      ARCH: x86_64
       hub: lsstts
       controller: ${ts_ess_controller}
       common: ${ts_ess_common}
@@ -1095,7 +1083,7 @@ services:
     image: lsstts/salobj:${CYCLE}${rev}
     build:
       context: ../build/develop-env/salobj/
-      network: kafka
+      # network: kafka
       labels:
         com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
       args:
@@ -1146,6 +1134,9 @@ services:
       dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
         com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE} without OpenSpliceDDS."
+      args:
+        platform: linux/aarch64
+        PYTHON_VERSION: ${PYTHON_VERSION}
 
   conda-builder-aarch64-private:
     image: ${hub}/conda_package_builder_aarch64:${CYCLE}
@@ -1154,30 +1145,37 @@ services:
       dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
         com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE} without OpenSpliceDDS."
+      args:
+        platform: linux/aarch64
+        PYTHON_VERSION: ${PYTHON_VERSION}
 
   conda-builder-community:
     image: lsstts/conda_package_builder:${CYCLE}
     build:
       context: ../build/
-      dockerfile: ./conda_builder/linux64/Dockerfile
+      dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
         com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
+        platform: linux/amd64
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
+        PYTHON_VERSION: ${PYTHON_VERSION}
 
   conda-builder-private:
     image: ${hub}/conda_package_builder:${CYCLE}${rev}
     build:
       context: ../build/
-      dockerfile: ./conda_builder/linux64/Dockerfile
+      dockerfile: ./conda_builder/aarch64/Dockerfile
       labels:
         com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
       args:
+        platform: linux/amd64
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
+        PYTHON_VERSION: ${PYTHON_VERSION}
 
   dimm:
     image: ${hub}/dimm:${CYCLE}${rev}
@@ -1573,14 +1571,6 @@ services:
     image: ${hub}/atwhitelight:${CYCLE}
     <<: *base-atwhitelight
 
-  authorize:
-    image: ${hub}/authorize:${CYCLE}${rev}
-    <<: *base-authorize
-
-  authorize_c:
-    image: ${hub}/authorize:${CYCLE}
-    <<: *base-authorize
-
   dmocps:
     image: ${hub}/dmocps:${CYCLE}${rev}
     <<: *base-dmocps
@@ -1629,14 +1619,6 @@ services:
     image: ${hub}/integrationtests:${CYCLE}
     <<: *base-integrationtests
 
-  epm:
-    image: ${hub}/epm:${CYCLE}${rev}
-    <<: *base-epm
-
-  epm_c:
-    image: ${hub}/epm:${CYCLE}
-    <<: *base-epm
-
   ess:
     image: ${hub}/ess:${CYCLE}${rev}
     <<: *base-ess
@@ -1648,6 +1630,10 @@ services:
   ess-controller-aarch64:
     image: lsstts/ess-controller-aarch64
     <<: *base-ess-controller-aarch64
+
+  ess-controller-x86_64:
+    image: lsstts/ess-controller-x86_64
+    <<: *base-ess-controller-x86_64
 
   vents-controller-aarch64:
     image: lsstts/vents-controller-aarch64
@@ -1764,7 +1750,7 @@ services:
   mtreflector:
     image: ${hub}/mtreflector:${CYCLE}${rev}
     <<: *base-mtreflector
-  
+
   mtreflector_c:
     image: ${hub}/mtreflector:${CYCLE}
     <<: *base-mtreflector

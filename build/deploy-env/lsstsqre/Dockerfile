@@ -1,4 +1,4 @@
-FROM almalinux:8
+FROM almalinux:9
 
 ARG UID=73006
 ARG GID=73006
@@ -50,7 +50,7 @@ RUN source ./loadLSST.bash && \
   eups distrib install -t ${stack} lsst_distrib
 
 # Workaround for pin on python-confluent-kafka.
-RUN sed -i 's/    "python-confluent-kafka >=1.9.2,<2",/    "python-confluent-kafka >=1.9.2",/' conda/envs/lsst-scipipe-9.0.0/conda-meta/rubin-env-nosysroot*
+# RUN sed -i 's/    "python-confluent-kafka >=1.9.2,<2",/    "python-confluent-kafka >=1.9.2",/' conda/envs/lsst-scipipe-9.0.0/conda-meta/rubin-env-nosysroot*
 
 ARG ts_xml
 ARG ts_idl
@@ -84,8 +84,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
   ts-xml=${ts_xml} \
   ts-salobj=${ts_salobj} \
   ts-idl=${ts_idl} \
-  ts-utils=${ts_utils} \
-  astropy=6 && \
+  ts-utils=${ts_utils} && \
   salobj_path=$(python -c 'from lsst.ts import salobj; import pathlib; print(pathlib.Path(salobj.__file__).parents[0])') && \
   eups declare -m none -r ${salobj_path} ts_salobj ${ts_salobj}  && \
   idl_path=$(python -c 'from lsst.ts import idl; import pathlib; print(pathlib.Path(idl.__file__).parents[0])') && \

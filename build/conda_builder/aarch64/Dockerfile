@@ -1,4 +1,5 @@
-FROM almalinux:9
+ARG platform=linux/aarch64
+FROM --platform=${platform} almalinux:9
 
 ARG UID=73006
 ARG GID=73006
@@ -35,7 +36,7 @@ WORKDIR /home/saluser
 
 ARG PYTHON_VERSION=3.11
 
-RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh -o miniforge.sh && \
+RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-$(uname -m).sh -o miniforge.sh && \
     chmod +x miniforge.sh && \
     ./miniforge.sh -b -p ${HOME}/miniconda3 && \
     source ${HOME}/miniconda3/bin/activate && \
