@@ -8,6 +8,81 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41
+========
+
+* Updated version of the following packages:
+  
+  * ts_xml
+  * ts_hexrotcomm
+  * ts_atdometrajectory
+  * ts_atmonochromator
+  * ts_athexapod
+  * ts_atspec
+  * ts_atwhitelight
+  * ts_mtrotator
+  * ts_mthexapod
+  * ts_observatory_control
+  * ts_ataos
+  * ts_m2
+  * ts_mtmount
+  * ts_pointing_common
+  * ts_m1m3support
+  * ts_m1m3thermal
+  * ts_cRIOcpp
+  * ts_criopy
+  * ts_lasertracker
+  * ts_mtaos
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_dsm
+  * ts_dream
+  * ts_ess_common
+  * ts_ess_csc
+  * ts_ess_epm
+  * ts_ess_labjack
+  * ts_ess_ringss
+  * dm_OCPS
+  * ts_genericcamera
+  * ts_pmd
+  * ts_hvac
+  * ts_electrometer
+  * ts_fiberspectrograph
+  * ts_weatherforecast
+  * robotframework_efd
+  * headerservice
+  * rubintv
+  * ts_tunablelaser
+  * ts_linearstage
+  * ts_ledprojector
+  * ts_audiotrigger
+  * ts_config_mttcs
+  * ts_config_ocs
+  * dm_config_ocps
+  * love_commander
+  * love_manager
+  * vimba_conda_build
+  * ts_astrosky_model
+  * ts_dateloc
+  * ts_fbs_utils
+  * ts_observing
+
+* Added libusb to ATWhitelight image.
+* Updated Jenkinsfile.cycle to use two-python nublado build.
+* Added build for amd64 ess-controller image.
+* Added two-python nublado build.
+* Removed salkafka references from documentation.
+* Removed salkafka build directory.
+* Removed salkafka from cycle.
+* Removed ts_authorize from cycle.
+* Removed ts_epm from cycle.
+* Updated ESS label to include all sub modules.
+* Updated integrationtests image to use conda to install lsst-efd-client dependencies and then pip install without dependencies.
+* Removed criopy pin from love-commander.
+* Removed unncessary packages from audiotrigger-controller.
+* Added flag to curl for vimba build.
+* Updated all containers to almalinux 9.
+
 Cycle 40 revision 3
 ===================
 
