@@ -6,7 +6,7 @@ LSST_USER_HOME=/home/saluser
 
 setup lsst_distrib
 setup -t current ctrl_oods
-setup obs_lsst -t $USER
+# setup obs_lsst -t $USER
 
 csc $RUN_ARG &
 
