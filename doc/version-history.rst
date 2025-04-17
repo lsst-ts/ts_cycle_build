@@ -8,6 +8,37 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 1
+===================
+
+* Updated the version of the following packages:
+
+  * lsstsqre stack
+  * stack_ra
+  * ts_mthexapod
+  * ts_m2
+  * ts_m2com
+  * ts_lasertracker
+  * ts_mtaos
+  * ts_watcher
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_dream
+  * ts_ess_csc
+  * ts_hvac
+  * ts_fiberspectrograph
+  * oods
+  * headerservice
+  * ts_linearstage
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_manager
+  * rubin_scheduler
+
+* Updated Header Service startup script to pass the RUN_ARG environment variable.
+
+* Updated HeaderService build to create directory for the LSSTCam playlist files
+
 Cycle 41
 ========
 

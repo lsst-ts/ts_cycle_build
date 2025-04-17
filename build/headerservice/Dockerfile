@@ -24,6 +24,9 @@ USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
+RUN mkdir -p /opt/lsst/software/stack/miniconda/HeaderService/etc/playback/lib/LSSTCam && \
+    chown saluser:saluser /opt/lsst/software/stack/miniconda/HeaderService/etc/playback/lib/LSSTCam
+
 USER saluser
 
 ENV CAMERA=""

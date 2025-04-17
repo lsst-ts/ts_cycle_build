@@ -23,6 +23,16 @@ USER ${LSST_USER}
 
 WORKDIR ${WORKDIR}
 
+# RUN git clone https://github.com/lsst/obs_lsst.git
+
+# WORKDIR ${WORKDIR}/obs_lsst
+# RUN source ${HOME}/.setup_sal_env.sh && \
+#     eups declare -r . -t $USER && \
+#     setup obs_lsst -t $USER && \
+#     scons -j 10
+
+# WORKDIR ${WORKDIR}
+
 RUN source ${HOME}/.setup_sal_env.sh && \
     cd ${HOME} && \
     git clone https://github.com/lsst-dm/ctrl_oods && \
