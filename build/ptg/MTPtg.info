@@ -33,7 +33,7 @@ rnogo 3600.0                        ; arcsec
 instrument_alignment_angle 0.0;     ; degrees
 pointing_model mt.mod
 
-pa_translation -180.0417            ; degrees
+pa_translation 90            ; degrees
 
 ; Axis limits
 horizon_limit 15.0
