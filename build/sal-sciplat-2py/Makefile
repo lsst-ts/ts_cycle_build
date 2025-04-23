@@ -46,7 +46,7 @@ endif
 # By default, we will push to Docker Hub.
 
 ifeq ($(image),)
-    image = docker.io/lsstsqre/sal-sciplat-lab
+    image = ts-dockerhub.lsst.org/sal-sciplat-lab
 endif
 
 # Our default input image is ghcr.io/lsst-sqre/sciplat-lab:<tag>
@@ -59,12 +59,12 @@ endif
 # kicking off scheduled builds.
 
 ifeq ($(input),)
-    input = ghcr.io/lsst-sqre/sciplat-lab:$(tag)
+    input = ts-dockerhub.lsst.org/sal-sciplat-lab:$(tag)
 endif
 
 # Extract cycle and build from T&S env file
-cycle := $(shell grep CYCLE= scripts/sal-sciplat-2py/cycle.env | cut -d= -f2)
-build := $(shell grep rev= scripts/sal-sciplat-2py/cycle.env | cut -d= -f2)
+cycle := ${CYCLE}
+build := ${rev}
 
 # Some day we might use a different build tool.  If you have a new enough
 #  docker, you probably want to set DOCKER_BUILDKIT in your environment.
@@ -166,10 +166,10 @@ retag:
 	    echo "supplementary parameter must be set for retag!" ; \
 	    exit 1 ; \
 	else \
-	$(DOCKER) pull docker.io/lsstsqre/sal-sciplat-lab:$(tag) && \
+	$(DOCKER) pull ts-dockerhub.lsst.org/sal-sciplat-lab:$(tag) && \
 	    outputs=$$(echo $(image) | cut -d ',' -f 1- | tr ',' ' ') && \
 	    for o in $${outputs}; do \
-	        $(DOCKER) tag docker.io/lsstsqre/sal-sciplat-lab:$(tag) $${o}:$${supplementary} ; \
+	        $(DOCKER) tag ts-dockerhub.lsst.org/sal-sciplat-lab:$(tag) $${o}:$${supplementary} ; \
 	        $(DOCKER) push $${o}:$${supplementary} ; \
 	    done ; \
 	fi
