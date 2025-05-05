@@ -62,6 +62,8 @@ pipeline{
                 cd build/sal-sciplat-2py/
                 source ./cycle.env
                 make tag=latest_daily_\${CYCLE}\${rev} input=ghcr.io/lsst-sqre/sciplat-lab:latest_daily image=ts-dockerhub.lsst.org/sal-sciplat-lab
+                EUPS_TAG=\$(docker run -v \${PWD}/scripts/passwd:/etc/passwd ts-dockerhub.lsst.org/sal-sciplat-lab:latest_daily_\${CYCLE}\${rev} /bin/sh -c /opt/lsst/sal/print_stack_version.sh)
+                make retag tag=latest_daily_\${CYCLE}\${rev} supplementary=\${EUPS_TAG}_\${CYCLE}\${rev}
               """
             }
           }
@@ -80,6 +82,8 @@ pipeline{
                 cd build/sal-sciplat-2py/
                 source ./cycle.env
                 make tag=latest_weekly_\${CYCLE}\${rev} input=ghcr.io/lsst-sqre/sciplat-lab:latest_weekly image=ts-dockerhub.lsst.org/sal-sciplat-lab
+                EUPS_TAG=\$(docker run -v \${PWD}/scripts/passwd:/etc/passwd ts-dockerhub.lsst.org/sal-sciplat-lab:latest_weekly_\${CYCLE}\${rev} /bin/sh -c /opt/lsst/sal/print_stack_version.sh)
+                make retag tag=latest_weekly_\${CYCLE}\${rev} supplementary=\${EUPS_TAG}_\${CYCLE}\${rev}
               """
             }
           }

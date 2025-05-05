@@ -46,10 +46,10 @@ endif
 # By default, we will push to Docker Hub.
 
 ifeq ($(image),)
-    image = docker.io/lsstsqre/sal-sciplat-lab
+    image = ts-dockerhub.lsst.org/sal-sciplat-lab
 endif
 
-# Our default input image is ghcr.io/lsst-sqre/sciplat-lab:exp_<tag>_2py
+# Our default input image is ghcr.io/lsst-sqre/sciplat-lab:<tag>
 #
 # Right now the tag has to be manually specified, but a little work on the
 # nublado side should at least get us to tag latest on tagged uploads from
@@ -59,12 +59,12 @@ endif
 # kicking off scheduled builds.
 
 ifeq ($(input),)
-    input = ghcr.io/lsst-sqre/sciplat-lab:exp_$(tag)_2py
+    input = ts-dockerhub.lsst.org/sal-sciplat-lab:$(tag)
 endif
 
 # Extract cycle and build from T&S env file
-cycle := $(shell grep CYCLE= scripts/sal-sciplat-2py/cycle.env | cut -d= -f2)
-build := $(shell grep rev= scripts/sal-sciplat-2py/cycle.env | cut -d= -f2)
+cycle := ${CYCLE}
+build := ${rev}
 
 # Some day we might use a different build tool.  If you have a new enough
 #  docker, you probably want to set DOCKER_BUILDKIT in your environment.
@@ -77,25 +77,9 @@ DOCKER := docker
 # Force to simply-expanded variables, for when we add the supplementary tag.
 tag := $(tag)
 image := $(image)
-#  version is the tag on the output JupyterLab container.  Releases
-#   change the first letter of the tag from "v" to "r", and if a supplementary
-#   version is added, the tag will be marked as "exp_" with the supplement
-#   added at the end after an underscore.
+
 version := $(tag)
 version := $(version:v%=r%)
-
-release_branch := main
-branch := $(shell git rev-parse --abbrev-ref HEAD)
-
-# if we are not on the release branch, then force supplementary to be set
-ifneq ($(branch),$(release_branch))
-    ifeq ($(supplementary),)
-        supplementary := $(shell echo $(branch) | tr -c -d \[A-z\]\[0-9\])
-    endif
-endif
-ifneq ($(supplementary),)
-    version := exp_$(version)_$(supplementary)
-endif
 
 # Add cycle and build tags for T&S
 ifneq ($(cycle),)
@@ -182,10 +166,10 @@ retag:
 	    echo "supplementary parameter must be set for retag!" ; \
 	    exit 1 ; \
 	else \
-	$(DOCKER) pull docker.io/lsstsqre/sal-sciplat-lab:$(tag) && \
+	$(DOCKER) pull ts-dockerhub.lsst.org/sal-sciplat-lab:$(tag) && \
 	    outputs=$$(echo $(image) | cut -d ',' -f 1- | tr ',' ' ') && \
 	    for o in $${outputs}; do \
-	        $(DOCKER) tag docker.io/lsstsqre/sal-sciplat-lab:$(tag) $${o}:$${supplementary} ; \
+	        $(DOCKER) tag ts-dockerhub.lsst.org/sal-sciplat-lab:$(tag) $${o}:$${supplementary} ; \
 	        $(DOCKER) push $${o}:$${supplementary} ; \
 	    done ; \
 	fi

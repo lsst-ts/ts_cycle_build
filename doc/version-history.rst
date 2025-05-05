@@ -8,6 +8,37 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 2
+===================
+
+* Updated the version of the following packages:
+
+  * ts_hexrotcomm
+  * ts_mthexapod
+  * ts_pointing_common
+  * ts_mtdometrajectory
+  * ts_dsm
+  * ts_dimm
+  * ts_dream
+  * ts_eas
+  * ts_ess_common
+  * ts_ess_csc
+  * ts_hvac
+  * oods
+  * headerservice
+  * ts_linearstage
+  * ts_audiotrigger
+  * ts_config_mtcalsys
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+
+* Updated MTPtg configuration to set PA offset for LSSTCam.
+* Updated sal-sciplat-2py build to push images with descriptive image tags.
+* Updated sal-sciplat-2py build script to remove experimental flags.
+* Audiotrigger: Renamed executable.
+
 Cycle 41 revision 1
 ===================
 

@@ -2,7 +2,7 @@
 
 source $HOME/miniconda3/bin/activate
 
-run_serial_temperature_scanner $RUN_ARG &
+run_audiotrigger $RUN_ARG &
 
 pid="$!"
 
