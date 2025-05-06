@@ -1131,9 +1131,9 @@ services:
     image: lsstts/conda_package_builder_aarch64:${CYCLE}
     build:
       context: ../build/
-      dockerfile: ./conda_builder/aarch64/Dockerfile
+      dockerfile: ./conda_builder/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE} without OpenSpliceDDS."
+        com.description: "LSST Telescope and Site base AlmaLinux 9 aarch64 image for cycle ${CYCLE} without OpenSpliceDDS."
       args:
         platform: linux/aarch64
         PYTHON_VERSION: ${PYTHON_VERSION}
@@ -1142,9 +1142,9 @@ services:
     image: ${hub}/conda_package_builder_aarch64:${CYCLE}
     build:
       context: ../build/
-      dockerfile: ./conda_builder/aarch64/Dockerfile
+      dockerfile: ./conda_builder/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base AlmaLinux 8 aarch64 image for cycle ${CYCLE} without OpenSpliceDDS."
+        com.description: "LSST Telescope and Site base AlmaLinux 9 aarch64 image for cycle ${CYCLE} without OpenSpliceDDS."
       args:
         platform: linux/aarch64
         PYTHON_VERSION: ${PYTHON_VERSION}
@@ -1153,9 +1153,9 @@ services:
     image: lsstts/conda_package_builder:${CYCLE}
     build:
       context: ../build/
-      dockerfile: ./conda_builder/aarch64/Dockerfile
+      dockerfile: ./conda_builder/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
+        com.description: "LSST Telescope and Site base AlmaLinux 9 linux64 image for cycle ${CYCLE}."
       args:
         platform: linux/amd64
         labjack_file_version: ${labjack_file_version}
@@ -1167,9 +1167,9 @@ services:
     image: ${hub}/conda_package_builder:${CYCLE}${rev}
     build:
       context: ../build/
-      dockerfile: ./conda_builder/aarch64/Dockerfile
+      dockerfile: ./conda_builder/Dockerfile
       labels:
-        com.description: "LSST Telescope and Site base CentOS 7 linux64 image for cycle ${CYCLE}."
+        com.description: "LSST Telescope and Site base AlmaLinux 9 linux64 image for cycle ${CYCLE}."
       args:
         platform: linux/amd64
         labjack_file_version: ${labjack_file_version}
