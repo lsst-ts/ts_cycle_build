@@ -1,4 +1,4 @@
-FROM almalinux:8
+FROM almalinux:9
 
 ARG UID=73006
 ARG GID=73006
@@ -44,7 +44,7 @@ COPY common/conda_build_config.yaml /home/saluser/conda_build_config.yaml
 USER saluser
 WORKDIR /home/saluser
 
-ARG PYTHON_VERSION=3.11
+ARG PYTHON_VERSION=3.12
 
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o miniforge.sh && \
   chmod +x miniforge.sh && \
