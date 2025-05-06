@@ -278,6 +278,15 @@ x-love-view-backup:
       UID: ${B_UID}
       GID: ${B_GID}
 
+x-nightlydigest-frontend:
+  &base-nightlydigest-frontend
+  build:
+    context: ../build/nightlydigest/frontend
+    labels:
+      com.description: "Nightlydigest frontend for cycle/revision ${CYCLE}${rev}."
+    args:
+      ts_logging_frontend: ${ts_logging_frontend}
+
 x-mtaos:
   &base-mtaos
   build:
@@ -1272,6 +1281,14 @@ services:
   love-view-backup_c:
     image: ${hub}/love-view-backup:${CYCLE}
     <<: *base-love-view-backup
+  
+  nightlydigest-frontend:
+    image: ${hub}/nightlydigest-frontend:${CYCLE}${rev}
+    <<: *base-nightlydigest-frontend
+  
+  nightlydigest-frontend_c:
+    image: ${hub}/nightlydigest-frontend:${CYCLE}
+    <<: *base-nightlydigest-frontend
 
   audio_broadcaster:
     image: ${hub}/audio_broadcaster:${CYCLE}${rev}
