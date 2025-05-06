@@ -18,10 +18,11 @@ RUN groupadd --gid ${GID} saluser && \
     adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
-RUN dnf install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.8.0-openjdk-devel maven git git-lfs bzip2 wget libusb libglvnd-glx unzip
+RUN dnf install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.8.0-openjdk-devel maven git \
+    git-lfs bzip2 wget libusb libglvnd-glx unzip
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
-COPY conda_builder/aarch64/setup.sh ${HOME}/.setup.sh
+COPY conda_builder/setup.sh ${HOME}/.setup.sh
 COPY develop-env/salobj/checkout_repo.sh ${HOME}/.checkout_repo.sh
 COPY common/conda_build_config.yaml /home/saluser/conda_build_config.yaml
 
@@ -31,10 +32,12 @@ RUN chown saluser:saluser /home/saluser/.setup.sh && \
     chmod a+x /home/saluser/.setup.sh && \
     chmod a+x /home/saluser/.checkout_repo.sh
 
+RUN chown -R saluser:saluser /home/saluser/.cache
+
 USER saluser
 WORKDIR /home/saluser
 
-ARG PYTHON_VERSION=3.11
+ARG PYTHON_VERSION
 
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-$(uname -m).sh -o miniforge.sh && \
     chmod +x miniforge.sh && \
@@ -44,7 +47,7 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
     conda install -y python=${PYTHON_VERSION} && \
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
-    conda install -y conda-build anaconda-client setuptools_scm ts-ddsconfig && \
+    conda install -y conda-build anaconda-client setuptools_scm && \
     conda init bash
 
 ENTRYPOINT ["/bin/bash", "--"]
