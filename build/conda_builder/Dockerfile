@@ -32,8 +32,6 @@ RUN chown saluser:saluser /home/saluser/.setup.sh && \
     chmod a+x /home/saluser/.setup.sh && \
     chmod a+x /home/saluser/.checkout_repo.sh
 
-RUN chown -R saluser:saluser /home/saluser/.cache
-
 USER saluser
 WORKDIR /home/saluser
 
