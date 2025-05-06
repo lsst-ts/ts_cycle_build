@@ -285,6 +285,8 @@ x-nightlydigest-frontend:
     labels:
       com.description: "Nightlydigest frontend for cycle/revision ${CYCLE}${rev}."
     args:
+      hub: ${hub}
+      cycle: ${CYCLE}
       ts_logging_frontend: ${ts_logging_frontend}
 
 x-mtaos:
