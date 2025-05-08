@@ -12,6 +12,9 @@ pipeline{
     environment {
         registryCredential = "dockerhub-lssttsadmin"
     }
+    triggers {
+      cron '@midnight'
+    }
 
     stages{
 
