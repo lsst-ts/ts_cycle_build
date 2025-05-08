@@ -8,27 +8,14 @@ WORKDIR /tmp/build
 
 # Add other system-level files
 
-# An /etc/passwd
+# A temporary /etc/passwd to keep the build from complaining
 
 COPY scripts/* /tmp/build/
 RUN bash ./make-root-user
 
-RUN bash ./make-user
-
-USER lsst_local:lsst_local
-
-# Do the SAL install
-
-USER root
-
-# SAL install privileged parts
+# SAL install
 COPY cycle.env /tmp/build/cycle.env
-RUN bash ./install-ts-root
-
-USER lsst_local:lsst_local
-
-# SAL install unprivileged parts
-RUN bash ./install-ts-user
+RUN bash ./install-ts
 
 # Get our manifests.  This has always been really useful for debugging
 # "what broke this week?"
@@ -45,15 +32,21 @@ RUN . /tmp/build/cycle.env ; \
 # Clean up.
 # This needs to be numeric, since we will remove /etc/passwd and friends
 # while we're running.
+#
+# The nublado controller will inject an appropriate /etc/passwd (and friends)
+# at runtime.
 USER 0:0
+
 WORKDIR /
 
 COPY scripts/cleanup-files .
 RUN bash ./cleanup-files
 RUN rm ./cleanup-files
 
-# Back to unprivileged
-USER 1000:1000
+# Back to unprivileged; the container will never run as this user, because
+# UID and GID will be injected by the nublado controller prior to container
+# start.
+USER 65534:65534
 WORKDIR /tmp
 
 CMD ["/usr/local/share/jupyterlab/runlab"]
