@@ -15,6 +15,7 @@ SRCDIR=/opt/lsst/src
 SALDIR=/opt/lsst/sal
 SALSTACK=${SALDIR}/salbldsteps.bash
 TZ="UTC"
+SHELL="bash"
 
 QT_API="PySide6"
 PYTEST_QT_API="PySide6"
