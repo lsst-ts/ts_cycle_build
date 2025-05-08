@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+# Run as root
+
+set -x
+
+. cycle.env  # Get T&S variables
+
+curl https://www.ietf.org/timezones/data/leap-seconds.list -o \
+     /usr/share/zoneinfo/leap-seconds.list
+
+LOADSTACK=/opt/lsst/software/stack/loadLSST.bash
+
+SRCDIR=/opt/lsst/src
+SALDIR=/opt/lsst/sal
+SALSTACK=${SALDIR}/salbldsteps.bash
+TZ="UTC"
+
+QT_API="PySide6"
+PYTEST_QT_API="PySide6"
+
+mkdir -p ${SALDIR}
+cp salbldsteps.bash print_stack_version.sh ${SALDIR}
+
+mkdir -p ${SRCDIR} && \
+    chown -R lsst_local:lsst_local ${SRCDIR} && \
+    chown -R lsst_local:lsst_local ${SALDIR} && \
+    chmod uga+x ${SALSTACK} && \
+    chmod uga+x ${SALDIR}/print_stack_version.sh
+
+# Way too much output
+set +x
+
+source ${LOADSTACK} && \
+    conda config --set solver libmamba && \
+    conda install -c conda-forge -y \
+    aiokafka \
+    astroquery \
+    asynctest \
+    ephem \
+    kafkacat \
+    pre-commit \
+    pytest-tornasync \
+    setuptools_scm \
+    astroplan
+
+source ${LOADSTACK} && \
+    conda install -c conda-forge -y \
+    boto3 \
+    fastavro \
+    jsonschema \
+    moto=5 \
+    pyyaml
+
+source ${LOADSTACK} && \
+    conda install -c lsstts -y \
+    ts-xml=${ts_xml} \
+    ts-utils=${ts_utils} \
+    ts-idl=${ts_idl}
+
+# Rubin-env 10 already uses python-confluent-kafka 2...
+
+source ${LOADSTACK} && \
+    conda list && \
+    conda install -c lsstts/label/rc -y \
+    librdkafka=${librdkafka} \
+    python-confluent-kafka=${python_confluent_kafka} \
+    ts-salobj=${ts_salobj}
+
+#### Clear the astropy download cache
+source ${LOADSTACK} && \
+    python3 -c 'from astropy.utils.data import clear_download_cache; \
+    clear_download_cache()'
+
