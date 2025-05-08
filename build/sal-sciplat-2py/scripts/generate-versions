@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -x
 
+SHELL="bash"
+
 set -eo pipefail  # -u and mamba don't play well: ADDR2LINE: unbound variable
 
 # First system
