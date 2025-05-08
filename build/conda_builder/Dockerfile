@@ -35,7 +35,7 @@ RUN chown saluser:saluser /home/saluser/.setup.sh && \
 USER saluser
 WORKDIR /home/saluser
 
-ARG PYTHON_VERSION
+ARG PYTHON_VERSION=3.12
 
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-$(uname -m).sh -o miniforge.sh && \
     chmod +x miniforge.sh && \
