@@ -23,8 +23,6 @@ mkdir -p ${SALDIR}
 cp salbldsteps.bash print_stack_version.sh ${SALDIR}
 
 mkdir -p ${SRCDIR} && \
-    chown -R lsst_local:lsst_local ${SRCDIR} && \
-    chown -R lsst_local:lsst_local ${SALDIR} && \
     chmod uga+x ${SALSTACK} && \
     chmod uga+x ${SALDIR}/print_stack_version.sh
 
