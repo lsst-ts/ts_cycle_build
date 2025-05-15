@@ -287,6 +287,17 @@ x-nightlydigest-frontend:
     args:
       ts_logging_frontend: ${ts_logging_frontend}
 
+x-nightlydigest-backend:
+  &base-nightlydigest-backend
+  build:
+    context: ../build/nightlydigest/backend
+    labels:
+      com.description: "Nightlydigest backend for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      ts_logging_and_reporting: ${ts_logging_and_reporting}
+
 x-mtaos:
   &base-mtaos
   build:
@@ -1289,6 +1300,14 @@ services:
   nightlydigest-frontend_c:
     image: ${hub}/nightlydigest-frontend:${CYCLE}
     <<: *base-nightlydigest-frontend
+
+  nightlydigest-backend:
+    image: ${hub}/nightlydigest-backend:${CYCLE}${rev}
+    <<: *base-nightlydigest-backend
+
+  nightlydigest-backend_c:
+    image: ${hub}/nightlydigest-backend:${CYCLE}
+    <<: *base-nightlydigest-backend
 
   audio_broadcaster:
     image: ${hub}/audio_broadcaster:${CYCLE}${rev}
