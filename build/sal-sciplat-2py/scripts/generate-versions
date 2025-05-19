@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -x
 
+SHELL="bash"
+
 set -eo pipefail  # -u and mamba don't play well: ADDR2LINE: unbound variable
 
 # First system
@@ -8,14 +10,16 @@ set -eo pipefail  # -u and mamba don't play well: ADDR2LINE: unbound variable
 vi_dir="/usr/local/share/jupyterlab/versions-installed"
 mkdir -p ${vi_dir}
 cd ${vi_dir}
-dpkg -l > "system-dpkgs"
+dpkg -l | tee "system-dpkgs"
 python -m pip list > "system-python"
 
 # Now JupyterLab python
 
 source /usr/local/share/jupyterlab/venv/bin/activate
-python -m uv pip list > "jupyterlab-python"
-(jupyter labextension list 2>&1) > "lab-extensions"
+python -m uv pip list | tee "jupyterlab-python"
+# As of 20250516, jupyter labextension list is returning non-zero.
+# Investigating, but in the meantime, this will keep the build going.
+((jupyter labextension list 2>&1) | tee "lab-extensions") || /bin/true
 deactivate
 
 # Now the stack

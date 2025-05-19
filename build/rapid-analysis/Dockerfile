@@ -1,6 +1,6 @@
 ARG image_tag
 
-FROM lsstsqre/centos:${image_tag}
+FROM ghcr.io/lsst/scipipe:${image_tag}
 
 ENV USER ${USER:-saluser}
 ENV WORKDIR /opt/lsst/software/stack

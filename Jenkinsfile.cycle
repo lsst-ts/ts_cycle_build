@@ -46,6 +46,8 @@ conda_packages = [
   "mtreflector",
   "mtrotator",
   "nightreport",
+  "nightlydigest-frontend",
+  "nightlydigest-backend",
   "pmd",
   "scheduler",
   "test",
