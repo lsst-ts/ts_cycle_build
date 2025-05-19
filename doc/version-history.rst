@@ -8,6 +8,54 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 3
+===================
+
+* Updated the version of the following packages:
+
+  * ts_mtrotator 
+  * ts_mthexapod
+  * ts_mtmount
+  * ts_scheduler
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_mtdometrajectory
+  * ts_eas
+  * ts_ess_common
+  * ts_ess_csc
+  * ts_ess_earthquake
+  * ts_ess_epm
+  * ts_genericcamera
+  * ts_electrometer
+  * ts_weatherforecast
+  * headerservice
+  * ts_tunablelaser
+  * ts_linearstage
+  * ts_cbp
+  * ts_ledprojector
+  * ts_audiotrigger
+  * ts_mtreflector
+  * ts_config_mtcalsys
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+  * ts_fbs_utils
+
+* SALSciPlat 2py
+
+  * Fixed build failure with jupyter lab extensions.
+  * Fixed various build issues.
+  
+* Removed portaudio in conda environment post install from audiotrigger-controller.
+* Added nightlydigest-backend.
+* Updated rapid-analsys to use GHCR (GitHub Container Registry).
+* Updated MT pointing model to include IA and IE terms (zero points for azimuth and elevation).
+* Added cron trigger to sal-sciplat-2py jenkinsfile.
+* Added nightlydigest frontend.
+* Reorganized conda package builder to use one dockerfile for amd64 and aarch64 architecture.
+
 Cycle 41 revision 2
 ===================
 
