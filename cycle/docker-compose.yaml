@@ -1014,6 +1014,12 @@ services:
   base-sqre:
     image: lsstts/base-sqre:${CYCLE}
     build:
+      tags:
+        - "ts-dockerhub.lsst.org/base-sqre:${CYCLE}"
+        - "lsstts/base-sqre:${CYCLE}${rev}"
+        - "ts-dockerhub.lsst.org/base-sqre:${CYCLE}${rev}"
+      platforms:
+        - linux/amd64
       context: ../build/
       dockerfile: ./develop-env/lsstsqre/Dockerfile
       labels:
@@ -1102,6 +1108,12 @@ services:
   salobj:
     image: lsstts/salobj:${CYCLE}${rev}
     build:
+      tags:
+        - "lsstts/salobj:${CYCLE}"
+        - "ts-dockerhub.lsst.org/salobj:${CYCLE}"
+        - "ts-dockerhub.lsst.org/salobj:${CYCLE}${rev}"
+      platforms:
+        - linux/amd64
       context: ../build/develop-env/salobj/
       # network: kafka
       labels:
@@ -1126,6 +1138,12 @@ services:
     image: lsstts/develop-env:${CYCLE}${rev}
     build:
       context: ../build/develop-env/develop-env/
+      tags:
+        - "lsstts/develop-env:${CYCLE}"
+        - "ts-dockerhub.lsst.org/develop-env:${CYCLE}${rev}"
+        - "ts-dockerhub.lsst.org/develop-env:${CYCLE}"
+      platforms:
+        - linux/amd64
       labels:
         com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args:

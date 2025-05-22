@@ -28,7 +28,7 @@ pipeline {
                 script {
                   docker.withRegistry("", registryCredential) {
                     sh """
-                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull salobj
+                      docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull salobj
                     """
                   }
                 }
@@ -36,7 +36,8 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push salobj
+                    source cycle/main.env
+                    docker push lsstts/salobj:\${CYCLE}
                   """
                 }
               }
@@ -44,7 +45,6 @@ pipeline {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
                     source cycle/main.env
-                    docker tag lsstts/salobj:\${CYCLE} ts-dockerhub.lsst.org/salobj:\${CYCLE}
                     docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}
                   """
                 }
@@ -60,7 +60,7 @@ pipeline {
                 script {
                   docker.withRegistry("", registryCredential) {
                     sh """
-                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull salobj
+                      docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull salobj
                     """
                   }
                 }
@@ -68,7 +68,8 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push salobj
+                    source cycle/develop.env
+                    docker push lsstts/salobj:${CYCLE}
                   """
                 }
               }
@@ -76,7 +77,6 @@ pipeline {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
                     source cycle/develop.env
-                    docker tag lsstts/salobj:\${CYCLE} ts-dockerhub.lsst.org/salobj:\${CYCLE}
                     docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}
                   """
                 }
@@ -92,7 +92,7 @@ pipeline {
                 script {
                   docker.withRegistry("", registryCredential) {
                     sh """
-                      DOCKER_BUILDKIT=0 docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull salobj
+                      docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull salobj
                     """
                   }
                 }
@@ -100,7 +100,9 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj
+                    source cycle/cycle.env
+                    docker push lsstts/salobj:\${CYCLE}
+                    docker push lsstts/salobj:\${CYCLE}\${rev}
                   """
                 }
               }
@@ -108,8 +110,8 @@ pipeline {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
                     source cycle/cycle.env
-                    docker tag lsstts/salobj:\${CYCLE} ts-dockerhub.lsst.org/salobj:\${CYCLE}
-                    docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}
+                    docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}\${rev}
+                    docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}\${rev}
                   """
                 }
               }

@@ -586,13 +586,16 @@ pipeline {
               export DOCKER_BUILDKIT=1
               source cycle/cycle.env
               docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre
+              docker push lsstts/base-sqre:\${CYCLE}\${rev} 
+              docker push lsstts/base-sqre:\${CYCLE}
 
               docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull salobj
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push salobj
+              docker push lsstts/salobj:\${CYCLE}\${rev}
+              docker push lsstts/salobj:\${CYCLE}
 
               docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push develop-env
+              docker push lsstts/develop-env:\${CYCLE}\${rev}
+              docker push lsstts/develop-env:\${CYCLE}
             """
           }
 
@@ -600,14 +603,17 @@ pipeline {
             sh """
               export DOCKER_BUILDKIT=1
               source cycle/cycle.env
-              docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
+
               docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
+              docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}\${rev}
 
-              docker tag lsstts/salobj:\${CYCLE}\${rev} ts-dockerhub.lsst.org/salobj:\${CYCLE}\${rev}
+
               docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}
 
-              docker tag lsstts/develop-env:\${CYCLE}\${rev} ts-dockerhub.lsst.org/develop-env:\${CYCLE}\${rev}
+
               docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}
             """
           }
         }
