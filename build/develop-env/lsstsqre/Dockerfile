@@ -20,6 +20,10 @@ COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-private.repo
 COPY develop-env/lsstsqre/gitconfig ${HOME}/.gitconfig
 COPY develop-env/lsstsqre/setup_env.sh /home/saluser/.setup_salobj.sh
 
+RUN if [ -d "$HOME/.cache" ]; then \
+    chown -R saluser:saluser "$HOME/.cache"; \
+    fi
+
 ARG node
 
 RUN dnf install -y yum-utils && \

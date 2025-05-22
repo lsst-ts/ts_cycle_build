@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 4
+===================
+
+* Updated the version of the following packages:
+
+  * ts_mthexapod
+  * ts_watcher
+  * ts_eas
+  * ts_electrometer
+  * oods
+  * ts_cbp
+  * ts_config_mttcs
+
+* Fixed the salobj container build.
+
 Cycle 41 revision 3
 ===================
 
