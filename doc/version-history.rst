@@ -8,6 +8,31 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 5
+===================
+
+* Updated ts_xml to new version as part of incremental interface release
+* Updated the version of the following packages:
+
+  * lsst_sqre
+  * stack
+  * stack_ra
+  * ts_m1m3thermal
+  * ts_cRIOcpp
+  * ts_wep
+  * ts_watcher
+  * ts_scheduler
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_eas
+  * ts_config_mtcalsys
+  * ts_config_ocs
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
+* Fixed ts-salobj installation in sal-sciplat-2py
+* Fixed base and base dev images
+
 Cycle 41 revision 4
 ===================
 
@@ -28,7 +53,7 @@ Cycle 41 revision 3
 
 * Updated the version of the following packages:
 
-  * ts_mtrotator 
+  * ts_mtrotator
   * ts_mthexapod
   * ts_mtmount
   * ts_scheduler
@@ -62,7 +87,7 @@ Cycle 41 revision 3
 
   * Fixed build failure with jupyter lab extensions.
   * Fixed various build issues.
-  
+
 * Removed portaudio in conda environment post install from audiotrigger-controller.
 * Added nightlydigest-backend.
 * Updated rapid-analsys to use GHCR (GitHub Container Registry).
@@ -137,7 +162,7 @@ Cycle 41
 ========
 
 * Updated version of the following packages:
-  
+
   * ts_xml
   * ts_hexrotcomm
   * ts_atdometrajectory

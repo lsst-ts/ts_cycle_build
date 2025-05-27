@@ -35,9 +35,9 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push base-sqre
                     source cycle/cycle.env
-                    docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
+                    docker push lsstts/base-sqre:\${CYCLE}
+                    docker push lsstts/base-sqre:\${CYCLE}\${rev}
                   """
                 }
               }
@@ -46,6 +46,7 @@ pipeline {
                   sh """
                     source cycle/cycle.env
                     docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
+                    docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}\${rev}
                   """
                 }
               }
@@ -72,8 +73,10 @@ pipeline {
               script {
                 docker.withRegistry("", registryCredential) {
                   sh """
-                    docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml push base-sqre
-                    docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml push base-sqre
+                    source cycle/develop.env 
+                    docker push lsstts/base-sqre:\${CYCLE}
+                    source cycle/main.env
+                    docker push lsstts/base-sqre:\${CYCLE}
                   """
                 }
               }
@@ -81,10 +84,8 @@ pipeline {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
                     source cycle/develop.env
-                    docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
                     docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
                     source cycle/main.env
-                    docker tag lsstts/base-sqre:\${CYCLE} ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
                     docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
                   """
                 }
