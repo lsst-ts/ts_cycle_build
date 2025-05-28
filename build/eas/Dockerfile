@@ -9,7 +9,7 @@ ARG eas
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-eas=${eas}
+    conda install -y -c lsstts ts-xml=23.2 ts-eas=${eas}
 
 RUN git clone https://github.com/lsst-ts/ts_config_ocs.git
 
@@ -23,7 +23,8 @@ ENV TS_CONFIG_OCS_DIR=/home/saluser/ts_config_ocs
 ENV RUN_ARG=""
 
 LABEL ts-eas=${eas} \
-      ts_config_ocs=${config}
+      ts_config_ocs=${config} \
+      ts-xml=23.2
 
 COPY startup.sh /home/saluser/.startup.sh
 USER root
