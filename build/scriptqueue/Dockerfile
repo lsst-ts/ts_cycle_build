@@ -52,6 +52,8 @@ ARG ts_atmcssimulator
 ARG ts_scriptqueue
 
 RUN source ${HOME}/.setup_sal_env.sh && \
+    python -m pip install  --no-deps --ignore-installed lsst_efd_client && \
+    conda install -y aioinflux kafkit && \
     conda install -y astroplan && \
     conda install -y -c lsstts \
     ts-atdome=${ts_atdome} \
