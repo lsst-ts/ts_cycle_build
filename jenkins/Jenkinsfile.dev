@@ -34,7 +34,7 @@ pipeline {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     source cycle/main.env
-                    docker push develop-env:\${CYCLE}
+                    docker push lsstts/develop-env:\${CYCLE}
                   """
                 }
               }
@@ -99,7 +99,7 @@ pipeline {
                   sh """
                     source cycle/cycle.env
                     docker push lsstts/develop-env:\${CYCLE}
-                    docker push lsstts/develop-env:\${CYCLE\${rev}
+                    docker push lsstts/develop-env:\${CYCLE}\${rev}
                   """
                 }
               }
