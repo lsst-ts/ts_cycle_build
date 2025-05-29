@@ -69,7 +69,7 @@ pipeline {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     source cycle/develop.env
-                    docker push lsstts/salobj:${CYCLE}
+                    docker push lsstts/salobj:\${CYCLE}
                   """
                 }
               }
