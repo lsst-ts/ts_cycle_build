@@ -11,6 +11,7 @@ ARG config
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts ts-eas=${eas}
 
+
 RUN git clone https://github.com/lsst-ts/ts_config_ocs.git
 
 WORKDIR /home/saluser/ts_config_ocs

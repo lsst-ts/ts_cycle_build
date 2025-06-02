@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 6
+===================
+
+* Updated the version of the following packages:
+
+  * ts_eas
+  * ts_config_mtcalsys
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+
+* Fixed missing curly brace in Jenkinsfile.dev
+* Fixed missing \ in Jenkinsfile.salobj.
+* Added lsst_efd_client to scriptqueue.
+
 Cycle 41 revision 5
 ===================
 
