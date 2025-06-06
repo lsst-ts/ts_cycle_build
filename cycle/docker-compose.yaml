@@ -978,6 +978,10 @@ services:
         librdkafka: ${librdkafka}
         python_confluent_kafka: ${python_confluent_kafka}
         PYTHON_VERSION: ${PYTHON_VERSION}
+      tags:
+        - ts-dockerhub.lsst.org/deploy-env:${CYCLE}${rev}
+      platforms:
+        - linux/amd64
 
   deploy-lsstsqre-community:
     image: lsstts/deploy-sqre:${CYCLE}
