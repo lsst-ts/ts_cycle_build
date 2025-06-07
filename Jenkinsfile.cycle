@@ -629,7 +629,7 @@ pipeline {
           docker.withRegistry("", registryCredential) {
             sh """
               export DOCKER_BUILDKIT=1
-              if [ -d rubin-ToO-producer]; then rm -r rubin-ToO-producer; fi
+              if [ -d rubin-ToO-producer ]; then rm -r rubin-ToO-producer; fi
               git clone https://github.com/scimma/rubin-ToO-producer
               cd rubin-ToO-producer/
               docker build . -t lsstts/rubin_too_producer:main
