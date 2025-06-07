@@ -631,7 +631,7 @@ pipeline {
               export DOCKER_BUILDKIT=1
               git clone https://github.com/scimma/rubin-ToO-producer
               cd rubin-ToO-producer/
-              docker build . lsstts/rubin_too_producer:main
+              docker build . -t lsstts/rubin_too_producer:main
             """
           }
 
