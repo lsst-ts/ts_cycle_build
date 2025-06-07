@@ -151,8 +151,8 @@ pipeline {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               source cycle/cycle.env
-              docker push ts-dockerhub.lsst.org/deploy-conda-private:\${CYCLE}
-              docker push ts-dockerhub.lsst.org/deploy-conda-private:\${CYCLE}\${rev}
+              docker push ts-dockerhub.lsst.org/deploy-env:\${CYCLE}
+              docker push ts-dockerhub.lsst.org/deploy-env:\${CYCLE}\${rev}
             """
           }
         }
