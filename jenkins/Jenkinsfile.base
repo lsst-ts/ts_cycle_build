@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'CSC_Conda_Node'
+        label 'Node2_8CPU'
     }
     environment {
         registryCredential = "dockerhub-lssttsadmin"
