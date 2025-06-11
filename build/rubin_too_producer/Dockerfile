@@ -9,8 +9,6 @@ FROM almalinux:9.5
 
 WORKDIR /usr/src/
 
-COPY --from=cloner /usr/src/rubin-ToO-producer
-
 ARG UID=73006
 ARG GID=73006
 
@@ -25,6 +23,8 @@ RUN groupadd --gid ${GID} saluser && \
   adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 
 RUN dnf install -y python3.12 python3.12-pip
+
+COPY --from=cloner chown=${USER}:${USER} /usr/src/rubin-ToO-producer /usr/src/rubin-ToO-producer
 
 USER ${USER}
 
