@@ -24,7 +24,7 @@ RUN groupadd --gid ${GID} saluser && \
 
 RUN dnf install -y python3.12 python3.12-pip
 
-COPY --from=cloner chown=${USER}:${USER} /usr/src/rubin-ToO-producer /usr/src/rubin-ToO-producer
+COPY --from=cloner --chown=${USER}:${USER} /usr/src/rubin-ToO-producer /usr/src/rubin-ToO-producer
 
 USER ${USER}
 
