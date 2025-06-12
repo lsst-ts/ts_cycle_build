@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
-file_path="${HOME}/.config/hop/auth.toml"  # Replace with the actual file path
+file_path="${HOME}/.config/hop/auth.toml"
 
-while [ ! -f "$file_path" ]; do
-  echo "File '$file_path' does not exist yet. Sleeping..."
-  sleep 5  # Sleep for 5 seconds, adjust as needed
-done
+cat > "$file_path" <<EOF
+[[auth]]
+username = "$SCIMMA_USERNAME"
+password = "$SCIMMA_PASSWD"
+protocol = "SASL_SSL"
+mechanism = "SCRAM-SHA-512"
+EOF
+
+chmod 0600 $file_path
 
 python3.12 /usr/src/rubin-ToO-producer/forward_alerts.py -f ${HOME}/config.yaml
 
