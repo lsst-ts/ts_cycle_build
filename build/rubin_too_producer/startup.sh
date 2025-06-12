@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-file_path="${HOME}/.config/hop/auth.toml"
+dir_path="${HOME}/.config/hop"
+file_path="${dir_path}/auth.toml"
+
+mkdir -p $dir_path
 
 cat > "$file_path" <<EOF
 [[auth]]
