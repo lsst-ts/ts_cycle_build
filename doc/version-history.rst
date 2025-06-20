@@ -8,6 +8,48 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 7
+===================
+
+* Update version of the following packages:
+
+  * ts_mthexapod
+  * ts_mtaos
+  * ts_watcher
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_ess_common
+  * ts_ess_controller
+  * ts_ess_csc
+  * ts_ess_earthquake
+  * ts_ess_epm
+  * ts_ess_labjack
+  * ts_ess_ringss
+  * ts_hvac
+  * ts_electrometer
+  * ts_linearstage
+  * ts_mtreflector
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_commander
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+  * ts_scheduler
+  * ts_fbs_utils
+
+* Update MT pointing model.
+
+* In ``Jenkinsfile.cycle``, add build step for the Rubin ToO Producer image.
+
+* OSW-496: Remove restriction of building image during new cycle for deploy-conda-private.
+    
+  This also adds a cycle and revision tag to the image since it can be built more than once a cycle.
+
+* OSW-497: Use node2 for base, salobj and develop daily container builds.
+
+* Add build scripts for rubin ToO producer.
+
 Cycle 41 revision 6
 ===================
 
