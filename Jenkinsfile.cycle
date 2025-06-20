@@ -107,6 +107,7 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image? This adds Telescope and Site layer to a lsst-sqre/sciplat-lab image for nublado images.", name: 'build_sciplat'
       booleanParam defaultValue: false, description: "Build/push RubinTV Rapid Analysis.", name: 'rapid_analysis'
       booleanParam defaultValue: false, description: "Build/push development image.", name: 'develop_env'
+      booleanParam defaultValue: false, description: "Build/push Rubin ToO producer image.", name: 'rubin_too_producer'
   }
 
   stages {
@@ -125,14 +126,6 @@ pipeline {
           expression { params.deploy_conda }
       }
       steps {
-
-        withEnv(["HOME=${env.WORKSPACE}"]) {
-          sh """
-          export \$(cat cycle/cycle.env | grep rev | sed  's/#.*//g' | xargs)
-          export \$(cat cycle/cycle.env | grep CYCLE | sed  's/#.*//g' | xargs)
-          if [ "\$rev" != ".000" ]; then echo "FAILED: base conda image can only be built when building revision 0."; exit 1; else echo "BUILDING CYCLE \${CYCLE}\${rev}";fi
-          """
-        }
 
         withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
           sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
@@ -157,7 +150,9 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push deploy-conda-private
+              source cycle/cycle.env
+              docker push ts-dockerhub.lsst.org/deploy-env:\${CYCLE}
+              docker push ts-dockerhub.lsst.org/deploy-env:\${CYCLE}\${rev}
             """
           }
         }
@@ -614,6 +609,37 @@ pipeline {
 
               docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}\${rev}
               docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}
+            """
+          }
+        }
+      }
+    }
+    stage ('Build Rubin ToO Producer image') {
+      when {
+          expression { params.rubin_too_producer}
+      }
+      steps {
+        withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+          sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+        }
+        script {
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
+          docker.withRegistry("", registryCredential) {
+            sh """
+              export DOCKER_BUILDKIT=1
+
+              cd build/rubin_too_producer/
+
+              docker build . -t lsstts/rubin_too_producer:main
+            """
+          }
+
+          docker.withRegistry("", registryCredential) {
+            sh """
+              export DOCKER_BUILDKIT=1
+              docker push lsstts/rubin_too_producer:main
             """
           }
         }
