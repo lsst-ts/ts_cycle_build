@@ -59,8 +59,9 @@ User-level documentation, found at the link below, is aimed at personnel looking
 In this case, it involves building containers for a new cycle/revision for deployment at the summit or one of the test stands.
 
 .. toctree::
-    user-guide/user-guide
+    user-guide/*
     :maxdepth: 2
+    :glob:
 
 .. _Development_Documentation:
 
