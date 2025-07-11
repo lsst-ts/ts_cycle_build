@@ -224,7 +224,7 @@ pipeline {
                 docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${comp} || echo "\${comp} FAILED."
               done
               for comp in \${CONDA_PACKAGES_C}; do
-                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${comp} || echo "\${comp} FAILED."
+                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \${comp} || echo "\${comp} FAILED."
               done
               """
               }
@@ -254,7 +254,7 @@ pipeline {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
               docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} ${params.component}
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} ${params.component}_c
+              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${params.component}_c
               """
               }
           }
