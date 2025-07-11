@@ -8,6 +8,37 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 8
+===================
+
+* Updated version of the following packages:
+
+  * ts_atmcssimulator
+  * ts_atpneumaticssimulator
+  * ts_attcpip
+  * ts_mthexapod
+  * ts_scheduler
+  * ts_dream
+  * ts_eas
+  * ts_ess_common
+  * ts_hvac
+  * ts_electrometer
+  * ts_weatherforecast
+  * ts_nightreport
+  * ts_config_ocs
+  * love_commander
+  * love_frontend
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+  * ts_fbs_utils
+
+* Updated build script in Jenkinsfile.cycle to only apply the no cache option to the first build.
+* Updated scheduler startup script to add the configuration directory to git safe directory to allow the CSC to run git describe.
+* Updated mthexapod startup script to add the configuration directory to git safe directory to allow the CSC to run git describe.
+* Added updated users gude for creating a new cycle or revision with incremental interface support.
+* Made nightreport image aware of github tags for repository cloning.
+
 Cycle 41 revision 7
 ===================
 
