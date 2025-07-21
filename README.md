@@ -67,7 +67,7 @@ docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \
   atdometrajectory \
   athexapod \
   atmcs \
-  atpneumatics_sim \
+  atpneumatics \
   atspectrograph \
   genericcamera \
   hexapod \
@@ -85,7 +85,7 @@ docker-compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push \
   atdometrajectory \
   athexapod \
   atmcs \
-  atpneumatics_sim \
+  atpneumatics \
   atspectrograph \
   genericcamera \
   hexapod \

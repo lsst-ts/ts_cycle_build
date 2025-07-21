@@ -679,16 +679,16 @@ x-atdometrajectory:
       atdometrajectory: ${ts_atdometrajectory}
       config: ${ts_config_attcs}
 
-x-atpneumatics_sim:
-  &base-atpneumatics_sim
+x-atpneumatics:
+  &base-atpneumatics
   build:
-    context: ../build/atpneumatics_sim
+    context: ../build/atpneumatics
     labels:
-      com.description: "ATPneumatics simulator for cycle {$CYCLE}"
+      com.description: "ATPneumatics CSC for cycle {$CYCLE}"
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      atpneumatics_sim: ${ts_atpneumaticssimulator}
+      atpneumatics: ${ts_atpneumatics}
       attcpip: ${ts_attcpip}
       config: ${ts_config_attcs}
 
@@ -1590,13 +1590,13 @@ services:
     image: ${hub}/atdometrajectory:${CYCLE}
     <<: *base-atdometrajectory
 
-  atpneumatics_sim:
-    image: ${hub}/at_pneumatics_sim:${CYCLE}${rev}
-    <<: *base-atpneumatics_sim
+  atpneumatics:
+    image: ${hub}/at_pneumatics:${CYCLE}${rev}
+    <<: *base-atpneumatics
 
-  atpneumatics_sim_c:
-    image: ${hub}/at_pneumatics_sim:${CYCLE}
-    <<: *base-atpneumatics_sim
+  atpneumatics_c:
+    image: ${hub}/at_pneumatics:${CYCLE}
+    <<: *base-atpneumatics
 
   ataos:
     image: ${hub}/ataos:${CYCLE}${rev}

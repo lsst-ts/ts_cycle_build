@@ -496,7 +496,7 @@ The steps in the build are as follows:
     - atdometrajectory
     - athexapod
     - atmcs
-    - atpneumatics_sim
+    - atpneumatics
     - atspectrograph
     - authorize
     - dimm
