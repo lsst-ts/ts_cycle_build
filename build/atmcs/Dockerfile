@@ -20,9 +20,9 @@ WORKDIR /home/saluser/
 ENV TS_CONFIG_ATTCS_DIR=/home/saluser/ts_config_attcs
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-atmcs-simulator=${atmcs} ts-attcpip=${attcpip}
+    conda install -y -c lsstts ts-atmcs=${atmcs} ts-attcpip=${attcpip}
 
-LABEL ts-atmcs-simulator=${atmcs} \
+LABEL ts-atmcs=${atmcs} \
       ts-attcpip=${attcpip} \
       ts_config_attcs=${config}
 

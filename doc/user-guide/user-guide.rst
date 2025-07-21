@@ -1,4 +1,3 @@
-
 .. Fill out data so contacts section below is auto-populated
 .. add name and email between the *'s below e.g. *Marie Smith <msmith@lsst.org>*
 .. |CSC_developer| replace::  *Tiago Ribeiro*
@@ -496,7 +495,7 @@ The steps in the build are as follows:
     - atdome
     - atdometrajectory
     - athexapod
-    - atmcs_sim
+    - atmcs
     - atpneumatics_sim
     - atspectrograph
     - authorize
@@ -676,7 +675,7 @@ Finally, the list of Telescope and Site software that are ``eups`` installed are
 
   - ts_atdome
   - ts_atdometrajectory
-  - ts_atmcssimulator
+  - ts_atmcs
   - ts_config_atcalsys
   - ts_config_attcs
   - ts_config_eas
