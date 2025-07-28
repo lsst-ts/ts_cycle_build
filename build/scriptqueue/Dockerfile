@@ -48,7 +48,7 @@ WORKDIR ${WORKDIR}
 ARG ts_utils
 ARG ts_atdome
 ARG ts_atdometrajectory
-ARG ts_atmcssimulator
+ARG ts_atmcs
 ARG ts_scriptqueue
 
 RUN source ${HOME}/.setup_sal_env.sh && \
@@ -58,7 +58,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     conda install -y -c lsstts \
     ts-atdome=${ts_atdome} \
     ts-atdometrajectory=${ts_atdometrajectory} \
-    ts-atmcs-simulator=${ts_atmcssimulator} \
+    ts-atmcs=${ts_atmcs} \
     ts-utils=${ts_utils} \
     ts-scriptqueue=${ts_scriptqueue} && \
     utils_path=$(python -c 'from lsst.ts import utils; import pathlib; print(pathlib.Path(utils.__file__).parents[0])') && \
@@ -67,8 +67,8 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     eups declare -m none -r ${atdome_path} ts_atdome ${ts_atdome} && \
     atdometrajectory_path=$(python -c 'from lsst.ts import atdometrajectory; import pathlib; print(pathlib.Path(atdometrajectory.__file__).parents[0])') && \
     eups declare -m none -r ${atdometrajectory_path} ts_atdometrajectory ${ts_atdometrajectory} && \
-    atmcssimulator_path=$(python -c 'from lsst.ts import atmcssimulator; import pathlib; print(pathlib.Path(atmcssimulator.__file__).parents[0])') && \
-    eups declare -m none -r ${atmcssimulator_path} ts_atmcssimulator ${ts_atmcssimulator} && \
+    atmcs_path=$(python -c 'from lsst.ts import atmcs; import pathlib; print(pathlib.Path(atmcs.__file__).parents[0])') && \
+    eups declare -m none -r ${atmcs_path} ts_atmcs ${ts_atmcs} && \
     scriptqueue_path=$(python -c 'from lsst.ts import scriptqueue; import pathlib; print(pathlib.Path(scriptqueue.__file__).parents[0])') && \
     eups declare -m none -r ${scriptqueue_path} ts_scriptqueue ${ts_scriptqueue}
 
@@ -173,7 +173,7 @@ LABEL author="Tiago Ribeiro <tribeiro@lsst.org>" \
     ts_utils=${ts_utils} \
     ts_atdome=${ts_atdome} \
     ts_atdometrajectory=${ts_atdometrajectory} \
-    ts_atmcssimulator=${ts_atmcssimulator} \
+    ts_atmcs=${ts_atmcs} \
     ts_config_attcs=${ts_config_attcs} \
     cwfs=${cwfs} \
     Spectractor=${Spectractor} \

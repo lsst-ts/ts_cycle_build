@@ -5,7 +5,7 @@ FROM ${hub}/deploy-env:${cycle}
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 
-ARG atpneumatics_sim
+ARG atmcs
 ARG attcpip
 ARG config
 
@@ -20,9 +20,9 @@ WORKDIR /home/saluser/
 ENV TS_CONFIG_ATTCS_DIR=/home/saluser/ts_config_attcs
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-atpneumaticssimulator=${atpneumatics_sim} ts-attcpip=${attcpip}
+    conda install -y -c lsstts ts-atmcs=${atmcs} ts-attcpip=${attcpip}
 
-LABEL ts-atpneumaticssimulator=${atpneumatics_sim} \
+LABEL ts-atmcs=${atmcs} \
       ts-attcpip=${attcpip} \
       ts_config_attcs=${config}
 

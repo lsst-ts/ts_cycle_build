@@ -8,6 +8,40 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 9
+===================
+
+* Updated version of the following packages:
+
+  * ts_atdome
+  * ts_atdometrajectory
+  * ts_atmcs
+  * ts_atpneumatics
+  * ts_attcpip
+  * ts_m1m3_utils
+  * ts_mtaos
+  * ts_ofc
+  * ts_watcher
+  * ts_dimm
+  * ts_dream
+  * ts_eas
+  * ts_ess_common
+  * ts_ess_controller
+  * ts_hvac
+  * ts_linearstage
+  * ts_ledprojector
+  * ts_config_ocs
+  * love_commander
+  * love_frontend
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+  * ts_fbs_utils
+
+* Added ts-m1m3-utils as pinned dependency and clean deprecated criopy dependency on love-commander image.
+* Renamed atmcs_simulator to atmcs.
+* Renamed atpneumatics_simulator to atpneumatics.
+
 Cycle 41 revision 8
 ===================
 

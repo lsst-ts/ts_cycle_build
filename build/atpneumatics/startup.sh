@@ -3,9 +3,9 @@
 
 source ${HOME}/.setup_sal_env.sh
 
-echo "# Starting ATMCS Simulator CSC"
+echo "# Starting ATPneumatics CSC"
 
-run_atmcs_simulator $RUN_ARG &
+run_atpneumatics $RUN_ARG &
 
 pid="$!"
 

@@ -16,7 +16,7 @@ ARG ts_standardscripts="develop"
 ARG ts_auxtel_standardscripts="develop"
 ARG ts_maintel_standardscripts="develop"
 ARG ts_externalscripts="develop"
-ARG ts_atmcssimulator="develop"
+ARG ts_atmcs="develop"
 ARG ts_atdome="develop"
 ARG ts_atdometrajectory="develop"
 ARG ts_attcpip="develop"
@@ -34,7 +34,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     ts_auxtel_standardscripts:${ts_auxtel_standardscripts} \
     ts_maintel_standardscripts:${ts_maintel_standardscripts} \
     ts_externalscripts:${ts_externalscripts} \
-    ts_atmcssimulator:${ts_atmcssimulator} \
+    ts_atmcs:${ts_atmcs} \
     ts_atdome:${ts_atdome} \
     ts_atdometrajectory:${ts_atdometrajectory} \
     ts_attcpip:${ts_attcpip} \
@@ -81,14 +81,14 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_atdometrajectory -t current && \
     scons version || echo "Cannot generate scons version."
 
-WORKDIR /home/saluser/repos/ts_atmcssimulator
+WORKDIR /home/saluser/repos/ts_atmcs
 RUN source /home/saluser/.setup_salobj.sh && \
     setup lsst_distrib && \
     setup ts_xml -t current && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
-    eups declare -r . ts_atmcssimulator -t current && \
-    setup ts_atmcssimulator -t current && \
+    eups declare -r . ts_atmcs -t current && \
+    setup ts_atmcs -t current && \
     scons version || echo "Cannot generate scons version."
 
 WORKDIR /home/saluser/repos/ts_criopy
@@ -126,7 +126,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
-    setup ts_atmcssimulator -t current && \
+    setup ts_atmcs -t current && \
     eups declare -r . -t current && \
     setup ts_standardscripts -t current && \
     scons version || echo "Cannot generate scons version."
@@ -139,7 +139,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
-    setup ts_atmcssimulator -t current && \
+    setup ts_atmcs -t current && \
     setup ts_xml -t current && \
     setup ts_standardscripts -t current && \
     eups declare -r . -t current && \
@@ -154,7 +154,7 @@ RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_salobj -t current && \
     setup ts_config_attcs -t current && \
     setup ts_config_ocs -t current && \
-    setup ts_atmcssimulator -t current && \
+    setup ts_atmcs -t current && \
     setup ts_xml -t current && \
     setup ts_standardscripts -t current && \
     eups declare -r . -t current && \
@@ -192,7 +192,7 @@ LABEL ts_scriptqueue="${ts_scriptqueue}" \
     ts_auxtel_standardscripts="${ts_auxtel_standardscripts}" \
     ts_maintel_standardscripts="${ts_maintel_standardscripts}" \
     ts_externalscripts="${ts_externalscripts}" \
-    ts_atmcssimulator="${ts_atmcssimulator}" \
+    ts_atmcs="${ts_atmcs}" \
     ts_atdome="${ts_atdome}" \
     ts_atdometrajectory="${ts_atdometrajectory}" \
     ts_simactuators="${ts_simactuators}" \

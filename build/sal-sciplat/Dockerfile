@@ -88,7 +88,7 @@ ARG ts_criopy
 ARG ts_m1m3_utils
 ARG ts_atdome
 ARG ts_atdometrajectory
-ARG ts_atmcssimulator
+ARG ts_atmcs
 
 RUN source ${LOADSTACK} && \
     conda install -c lsstts -y \
