@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+
+Cycle 41 revision 10
+====================
+
+* Updated version of the following packages:
+
+  * ts_mtaos
+  * ts_dimm
+  * ts_dream
+  * ts_cbp
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+  * node
+  * rubin_scheduler
+
 Cycle 41 revision 9
 ===================
 
