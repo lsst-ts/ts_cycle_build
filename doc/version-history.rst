@@ -8,6 +8,25 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 11
+====================
+
+* Updated version of the following packages:
+
+  * ts_xml
+  * ts_atmcs
+  * ts_atpneumatics
+  * ts_mtmount
+  * ts_watcher
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_mtdometracjectory
+  * ts_dream
+  * ts_eas
+  * ts_hvac
+  * ts_config_ocs
+  * ts_logging_and_reporting
+  * ts_fbs_utils
 
 Cycle 41 revision 10
 ====================
