@@ -8,6 +8,29 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 12
+====================
+
+* Updated version of the following packages:
+
+  * ts_atmonochromator
+  * ts_athexapod
+  * ts_atspec
+  * ts_attcpip
+  * ts_mthexapod
+  * ts_scriptqueue
+  * ts_mtmount
+  * ts_mtaos
+  * ts_ofc
+  * ts_ess_earthquake
+  * ts_electrometer
+  * ts_config_ocs
+  * love_commander
+  * love_frontend
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
 Cycle 41 revision 11
 ====================
 
