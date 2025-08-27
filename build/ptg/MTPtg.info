@@ -28,7 +28,7 @@ site {
     height 2663.0
     tz -4.0
 }
-focal_length 100000.0;              ; mm
+focal_length 10313.0;              ; mm
 rnogo 3600.0                        ; arcsec
 instrument_alignment_angle 0.0;     ; degrees
 pointing_model mt.mod
