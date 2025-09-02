@@ -8,7 +8,7 @@ LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
 ARG dmocps
 ARG config
 
-RUN git clone https://github.com/lsst/dm_config_ocps.git
+RUN git clone https://github.com/lsst-ts/dm_config_ocps.git
 
 WORKDIR /home/saluser/dm_config_ocps
 
