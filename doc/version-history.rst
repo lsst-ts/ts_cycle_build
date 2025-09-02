@@ -8,6 +8,39 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 13
+====================
+
+* Updated version of the following packages:
+
+  * ts_atdometrajectory
+  * ts_atmcs
+  * ts_atpneumatics
+  * ts_attcpip
+  * ts_observatory_control
+  * ts_standardscripts
+  * ts_auxtel_standardscripts
+  * ts_maintel_standardscripts
+  * ts_externalscripts
+  * ts_mtaos
+  * ts_wep
+  * ts_mtdometrajectory
+  * ts_ess_common
+  * dm_OCPS
+  * ts_tcpip
+  * ts_audiotrigger
+  * ts_config_mttcs
+  * ts_config_ocs
+  * dm_config_ocps
+  * ts_fbs_utils
+  * rubin_scheduler
+
+* Update dmocps build for config repo location change.
+
+* Update MTPtg configuration and pointing model.
+
+* Update node to v22 on develop and main images.
+
 Cycle 41 revision 12
 ====================
 
