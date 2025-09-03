@@ -58,6 +58,7 @@ RUN dnf install -y yum-utils && \
     net-tools \
     net-tools \
     nodejs \
+    npm \
     popt-devel \
     strace \
     swig \
