@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 14
+====================
+
+* Updated version of the following packages:
+
+  * ts_eas
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+  * ts_xml
+
+* Added explicit installation of npm to BaseDevImage.
+
 Cycle 41 revision 13
 ====================
 
