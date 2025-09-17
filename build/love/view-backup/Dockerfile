@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM alpine:3.22
 
 ENV PGHOST='localhost'
 ENV PGPORT='5432'
@@ -23,7 +23,7 @@ USER root
 RUN addgroup --gid ${GID} saluser && \
   adduser -u ${UID} -G saluser --disabled-password -s /bin/bash saluser
 
-RUN apk update && apk add postgresql15-client python3 aws-cli
+RUN apk update && apk add postgresql16-client python3 aws-cli
 
 USER saluser
 WORKDIR /home/saluser

@@ -8,6 +8,27 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 41 revision 15
+====================
+
+* Updated version of the following packages:
+
+  * ts_atmcs
+  * ts_atpneumatics
+  * ts_attcpip
+  * ts_mthexapod
+  * ts_m2com
+  * ts_watcher
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_eas
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_manager
+
+* Updated LOVE view backup job build.
+* Installed rubin_nights into nightlydigest-backend image through pip.
+
 Cycle 41 revision 14
 ====================
 
