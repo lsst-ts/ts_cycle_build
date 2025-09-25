@@ -84,6 +84,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
 ARG ts_wep
 WORKDIR ${HOME}/ts_wep
 RUN source ${HOME}/.setup_sal_env.sh && \
+    git restore . && \
     /home/saluser/.checkout_repo.sh ${ts_wep} && \
     eups declare -r . ts_wep ${ts_wep} -t current && \
     setup lsst_distrib && \
