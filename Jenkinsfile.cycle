@@ -105,7 +105,6 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push OODS image.", name: 'build_oods'
       booleanParam defaultValue: false, description: "Build/push scriptqueue image.", name: 'build_scriptqueue'
       booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image? This adds Telescope and Site layer to a lsst-sqre/sciplat-lab image for nublado images.", name: 'build_sciplat'
-      booleanParam defaultValue: false, description: "Build/push RubinTV Rapid Analysis.", name: 'rapid_analysis'
       booleanParam defaultValue: false, description: "Build/push development image.", name: 'develop_env'
       booleanParam defaultValue: false, description: "Build/push Rubin ToO producer image.", name: 'rubin_too_producer'
   }
@@ -527,41 +526,6 @@ pipeline {
       }
       steps {
           build job: "SalSciplatLab2Py/" + env.BRANCH_NAME.replace("/", "%2F"), parameters: [booleanParam(name: 'build_sciplat_lab_recommended', value: true)], wait: false
-      }
-    }
-    stage ('Build RubinTV Rapid Analysis') {
-      when {
-          expression { params.rapid_analysis }
-      }
-      steps {
-
-        script{
-
-          def cacheOption = params.set_cache_option ? "--no-cache" : ""
-
-          withEnv(["HOME=${env.WORKSPACE}"]) {
-            sh """
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} rapid-analysis
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build rapid-analysis_c
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} rapid-analysis-usdf
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build rapid-analysis-usdf_c
-            """
-          }
-        }
-        script {
-          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-            sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push rapid-analysis rapid-analysis_c
-            """
-          }
-        }
-        script {
-          docker.withRegistry("", pub_registryCredential) {
-            sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push rapid-analysis-usdf rapid-analysis-usdf_c
-            """
-          }
-        }
       }
     }
     stage ('Build development image') {
