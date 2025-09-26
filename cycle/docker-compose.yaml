@@ -450,7 +450,7 @@ x-mtm2:
       deploy_tag: ${CYCLE}
       m2: ${ts_m2}
       m2com: ${ts_m2com}
-      config: v${ts_config_mttcs}
+      config: ${ts_config_mttcs}
 
 x-mtmount:
   &base-mtmount
