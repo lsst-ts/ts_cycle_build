@@ -83,6 +83,7 @@ WORKDIR /home/saluser/repos/ts_salobj
 RUN source /home/saluser/.setup_salobj.sh && \
     setup ts_config_ocs -t current && \
     setup ts_xml -t current && \
+    conda install -y orjson authlib && \
     python -c "from lsst.ts import salobj"
 
 ENV LSST_SAL_PREFIX=/opt/lsst/tssw/ts_sal
