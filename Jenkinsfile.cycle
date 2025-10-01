@@ -107,6 +107,7 @@ pipeline {
       booleanParam defaultValue: false, description: "Build/push sal-sciplat recommended image? This adds Telescope and Site layer to a lsst-sqre/sciplat-lab image for nublado images.", name: 'build_sciplat'
       booleanParam defaultValue: false, description: "Build/push development image.", name: 'develop_env'
       booleanParam defaultValue: false, description: "Build/push Rubin ToO producer image.", name: 'rubin_too_producer'
+      booleanParam defaultValue: false, description: "Build/push observing environment sidecar image.", name: 'obsenv_sidecar'
   }
 
   stages {
@@ -604,6 +605,38 @@ pipeline {
             sh """
               export DOCKER_BUILDKIT=1
               docker push lsstts/rubin_too_producer:main
+            """
+          }
+        }
+      }
+    }
+    stage ('Build observing environment sidecar image') {
+      when {
+          expression { params.obsenv_sidecar}
+      }
+      steps {
+        withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+          sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+        }
+        script {
+
+          def cacheOption = params.set_cache_option ? "--no-cache" : ""
+
+          docker.withRegistry("", registryCredential) {
+            sh """
+              export DOCKER_BUILDKIT=1
+
+              cd build/obs_env_sidecar/
+
+              docker build ${cacheOption} . -t ts-dockerhub.lsst.org/obs_env_sidecar:latest
+            """
+          }
+
+          docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+            sh """
+              export DOCKER_BUILDKIT=1
+              docker push ts-dockerhub.lsst.org/obs_env_sidecar:latest
+
             """
           }
         }
