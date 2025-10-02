@@ -298,6 +298,7 @@ x-nightlydigest-backend:
       hub: ${hub}
       cycle: ${CYCLE}
       ts_logging_and_reporting: ${ts_logging_and_reporting}
+      rubin_nights_tag: ${rubin_nights_tag}
 
 x-mtaos:
   &base-mtaos
