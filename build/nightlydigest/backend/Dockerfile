@@ -8,6 +8,7 @@ LABEL maintainer Sebastian Aranda <saranda@lsst.org>
 WORKDIR /home/saluser/
 
 ARG ts_logging_and_reporting
+ARG rubin_nights_tag
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts \
@@ -15,7 +16,7 @@ RUN source /home/saluser/.setup_sal_env.sh && \
 
 # Temporary workaround to install rubin_nights until it is available via conda
 RUN source /home/saluser/.setup_sal_env.sh && \
-    pip install --upgrade git+https://github.com/lsst-sims/rubin_nights.git
+    pip install --upgrade git+https://github.com/lsst-sims/rubin_nights.git@v${rubin_nights_tag}
 
 WORKDIR /home/saluser/
 

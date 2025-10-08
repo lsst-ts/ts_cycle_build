@@ -58,6 +58,7 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
   chmod +x miniforge.sh && \
   ./miniforge.sh -b -p ${WORKDIR}/miniconda && \
   source /home/saluser/.setup_sal_env.sh && \
+  conda update -y -n base -c conda-forge conda conda-libmamba-solver --solver classic && \
   conda config --set solver libmamba && \
   conda install -y python=${PYTHON_VERSION} && \
   conda config --add channels conda-forge && \

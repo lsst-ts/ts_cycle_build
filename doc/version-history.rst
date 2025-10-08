@@ -8,6 +8,71 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 42 revision 0
+===================
+
+* Updated version of the following packages:
+    
+    * ts_xml
+    * ts_sal
+    * ts_salobj
+    * librdkafka
+    * python_confluent_kafka
+    * stack
+    * ts_develop
+    * ts_atdometrajectory
+    * ts_atmcs
+    * ts_athexapod
+    * ts_atwhitelight
+    * ts_observatory_control
+    * ts_pointing_common
+    * ts_m1m3support
+    * ts_m1m3thermal
+    * ts_vms
+    * ts_cRIOcpp
+    * ts_criopy
+    * ts_m1m3_utils 
+    * ts_watcher
+    * ts_scheduler
+    * ts_mtdome
+    * ts_mtdomecom
+    * ts_mtdometrajectory
+    * ts_dimm
+    * ts_dream
+    * ts_ess_controller
+    * ts_conda_build
+    * dm_OCPS
+    * ts_pmd
+    * ts_hvac
+    * ts_gis
+    * robotframework_efd
+    * ts_integrationtests
+    * oods
+    * headerservice
+    * rubintv
+    * ts_nightreport
+    * ts_linearstage
+    * ts_audiotrigger
+    * ts_mtreflector
+    * ts_config_mttcs
+    * ts_config_ocs
+    * love_commander
+    * love_frontend
+    * love_manager
+    * ts_logging_frontend
+    * ts_logging_and_reporting
+    * rubin_nights_tag
+    
+* ScriptQueue: Restored ts_wep before running checkout repo script.
+* Removed RubinTV Rapid Analysis.
+* Removed v prefix from mtm2 config argument.
+* Added orjson and authlib to salobj container.
+* OSW-1135: Added python 3.13 to conda_build_config.
+* Updated ts-develop to 0.5 series.
+* sal-sciplat-2py: Removed kafkacat.
+* Deploy-conda-env: Updated lib mamba solver.
+* Added tag to rubin-nights in nightly digest dockerfile.
+
 Cycle 41 revision 15
 ====================
 

@@ -37,7 +37,6 @@ source ${LOADSTACK} && \
     astroquery \
     asynctest \
     ephem \
-    kafkacat \
     pre-commit \
     pytest-tornasync \
     setuptools_scm \
