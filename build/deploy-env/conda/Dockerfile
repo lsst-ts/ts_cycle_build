@@ -20,6 +20,7 @@ COPY deploy-env/conda/startup.sh /home/saluser/.startup.sh
 COPY deploy-env/conda/setup_sal_env.sh /home/saluser/.setup_sal_env.sh
 COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
+COPY common/wait_obsenv_sidecar.sh /home/saluser/.wait_obsenv_sidecar.sh
 
 ENV QT_API="PySide6"
 ENV PYTEST_QT_API="PySide6"
@@ -31,8 +32,10 @@ RUN mkdir -p ${WORKDIR} && \
   chown saluser:saluser /home/saluser/.startup.sh && \
   chown saluser:saluser /home/saluser/.setup_sal_env.sh && \
   chown saluser:saluser /home/saluser/.checkout_repo.sh && \
+  chown saluser:saluser /home/saluser/.wait_obsenv_sidecar.sh && \
   chmod a+x /home/saluser/.startup.sh && \
   chmod a+x /home/saluser/.setup_sal_env.sh && \
+  chmod a+x /home/saluser/.wait_obsenv_sidecar.sh && \
   dnf install -y git make gcc-c++ procps-ng which && \
   chmod a+x /home/saluser/.checkout_repo.sh
 
