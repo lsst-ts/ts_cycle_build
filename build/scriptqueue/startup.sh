@@ -16,6 +16,8 @@ setup ts_auxtel_standardscripts
 setup ts_maintel_standardscripts
 setup ts_scriptqueue
 
+${HOME}/.wait_obsenv_sidecar.sh
+
 echo Setting up shared observing environment from ${OBS_ENV_PATH}/auto_env_setup.sh
 
 source ${OBS_ENV_PATH}/auto_env_setup.sh

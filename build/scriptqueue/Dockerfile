@@ -158,8 +158,11 @@ RUN source ${HOME}/.setup_sal_env.sh && \
 WORKDIR ${HOME}
 
 COPY scriptqueue/startup.sh /home/saluser/.startup.sh
+COPY common/wait_obsenv_sidecar.sh /home/saluser/.wait_obsenv_sidecar.sh
 USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
+    chown saluser:saluser /home/saluser/.wait_obsenv_sidecar.sh && \
+    chmod a+x /home/saluser/.wait_obsenv_sidecar.sh && \
     chmod a+x /home/saluser/.startup.sh
 USER saluser
 

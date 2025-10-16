@@ -19,14 +19,17 @@ RUN groupadd --gid ${GID} saluser && \
 COPY deploy-env/lsstsqre/startup.sh ${HOME}/.startup.sh
 COPY deploy-env/lsstsqre/setup_sal_env.sh ${HOME}/.setup_sal_env.sh
 COPY develop-env/salobj/checkout_repo.sh ${HOME}/.checkout_repo.sh
+COPY common/wait_obsenv_sidecar.sh /home/saluser/.wait_obsenv_sidecar.sh
 
 # Create user and group
 RUN chown ${UID}:${GID} ${HOME}/.startup.sh && \
   chown ${UID}:${GID} ${HOME}/.setup_sal_env.sh && \
   chown ${UID}:${GID} ${HOME}/.checkout_repo.sh && \
+  chown saluser:saluser /home/saluser/.wait_obsenv_sidecar.sh && \
   chmod a+x ${HOME}/.startup.sh && \
   chmod a+x ${HOME}/.setup_sal_env.sh && \
   chmod a+x ${HOME}/.checkout_repo.sh && \
+  chmod a+x /home/saluser/.wait_obsenv_sidecar.sh && \
   mkdir -p ${WORKDIR} && \
   touch ${WORKDIR}/ospl_env.sh && \
   chown -R ${UID}:${GID} ${WORKDIR} && \

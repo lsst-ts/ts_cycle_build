@@ -11,6 +11,8 @@ term_handler() {
   exit 143; # 128 + 15 -- SIGTERM
 }
 
+${HOME}/.wait_obsenv_sidecar.sh
+
 # setup handlers
 # on callback, kill the last background process and execute term_handler
 trap 'kill ${!}; term_handler' SIGTERM

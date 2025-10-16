@@ -11,6 +11,8 @@ term_handler() {
   exit 143; # 128 + 15 -- SIGTERM
 }
 
+${HOME}/.wait_obsenv_sidecar.sh
+
 . ${WORKDIR}/loadLSST.bash
 
 # setup handlers
