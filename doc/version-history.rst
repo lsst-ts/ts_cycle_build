@@ -8,6 +8,16 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 42 revision 2
+====================
+
+* Updated version of the following packages:
+
+  * ts_hvac
+
+* Set the version of librdkafka and python-confluent-kafka for develop and main.
+* Fix the BaseDev Dockerfile.
+
 Cycle 42 revision 1
 ====================
 
