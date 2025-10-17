@@ -163,11 +163,7 @@ ARG librdkafka
 ARG python_confluent_kafka
 
 RUN source ${STACKDIR}/loadLSST.bash && \
-    conda config --add channels conda-forge && \
-    conda config --set solver libmamba
-
-RUN source ${STACKDIR}/loadLSST.bash && \
-    conda install -y conda-build anaconda-client setuptools_scm
+    conda config --add channels conda-forge
 
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y -c lsstts ts-develop=${ts_develop}
@@ -179,10 +175,6 @@ RUN sed -i 's/    "python-confluent-kafka >=1.9.2,<2",/    "python-confluent-kaf
 
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y librdkafka=${librdkafka} python-confluent-kafka=${python_confluent_kafka}
-
-# Temporary workaround for aiohttp until we move to rubin-env 10.
-RUN source ${STACKDIR}/loadLSST.bash && \
-    conda install -y aiohttp=3.11
 
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y ltd-conveyor
