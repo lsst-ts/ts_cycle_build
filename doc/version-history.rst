@@ -8,6 +8,11 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 42 revision 3
+====================
+
+* Updated ts-develop dependency of main.
+
 Cycle 42 revision 2
 ====================
 
@@ -16,7 +21,7 @@ Cycle 42 revision 2
   * ts_hvac
 
 * Set the version of librdkafka and python-confluent-kafka for develop and main.
-* Fix the BaseDev Dockerfile.
+* Fixed the BaseDev Dockerfile.
 
 Cycle 42 revision 1
 ====================
@@ -32,15 +37,15 @@ Cycle 42 revision 1
   * ts_logging_and_reporting
   * rubin_scheduler
 
-* Remove rubin_nights install and argument from nightly digest.
-* Update deploy-env lsstsqre base image to add support for the obsenv sidecar.
-* Update deploy-env conda base image to add support for the obsenv sidecar.
-* Update setup_sal_env bash script in the deployment base container to wait for the observing environment to be ready.
-* Update scriptqueue build to wait for the obsenv sidecar.
+* Removed rubin_nights install and argument from nightly digest.
+* Updated deploy-env lsstsqre base image to add support for the obsenv sidecar.
+* Updated deploy-env conda base image to add support for the obsenv sidecar.
+* Updated setup_sal_env bash script in the deployment base container to wait for the observing environment to be ready.
+* Updated scriptqueue build to wait for the obsenv sidecar.
 * Add bash script to wait for the observing environment sidecar to be ready.
 * In ``Jenkinsfile.cycle``, add step to build the observing environment sidecar application.
-* Add build script for the observing environment sidecar application.
-* Update scheduler startup script to use new configuration path (TS_CONFIG_SCHEDULER_DIR instead of TS_CONFIG_OCS_DIR).
+* Added build script for the observing environment sidecar application.
+* Updated scheduler startup script to use new configuration path (TS_CONFIG_SCHEDULER_DIR instead of TS_CONFIG_OCS_DIR).
 
 Cycle 42 revision 0
 ===================
