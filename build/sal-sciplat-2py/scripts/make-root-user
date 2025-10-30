@@ -6,5 +6,5 @@ set -euo pipefail
 # from griping, and will be removed before the end of the container build.
 groupadd -g 0 root || echo failed to add group root.
 grpconv
-useradd -u 0 -g 0 -d / -s /bin/sh root
+useradd -u 0 -g 0 -d / -s /bin/sh root || echo failed to add user root.
 pwconv
