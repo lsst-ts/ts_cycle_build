@@ -8,6 +8,37 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 42 revision 4
+===================
+
+* Updated version of the following packages:
+
+  * ts_develop
+  * ts_atmcs
+  * ts_atpneumatics
+  * ts_atspec
+  * ts_attcpip
+  * ts_observatory_control
+  * ts_standardscripts
+  * ts_auxtel_standardscripts
+  * ts_maintel_standardscripts
+  * ts_externalscripts
+  * ts_mtmount
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_ess_common
+  * ts_tcpip
+  * ts_utils
+  * ts_electrometer
+  * ts_linearstage
+  * ts_config_mtcalsys
+  * ts_config_mttcs
+  * ts_logging_and_reporting
+  * ts_fbs_utils
+  * rubin_scheduler
+
+* Updated the make-root-user script in the sal-sciplat-2py build to keep going if the root user already exists.
+
 Cycle 42 revision 3
 ====================
 
