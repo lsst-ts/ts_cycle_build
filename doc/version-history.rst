@@ -8,6 +8,30 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 42 revision 5
+===================
+
+* Updated version of the following packages:
+
+  * ts_atmcs
+  * ts_atpneumatics
+  * ts_attcpip
+  * ts_externalscripts
+  * ts_mtaos
+  * ts_ofc
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_eas
+  * ts_config_mttcs
+  * ts_config_ocs
+  * ts_config_scheduler
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+  * ts_fbs_utils
+  * rubin_scheduler
+
+* Workaround for installing lsst-resources into nightlydigest-backend image.
+
 Cycle 42 revision 4
 ===================
 
