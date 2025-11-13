@@ -597,7 +597,7 @@ pipeline {
 
               cd build/rubin_too_producer/
 
-              docker build . -t lsstts/rubin_too_producer:main
+              docker build ${cacheOption} . -t lsstts/rubin_too_producer:main
             """
           }
 
