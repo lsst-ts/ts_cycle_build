@@ -8,6 +8,39 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 42 revision 6
+===================
+
+* Updated version of the following packages:
+
+  * ts_xml
+  * ts_salobj
+  * ts_mtrotator
+  * ts_m1m3thermal
+  * ts_mtaos
+  * ts_ofc
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_eas
+  * ts_ess_common
+  * ts_ess_controller
+  * ts_ess_csc
+  * oods
+  * ts_tunablelaser
+  * ts_config_mtcalsys
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+  * ts_observatory_model
+  * ts_fbs_utils
+  * rubin_scheduler
+
+* Updated nightlydigest backend Dockerfile
+* In ``Jenkinsfile.cycle``, updated build step for the Rubin ToO Producer image.
+
 Cycle 42 revision 5
 ===================
 
