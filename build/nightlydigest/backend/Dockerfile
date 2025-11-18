@@ -11,7 +11,8 @@ ARG ts_logging_and_reporting
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts \
-    ts-logging-and-reporting=${ts_logging_and_reporting}
+    ts-logging-and-reporting=${ts_logging_and_reporting} && \
+    conda update -y -c conda-forge astropy astropy-iers-data
 
 
 # Workaround until we lsst-resources get conda packaged.
