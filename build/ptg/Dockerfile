@@ -120,6 +120,7 @@ COPY ptg/at.mod /home/saluser/repos/ts_pointing_common/install/data/at.mod
 COPY ptg/mt_20221128.mod /home/saluser/repos/ts_pointing_common/install/data/mt_20221128.mod
 COPY ptg/mt_ia_ie_tf_tx10_ca_an_aw_20230220.mod /home/saluser/repos/ts_pointing_common/install/data/mt_ia_ie_tf_tx10_ca_an_aw_20230220.mod
 COPY ptg/mt.mod /home/saluser/repos/ts_pointing_common/install/data/mt.mod
+COPY ptg/mt_20250815.mod /home/saluser/repos/ts_pointing_common/install/data/mt_20250815.mod
 COPY ptg/sal_setup.sh /opt/lsst/ts_sal/sal_setup.env
 COPY --chown=saluser:saluser ptg/create_topics_atptg.py /home/saluser/.create_topics_atptg.py
 COPY --chown=saluser:saluser ptg/create_topics_mtptg.py /home/saluser/.create_topics_mtptg.py
