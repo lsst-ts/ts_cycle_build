@@ -42,7 +42,7 @@ pipeline {
                 expression { params.build_ess_controller }
             }
             agent {
-                label 'CSC_Conda_Node'
+                label 'Node2_8CPU'
             }
             steps {
                 script {
