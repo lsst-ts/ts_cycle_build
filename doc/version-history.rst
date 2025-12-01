@@ -8,6 +8,31 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 42 revision 7
+===================
+
+* Updated version of the following packages:
+
+  * ts_ofc
+  * ts_watcher
+  * ts_scheduler
+  * ts_dream
+  * ts_eas
+  * ts_ess_common
+  * ts_ess_controller
+  * ts_ess_csc
+  * ts_nightreport
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_commander
+  * love_producer
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
+* Updated MTPtg pointing model.
+
+* Modified build node for ESS Controller x86_64.
+
 Cycle 42 revision 6
 ===================
 
