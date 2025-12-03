@@ -80,7 +80,9 @@ WORKDIR /home/saluser/repos/slalib_source_lsst_161203
 RUN source scl_source enable gcc-toolset-13 && make
 
 WORKDIR /home/saluser/repos/tcspk_source_lsst_161203
-RUN source scl_source enable gcc-toolset-13 && make
+RUN source scl_source enable gcc-toolset-13 && \
+    git checkout tickets/OSW-1545 && \
+    make
 
 WORKDIR /home/saluser/repos/ts_pointing_common
 RUN mkdir build
