@@ -30,13 +30,13 @@ ARG rpm
 RUN dnf install -y \
     --enablerepo=lsst-ts \
     --disablerepo=lsst-ts-test \
-    ATPtg-${rpm} \
-    MTPtg-${rpm} \
-    MTMount-${rpm} \
-    MTRotator-${rpm} \
-    ESS-${rpm} \
-    ATMCS-${rpm} \
-    Guider-${rpm}
+    ATPtg-0:24.3.0-10.1.1.el9.x86_64 \
+    MTPtg-0:24.3.0-10.1.1.el9.x86_64 \
+    MTMount-0:24.3.0-10.1.1.el9.x86_64 \
+    MTRotator-0:24.3.0-10.1.1.el9.x86_64 \
+    ESS-0:24.3.0-10.1.1.el9.x86_64 \
+    ATMCS-0:24.3.0-10.1.1.el9.x86_64 \
+    Guider-0:24.3.0-10.1.1.el9.x86_64
 
 RUN mkdir /home/saluser/.ssh/ && chown saluser:saluser /home/saluser/.ssh/ && chmod 700 /home/saluser/.ssh/
 COPY ptg/id_rsa /home/saluser/.ssh/
