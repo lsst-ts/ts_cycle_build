@@ -8,6 +8,25 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+
+Cycle 42 revision 8
+===================
+
+* Updated version of the following packages:
+
+  * ts_xml
+  * ts_mthexapod
+  * ts_pointing_common
+  * ts_mtaos
+  * ts_ofc
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_eas
+  * ts_config_ocs
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
 Cycle 42 revision 7
 ===================
 
