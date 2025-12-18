@@ -168,14 +168,6 @@ RUN source ${STACKDIR}/loadLSST.bash && \
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y -c lsstts ts-develop=${ts_develop}
 
-# Workaround for pin on python-confluent-kafka.
-RUN sed -i 's/    "python-confluent-kafka >=1.9.2,<2",/    "python-confluent-kafka >=1.9.2",/' ${STACKDIR}/conda/envs/lsst-scipipe-9.0.0/conda-meta/rubin-env-nosysroot* && \
-    sed -i 's/    "python-confluent-kafka 1.9.*",/    "python-confluent-kafka >=1.9.2",/' ${STACKDIR}/conda/envs/lsst-scipipe-9.0.0/conda-meta/ts-develop* && \
-    sed -i 's/    "aiohttp 3.9.*",/    "aiohttp >=3.9.*",/' ${STACKDIR}/conda/envs/lsst-scipipe-9.0.0/conda-meta/ts-develop* || echo "Warning: Failed to update pin on python-confluent-kafka."
-
-RUN source ${STACKDIR}/loadLSST.bash && \
-    conda install -y librdkafka=${librdkafka} python-confluent-kafka=${python_confluent_kafka}
-
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y ltd-conveyor
 
