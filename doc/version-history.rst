@@ -9,6 +9,26 @@ Version History
 .. Below is an example of a version history format.
 
 
+Cycle 42 revision 9
+===================
+
+* Updated version of the following packages:
+
+  * librdkafka
+  * python_confluent_kafka
+  * ts_mthexapod
+  * ts_scheduler
+  * ts_eas
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
+* Updated the versions of librdkafka and python-confluent-kafka for develop and main.
+
+* Removed the pin for librdkafka and python-confluent-kafka.
+
 Cycle 42 revision 8
 ===================
 
