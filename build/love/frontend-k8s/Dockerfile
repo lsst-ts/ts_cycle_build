@@ -4,7 +4,7 @@ WORKDIR /usr/src/love
 ARG love_frontend
 RUN git clone --branch ${love_frontend} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-frontend || git clone --branch v${love_frontend} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-frontend
 
-FROM node:16.13.2-alpine as builder
+FROM node:24-alpine as builder
 
 COPY --from=cloner /usr/src/love/LOVE-frontend /usr/src/love/LOVE-frontend
 
