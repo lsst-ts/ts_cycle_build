@@ -8,6 +8,30 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 42 revision 11
+====================
+
+* Updated love-frontend-k8s base node image to v24.
+
+* Updated version of the following packages:
+
+  * ts_auxtel_standardscripts
+  * ts_lasertracker
+  * ts_mtaos
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_eas
+  * ts_ess_common
+  * ts_ess_controller
+  * ts_ess_csc
+  * ts_weatherforecast
+  * ts_config_mttcs
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
 Cycle 42 revision 10
 ====================
 
