@@ -9,6 +9,8 @@ x-mtreflector:
       cycle: ${CYCLE}
       mtreflector: ${ts_mtreflector}
       config: ${ts_config_mtcalsys}
+    platforms:
+      - linux/amd64
 
 x-cbp:
   &base-cbp
@@ -21,6 +23,8 @@ x-cbp:
       cycle: ${CYCLE}
       cbp: ${ts_cbp}
       config: ${ts_config_mtcalsys}
+    platforms:
+      - linux/amd64
 
 x-linearstage:
   &base-linearstage
@@ -33,6 +37,8 @@ x-linearstage:
       cycle: ${CYCLE}
       linearstage: ${ts_linearstage}
       config: ${ts_config_mtcalsys}
+    platforms:
+      - linux/amd64
 
 x-tunablelaser:
   &base-tunablelaser
@@ -45,6 +51,8 @@ x-tunablelaser:
       cycle: ${CYCLE}
       tunablelaser: ${ts_tunablelaser}
       config: ${ts_config_mtcalsys}
+    platforms:
+      - linux/amd64
 
 x-headerservice:
   &base-headerservice
@@ -67,6 +75,21 @@ x-oods:
       hub: ${hub}
       cycle: ${CYCLE}
       oods: ${oods}
+    platforms:
+      - linux/amd64
+      
+x-wfoods:
+  &base-wfoods
+  build:
+    context: ../build/wfoods
+    labels:
+      com.description: "WFOODS deployment image for cycle/revision ${CYCLE}${rev}."
+    args:
+      hub: ${hub}
+      cycle: ${CYCLE}
+      oods: ${oods}
+    platforms:
+      - linux/amd64
 
 x-atoods:
   &base-atoods
@@ -146,6 +169,8 @@ x-base-deploy-lsstsqre-private:
       ts_idl: ${ts_idl}
       librdkafka: ${librdkafka}
       python_confluent_kafka: ${python_confluent_kafka}
+    platforms:
+      - linux/amd64
 
 x-dimm:
   &base-dimm
@@ -716,6 +741,8 @@ x-athexapod:
       hub: ${hub}
       athexapod: ${ts_athexapod}
       config: ${ts_config_attcs}
+    platforms:
+      - linux/amd64
 
 x-atspectrograph:
   &base-atspectrograph
@@ -728,6 +755,8 @@ x-atspectrograph:
       hub: ${hub}
       atspec: ${ts_atspec}
       config: ${ts_config_latiss}
+    platforms:
+      - linux/amd64
 
 x-atwhitelight:
   &base-atwhitelight
@@ -741,6 +770,8 @@ x-atwhitelight:
       atwhitelight: ${ts_atwhitelight}
       labjack_ljm: ${labjack_ljm}
       config: ${ts_config_atcalsys}
+    platforms:
+      - linux/amd64
 
 x-dmocps:
   &base-dmocps
@@ -801,6 +832,8 @@ x-pmd:
       hub: ${hub}
       pmd: ${ts_pmd}
       config: ${ts_config_ocs}
+    platforms:
+      - linux/amd64
   devices:
     - /dev/ttyUSB0:/dev/ttyUSB0
 
@@ -909,6 +942,8 @@ x-electrometer:
       electrometer: ${ts_electrometer}
       utils: ${ts_utils}
       config: ${ts_config_ocs}
+    platforms:
+      - linux/amd64
 
 x-fiberspectrograph:
   &base-fiberspectrograph
@@ -921,6 +956,8 @@ x-fiberspectrograph:
       hub: ${hub}
       fiberspectrograph: ${ts_fiberspectrograph}
       config: ${ts_config_ocs}
+    platforms:
+      - linux/amd64
 
 x-gis:
   &base-gis
@@ -933,6 +970,8 @@ x-gis:
       hub: ${hub}
       gis: ${ts_gis}
       config: ${ts_config_ocs}
+    platforms:
+      - linux/amd64
 
 x-ledprojector:
   &base-ledprojector
@@ -945,6 +984,8 @@ x-ledprojector:
       hub: ${hub}
       ledprojector: ${ts_ledprojector}
       config: ${ts_config_mtcalsys}
+    platforms:
+      - linux/amd64
 
 services:
 
@@ -1741,6 +1782,14 @@ services:
   oods_c:
     image: ${hub}/oods:${CYCLE}
     <<: *base-oods
+    
+  wfoods:
+    image: ${hub}/wfoods:${CYCLE}${rev}
+    <<: *base-wfoods
+    
+  wfoods_c:
+    image: ${hub}/wfoods:${CYCLE}
+    <<: *base-wfoods
 
   atoods:
     image: ${hub}/atoods:${CYCLE}${rev}
