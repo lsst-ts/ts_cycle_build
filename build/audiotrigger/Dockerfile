@@ -18,8 +18,7 @@ USER saluser
 WORKDIR ${HOME}
 ENV ARCH=aarch64
 
-ARG PYTHON_VERSION=3.11
-ARG NUMPY_VERSION=1.26.4
+ARG PYTHON_VERSION
 ARG audiotrigger
 
 RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-${ARCH}.sh -O miniforge.sh && \
@@ -32,7 +31,7 @@ RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Mi
     conda config --add channels lsstts && \
     conda config --add channels anaconda && \
     conda install -y conda-build anaconda-client setuptools_scm && \
-    conda install -y numpy==${NUMPY_VERSION} astropy && \
+    conda install -y numpy astropy && \
     conda install -y ts-audiotrigger=${audiotrigger} && \
     conda remove -y --force portaudio
 
