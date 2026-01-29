@@ -16,7 +16,7 @@ python -m pip list > "system-python"
 # Now JupyterLab python
 
 source /usr/local/share/jupyterlab/venv/bin/activate
-python -m uv pip list | tee "jupyterlab-python"
+uv pip list | tee "jupyterlab-python"
 # As of 20250516, jupyter labextension list is returning non-zero.
 # Investigating, but in the meantime, this will keep the build going.
 ((jupyter labextension list 2>&1) | tee "lab-extensions") || /bin/true
