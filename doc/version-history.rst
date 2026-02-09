@@ -8,6 +8,20 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 42 revision 12
+====================
+
+* Updated version of the following packages:
+
+  * ts_observatory_control
+  * ts_maintel_standardscripts
+  * ts_externalscripts
+  * ts_mtaos
+  * ts_wep
+  * ts_ofc
+  * ts_config_scheduler
+  * love_manager
+
 Cycle 42 revision 11
 ====================
 
