@@ -8,6 +8,15 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 42 revision 13
+====================
+
+* Updated version of the following packages:
+
+  * ts_config_ocs
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
 Cycle 42 revision 12
 ====================
 
