@@ -35,6 +35,11 @@ pointing_model mt.mod
 
 pa_translation -89.96875      ; degrees
 
+pointing_origin {
+  x  +0.1182   ; mm
+  y  +1.1641   ; mm
+}
+
 ; Axis limits
 horizon_limit 15.0
 elevation_tracking_high_limit 86.5
