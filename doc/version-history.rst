@@ -8,6 +8,19 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 42 revision 14
+====================
+
+* Updated the MTPtg configuration and pointing model.
+
+* Updated version of the following packages:
+
+  * ts_mtaos
+  * ts_watcher
+  * ts_config_ocs
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
 Cycle 42 revision 13
 ====================
 
