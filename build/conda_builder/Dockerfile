@@ -39,7 +39,7 @@ RUN if [ -d "$HOME/.cache" ]; then \
 USER saluser
 WORKDIR /home/saluser
 
-ARG PYTHON_VERSION=3.12
+ARG PYTHON_VERSION
 
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-$(uname -m).sh -o miniforge.sh && \
     chmod +x miniforge.sh && \

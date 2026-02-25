@@ -18,8 +18,8 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
 USER saluser
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    curl --basic -O --netrc-file /home/saluser/.netrc https://repo-nexus.lsst.org/nexus/repository/av-vimba/vimba-${vimba}-${vimba_conda_build}.tar.bz2 && \
-    conda install -y ./vimba-${vimba}-${vimba_conda_build}.tar.bz2 && \
-    rm /home/saluser/.netrc vimba-${vimba}-${vimba_conda_build}.tar.bz2
+    curl --basic -O --netrc-file /home/saluser/.netrc https://repo-nexus.lsst.org/nexus/repository/av-vimba/vimba-${vimba}-${vimba_conda_build}.conda && \
+    conda install -y ./vimba-${vimba}-${vimba_conda_build}.conda && \
+    rm /home/saluser/.netrc vimba-${vimba}-${vimba_conda_build}.conda
 
 LABEL vimba=${vimba}-${vimba_conda_build}
