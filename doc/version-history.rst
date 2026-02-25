@@ -8,6 +8,86 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 43 revision 0
+===================
+
+* Added WFOODS CSC.
+* Removed scipy pin from scheduler.
+* Use system uv for salsciplat-2py.
+* Fixed genericcamera_vimba image.
+* Removed python and numpy version from audiotrigger.
+* Removed astropy pin from deploy-conda.
+
+* Updated version of the following packages:
+
+    * dm_OCPS
+    * librdkafka
+    * love_commander
+    * love_frontend
+    * love_manager
+    * lsstsqre
+    * robotframework_efd
+    * rubin_scheduler
+    * rubintv
+    * schedview
+    * stack
+    * stack_ra
+    * ts_astrosky_model
+    * ts_ataos
+    * ts_atbuilding
+    * ts_atbuilding_vents
+    * ts_atdome
+    * ts_atdometrajectory
+    * ts_athexapod
+    * ts_atspec
+    * ts_atwhitelight
+    * ts_audiotrigger
+    * ts_cbp
+    * ts_conda_build
+    * ts_cRIOcpp
+    * ts_criopy
+    * ts_dateloc
+    * ts_develop
+    * ts_dimm
+    * ts_dream
+    * ts_dsm
+    * ts_eas
+    * ts_electrometer
+    * ts_ess_common
+    * ts_ess_controller
+    * ts_ess_earthquake
+    * ts_ess_epm
+    * ts_ess_labjack
+    * ts_ess_ringss
+    * ts_fiberspectrograph
+    * ts_genericcamera
+    * ts_gis
+    * ts_hexrotcomm
+    * ts_integrationtests
+    * ts_ledprojector
+    * ts_linearstage
+    * ts_m1m3_utils
+    * ts_m1m3thermal
+    * ts_m2
+    * ts_m2com
+    * ts_maintel_standardscripts
+    * ts_mtaircompressor
+    * ts_mtdometrajectory
+    * ts_mtreflector
+    * ts_mtrotator
+    * ts_observatory_control
+    * ts_observatory_model
+    * ts_observing
+    * ts_pmd
+    * ts_salobj
+    * ts_scheduler
+    * ts_scriptqueue
+    * ts_simactuators
+    * ts_tunablelaser
+    * ts_weatherforecast
+    * ts_xml
+    * vimba_conda_build
+
 Cycle 42 revision 14
 ====================
 
