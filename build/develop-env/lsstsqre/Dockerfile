@@ -176,6 +176,10 @@ RUN source ${STACKDIR}/loadLSST.bash && \
     pip install gphoto2==${gphoto2} --no-deps --only-binary :all: && \
     pip install --no-deps rawpy==0.24
 
+# Downgrade setuptools so the doc builds pass
+RUN source ${STACKDIR}/loadLSST.bash && \
+    conda install -y setuptools==81
+
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current
 ENV JAVA_HOME=/usr/lib/jvm/zulu${openjdk}
