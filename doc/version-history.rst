@@ -8,6 +8,32 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 43 revision 1
+===================
+
+* Pinned setuptools to fix documentation builds in develop-env
+* Set python version to 3.13 in develop and main.env files.
+
+* Updated version of the following packages:
+
+    * love_frontend
+    * love_manager
+    * oods
+    * ts_atmcs
+    * ts_atpneumatics
+    * ts_attcpip
+    * ts_config_mttcs
+    * ts_config_ocs
+    * ts_eas
+    * ts_ledprojector
+    * ts_linearstage
+    * ts_mtaos
+    * ts_mtdome
+    * ts_mtdomecom
+    * ts_scheduler
+    * ts_watcher
+    * ts_weatherforecast
+
 Cycle 43 revision 0
 ===================
 
