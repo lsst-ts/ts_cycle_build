@@ -1210,6 +1210,7 @@ services:
         ts_tcpip: ${ts_tcpip}
         ts_criopy: ${ts_criopy}
         ts_m1m3_utils: ${ts_m1m3_utils}
+        ts_planning_tool: ${ts_planning_tool}
 
   conda-builder-aarch64-community:
     image: lsstts/conda_package_builder_aarch64:${CYCLE}
