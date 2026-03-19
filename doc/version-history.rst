@@ -8,6 +8,30 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 43 revision 2
+===================
+
+* Included ts-planning-tool to the cycle build.
+
+* Updated version of the following packages:
+
+  * ts_attcpip
+  * ts_mtaos
+  * ts_ofc
+  * ts_scheduler
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_hvac
+  * ts_electrometer
+  * ts_weatherforecast
+  * headerservice
+  * ts_planning_tool
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
 Cycle 43 revision 1
 ===================
 
