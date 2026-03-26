@@ -8,6 +8,21 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 43 revision 3
+===================
+
+* Updated version of the following packages:
+
+  * ts_mthexapod
+  * ts_scheduler
+  * ts_electrometer
+  * ts_weatherforecast
+  * headerservice
+  * ts_tunablelaser
+  * ts_linearstage
+  * ts_config_mtcalsys
+  * ts_fbs_utils
+
 Cycle 43 revision 2
 ===================
 
