@@ -1,0 +1,4 @@
+[project]
+title = "Cycle Build"
+copyright = "2020-2026 Association of Universities for Research in Astronomy, Inc. (AURA)"
+github_url = "https://github.com/lsst-ts/ts_cycle_build"

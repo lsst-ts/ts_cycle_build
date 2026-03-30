@@ -5,9 +5,9 @@
 
 .. _User_Guide:
 
-#######################
-Build Cycle User Guide
-#######################
+##########
+User Guide
+##########
 
 .. Update links and labels below
 .. image:: https://img.shields.io/badge/GitHub-ts_cycle_build-green.svg

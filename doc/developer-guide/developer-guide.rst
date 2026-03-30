@@ -1,8 +1,8 @@
 .. _Developer_Guide:
 
-#########################################
-Build Cycle Developer Guide
-#########################################
+###############
+Developer Guide
+###############
 
 The Build Cycle is designed to provide a simple way of building containers for deployment at various locations associated with the project; Tucson Test Stand (TTS), Summit and the Base Test Stand (BTS).
 When contributing or interacting with this repository, developers may be interested in adding new docker build scripts (e.g. ``Dockerfile``) for a component or updating existing scripts.
