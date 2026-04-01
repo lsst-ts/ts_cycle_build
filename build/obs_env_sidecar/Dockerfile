@@ -5,7 +5,7 @@ WORKDIR /usr/src/
 
 RUN git clone https://github.com/lsst-ts/ts_manage_observing_environment.git && \
     cd ts_manage_observing_environment && \ 
-    git checkout feature/sidecar
+    git checkout tickets/OSW-1157
 
 # Build 
 FROM rust:1.85.1 as builder
