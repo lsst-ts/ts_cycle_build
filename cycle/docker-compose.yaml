@@ -399,6 +399,8 @@ x-mtm1m3_sim:
       crio_cpp: ${ts_cRIOcpp}
       config: ${ts_config_mttcs}
       sal: ${ts_sal}
+    platforms:
+      - linux/amd64
 
 x-mtm1m3ts_sim:
   &base-mtm1m3ts_sim
