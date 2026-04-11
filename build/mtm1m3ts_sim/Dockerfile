@@ -9,28 +9,25 @@ USER root
 
 RUN dnf install -y dnf-plugins-core epel-release && \
     dnf -y --enablerepo=extras install make \
-    gcc-toolset-13 \
+    boost \
+    boost-atomic \
+    boost-devel \
+    boost-filesystem \
+    boost-iostreams \
+    boost-program-options \
+    boost-regex \
+    boost-system \
+    cmake \
+    jansson-devel \
+    gcc-toolset-14 \
     git \
-    catch-devel \
-    boost1.78 \
-    boost1.78-devel \
-    readline-devel \
-    snappy-devel \
-    spdlog-devel \
-    jansson \
-    iproute \
+    libcurl-devel \
+    make \
     openssl \
-    compat-openssl11-1:1.1.1k \
-    yaml-cpp-devel \
-    cyrus-sasl-devel && \
+    patch \
+    snappy \
+    zlib-devel && \
     dnf clean all
-
-RUN ln -s /usr/lib64/libboost_filesystem.so.1.78.0 /usr/lib64/libboost_filesystem.so && \
-    ln -s /usr/lib64/libboost_iostreams.so.1.78.0 /usr/lib64/libboost_iostreams.so && \
-    ln -s /usr/lib64/libboost_program_options.so.1.78.0 /usr/lib64/libboost_program_options.so && \
-    ln -s /usr/lib64/libboost_system.so.1.78.0 /usr/lib64/libboost_system.so && \
-    ln -s /usr/lib64/libcurl.so.4 /usr/lib64/libcurl.so && \
-    ln -s /usr/lib64/libjansson.so.4 /usr/lib64/libjansson.so
 
 ARG rpm
 
@@ -38,6 +35,34 @@ RUN dnf install -y \
     --enablerepo=lsst-ts \
     --disablerepo=lsst-ts-test \
     MTM1M3TS-${rpm}
+    
+RUN source /home/saluser/.startup.sh && \
+    mamba install -y readline spdlog catch2 yaml-cpp
+
+RUN rm -rf /opt/lsst/ts_sal/include/avro* \
+    && rm -rf /opt/lsst/ts_sal/lib/libavro* /opt/lsst/ts_sal/lib/lib*kafka*
+
+RUN cd /opt/lsst/ && git clone https://github.com/apache/avro 
+
+RUN source /home/saluser/.startup.sh \
+    && source scl_source enable gcc-toolset-14 \
+    && cd /opt/lsst/avro/lang/c \
+    && cmake . && make -j$(nproc) && make install \
+    && cd ../c++ && cmake . && make -j$(nproc) && make install
+
+RUN cd /opt/lsst/ && git clone https://github.com/confluentinc/libserdes 
+
+COPY mtm1m3_sim/libserdes.patch /opt/lsst/libserdes
+RUN source /home/saluser/.startup.sh \
+    && cd /opt/lsst/libserdes \
+    && patch -p1 < libserdes.patch
+
+RUN source /home/saluser/.startup.sh \
+    && export LIBRARY_PATH="/usr/local/lib64:/opt/lsst/tssw/ts_sal/lib" \
+    && export PKG_CONFIG_PATH="/usr/lib64/pkgconfig:/opt/lsst/software/stack/miniconda/lib/pkgconfig" \
+    && source scl_source enable gcc-toolset-14 \
+    && export CXXFLAGS=-I/opt/lsst/software/stack/miniconda/include/ \
+    && cd /opt/lsst/libserdes && ./configure && make -j$(nproc) && make install
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
 ENV SAL_WORK_DIR=/opt/lsst/ts_sal/
@@ -62,18 +87,22 @@ WORKDIR /home/saluser/ts_cRIOcpp/
 
 RUN /home/saluser/.checkout_repo.sh ${crio_cpp} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-13 && \
-    sed -i 's/boost169/boost1.78/' Makefile.inc && \
-    make
+    source scl_source enable gcc-toolset-14 && \
+    export PKG_CONFIG_PATH=/opt/lsst/software/stack/miniconda/lib/pkgconfig/ && \
+    make -j$(nproc)
 
 ENV WITH_SAL_KAFKA=1
 
 WORKDIR /home/saluser/ts_m1m3thermal/
 
+COPY mtm1m3ts_sim/0001-Comment-out-flow-publisher.patch /home/saluser/ts_m1m3thermal/
+
 RUN /home/saluser/.checkout_repo.sh ${m1m3ts} && \
     source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-13 && \
-    make simulator
+    source scl_source enable gcc-toolset-14 && \
+    export PKG_CONFIG_PATH=/opt/lsst/software/stack/miniconda/lib/pkgconfig/ && \
+    patch -p1 < 0001-Comment-out-flow-publisher.patch && \
+    make -j$(nproc) simulator
 
 WORKDIR /home/saluser/
 
