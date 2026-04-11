@@ -1,0 +1,282 @@
+From 5395ad7d93c26a7d8b3f7f5aa2f74ad49003264f Mon Sep 17 00:00:00 2001
+From: Eric Coughlin <ecoughlin@lsst.org>
+Date: Sat, 11 Apr 2026 05:17:21 -0400
+Subject: [PATCH] Comment out flow publisher.
+
+---
+ src/LSST/M1M3/TS/Commands/SAL.cpp             |  4 +-
+ src/LSST/M1M3/TS/TSPublisher.cpp              | 46 ++++++------
+ src/LSST/M1M3/TS/TSPublisher.h                |  6 +-
+ .../M1M3/TS/Telemetry/FlowMeterThread.cpp     | 74 +++++++++----------
+ src/LSST/M1M3/TS/Telemetry/FlowMeterThread.h  | 14 ++--
+ src/ts-M1M3thermald.cpp                       |  2 +-
+ 6 files changed, 73 insertions(+), 73 deletions(-)
+
+diff --git a/src/LSST/M1M3/TS/Commands/SAL.cpp b/src/LSST/M1M3/TS/Commands/SAL.cpp
+index bc7f556..15a9338 100644
+--- a/src/LSST/M1M3/TS/Commands/SAL.cpp
++++ b/src/LSST/M1M3/TS/Commands/SAL.cpp
+@@ -97,7 +97,7 @@ void SAL_start::execute() {
+     }
+ 
+     if (Settings::FlowMeter::instance().enabled) {
+-        TSPublisher::instance().startFlowMeterThread();
++        // TSPublisher::instance().startFlowMeterThread();
+     } else {
+         SPDLOG_WARN("Skipping flow meter telemetry - the flow meter wasn't enabled in the M1M3TS config.");
+     }
+@@ -178,7 +178,7 @@ void SAL_disable::execute() {
+ }
+ 
+ void SAL_standby::execute() {
+-    TSPublisher::instance().stopFlowMeterThread();
++    // TSPublisher::instance().stopFlowMeterThread();
+     TSPublisher::instance().stopPumpThread();
+     IFPGA::get().setCoolantPumpPower(false);
+ 
+diff --git a/src/LSST/M1M3/TS/TSPublisher.cpp b/src/LSST/M1M3/TS/TSPublisher.cpp
+index e3a907f..ed1b666 100644
+--- a/src/LSST/M1M3/TS/TSPublisher.cpp
++++ b/src/LSST/M1M3/TS/TSPublisher.cpp
+@@ -43,13 +43,13 @@ extern const char* VERSION;
+ TSPublisher::TSPublisher(token) {
+     _logLevel.level = -1;
+ 
+-    _flow_meter_thread = NULL;
++    // _flow_meter_thread = NULL;
+     pump_thread = NULL;
+     _glycolTemperatureThread = NULL;
+ }
+ 
+ TSPublisher::~TSPublisher() {
+-    stopFlowMeterThread();
++    // stopFlowMeterThread();
+     stopPumpThread();
+ }
+ 
+@@ -60,7 +60,7 @@ void TSPublisher::setSAL(std::shared_ptr<SAL_MTM1M3TS> m1m3TSSAL) {
+     _m1m3TSSAL->salTelemetryPub((char*)"MTM1M3TS_thermalData");
+     _m1m3TSSAL->salTelemetryPub((char*)"MTM1M3TS_mixingValve");
+     _m1m3TSSAL->salTelemetryPub((char*)"MTM1M3TS_glycolLoopTemperature");
+-    _m1m3TSSAL->salTelemetryPub((char*)"MTM1M3TS_flowMeter");
++    // _m1m3TSSAL->salTelemetryPub((char*)"MTM1M3TS_flowMeter");
+     _m1m3TSSAL->salTelemetryPub((char*)"MTM1M3TS_glycolPump");
+ 
+     SPDLOG_DEBUG("TSPublisher: Initializing SAL Events");
+@@ -111,18 +111,18 @@ void TSPublisher::logSimulationMode() {
+     _m1m3TSSAL->logEvent_simulationMode(&simulation, 0);
+ }
+ 
+-void TSPublisher::startFlowMeterThread() {
+-    delete _flow_meter_thread;
+-#ifdef SIMULATOR
+-    _flow_meter_thread = new Telemetry::FlowMeterThread(std::make_shared<SimulatedFlowMeter>());
+-#else
+-    _flow_meter_thread = new Telemetry::FlowMeterThread(std::make_shared<Transports::FPGASerialDevice>(
+-            dynamic_cast<ThermalFPGA*>(&IFPGA::get())->getSession(),
+-            NiFpga_ts_M1M3ThermalFPGA_HostToTargetFifoU8_FlowMeter1Write,
+-            NiFpga_ts_M1M3ThermalFPGA_TargetToHostFifoU8_FlowMeter1Read, 100ms));
+-#endif
+-    _flow_meter_thread->start();
+-}
++// void TSPublisher::startFlowMeterThread() {
++//     delete _flow_meter_thread;
++// #ifdef SIMULATOR
++//     _flow_meter_thread = new Telemetry::FlowMeterThread(std::make_shared<SimulatedFlowMeter>());
++// #else
++//     _flow_meter_thread = new Telemetry::FlowMeterThread(std::make_shared<Transports::FPGASerialDevice>(
++//             dynamic_cast<ThermalFPGA*>(&IFPGA::get())->getSession(),
++//             NiFpga_ts_M1M3ThermalFPGA_HostToTargetFifoU8_FlowMeter1Write,
++//             NiFpga_ts_M1M3ThermalFPGA_TargetToHostFifoU8_FlowMeter1Read, 100ms));
++// #endif
++//     _flow_meter_thread->start();
++// }
+ 
+ void TSPublisher::startGlycolTemperatureThread() {
+     delete _glycolTemperatureThread;
+@@ -168,15 +168,15 @@ void TSPublisher::startupPump() {
+     }
+ }
+ 
+-void TSPublisher::stopFlowMeterThread() {
+-    if (_flow_meter_thread == NULL) {
+-        return;
+-    }
++// void TSPublisher::stopFlowMeterThread() {
++//     if (_flow_meter_thread == NULL) {
++//         return;
++//     }
+ 
+-    _flow_meter_thread->stop();
+-    delete _flow_meter_thread;
+-    _flow_meter_thread = NULL;
+-}
++//     _flow_meter_thread->stop();
++//     delete _flow_meter_thread;
++//     _flow_meter_thread = NULL;
++// }
+ 
+ void TSPublisher::stopGlycolTemperatureThread() {
+     if (_glycolTemperatureThread == NULL) {
+diff --git a/src/LSST/M1M3/TS/TSPublisher.h b/src/LSST/M1M3/TS/TSPublisher.h
+index c1dcf0a..ac0ff64 100644
+--- a/src/LSST/M1M3/TS/TSPublisher.h
++++ b/src/LSST/M1M3/TS/TSPublisher.h
+@@ -63,13 +63,13 @@ public:
+         _m1m3TSSAL->logEvent_thermalWarning(data, 0);
+     }
+ 
+-    void startFlowMeterThread();
++    // void startFlowMeterThread();
+     void startGlycolTemperatureThread();
+     void startPumpThread();
+     void powerOnPump();
+     void startupPump();
+ 
+-    void stopFlowMeterThread();
++    // void stopFlowMeterThread();
+     void stopGlycolTemperatureThread();
+     void stopPumpThread();
+ 
+@@ -82,7 +82,7 @@ private:
+ 
+     MTM1M3TS_logevent_logLevelC _logLevel;
+ 
+-    Telemetry::FlowMeterThread* _flow_meter_thread;
++    // Telemetry::FlowMeterThread* _flow_meter_thread;
+     Telemetry::GlycolTemperatureThread* _glycolTemperatureThread;
+ };
+ 
+diff --git a/src/LSST/M1M3/TS/Telemetry/FlowMeterThread.cpp b/src/LSST/M1M3/TS/Telemetry/FlowMeterThread.cpp
+index da52094..7c763d3 100644
+--- a/src/LSST/M1M3/TS/Telemetry/FlowMeterThread.cpp
++++ b/src/LSST/M1M3/TS/Telemetry/FlowMeterThread.cpp
+@@ -31,48 +31,48 @@
+ using namespace LSST::M1M3::TS::Telemetry;
+ using namespace std::chrono_literals;
+ 
+-FlowMeterThread::FlowMeterThread(std::shared_ptr<Transports::Transport> transport) {
+-    _transport = transport;
+-    signalStrength = NAN;
+-    flowRate = NAN;
+-    netTotalizer = NAN;
+-    positiveTotalizer = NAN;
+-    negativeTotalizer = NAN;
+-}
++// FlowMeterThread::FlowMeterThread(std::shared_ptr<Transports::Transport> transport) {
++//     _transport = transport;
++//     signalStrength = NAN;
++//     flowRate = NAN;
++//     netTotalizer = NAN;
++//     positiveTotalizer = NAN;
++//     negativeTotalizer = NAN;
++// }
+ 
+-void FlowMeterThread::run(std::unique_lock<std::mutex>& lock) {
+-    SPDLOG_DEBUG("Running Flow Meter Thread.");
+-    int error_count = 0;
++// void FlowMeterThread::run(std::unique_lock<std::mutex>& lock) {
++//     SPDLOG_DEBUG("Running Flow Meter Thread.");
++//     int error_count = 0;
+ 
+-    while (keepRunning) {
+-        auto end = std::chrono::steady_clock::now() + 2s;
++//     while (keepRunning) {
++//         auto end = std::chrono::steady_clock::now() + 2s;
+ 
+-        try {
+-            read_telemetry();
++//         try {
++//             read_telemetry();
+ 
+-            _transport->commands(*this, 2s, this);
++//             _transport->commands(*this, 2s, this);
+ 
+-            SPDLOG_TRACE("Sending FlowMeterMPUStatus");
++//             SPDLOG_TRACE("Sending FlowMeterMPUStatus");
+ 
+-            signalStrength = get_signal_strength();
+-            flowRate = get_flow_rate();
+-            netTotalizer = get_net_totalizer();
+-            positiveTotalizer = get_positive_totalizer();
+-            negativeTotalizer = get_negative_totalizer();
++//             signalStrength = get_signal_strength();
++//             flowRate = get_flow_rate();
++//             netTotalizer = get_net_totalizer();
++//             positiveTotalizer = get_positive_totalizer();
++//             negativeTotalizer = get_negative_totalizer();
+ 
+-            salReturn ret = TSPublisher::SAL()->putSample_flowMeter(this);
+-            if (ret != SAL__OK) {
+-                SPDLOG_WARN("Cannot send FlowMeter: {}", ret);
+-            }
+-            error_count = 0;
+-        } catch (std::runtime_error& er) {
+-            if (error_count == 0) {
+-                SPDLOG_ERROR("Error in Flow Meter telemetry readout: {}", er.what());
+-            }
+-            error_count++;
+-        }
++//             salReturn ret = TSPublisher::SAL()->putSample_flowMeter(this);
++//             if (ret != SAL__OK) {
++//                 SPDLOG_WARN("Cannot send FlowMeter: {}", ret);
++//             }
++//             error_count = 0;
++//         } catch (std::runtime_error& er) {
++//             if (error_count == 0) {
++//                 SPDLOG_ERROR("Error in Flow Meter telemetry readout: {}", er.what());
++//             }
++//             error_count++;
++//         }
+ 
+-        runCondition.wait_until(lock, end);
+-    }
+-    SPDLOG_DEBUG("Flow Meter Thread Stopped.");
+-}
++//         runCondition.wait_until(lock, end);
++//     }
++//     SPDLOG_DEBUG("Flow Meter Thread Stopped.");
++// }
+diff --git a/src/LSST/M1M3/TS/Telemetry/FlowMeterThread.h b/src/LSST/M1M3/TS/Telemetry/FlowMeterThread.h
+index 0a1cc51..030d464 100644
+--- a/src/LSST/M1M3/TS/Telemetry/FlowMeterThread.h
++++ b/src/LSST/M1M3/TS/Telemetry/FlowMeterThread.h
+@@ -38,15 +38,15 @@ namespace Telemetry {
+  * Thread reading out flow meter values. Started from TSPublisher when CSC
+  * enteres disabled state, updates SAL flow meter telemetery.
+  */
+-class FlowMeterThread final : public cRIO::Thread, public FlowMeter, MTM1M3TS_flowMeterC {
+-public:
+-    FlowMeterThread(std::shared_ptr<Transports::Transport> transport);
++// class FlowMeterThread final : public cRIO::Thread, public FlowMeter, MTM1M3TS_flowMeterC {
++// public:
++//     FlowMeterThread(std::shared_ptr<Transports::Transport> transport);
+ 
+-    void run(std::unique_lock<std::mutex>& lock) override;
++//     void run(std::unique_lock<std::mutex>& lock) override;
+ 
+-private:
+-    std::shared_ptr<Transports::Transport> _transport;
+-};
++// private:
++//     std::shared_ptr<Transports::Transport> _transport;
++// };
+ 
+ }  // namespace Telemetry
+ }  // namespace TS
+diff --git a/src/ts-M1M3thermald.cpp b/src/ts-M1M3thermald.cpp
+index 77019f5..3460c77 100644
+--- a/src/ts-M1M3thermald.cpp
++++ b/src/ts-M1M3thermald.cpp
+@@ -129,7 +129,7 @@ void M1M3thermald::done() {
+     Events::SummaryState::set_state(MTM1M3TS::MTM1M3TS_shared_SummaryStates_OfflineState);
+ 
+     LSST::cRIO::ControllerThread::instance().stop();
+-    TSPublisher::instance().stopFlowMeterThread();
++    // TSPublisher::instance().stopFlowMeterThread();
+     TSPublisher::instance().stopPumpThread();
+ 
+     SPDLOG_INFO("Shutting down M1M3thermald");
+-- 
+2.52.0
+
