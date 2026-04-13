@@ -41,7 +41,7 @@ RUN source /home/saluser/.startup.sh \
     && source scl_source enable gcc-toolset-14 \
     && cd /opt/lsst/avro/lang/c \
     && cmake . && make && make install \
-    && cd ../c++ && cmake . && make && make install
+    && cd ../c++ && cmake . && make -j$(nproc) && make install
 
 RUN cd /opt/lsst/ && git clone https://github.com/confluentinc/libserdes 
 
@@ -55,7 +55,7 @@ RUN source /home/saluser/.startup.sh \
     && export PKG_CONFIG_PATH="/usr/lib64/pkgconfig:/opt/lsst/software/stack/miniconda/lib/pkgconfig" \
     && source scl_source enable gcc-toolset-14 \
     && export CXXFLAGS=-I/opt/lsst/software/stack/miniconda/include/ \
-    && cd /opt/lsst/libserdes && ./configure && make && make install
+    && cd /opt/lsst/libserdes && ./configure && make -j$(nproc) && make install
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
 ENV SAL_WORK_DIR=/opt/lsst/ts_sal/
@@ -80,10 +80,10 @@ RUN source /home/saluser/.startup.sh && \
     source /home/saluser/.setup_sal_env.sh && \
     source scl_source enable gcc-toolset-14 && \
     export PKG_CONFIG_PATH=/opt/lsst/software/stack/miniconda/lib/pkgconfig/ && \
-    make
+    make -j$(nproc)
 
 WORKDIR /home/saluser/
 
-COPY sal_setup.sh /home/saluser/.sal_setup.sh
+COPY deploy-crio/sal_setup.sh /home/saluser/.sal_setup.sh
 
 ENV RUN_ARG=""
