@@ -25,7 +25,7 @@ if [ -z "$JAVA_HOME" ]; then
   export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 fi
 
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${SAL_HOME}/lib
+# export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${SAL_HOME}/lib
 export PATH=$JAVA_HOME/bin:${LSST_SDK_INSTALL}/bin:${PATH}
 
 export SAL_IDL_DIR=${SAL_WORK_DIR}/idl-templates/validated/sal
@@ -40,10 +40,10 @@ export LSST_KAFKA_SECURITY_PROTOCOL=SASL_PLAINTEXT
 export LSST_KAFKA_SECURITY_MECHANISM=SCRAM-SHA-512
 export OSPL_RELEASE=0.0.0
 
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${SAL_WORK_DIR}/lib:${LSST_SDK_INSTALL}/lib:/opt/lsst/ts_sal/lib
+# export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${SAL_WORK_DIR}/lib:${LSST_SDK_INSTALL}/lib:/opt/lsst/ts_sal/lib
 export TS_SAL_DIR=$LSST_SDK_INSTALL
 export TS_XML_DIR=$LSST_SDK_INSTALL/../ts_xml
-export AVRO_RELEASE=`$SAL_DIR/avro_release.tcl`
+export AVRO_RELEASE=`$SAL_HOME/avro_release.tcl`
 export AVRO_HOME=$SAL_HOME/lib
 export AVRO_INCL=$SAL_HOME/include/avro
 export AVRO_PREFIX=lsst.sal
