@@ -12,7 +12,7 @@ ARG rpm
 RUN dnf install -y \
     --enablerepo=lsst-ts \
     --disablerepo=lsst-ts-test \
-    MTVMS-${rpm}
+    MTVMS-${rpm} fftw3-devel
     
 RUN rm -rf /opt/lsst/ts_sal/include/avro* \
     && rm -rf /opt/lsst/ts_sal/lib/libavro* /opt/lsst/ts_sal/lib/lib*kafka*
@@ -40,14 +40,10 @@ RUN /home/saluser/.checkout_repo.sh ${vms} && \
 
 WORKDIR /home/saluser/
 
-COPY vms_sim/startup.sh /home/saluser/.startup.sh
-COPY vms_sim/sal_setup.sh /home/saluser/.sal_setup.sh
-COPY vms_sim/create_topics_vms.py /home/saluser/.create_topics_vms.py
 USER root
-RUN chown saluser:saluser /home/saluser/.startup.sh && \
-    chown saluser:saluser /home/saluser/.create_topics_vms.py && \
-    chmod a+x /home/saluser/.create_topics_vms.py && \
-    chmod a+x /home/saluser/.startup.sh
+COPY --chown=saluser:saluser --chmod=a+x vms_sim/startup.sh /home/saluser/.startup.sh
+COPY --chown=saluser:saluser vms_sim/sal_setup.sh /home/saluser/.sal_setup.sh
+COPY --chown=saluser:saluser --chmod=a+x vms_sim/create_topics_vms.py /home/saluser/.create_topics_vms.py
 USER saluser
 
 ENV RUN_ARG=""
