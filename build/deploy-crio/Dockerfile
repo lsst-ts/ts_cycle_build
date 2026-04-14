@@ -45,7 +45,7 @@ RUN source /home/saluser/.startup.sh \
 
 RUN cd /opt/lsst/ && git clone https://github.com/confluentinc/libserdes 
 
-COPY deploy-crio/libserdes.patch /opt/lsst/libserdes
+COPY mtm1m3_sim/libserdes.patch /opt/lsst/libserdes
 RUN source /home/saluser/.startup.sh \
     && cd /opt/lsst/libserdes \
     && patch -p1 < libserdes.patch
