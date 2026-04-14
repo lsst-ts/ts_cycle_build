@@ -18,10 +18,6 @@ RUN dnf install -y \
 RUN rm -rf /opt/lsst/ts_sal/include/avro* \
     && rm -rf /opt/lsst/ts_sal/lib/libavro* /opt/lsst/ts_sal/lib/lib*kafka*
 
-ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
-ENV SAL_WORK_DIR=/opt/lsst/ts_sal/
-ENV LSST_SAL_PREFIX=/opt/lsst/ts_sal/
-
 USER saluser
 WORKDIR /home/saluser/
 

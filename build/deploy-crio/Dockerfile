@@ -18,6 +18,7 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     boost-regex \
     boost-system \
     cmake \
+    iproute \
     jansson-devel \
     gcc-toolset-14 \
     git \
@@ -40,7 +41,7 @@ RUN cd /opt/lsst/ && git clone https://github.com/apache/avro
 RUN source /home/saluser/.startup.sh \
     && source scl_source enable gcc-toolset-14 \
     && cd /opt/lsst/avro/lang/c \
-    && cmake . && make && make install \
+    && cmake . && make -j$(nproc) && make install \
     && cd ../c++ && cmake . && make -j$(nproc) && make install
 
 RUN cd /opt/lsst/ && git clone https://github.com/confluentinc/libserdes 
@@ -57,9 +58,9 @@ RUN source /home/saluser/.startup.sh \
     && export CXXFLAGS=-I/opt/lsst/software/stack/miniconda/include/ \
     && cd /opt/lsst/libserdes && ./configure && make -j$(nproc) && make install
 
-ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
-ENV SAL_WORK_DIR=/opt/lsst/ts_sal/
-ENV LSST_SAL_PREFIX=/opt/lsst/ts_sal/
+ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal
+ENV SAL_WORK_DIR=/opt/lsst/ts_sal
+ENV LSST_SAL_PREFIX=/opt/lsst/ts_sal
 
 USER saluser
 WORKDIR /home/saluser/
