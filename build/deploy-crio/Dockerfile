@@ -3,7 +3,7 @@ ARG hub
 
 FROM ${hub}/deploy-env:${cycle}
 
-LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
+LABEL maintainer Petr Kubánek <petr.kubanek@noirlab.edu>
 
 USER root
 
@@ -27,64 +27,113 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     openssl \
     patch \
     snappy \
+    spdlog-devel \
     zlib-devel && \
     dnf clean all
 
-RUN source /home/saluser/.startup.sh && \
-    mamba install -y readline spdlog catch2 yaml-cpp
+RUN mkdir -p /opt/lsst/tssw 
 
-RUN rm -rf /opt/lsst/ts_sal/include/avro* \
-    && rm -rf /opt/lsst/ts_sal/lib/libavro* /opt/lsst/ts_sal/lib/lib*kafka*
+WORKDIR /opt/lsst/tssw
 
-RUN cd /opt/lsst/ && git clone https://github.com/apache/avro 
-
-RUN source /home/saluser/.startup.sh \
+RUN git clone https://github.com/apache/avro \
     && source scl_source enable gcc-toolset-14 \
-    && cd /opt/lsst/avro/lang/c \
-    && cmake . && make -j$(nproc) && make install \
-    && cd ../c++ && cmake . && make -j$(nproc) && make install
+    && cd avro/lang/c \
+    && cmake . && make && make install \
+    && cd ../c++ && cmake . && make && make install
 
-RUN cd /opt/lsst/ && git clone https://github.com/confluentinc/libserdes 
+RUN cd /opt/lsst/tssw && git clone https://github.com/confluentinc/libserdes 
 
-COPY mtm1m3_sim/libserdes.patch /opt/lsst/libserdes
-RUN source /home/saluser/.startup.sh \
-    && cd /opt/lsst/libserdes \
+COPY deploy-crio/libserdes.patch /opt/lsst/tssw/libserdes
+RUN cd libserdes \
     && patch -p1 < libserdes.patch
 
-RUN source /home/saluser/.startup.sh \
+RUN source /home/saluser/.setup_sal_env.sh \
+    && export CPATH="/usr/local/include" \
     && export LIBRARY_PATH="/usr/local/lib64:/opt/lsst/tssw/ts_sal/lib" \
-    && export PKG_CONFIG_PATH="/usr/lib64/pkgconfig:/opt/lsst/software/stack/miniconda/lib/pkgconfig" \
     && source scl_source enable gcc-toolset-14 \
-    && export CXXFLAGS=-I/opt/lsst/software/stack/miniconda/include/ \
-    && cd /opt/lsst/libserdes && ./configure && make -j$(nproc) && make install
+    && cd /opt/lsst/tssw/libserdes && ./configure && make && make install
 
-ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal
-ENV SAL_WORK_DIR=/opt/lsst/ts_sal
-ENV LSST_SAL_PREFIX=/opt/lsst/ts_sal
+ARG sal
+ARG xml
+
+RUN source /home/saluser/.setup_sal_env.sh \
+    && cd /opt/lsst/tssw \
+    && git clone https://github.com/lsst-ts/ts_sal \
+    && cd ts_sal \
+    && git checkout $sal \
+    && cd .. \
+    && git clone https://github.com/lsst-ts/ts_xml \
+    && cd ts_xml \
+    && git checkout $xml
+
+RUN chown -R saluser.saluser /opt/lsst/tssw
+
+RUN mkdir -p /opt/lsst/tssw/ts_sal/test && chown saluser.saluser /opt/lsst/tssw/ts_sal/test
 
 USER saluser
-WORKDIR /home/saluser/
+
+ARG xml
+
+RUN source /home/saluser/.setup_sal_env.sh \
+    && mamba install -y -c lsstts readline yaml-cpp catch2 spdlog texlive-core ghostscript ts-xml=$xml
+
+WORKDIR /home/saluser
+
+RUN source /home/saluser/.setup_sal_env.sh \
+    && echo > /home/saluser/.crio_setup.sh -e \
+echo "Configuring cRIO development environment" \\n\
+export SAL_HOME=/opt/lsst/tssw/ts_sal/lsstsal\\n\
+export SAL_WORK_DIR=/opt/lsst/tssw/ts_sal/test\\n\
+export LSST_KAFKA_PREFIX=sal\\n\
+export LSST_KAFKA_SECURITY_MECHANISM=SCRAM-SHA-512\\n\
+export LSST_KAFKA_CLASSDIR=/opt/lsst/tssw/ts_sal/lib\\n\
+export LSST_KAFKA_HOST=broker\\n\
+export LSST_KAFKA_IP=\\n\
+export LSST_KAFKA_LOCAL_SCHEMAS=/opt/lsst/tssw/ts_sal/test\\n\
+export LSST_KAFKA_BROKER_PORT=29092\\n\
+export LSST_KAFKA_BROKER_ADDR=broker:29092\\n\
+export LSST_KAFKA_SECURITY_PROTOCOL=SASL_SSL\\n\
+export AVRO_RELEASE=1.11.3\\n\
+export LSST_TOPIC_SUBNAME=sal\\n\
+\\n\
+export LSST_KAFKA_BROKER_ADDR="broker:29092"\\n\
+export LSST_SCHEMA_REGISTRY_URL="http://schema-registry:8081"\\n\
+\\n\
+export LSST_SAL_PREFIX=/usr/local\\n\
+\\n\
+export LSST_KAFKA_HOST=${LSST_KAFKA_BROKER_ADDR%:*}\\n\
+export LSST_KAFKA_BROKER_PORT=${LSST_KAFKA_BROKER_ADDR##*:}\\n\
+export LSST_KAFKA_PREFIX=sal\\n\
+export LSST_KAFKA_LOCAL_SCHEMAS=$SAL_WORK_DIR\\n\
+\\n\
+export TS_CONFIG_OCS_DIR=/lsst/ts_config_ocs/\\n\
+\\n\
+export LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/opt/lsst/tssw/ts_sal/lib\\n\
+export CONDA_PREFIX=/opt/lsst/software/stack/miniconda\\n\
+\\n\
+source /home/saluser/.setup_sal_env.sh\\n\
+source /opt/lsst/tssw/ts_sal/setupKafka.env\\n\
+\\n\
+export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$CONDA_PREFIX/lib/pkgconfig\\n\
+\\n\
+source scl_source enable gcc-toolset-14\\n\
+\\n\
+export CPATH=\"/usr/local/include\"\\n\
+export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:/usr/local/lib64:/usr/local/lib"\\n\
+\\n\
+export SAL_DIR=/opt/lsst/tssw/ts_sal/lsstsal/scripts\\n\
+export TS_XML_DIR=/opt/lsst/tssw/ts_xml
 
 ARG crio_cpp
+
+RUN source /home/saluser/.crio_setup.sh \
+    && git clone https://github.com/lsst-ts/ts_cRIOcpp \
+    && cd ts_cRIOcpp \
+    && /home/saluser/.checkout_repo.sh ${crio_cpp} \
+    && make -j$(nproc)
+
 ARG config
 
-RUN git clone https://github.com/lsst-ts/ts_cRIOcpp && \
-    git clone https://github.com/lsst-ts/ts_config_mttcs.git
-
-WORKDIR /home/saluser/ts_config_mttcs
-
-RUN /home/saluser/.checkout_repo.sh ${config}
-
-WORKDIR /home/saluser/ts_cRIOcpp/
-RUN source /home/saluser/.startup.sh && \
-    /home/saluser/.checkout_repo.sh ${crio_cpp} && \
-    source /home/saluser/.setup_sal_env.sh && \
-    source scl_source enable gcc-toolset-14 && \
-    export PKG_CONFIG_PATH=/opt/lsst/software/stack/miniconda/lib/pkgconfig/ && \
-    make -j$(nproc)
-
-WORKDIR /home/saluser/
-
-COPY deploy-crio/sal_setup.sh /home/saluser/.sal_setup.sh
-
-ENV RUN_ARG=""
+RUN git clone https://github.com/lsst-ts/ts_config_mttcs \
+    && cd ts_config_mttcs \
+    && /home/saluser/.checkout_repo.sh ${config}
