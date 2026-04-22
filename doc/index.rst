@@ -25,10 +25,8 @@ At the very least, we must keep an strict control over the core packages version
 
 The core packages are:
 
-  - ts_ddsconfig: Contains DDS Quality of Service (QoS) configuration and various sanctioned OpenSplice configuration options for running systems in shared memory, single process and unit testing.
   - ts_xml: Contains the interfaces definition of all components in the system.
-  - ts_sal: Contains the core DDS communication middleware layer.
-  - ts_idl: Contains ancillary files used by ts_salobj and other higher level applications.
+  - ts_sal: Contains the core Kafka communication middleware layer.
   - ts_salobj: High-level Python library to develop CSCs and SAL Scripts.
 
 In order to avoid conflicts the version of all these packages must be tightly controlled in production and test environments.
@@ -62,6 +60,21 @@ In this case, it involves building containers for a new cycle/revision for deplo
     user-guide/*
     :maxdepth: 2
     :glob:
+    :hidden:
+    
+.. grid:: 2
+    
+    .. grid-item-card:: User Guide
+        :link: user-guide/user-guide
+        :link-type: doc
+        
+        The User Guide card.
+    
+    .. grid-item-card:: Driver's Guide
+        :link: user-guide/drivers-guide
+        :link-type: doc
+        
+        The Driver's Guide card.
 
 .. _Development_Documentation:
 
@@ -73,6 +86,11 @@ This area of documentation focuses on the details of the container build scripts
 .. toctree::
     developer-guide/developer-guide
     :maxdepth: 1
+    :hidden:
+    
+.. card:: Developer Guide
+    :link: developer-guide/developer-guide
+    :link-type: doc
 
 .. _Version_History:
 
