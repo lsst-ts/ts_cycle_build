@@ -387,18 +387,12 @@ x-mtm1m3_sim:
     dockerfile: ./mtm1m3_sim/Dockerfile
     labels:
       com.description: "M1M3 simulator deployment image for cycle/revision ${CYCLE}${rev}."
-      sal: ${ts_sal}
-      xml: ${ts_xml}
-      m1m3: ${ts_m1m3support}
-      crio_cpp: ${ts_cRIOcpp}
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: ${ts_xml}-${ts_sal}.el9.x86_64
       m1m3: ${ts_m1m3support}
-      crio_cpp: ${ts_cRIOcpp}
-      config: ${ts_config_mttcs}
-      sal: ${ts_sal}
+    platforms:
+      - linux/amd64
 
 x-mtm1m3ts_sim:
   &base-mtm1m3ts_sim
@@ -407,18 +401,12 @@ x-mtm1m3ts_sim:
     dockerfile: ./mtm1m3ts_sim/Dockerfile
     labels:
       com.description: "M1M3 thermal deployment image for cycle/revision ${CYCLE}${rev}."
-      sal: ${ts_sal}
-      xml: ${ts_xml}
-      m1m3ts: ${ts_m1m3thermal}
-      crio_cpp: ${ts_cRIOcpp}
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: ${ts_xml}-${ts_sal}.el9.x86_64
       m1m3ts: ${ts_m1m3thermal}
-      crio_cpp: ${ts_cRIOcpp}
-      config: ${ts_config_mttcs}
-      sal: ${ts_sal}
+    platforms:
+      - linux/amd64
 
 x-vms_sim:
   &base-vms_sim
@@ -427,18 +415,12 @@ x-vms_sim:
     dockerfile: ./vms_sim/Dockerfile
     labels:
       com.description: "VMS simulator deployment image for cycle/revision ${CYCLE}${rev}."
-      sal: ${ts_sal}
-      xml: ${ts_xml}
-      vms: ${ts_vms}
-      crio_cpp: ${ts_cRIOcpp}
     args:
       cycle: ${CYCLE}
       hub: ${hub}
-      rpm: ${ts_xml}-${ts_sal}.el9.x86_64
       vms: ${ts_vms}
-      crio_cpp: ${ts_cRIOcpp}
-      config: ${ts_config_mttcs}
-      sal: ${ts_sal}
+    platforms:
+      - linux/amd64
 
 x-mtaircompressor:
   &base-mtaircompressor
@@ -1048,6 +1030,21 @@ services:
   deploy-lsstsqre-private_c:
     image: ts-dockerhub.lsst.org/deploy-sqre:${CYCLE}
     <<: *base-deploy-lsstsqre-private
+    
+  deploy-crio:
+    image: ts-dockerhub.lsst.org/deploy-crio:${CYCLE}
+    build:
+      context: ../build/
+      dockerfile: ./deploy-crio/Dockerfile
+      labels:
+        com.description: "Base cRIO deployment image for cycle ${CYCLE}."
+      args:
+        hub: ${hub}
+        cycle: ${CYCLE}
+        crio_cpp: ${ts_cRIOcpp}
+        config: ${ts_config_mttcs}
+      platforms:
+        - linux/amd64
 
   docker-compose-aarch64:
     image: lsstts/docker-compose-aarch64
