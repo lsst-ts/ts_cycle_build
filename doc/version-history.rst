@@ -8,10 +8,46 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 0
+===================
+
+* Modified develop-crio - remove RPMs, build everything from source.
+* Fixed a number of ld path calls in m1m3, m1m3ts and vms.
+* Fixed deploy-crio.
+* Added fftw3-devel to vms_sim, changed COPY
+* Used deploy-crio as base image for m1m3, m1m3ts and vms.
+* Built deploy-crio container.
+* mtm1m3ts-sim: Fixed build and patch it temporarily.
+* M1M3-sim: Fixed mount pathes.
+* Updated gcc-14, custom build avro & libserdes.
+* Updated version of the following packages:
+
+  * robotframework_efd
+  * ts_config_mttcs
+  * ts_config_ocs
+  * ts_cRIOcpp
+  * ts_criopy
+  * ts_develop
+  * ts_dream
+  * ts_eas
+  * ts_genericcamera
+  * ts_hvac
+  * ts_integrationtests
+  * ts_logging_and_reporting
+  * ts_logging_frontend
+  * ts_m1m3support
+  * ts_m1m3thermal
+  * ts_m2com
+  * ts_mthexapod
+  * ts_salobj
+  * ts_vms
+  * ts_watcher
+  * ts_xml  
+
 Cycle 43 revision 4
 ===================
 
-* Update version of the following packages:
+* Updated version of the following packages:
 
   * headerservice
   * love_frontend
