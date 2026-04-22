@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 43 revision 4
+===================
+
+* Update version of the following packages:
+
+  * headerservice
+  * love_frontend
+  * love_manager
+  * ts_ess_earthquake
+  * ts_logging_and_reporting
+  * ts_logging_frontend
+  * ts_mtaos
+  * ts_scheduler
+  * ts_tunablelaser
+
+
 Cycle 43 revision 3
 ===================
 
