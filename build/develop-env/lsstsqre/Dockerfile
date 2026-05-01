@@ -124,9 +124,15 @@ ARG stack
 
 RUN curl -LO https://ls.st/lsstinstall && \
     bash lsstinstall -T ${stack}
+    
+ENV PATH=${STACKDIR}/conda/bin/:$PATH
+ENV EUPS_PKGROOT=https://eups.lsst.cloud/stack/redhat/el7/conda-system/miniconda3-py38_4.9.2-12.1.0|https://eups.lsst.cloud/stack/src
 
-RUN source ./loadLSST.bash && \
-    eups distrib install -t ${stack} lsst_distrib
+RUN conda env list | awk '{print $1}' | grep '^lsst-scipipe-' | head -n1 > /tmp/env_name
+
+RUN ENV_NAME=$(cat /tmp/env_name) && conda install -n "$ENV_NAME" -y gdal=3.10
+
+RUN source ${STACKDIR}/loadLSST.sh && eups distrib install -t ${stack} lsst_distrib
 
 # Install labjack
 USER root
@@ -162,8 +168,7 @@ ARG ts_develop
 ARG librdkafka
 ARG python_confluent_kafka
 
-RUN source ${STACKDIR}/loadLSST.bash && \
-    conda config --add channels conda-forge
+RUN conda config --add channels conda-forge
 
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y -c lsstts ts-develop=${ts_develop}
