@@ -8,6 +8,24 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 2
+===================
+
+* Updated version of the following packages:
+
+  * love_frontend
+  * ts_atbuilding
+  * ts_config_mtcalsys
+  * ts_config_ocs
+  * ts_dimm
+  * ts_eas
+  * ts_gis
+  * ts_logging_frontend
+  * ts_mtaos
+  * ts_observatory_control
+  * ts_tunablelaser
+
+
 Cycle 44 revision 1
 ===================
 
