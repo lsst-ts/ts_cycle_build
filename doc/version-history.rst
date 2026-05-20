@@ -8,6 +8,16 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 3
+===================
+
+* Updated version of the following packages:
+
+   * love_manager
+   * ts_ess_epm
+   * ts_watcher
+   * ts_xml
+
 Cycle 44 revision 2
 ===================
 
@@ -80,7 +90,7 @@ Cycle 44 revision 0
   * ts_salobj
   * ts_vms
   * ts_watcher
-  * ts_xml  
+  * ts_xml
 
 Cycle 43 revision 4
 ===================
@@ -511,7 +521,7 @@ Cycle 42 revision 0
 ===================
 
 * Updated version of the following packages:
-    
+
     * ts_xml
     * ts_sal
     * ts_salobj
@@ -530,7 +540,7 @@ Cycle 42 revision 0
     * ts_vms
     * ts_cRIOcpp
     * ts_criopy
-    * ts_m1m3_utils 
+    * ts_m1m3_utils
     * ts_watcher
     * ts_scheduler
     * ts_mtdome
@@ -561,7 +571,7 @@ Cycle 42 revision 0
     * ts_logging_frontend
     * ts_logging_and_reporting
     * rubin_nights_tag
-    
+
 * ScriptQueue: Restored ts_wep before running checkout repo script.
 * Removed RubinTV Rapid Analysis.
 * Removed v prefix from mtm2 config argument.
@@ -795,7 +805,7 @@ Cycle 41 revision 7
 * In ``Jenkinsfile.cycle``, add build step for the Rubin ToO Producer image.
 
 * OSW-496: Remove restriction of building image during new cycle for deploy-conda-private.
-    
+
   This also adds a cycle and revision tag to the image since it can be built more than once a cycle.
 
 * OSW-497: Use node2 for base, salobj and develop daily container builds.
