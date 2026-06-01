@@ -49,6 +49,10 @@ ARG stack
 RUN curl -LO https://ls.st/lsstinstall && \
   bash lsstinstall -T ${stack}
 
+RUN ${WORKDIR}/conda/bin/conda env list | awk '{print $1}' | grep '^lsst-scipipe-' | head -n1 > /tmp/env_name && \
+    ENV_NAME=$(cat /tmp/env_name) && \
+    ${WORKDIR}/conda/bin/conda install -n "$ENV_NAME" -y gdal=3.10
+
 RUN source ./loadLSST.bash && \
   eups distrib install -t ${stack} lsst_distrib
 
