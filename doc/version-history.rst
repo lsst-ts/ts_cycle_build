@@ -8,6 +8,20 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 4
+===================
+
+* Updated version of the following packages:
+
+  * DM Stack
+  * ts_scheduler
+  * ts_eas
+  * ts_config_ocs
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
+* Pinned gdal to 3.10 to workaround bash completion script error in the deploy-sqre build.
+
 Cycle 44 revision 3
 ===================
 
