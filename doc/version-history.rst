@@ -8,6 +8,28 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 5
+===================
+
+* Updated version of the following packages:
+
+  * ts_attcpip
+  * ts_observatory_control
+  * ts_standardscripts
+  * ts_auxtel_standardscripts
+  * ts_maintel_standardscripts
+  * ts_externalscripts
+  * ts_dimm
+  * ts_ess_epm
+  * robotframework_efd
+  * ts_integrationtests
+  * ts_linearstage
+  * love_frontend
+  * love_manager
+
+* Fix salsciplat-2py by building without login flag and then setting login flag afterwards.
+
+
 Cycle 44 revision 4
 ===================
 
