@@ -1,16 +1,16 @@
 ARG input
 FROM $input AS base-image
 USER 0:0
-SHELL ["/bin/bash", "-lc"]
+SHELL ["/bin/bash", "-c"]
 
 RUN mkdir -p /tmp/build
-WORKDIR /tmp/build
+WORKDIR /tmp/build/
 
 # Add other system-level files
 
 # A temporary /etc/passwd to keep the build from complaining
 
-COPY scripts/* /tmp/build/
+COPY scripts/ /tmp/build/
 RUN bash ./make-root-user
 
 # SAL install
@@ -48,6 +48,7 @@ RUN rm ./cleanup-files
 # start.
 USER 65534:65534
 WORKDIR /tmp
+SHELL ["/bin/bash", "-lc"]
 
 CMD ["/usr/local/share/jupyterlab/runlab"]
 
