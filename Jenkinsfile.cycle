@@ -87,6 +87,7 @@ pipeline {
         name: 'set_cache_option'
       )
       choice choices: ['Node3_4CPU', 'CSC_Conda_Node', 'Node1_4CPU', 'Node2_8CPU'], description: 'Select the build agent', name: 'build_agent'
+      choice choices: ['cycle.env', 'develop.env', 'main.env'], description: 'Select the ENV file to use during the given build.', name: 'env_file'
       booleanParam defaultValue: false, description: "Build/push Conda Package Builder arm64 and aarch64 images.", name: 'build_conda_package_builder'
       booleanParam defaultValue: false, description: "Build/push base deployment image (only run this if you are building revision 0).", name: 'deploy_conda'
       booleanParam defaultValue: false, description: "Build/push lsstsqre deployment image (only run this if you are building revision 0 or updating the DM stack version).", name: 'deploy_lsstsqre'
@@ -129,7 +130,11 @@ pipeline {
       steps {
 
         withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-          sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+          sh """
+            if [ ! \$yum_nexus_private ]; then
+                cp \$yum_nexus_private ${env.WORKSPACE}/build/common/
+            fi
+          """
         }
 
       // When using the docker container, we need to change
@@ -140,10 +145,8 @@ pipeline {
           def cacheOption = params.set_cache_option ? "--no-cache" : ""
 
           withEnv(["HOME=${env.WORKSPACE}"]) {
-
-
             sh """
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} deploy-conda-private
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} deploy-conda-private
             """
           }
         }
@@ -151,7 +154,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              source cycle/cycle.env
+              source cycle/${params.env_file}
               docker push ts-dockerhub.lsst.org/deploy-env:\${CYCLE}
               docker push ts-dockerhub.lsst.org/deploy-env:\${CYCLE}\${rev}
             """
@@ -166,24 +169,27 @@ pipeline {
       steps {
 
         withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-          sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/"
+          sh """
+            if [ ! \$yum_nexus_private ]; then
+                cp \$yum_nexus_private ${env.WORKSPACE}/build/common/
+            fi
+          """
         }
         script{
 
           def cacheOption = params.set_cache_option ? "--no-cache" : ""
 
           withEnv(["HOME=${env.WORKSPACE}"]) {
-
             sh """
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} deploy-lsstsqre-private
-            docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build deploy-lsstsqre-private_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} deploy-lsstsqre-private
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build deploy-lsstsqre-private_c
             """
           }
         }
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push deploy-lsstsqre-private deploy-lsstsqre-private_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push deploy-lsstsqre-private deploy-lsstsqre-private_c
             """
           }
         }
@@ -208,8 +214,8 @@ pipeline {
 
         withEnv(["HOME=${env.WORKSPACE}"]) {
           sh """
-          export \$(cat cycle/cycle.env | grep rev | sed  's/#.*//g' | xargs)
-          export \$(cat cycle/cycle.env | grep CYCLE | sed  's/#.*//g' | xargs)
+          export \$(cat cycle/${params.env_file} | grep rev | sed  's/#.*//g' | xargs)
+          export \$(cat cycle/${params.env_file} | grep CYCLE | sed  's/#.*//g' | xargs)
           if [ "\$rev" != ".000" ]; then echo "FAILED: Building ALL components only allowed when building revision 0."; exit 1 ; else echo "BUILDING CYCLE \${CYCLE}\${rev}";fi
           """
         }
@@ -222,10 +228,10 @@ pipeline {
               sh """
               export DOCKER_BUILDKIT=1
               for comp in \${CONDA_PACKAGES}; do
-                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${comp} || echo "\${comp} FAILED."
+                docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} \${comp} || echo "\${comp} FAILED."
               done
               for comp in \${CONDA_PACKAGES_C}; do
-                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \${comp} || echo "\${comp} FAILED."
+                docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build \${comp} || echo "\${comp} FAILED."
               done
               """
               }
@@ -234,7 +240,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push --ignore-push-failures \${CONDA_PACKAGES} \${CONDA_PACKAGES_C}
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push --ignore-push-failures \${CONDA_PACKAGES} \${CONDA_PACKAGES_C}
             """
           }
         }
@@ -254,8 +260,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} ${params.component}
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${params.component}_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} ${params.component}
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${params.component}_c
               """
               }
           }
@@ -263,7 +269,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push ${params.component} ${params.component}_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push ${params.component} ${params.component}_c
             """
           }
         }
@@ -308,8 +314,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} \${CAMSPEC_GENCAM}
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build \${CAMSPEC_GENCAM_C}
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} \${CAMSPEC_GENCAM}
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build \${CAMSPEC_GENCAM_C}
               """
               }
           }
@@ -317,7 +323,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push \${CAMSPEC_GENCAM} \${CAMSPEC_GENCAM_C}
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push \${CAMSPEC_GENCAM} \${CAMSPEC_GENCAM_C}
             """
           }
         }
@@ -336,7 +342,7 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} deploy-crio
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} deploy-crio
               """
               }
           }
@@ -344,7 +350,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push deploy-crio
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push deploy-crio
             """
           }
         }
@@ -363,8 +369,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} mtm1m3_sim
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build mtm1m3_sim_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} mtm1m3_sim
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build mtm1m3_sim_c
               """
               }
           }
@@ -372,7 +378,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push mtm1m3_sim mtm1m3_sim_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push mtm1m3_sim mtm1m3_sim_c
             """
           }
         }
@@ -391,8 +397,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} mtm1m3ts_sim
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build mtm1m3ts_sim_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} mtm1m3ts_sim
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build mtm1m3ts_sim_c
               """
               }
           }
@@ -400,7 +406,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push mtm1m3ts_sim mtm1m3ts_sim_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push mtm1m3ts_sim mtm1m3ts_sim_c
             """
           }
         }
@@ -419,8 +425,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} vms_sim
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build vms_sim_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} vms_sim
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build vms_sim_c
               """
               }
           }
@@ -428,7 +434,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push vms_sim vms_sim_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push vms_sim vms_sim_c
             """
           }
         }
@@ -451,8 +457,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} ptg ptg_c
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ptg_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} ptg ptg_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ptg_c
               """
               }
           }
@@ -460,7 +466,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push ptg ptg_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push ptg ptg_c
             """
           }
         }
@@ -480,8 +486,8 @@ pipeline {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
               export DOCKER_BUILDKIT=0
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} mtaos
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build mtaos_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} mtaos
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build mtaos_c
               """
               }
           }
@@ -489,7 +495,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push mtaos mtaos_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push mtaos mtaos_c
             """
           }
         }
@@ -504,8 +510,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh"""
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build oods oods_c
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build atoods atoods_c ccoods ccoods_c mtoods mtoods_c wfoods wfoods_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build oods oods_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build atoods atoods_c ccoods ccoods_c mtoods mtoods_c wfoods wfoods_c
               """
             }
           }
@@ -514,7 +520,7 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh"""
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push oods oods_c atoods atoods_c ccoods ccoods_c mtoods mtoods_c wfoods wfoods_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push oods oods_c atoods atoods_c ccoods ccoods_c mtoods mtoods_c wfoods wfoods_c
               """
             }
           }
@@ -534,8 +540,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} scriptqueue
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build scriptqueue_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} scriptqueue
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build scriptqueue_c
               """
               }
           }
@@ -543,7 +549,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml push scriptqueue scriptqueue_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push scriptqueue scriptqueue_c
             """
           }
         }
@@ -572,16 +578,16 @@ pipeline {
           docker.withRegistry("", registryCredential) {
             sh """
               export DOCKER_BUILDKIT=1
-              source cycle/cycle.env
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre
+              source cycle/${params.env_file}
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} --pull base-sqre
               docker push lsstts/base-sqre:\${CYCLE}\${rev} 
               docker push lsstts/base-sqre:\${CYCLE}
 
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull salobj
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} --pull salobj
               docker push lsstts/salobj:\${CYCLE}\${rev}
               docker push lsstts/salobj:\${CYCLE}
 
-              docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env
               docker push lsstts/develop-env:\${CYCLE}\${rev}
               docker push lsstts/develop-env:\${CYCLE}
             """
@@ -590,7 +596,7 @@ pipeline {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
               export DOCKER_BUILDKIT=1
-              source cycle/cycle.env
+              source cycle/${params.env_file}
 
               docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}
               docker push ts-dockerhub.lsst.org/base-sqre:\${CYCLE}\${rev}
