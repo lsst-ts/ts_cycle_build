@@ -56,11 +56,11 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     conda install -y aioinflux kafkit && \
     conda install -y astroplan && \
     conda install -y -c lsstts \
-    ts-atdome=${ts_atdome} \
-    ts-atdometrajectory=${ts_atdometrajectory} \
-    ts-atmcs=${ts_atmcs} \
-    ts-utils=${ts_utils} \
-    ts-scriptqueue=${ts_scriptqueue} && \
+    "$(conda_package_spec ts-atdome "${ts_atdome}")" \
+    "$(conda_package_spec ts-atdometrajectory "${ts_atdometrajectory}")" \
+    "$(conda_package_spec ts-atmcs "${ts_atmcs}")" \
+    "$(conda_package_spec ts-utils "${ts_utils}")" \
+    "$(conda_package_spec ts-scriptqueue "${ts_scriptqueue}")" && \
     utils_path=$(python -c 'from lsst.ts import utils; import pathlib; print(pathlib.Path(utils.__file__).parents[0])') && \
     eups declare -m none -r ${utils_path} ts_utils ${ts_utils} && \
     atdome_path=$(python -c 'from lsst.ts import atdome; import pathlib; print(pathlib.Path(atdome.__file__).parents[0])') && \

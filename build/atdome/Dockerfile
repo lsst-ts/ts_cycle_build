@@ -9,7 +9,7 @@ ARG atdome
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-atdome=${atdome}
+    conda install -y -c lsstts "$(conda_package_spec ts-atdome "${atdome}")"
 
 RUN git clone https://github.com/lsst-ts/ts_config_attcs.git
 

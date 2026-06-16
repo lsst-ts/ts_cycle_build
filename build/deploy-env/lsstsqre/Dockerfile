@@ -16,15 +16,21 @@ RUN dnf install -y mesa-libEGL
 RUN groupadd --gid ${GID} saluser && \
   adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser
 
+RUN if [ -d "$HOME/.cache" ]; then \
+    chown -R saluser:saluser "$HOME/.cache"; \
+    fi
+
 COPY deploy-env/lsstsqre/startup.sh ${HOME}/.startup.sh
 COPY deploy-env/lsstsqre/setup_sal_env.sh ${HOME}/.setup_sal_env.sh
 COPY develop-env/salobj/checkout_repo.sh ${HOME}/.checkout_repo.sh
+COPY common/conda_package_spec.sh ${HOME}/.conda_package_spec.sh
 COPY common/wait_obsenv_sidecar.sh /home/saluser/.wait_obsenv_sidecar.sh
 
 # Create user and group
 RUN chown ${UID}:${GID} ${HOME}/.startup.sh && \
   chown ${UID}:${GID} ${HOME}/.setup_sal_env.sh && \
   chown ${UID}:${GID} ${HOME}/.checkout_repo.sh && \
+  chown ${UID}:${GID} ${HOME}/.conda_package_spec.sh && \
   chown saluser:saluser /home/saluser/.wait_obsenv_sidecar.sh && \
   chmod a+x ${HOME}/.startup.sh && \
   chmod a+x ${HOME}/.setup_sal_env.sh && \
@@ -87,11 +93,17 @@ RUN source ${HOME}/.setup_sal_env.sh && \
   conda install -y pyopenssl
 
 RUN source ${HOME}/.setup_sal_env.sh && \
+  source ${HOME}/.conda_package_spec.sh && \
+  ts_xml_spec=$(conda_package_spec ts-xml "${ts_xml}") && \
+  ts_salobj_spec=$(conda_package_spec ts-salobj "${ts_salobj}") && \
+  ts_idl_spec=$(conda_package_spec ts-idl "${ts_idl}") && \
+  ts_utils_spec=$(conda_package_spec ts-utils "${ts_utils}") && \
   conda install -y \
-  ts-xml=${ts_xml} \
-  ts-salobj=${ts_salobj} \
-  ts-idl=${ts_idl} \
-  ts-utils=${ts_utils} && \
+  "${ts_xml_spec}" \
+  "${ts_salobj_spec}" \
+  "${ts_idl_spec}" \
+  "${ts_utils_spec}" \
+  pyopenssl && \
   salobj_path=$(python -c 'from lsst.ts import salobj; import pathlib; print(pathlib.Path(salobj.__file__).parents[0])') && \
   eups declare -m none -r ${salobj_path} ts_salobj ${ts_salobj}  && \
   idl_path=$(python -c 'from lsst.ts import idl; import pathlib; print(pathlib.Path(idl.__file__).parents[0])') && \

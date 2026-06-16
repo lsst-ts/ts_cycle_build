@@ -22,7 +22,7 @@ WORKDIR /home/saluser/
 ENV TS_CONFIG_MTTCS_DIR=/home/saluser/ts_config_mttcs
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-mtrotator=${mtrotator} ts-hexrotcomm=${hexrotcomm} ts-tcpip=${tcpip}
+    conda install -y -c lsstts "$(conda_package_spec ts-mtrotator "${mtrotator}")" "$(conda_package_spec ts-hexrotcomm "${hexrotcomm}")" "$(conda_package_spec ts-tcpip "${tcpip}")"
 
 LABEL mtrotator=${mtrotator} \
       hexrotcomm=${hexrotcomm} \

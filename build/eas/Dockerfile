@@ -9,7 +9,7 @@ ARG eas
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-eas=${eas}
+    conda install -y -c lsstts "$(conda_package_spec ts-eas "${eas}")"
 
 
 RUN git clone https://github.com/lsst-ts/ts_config_ocs.git

@@ -10,7 +10,7 @@ ARG mtdomecom
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-mtdomecom=${mtdomecom} ts-mtdome=${mtdome}
+    conda install -y -c lsstts "$(conda_package_spec ts-mtdomecom "${mtdomecom}")" "$(conda_package_spec ts-mtdome "${mtdome}")"
 
 RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
 

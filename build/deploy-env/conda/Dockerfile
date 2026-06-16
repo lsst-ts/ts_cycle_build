@@ -19,6 +19,7 @@ RUN dnf install -y dnf-plugins-core && dnf config-manager --set-enabled crb
 COPY deploy-env/conda/startup.sh /home/saluser/.startup.sh
 COPY deploy-env/conda/setup_sal_env.sh /home/saluser/.setup_sal_env.sh
 COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
+COPY common/conda_package_spec.sh /home/saluser/.conda_package_spec.sh
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/wait_obsenv_sidecar.sh /home/saluser/.wait_obsenv_sidecar.sh
 
@@ -32,6 +33,7 @@ RUN mkdir -p ${WORKDIR} && \
   chown saluser:saluser /home/saluser/.startup.sh && \
   chown saluser:saluser /home/saluser/.setup_sal_env.sh && \
   chown saluser:saluser /home/saluser/.checkout_repo.sh && \
+  chown saluser:saluser /home/saluser/.conda_package_spec.sh && \
   chown saluser:saluser /home/saluser/.wait_obsenv_sidecar.sh && \
   chmod a+x /home/saluser/.startup.sh && \
   chmod a+x /home/saluser/.setup_sal_env.sh && \
@@ -61,13 +63,18 @@ RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/
   chmod +x miniforge.sh && \
   ./miniforge.sh -b -p ${WORKDIR}/miniconda && \
   source /home/saluser/.setup_sal_env.sh && \
+  source /home/saluser/.conda_package_spec.sh && \
+  ts_xml_spec=$(conda_package_spec ts-xml "${ts_xml}") && \
+  ts_salobj_spec=$(conda_package_spec ts-salobj "${ts_salobj}") && \
+  ts_idl_spec=$(conda_package_spec ts-idl "${ts_idl}") && \
+  ts_utils_spec=$(conda_package_spec ts-utils "${ts_utils}") && \
   conda update -y -n base -c conda-forge conda conda-libmamba-solver --solver classic && \
   conda config --set solver libmamba && \
   conda install -y python=${PYTHON_VERSION} && \
   conda config --add channels conda-forge && \
   conda config --add channels lsstts && \
   conda install -y librdkafka=${librdkafka} python-confluent-kafka=${python_confluent_kafka} && \
-  conda install -y -c lsstts -c lsstts/label/dev -c lsstts/label/rc ts-xml=${ts_xml} ts-salobj=${ts_salobj} ts-idl=${ts_idl} ts-utils=${ts_utils} pyopenssl
+  conda install -y -c lsstts -c lsstts/label/dev -c lsstts/label/rc "${ts_xml_spec}" "${ts_salobj_spec}" "${ts_idl_spec}" "${ts_utils_spec}" pyopenssl
 
 WORKDIR /home/saluser/
 

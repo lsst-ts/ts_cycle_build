@@ -17,6 +17,7 @@ RUN groupadd --gid ${GID} saluser && \
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-private.repo
+COPY common/conda_package_spec.sh ${HOME}/.conda_package_spec.sh
 COPY develop-env/lsstsqre/gitconfig ${HOME}/.gitconfig
 COPY develop-env/lsstsqre/setup_env.sh /home/saluser/.setup_salobj.sh
 
@@ -171,7 +172,8 @@ ARG python_confluent_kafka
 RUN conda config --add channels conda-forge
 
 RUN source ${STACKDIR}/loadLSST.bash && \
-    conda install -y -c lsstts ts-develop=${ts_develop}
+    source ${HOME}/.conda_package_spec.sh && \
+    conda install -y -c lsstts "$(conda_package_spec ts-develop "${ts_develop}")"
 
 RUN source ${STACKDIR}/loadLSST.bash && \
     conda install -y ltd-conveyor

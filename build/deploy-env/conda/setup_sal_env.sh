@@ -18,3 +18,7 @@ ${HOME}/.wait_obsenv_sidecar.sh
 trap 'kill ${!}; term_handler' SIGTERM
 
 source ${WORKDIR}/miniconda/bin/activate
+
+if [ -f "${HOME}/.conda_package_spec.sh" ]; then
+  source "${HOME}/.conda_package_spec.sh"
+fi
