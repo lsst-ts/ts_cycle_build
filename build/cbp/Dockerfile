@@ -25,7 +25,7 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    mamba install -c lsstts ts-cbp=${cbp}
+    mamba install -c lsstts "$(conda_package_spec ts-cbp "${cbp}")"
 
 USER saluser
 

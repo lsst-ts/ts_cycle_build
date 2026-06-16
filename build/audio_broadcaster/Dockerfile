@@ -11,7 +11,7 @@ ARG ts_audio_broadcaster
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts \
-    ts-audio-broadcaster=${ts_audio_broadcaster}
+    "$(conda_package_spec ts-audio-broadcaster "${ts_audio_broadcaster}")"
 
 LABEL ts_audio_broadcaster=${ts_audio_broadcaster}
 

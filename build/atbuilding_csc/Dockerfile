@@ -9,7 +9,7 @@ ARG atbuilding_csc
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-atbuilding-csc=${atbuilding_csc}
+    conda install -y -c lsstts "$(conda_package_spec ts-atbuilding-csc "${atbuilding_csc}")"
 
 RUN git clone https://github.com/lsst-ts/ts_config_attcs.git
 

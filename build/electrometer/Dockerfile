@@ -10,7 +10,7 @@ ARG utils
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-electrometer=${electrometer} ts-utils=${utils}
+    conda install -y -c lsstts "$(conda_package_spec ts-electrometer "${electrometer}")" "$(conda_package_spec ts-utils "${utils}")"
 
 RUN git clone https://github.com/lsst-ts/ts_config_ocs.git
 

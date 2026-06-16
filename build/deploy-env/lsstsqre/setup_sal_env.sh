@@ -15,6 +15,10 @@ ${HOME}/.wait_obsenv_sidecar.sh
 
 . ${WORKDIR}/loadLSST.bash
 
+if [ -f "${HOME}/.conda_package_spec.sh" ]; then
+  source "${HOME}/.conda_package_spec.sh"
+fi
+
 # setup handlers
 # on callback, kill the last background process and execute term_handler
 trap 'kill ${!}; term_handler' SIGTERM

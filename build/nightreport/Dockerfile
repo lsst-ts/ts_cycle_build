@@ -11,7 +11,7 @@ ARG ts_nightreport
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts \
-    ts-nightreport=${ts_nightreport}
+    "$(conda_package_spec ts-nightreport "${ts_nightreport}")"
 
 # Handle alembic migrations files
 RUN git clone https://github.com/lsst-ts/ts_nightreport

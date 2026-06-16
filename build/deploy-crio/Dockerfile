@@ -75,7 +75,7 @@ USER saluser
 ARG xml
 
 RUN source /home/saluser/.setup_sal_env.sh \
-    && mamba install -y -c lsstts readline yaml-cpp catch2 spdlog texlive-core ghostscript ts-xml=$xml
+    && mamba install -y -c lsstts readline yaml-cpp catch2 spdlog texlive-core ghostscript "$(conda_package_spec ts-xml "$xml")"
 
 WORKDIR /home/saluser
 

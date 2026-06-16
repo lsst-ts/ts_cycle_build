@@ -9,7 +9,7 @@ ARG dream
 ARG config
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-dream=${dream}
+    conda install -y -c lsstts "$(conda_package_spec ts-dream "${dream}")"
 
 RUN git clone https://github.com/lsst-ts/ts_config_ocs.git
 

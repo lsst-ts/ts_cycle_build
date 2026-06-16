@@ -17,13 +17,13 @@ ARG ts_observing
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts \
-    ts-observatory-model=${ts_observatory_model} \
-    ts-astrosky-model=${ts_astrosky_model} \
-    ts-dateloc=${ts_dateloc} \
-    ts-observing=${ts_observing} \
+    "$(conda_package_spec ts-observatory-model "${ts_observatory_model}")" \
+    "$(conda_package_spec ts-astrosky-model "${ts_astrosky_model}")" \
+    "$(conda_package_spec ts-dateloc "${ts_dateloc}")" \
+    "$(conda_package_spec ts-observing "${ts_observing}")" \
     rubin-scheduler=${rubin_scheduler} \
-    ts-scheduler=${ts_scheduler}  \
-    ts-fbs-utils=${ts_fbs_utils}
+    "$(conda_package_spec ts-scheduler "${ts_scheduler}")"  \
+    "$(conda_package_spec ts-fbs-utils "${ts_fbs_utils}")"
 
 ARG lsst_efd_client
 

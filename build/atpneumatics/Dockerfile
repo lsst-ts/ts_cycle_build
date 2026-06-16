@@ -20,7 +20,7 @@ WORKDIR /home/saluser/
 ENV TS_CONFIG_ATTCS_DIR=/home/saluser/ts_config_attcs
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-atpneumatics=${atpneumatics} ts-attcpip=${attcpip}
+    conda install -y -c lsstts "$(conda_package_spec ts-atpneumatics "${atpneumatics}")" "$(conda_package_spec ts-attcpip "${attcpip}")"
 
 LABEL ts-atpneumatics=${atpneumatics} \
       ts-attcpip=${attcpip} \
