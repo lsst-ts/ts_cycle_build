@@ -96,13 +96,17 @@ USER root
 #     ${LSST_SAL_PREFIX}/bin/setupStackBuildEnvironment
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro || echo "Failed."
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment librdkafka || echo "Failed."
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment librdkafka
+
+# zip is required by vcpkg, which builds libschemaregistry's dependencies
+# (the base image provides unzip but not zip).
+RUN dnf install -y zip
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment libserdes || echo "Failed."
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment libschemaregistry
 
 USER saluser
 
