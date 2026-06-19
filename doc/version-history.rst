@@ -8,6 +8,24 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 6
+===================
+
+* Updated version of the following packages:
+
+  * ts_mtmount
+  * ts_scheduler
+  * ts_eas
+  * ts_ess_common
+  * ts_hvac
+  * ts_config_ocs
+  * love_frontend
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
+* Downgraded librdkafka because the previous version doesn't exist.
+
 Cycle 44 revision 5
 ===================
 
