@@ -8,7 +8,7 @@ ARG hexrotcomm
 ARG tcpip
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-mthexapod=${mthexapod} ts-hexrotcomm=${hexrotcomm} ts-tcpip=${tcpip}
+    conda install -y -c lsstts "$(conda_package_spec ts-mthexapod "${mthexapod}")" "$(conda_package_spec ts-hexrotcomm "${hexrotcomm}")" "$(conda_package_spec ts-tcpip "${tcpip}")"
 
 RUN git clone https://github.com/lsst-ts/ts_config_mttcs.git
 

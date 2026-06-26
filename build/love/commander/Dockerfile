@@ -10,7 +10,7 @@ ARG ts_observatory_control
 ARG ts_m1m3_utils
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts -c lsstts/label/rc love-commander=${love_commander} ts-observatory-control=${ts_observatory_control} ts-m1m3-utils=${ts_m1m3_utils} && \
+    conda install -y -c lsstts -c lsstts/label/rc love-commander=${love_commander} "$(conda_package_spec ts-observatory-control "${ts_observatory_control}")" "$(conda_package_spec ts-m1m3-utils "${ts_m1m3_utils}")" && \
     pip install kafkit[aiohttp] aiokafka lsst_efd_client
 
 LABEL love_commander=${love_commander}

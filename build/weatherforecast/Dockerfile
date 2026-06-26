@@ -26,7 +26,7 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-weatherforecast=${weatherforecast}
+    conda install -y -c lsstts "$(conda_package_spec ts-weatherforecast "${weatherforecast}")"
 
 USER saluser
 

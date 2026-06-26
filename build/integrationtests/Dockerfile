@@ -9,7 +9,7 @@ WORKDIR ${HOME}
 ARG integrationtests
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-conda install -y -c lsstts ts-integrationtests=${integrationtests} -y && \
+conda install -y -c lsstts "$(conda_package_spec ts-integrationtests "${integrationtests}")" -y && \
 conda install -y -c conda-forge robotframework PyYAML aioinflux pandas astropy pytables kafkit && \
 pip3 install --no-deps -U lsst-efd-client
 

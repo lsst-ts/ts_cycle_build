@@ -20,7 +20,7 @@ ENV RUN_ARG=""
 WORKDIR /home/saluser/
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-atspec=${atspec}
+    conda install -y -c lsstts "$(conda_package_spec ts-atspec "${atspec}")"
 
 LABEL ts_atspec=${atspec} \
       ts_config_latiss=${config}

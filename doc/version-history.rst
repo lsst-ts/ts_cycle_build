@@ -8,6 +8,23 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 7
+===================
+
+* Updated version of the following packages:
+
+  * ts_attcpip
+  * ts_hvac
+  * love_frontend
+  * love_manager
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
+* Added a CHOICE parameter to Jenkinsfile.cycle to define which ENV file to use during the build. Updated all instances to cycle.env to use this parameter instead.
+* Removed DDS references and update librdkafka library version in develop.env.
+* Removed DDS references and update librdkafka library version in main.env.
+* Added conda_package_spec function to associate develop with dev label conda packages. Updated DeployEnv Dockerfiles.
+
 Cycle 44 revision 6
 ===================
 

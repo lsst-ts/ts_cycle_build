@@ -27,7 +27,16 @@ RUN \
     conda install -y python=${PYTHON_VERSION} && \
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
-    conda install -y -c lsstts ts-atbuilding-vents=${vents_version}
+    conda_package_spec() { \
+      package_name="$1"; \
+      package_version="$2"; \
+      case "${package_version}" in \
+        develop) echo "lsstts/label/dev::${package_name}" ;; \
+        main) echo "lsstts::${package_name}" ;; \
+        *) echo "${package_name}=${package_version}" ;; \
+      esac; \
+    } && \
+    conda install -y -c lsstts "$(conda_package_spec ts-atbuilding-vents "${vents_version}")"
 
 LABEL ts-atbuilding-vents=${vents_version}
 

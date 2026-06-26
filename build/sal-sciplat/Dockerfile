@@ -21,6 +21,7 @@ ENV PYTEST_QT_API="PySide6"
 
 COPY sal-sciplat/salbldsteps.bash ${SALSTACK}
 COPY sal-sciplat/print_stack_version.sh /opt/lsst/sal/print_stack_version.sh
+COPY common/conda_package_spec.sh /opt/lsst/sal/conda_package_spec.sh
 
 RUN mkdir -p ${SRCDIR} && \
     chown -R lsst:lsst ${SRCDIR} && \
@@ -59,10 +60,11 @@ ARG ts_idl
 ARG ts_utils
 
 RUN source ${LOADSTACK} && \
+    source /opt/lsst/sal/conda_package_spec.sh && \
     conda install -c lsstts -y \
-    ts-xml=${ts_xml} \
-    ts-utils=${ts_utils} \
-    ts-idl=${ts_idl}
+    "$(conda_package_spec ts-xml "${ts_xml}")" \
+    "$(conda_package_spec ts-utils "${ts_utils}")" \
+    "$(conda_package_spec ts-idl "${ts_idl}")"
 
 # Workaround for pin on python-confluent-kafka.
 RUN sed -i 's/    "python-confluent-kafka >=1.9.2,<2",/    "python-confluent-kafka >=1.9.2",/' /opt/lsst/software/stack/conda/envs/lsst-scipipe-9.0.0/conda-meta/rubin-env-nosysroot* || echo "Failed to work around python-confluent-kafka pin."
@@ -72,11 +74,12 @@ ARG librdkafka
 ARG python_confluent_kafka
 
 RUN source ${LOADSTACK} && \
+    source /opt/lsst/sal/conda_package_spec.sh && \
     conda list && \
     conda install -c lsstts/label/rc -y \
     librdkafka=${librdkafka} \
     python-confluent-kafka=${python_confluent_kafka} \
-    ts-salobj=${ts_salobj}
+    "$(conda_package_spec ts-salobj "${ts_salobj}")"
 
 #### Clear the astropy download cache
 RUN source ${LOADSTACK} && \
@@ -91,15 +94,16 @@ ARG ts_atdometrajectory
 ARG ts_atmcs
 
 RUN source ${LOADSTACK} && \
+    source /opt/lsst/sal/conda_package_spec.sh && \
     conda install -c lsstts -y \
-    ts-xml=${ts_xml} \
-    ts-utils=${ts_utils} \
-    ts-idl=${ts_idl}
+    "$(conda_package_spec ts-xml "${ts_xml}")" \
+    "$(conda_package_spec ts-utils "${ts_utils}")" \
+    "$(conda_package_spec ts-idl "${ts_idl}")"
 
 RUN source ${LOADSTACK} && \
+    source /opt/lsst/sal/conda_package_spec.sh && \
     conda install -c lsstts -c lsstts/label/rc -y \
-    ts-salobj=${ts_salobj}
+    "$(conda_package_spec ts-salobj "${ts_salobj}")"
 
 USER lsst
 WORKDIR /opt/lsst/software/stack/
-

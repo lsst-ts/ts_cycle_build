@@ -4,6 +4,7 @@ baseurl=https://repo-nexus.lsst.org/nexus/repository/ts_yum/releases
 failovermethod=priority
 enabled=1
 gpgcheck=0
+skip_if_unavailable=True
 
 [lsst-ts-test]
 name=LSST Telescope and Site - $basearch - Source
@@ -11,6 +12,7 @@ baseurl=https://repo-nexus.lsst.org/nexus/repository/ts_yum/test
 failovermethod=priority
 enabled=0
 gpgcheck=0
+skip_if_unavailable=True
 
 [lsst-ts-daily]
 name=LSST Telescope and Site - $basearch - Daily
@@ -18,6 +20,7 @@ baseurl=https://repo-nexus.lsst.org/nexus/repository/ts_yum/daily
 failovermethod=priority
 enabled=0
 gpgcheck=0
+skip_if_unavailable=True
 
 [lsst-ts-bleed]
 name=LSST Telescope and Site - $basearch - Bleed
@@ -25,3 +28,4 @@ baseurl=https://repo-nexus.lsst.org/nexus/repository/ts_yum/bleed
 failovermethod=priority
 enabled=0
 gpgcheck=0
+skip_if_unavailable=True

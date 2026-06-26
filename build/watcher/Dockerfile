@@ -15,7 +15,7 @@ WORKDIR /home/saluser/
 
 ARG watcher
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-watcher=${watcher}
+    conda install -y -c lsstts "$(conda_package_spec ts-watcher "${watcher}")"
 
 LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org> \
       ts_config_ocs ${config_ocs} \

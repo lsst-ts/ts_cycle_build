@@ -31,8 +31,8 @@ RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
 RUN source /home/saluser/.setup_sal_env.sh && \
-    conda install -y -c lsstts ts-ess-common=${common} ts-ess-earthquake=${earthquake} ts-ess-epm=${epm} \
-        ts-ess-labjack=${labjack} ts-ess-csc=${ess} ts-ess-ringss=${ringss} labjack-ljm=${labjack_ljm}
+    conda install -y -c lsstts "$(conda_package_spec ts-ess-common "${common}")" "$(conda_package_spec ts-ess-earthquake "${earthquake}")" "$(conda_package_spec ts-ess-epm "${epm}")" \
+        "$(conda_package_spec ts-ess-labjack "${labjack}")" "$(conda_package_spec ts-ess-csc "${ess}")" "$(conda_package_spec ts-ess-ringss "${ringss}")" labjack-ljm=${labjack_ljm}
 
 USER saluser
 
