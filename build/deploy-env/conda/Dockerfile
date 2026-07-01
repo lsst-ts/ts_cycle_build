@@ -62,13 +62,16 @@ ARG PYTHON_VERSION
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o miniforge.sh && \
   chmod +x miniforge.sh && \
   ./miniforge.sh -b -p ${WORKDIR}/miniconda && \
-  source /home/saluser/.setup_sal_env.sh && \
+  ${WORKDIR}/miniconda/bin/conda init bash
+
+RUN source /home/saluser/.setup_sal_env.sh && \
   source /home/saluser/.conda_package_spec.sh && \
   ts_xml_spec=$(conda_package_spec ts-xml "${ts_xml}") && \
   ts_salobj_spec=$(conda_package_spec ts-salobj "${ts_salobj}") && \
   ts_idl_spec=$(conda_package_spec ts-idl "${ts_idl}") && \
   ts_utils_spec=$(conda_package_spec ts-utils "${ts_utils}") && \
-  conda update -y -n base -c conda-forge conda conda-libmamba-solver --solver classic && \
+  conda update -n base -c https://conda.anaconda.org/conda-forge/linux-64 conda && \
+  conda update -y -n base -c conda-forge conda-libmamba-solver --solver classic && \
   conda config --set solver libmamba && \
   conda install -y python=${PYTHON_VERSION} && \
   conda config --add channels conda-forge && \
