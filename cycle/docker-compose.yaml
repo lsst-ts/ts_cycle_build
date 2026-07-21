@@ -156,6 +156,7 @@ x-lsst_sims:
 
 x-base-deploy-lsstsqre-private:
   &base-deploy-lsstsqre-private
+  image: ts-dockerhub.lsst.org/deploy-sqre:${CYCLE}${rev}
   build:
     context: ../build/
     dockerfile: ./deploy-env/lsstsqre/Dockerfile
@@ -171,6 +172,8 @@ x-base-deploy-lsstsqre-private:
       python_confluent_kafka: ${python_confluent_kafka}
     platforms:
       - linux/amd64
+    tags:
+      - ts-dockerhub.lsst.org/deploy-sqre:${CYCLE}
 
 x-dimm:
   &base-dimm
@@ -1024,11 +1027,6 @@ services:
         python_confluent_kafka: ${python_confluent_kafka}
 
   deploy-lsstsqre-private:
-    image: ts-dockerhub.lsst.org/deploy-sqre:${CYCLE}${rev}
-    <<: *base-deploy-lsstsqre-private
-
-  deploy-lsstsqre-private_c:
-    image: ts-dockerhub.lsst.org/deploy-sqre:${CYCLE}
     <<: *base-deploy-lsstsqre-private
     
   deploy-crio:
