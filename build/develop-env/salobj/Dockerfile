@@ -89,20 +89,24 @@ RUN source /home/saluser/.setup_salobj.sh && \
 ENV LSST_SAL_PREFIX=/opt/lsst/tssw/ts_sal
 RUN source /home/saluser/.setup_salobj.sh && \
     mkdir ${LSST_SAL_PREFIX}/lib && \
-    conda install -y jansson
+    conda install -y jansson tcllib
 
 USER root
 # RUN source /home/saluser/.setup_salobj.sh && \
 #     ${LSST_SAL_PREFIX}/bin/setupStackBuildEnvironment
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro || echo "Failed."
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment librdkafka || echo "Failed."
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment librdkafka
+
+# zip is required by vcpkg, which builds libschemaregistry's dependencies
+# (the base image provides unzip but not zip).
+RUN dnf install -y zip
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment libserdes || echo "Failed."
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment libschemaregistry
 
 USER saluser
 
