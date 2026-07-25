@@ -20,6 +20,7 @@ COPY common/lsst-ts-nexus-private.repo /etc/yum.repos.d/lsst-ts-private.repo
 COPY common/conda_package_spec.sh ${HOME}/.conda_package_spec.sh
 COPY develop-env/lsstsqre/gitconfig ${HOME}/.gitconfig
 COPY develop-env/lsstsqre/setup_env.sh /home/saluser/.setup_salobj.sh
+COPY develop-env/lsstsqre/toolchains.xml /root/.m2/toolchains.xml
 
 RUN if [ -d "$HOME/.cache" ]; then \
     chown -R saluser:saluser "$HOME/.cache"; \
@@ -153,7 +154,7 @@ ARG openjdk
 
 # Install Azul
 RUN dnf install -y https://cdn.azul.com/zulu/bin/zulu-repo-1.0.0-1.noarch.rpm && \
-    dnf install -y zulu${openjdk}-jdk
+    dnf install -y zulu${openjdk}-jdk zulu11-jdk zulu21-jdk
 
 ENV WORKDIR /usr/lib/maven
 WORKDIR /usr/lib/maven
@@ -189,7 +190,9 @@ RUN source ${STACKDIR}/loadLSST.bash && \
 
 ENV LSST_SDK_INSTALL=/home/saluser/repos/ts_sal
 ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/current
-ENV JAVA_HOME=/usr/lib/jvm/zulu${openjdk}
+# Avro 1.12 requires Maven itself to run on JDK 21; JDKs 11 and 17 are
+# installed above for its Maven toolchains.
+ENV JAVA_HOME=/usr/lib/jvm/java-21-zulu-openjdk-ca
 ENV MAVEN_HOME=/usr/lib/maven/apache-maven-${maven}
 ENV PATH=${PATH}:${MAVEN_HOME}/bin
 
