@@ -132,13 +132,13 @@ ENV EUPS_PKGROOT=https://eups.lsst.cloud/stack/redhat/el7/conda-system/miniconda
 
 RUN conda env list | awk '{print $1}' | grep '^lsst-scipipe-' | head -n1 > /tmp/env_name
 
-RUN ENV_NAME=$(cat /tmp/env_name) && conda install -n "$ENV_NAME" -y gdal=3.10
+# RUN ENV_NAME=$(cat /tmp/env_name) && conda install -n "$ENV_NAME" -y gdal=3.10
 
 RUN source ${STACKDIR}/loadLSST.sh && eups distrib install -t ${stack} lsst_distrib
 
 # Install labjack
 USER root
-ENV WORKDIR /tmp
+ENV WORKDIR=/tmp
 ARG labjack_file_version
 ARG labjack_arch
 ARG labjack_ljm
