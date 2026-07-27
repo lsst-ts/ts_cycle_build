@@ -77,6 +77,16 @@ ENV TCSPK_DIR=/home/saluser/repos/tcspk_source_lsst_161203
 ENV LSST_TS_XML_DIR=/home/saluser/repos/ts_xml
 ENV TELESCOPE=MT
 
+USER root
+
+RUN sed -i \
+  '/auto format(const avro::Name /c\    auto format(const avro::Name \&n, FormatContext \&ctx) const {' \
+  /opt/lsst/ts_sal/include/avro/Node.hh
+
+USER saluser
+
+
+
 WORKDIR /home/saluser/repos/slalib_source_lsst_161203
 RUN source scl_source enable gcc-toolset-13 && make
 
@@ -93,8 +103,12 @@ RUN /home/saluser/.checkout_repo.sh ${ptg} && \
     export PYTHON_BUILD_VERSION=$(python -c 'import sysconfig; print(sysconfig.get_config_var("LDVERSION"))') && \
     export PYTHON_BUILD_LOCATION="${CONDA_PREFIX}/" && \
     source scl_source enable gcc-toolset-13 && \
-    cmake -DRPM=ON .. && make && \
-    cmake -DRPM=ON -DAT=ON .. && make
+    unset CPATH C_INCLUDE_PATH CPLUS_INCLUDE_PATH CMAKE_PREFIX_PATH PKG_CONFIG_PATH && \
+    export toolset_lib=/opt/rh/gcc-toolset-13/root/usr/lib/gcc/x86_64-redhat-linux/13 && \
+    export LIBRARY_PATH="${toolset_lib}:${LIBRARY_PATH}" && \
+    export LD_LIBRARY_PATH="${toolset_lib}:/opt/rh/gcc-toolset-13/root/usr/lib64:${LD_LIBRARY_PATH}" && \
+    cmake -DRPM=ON -DCMAKE_IGNORE_PREFIX_PATH=/opt/lsst/software/stack/miniconda .. && make && \
+    cmake -DRPM=ON -DAT=ON -DCMAKE_IGNORE_PREFIX_PATH=/opt/lsst/software/stack/miniconda .. && make
 
 RUN mkdir -p $PTG_DATA_DIR && cp $LSST_TOP/src/data/* $PTG_DATA_DIR/
 
