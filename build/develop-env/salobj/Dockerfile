@@ -101,17 +101,17 @@ RUN sed -i 's|^export JAVA_HOME=/usr/lib/jvm/java-17-openjdk$|# JAVA_HOME is pro
     ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    MAVEN_ARGS="-T 1C" MAKEFLAGS="-j$(nproc)" ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    MAKEFLAGS="-j$(nproc)" ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment librdkafka
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment librdkafka
 
 # zip is required by vcpkg, which builds libschemaregistry's dependencies
 # (the base image provides unzip but not zip).
 RUN dnf install -y zip
 
 RUN source /home/saluser/.setup_salobj.sh && \
-    MAKEFLAGS="-j$(nproc)" ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment libschemaregistry
+    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment libschemaregistry
 
 USER saluser
 
