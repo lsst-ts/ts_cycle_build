@@ -8,6 +8,24 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 9
+===================
+
+* Updated version of the following packages:
+
+  * ts_atpneumatics
+  * ts_watcher
+  * ts_scheduler
+  * ts_eas
+  * ts_fiberspectrograph
+  * ts_config_latiss
+  * ts_config_mtcalsys
+  * ts_config_ocs
+  * ts_logging_frontend
+  * ts_logging_and_reporting
+
+* Updated ATBuilding entrypoint to avoid buffering of stderr and stdout.
+
 Cycle 44 revision 8
 ===================
 

@@ -40,4 +40,6 @@ RUN \
 
 LABEL ts-atbuilding-vents=${vents_version}
 
-ENTRYPOINT ["/home/saluser/miniconda3/bin/conda", "run", "run_dispatcher"]
+ENV PYTHONUNBUFFERED=1
+
+ENTRYPOINT ["/home/saluser/miniconda3/bin/conda", "run", "--no-capture-output", "run_dispatcher"]
