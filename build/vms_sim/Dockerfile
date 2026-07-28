@@ -27,6 +27,7 @@ RUN source /home/saluser/.crio_setup.sh \
     && make -j$(nproc) simulator
 
 COPY --chown=saluser:saluser --chmod=a+x vms_sim/startup.sh /home/saluser/.startup.sh
+RUN chmod 755 /home/saluser/.startup.sh
 COPY --chown=saluser:saluser --chmod=a+x vms_sim/create_topics_vms.py /home/saluser/.create_topics_vms.py
 
 ENV RUN_ARG=""
