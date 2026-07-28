@@ -177,8 +177,8 @@ export LSST_KAFKA_SECURITY_PROTOCOL=SASL_SSL\\n\
 export AVRO_RELEASE=1.11.3\\n\
 export LSST_TOPIC_SUBNAME=sal\\n\
 \\n\
-export LSST_KAFKA_BROKER_ADDR="broker:29092"\\n\
-export LSST_SCHEMA_REGISTRY_URL="http://schema-registry:8081"\\n\
+export LSST_KAFKA_BROKER_ADDR="${LSST_KAFKA_BROKER_ADDR:-broker:29092}"\\n\
+export LSST_SCHEMA_REGISTRY_URL="${LSST_SCHEMA_REGISTRY_URL:-http://schema-registry:8081}"\\n\
 \\n\
 export LSST_SAL_PREFIX=/usr/local\\n\
 \\n\
