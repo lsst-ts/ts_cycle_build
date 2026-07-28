@@ -29,6 +29,7 @@ RUN source /home/saluser/.crio_setup.sh \
 
 USER root
 COPY --chown=saluser:saluser --chmod=a+x mtm1m3ts_sim/startup.sh /home/saluser/.startup.sh
+RUN chmod 755 /home/saluser/.startup.sh
 COPY --chown=saluser:saluser --chmod=a+x mtm1m3ts_sim/create_topics_mtm1m3ts.py /home/saluser/.create_topics_mtm1m3ts.py
 USER saluser
 
