@@ -177,7 +177,7 @@ export LSST_TOPIC_SUBNAME="\${LSST_TOPIC_SUBNAME:-sal}"\\n\
 export LSST_KAFKA_BROKER_ADDR="\${LSST_KAFKA_BROKER_ADDR:-broker:29092}"\\n\
 export LSST_SCHEMA_REGISTRY_URL="\${LSST_SCHEMA_REGISTRY_URL:-http://schema-registry:8081}"\\n\
 \\n\
-export LSST_SAL_PREFIX="\${LSST_SAL_PREFIX:-/opt/lsst/tssw/ts_sal/test/}"\\n\
+export LSST_SAL_PREFIX="\${LSST_SAL_PREFIX:-/opt/lsst/tssw/ts_sal/}"\\n\
 \\n\
 export LSST_KAFKA_HOST=\${LSST_KAFKA_BROKER_ADDR%:*}\\n\
 export LSST_KAFKA_BROKER_PORT=\${LSST_KAFKA_BROKER_ADDR##*:}\\n\
