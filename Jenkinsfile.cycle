@@ -369,7 +369,6 @@ pipeline {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
               docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} mtm1m3_sim
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build mtm1m3_sim_c
               """
               }
           }
@@ -377,7 +376,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push mtm1m3_sim mtm1m3_sim_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push mtm1m3_sim
             """
           }
         }
@@ -397,7 +396,6 @@ pipeline {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
               docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} mtm1m3ts_sim
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build mtm1m3ts_sim_c
               """
               }
           }
@@ -405,7 +403,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push mtm1m3ts_sim mtm1m3ts_sim_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push mtm1m3ts_sim
             """
           }
         }
@@ -425,7 +423,6 @@ pipeline {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
               docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} vms_sim
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build vms_sim_c
               """
               }
           }
@@ -433,7 +430,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push vms_sim vms_sim_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push vms_sim
             """
           }
         }
