@@ -142,6 +142,7 @@ RUN source /home/saluser/.setup_sal_env.sh \
     && git clone https://github.com/lsst-ts/ts_sal \
     && cd ts_sal \
     && git checkout $sal \
+    && sed -i 's|^export LSST_KAFKA_LOCAL_SCHEMAS=.*|export LSST_KAFKA_LOCAL_SCHEMAS="${LSST_KAFKA_LOCAL_SCHEMAS:-$LSST_SAL_PREFIX}"|' setupKafka.env \
     && cd .. \
     && git clone https://github.com/lsst-ts/ts_xml \
     && cd ts_xml \
@@ -177,7 +178,7 @@ export LSST_TOPIC_SUBNAME="\${LSST_TOPIC_SUBNAME:-sal}"\\n\
 export LSST_KAFKA_BROKER_ADDR="\${LSST_KAFKA_BROKER_ADDR:-broker:29092}"\\n\
 export LSST_SCHEMA_REGISTRY_URL="\${LSST_SCHEMA_REGISTRY_URL:-http://schema-registry:8081}"\\n\
 \\n\
-export LSST_SAL_PREFIX="\${LSST_SAL_PREFIX:-/opt/lsst/tssw/ts_sal/}"\\n\
+export LSST_SAL_PREFIX="\${LSST_SAL_PREFIX:-/usr/local}"\\n\
 \\n\
 export LSST_KAFKA_HOST=\${LSST_KAFKA_BROKER_ADDR%:*}\\n\
 export LSST_KAFKA_BROKER_PORT=\${LSST_KAFKA_BROKER_ADDR##*:}\\n\
