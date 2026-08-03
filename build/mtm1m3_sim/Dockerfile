@@ -23,7 +23,6 @@ RUN source /home/saluser/.crio_setup.sh \
     && export LIBRARY_PATH="/opt/vcpkg/installed/x64-linux/lib:${LIBRARY_PATH}" \
     && cd ts_m1m3support \
     && /home/saluser/.checkout_repo.sh ${m1m3} \
-    && git apply libschemaregistry.patch \
     && make -j$(nproc) simulator
 
 
