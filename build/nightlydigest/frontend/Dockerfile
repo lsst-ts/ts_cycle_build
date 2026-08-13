@@ -13,7 +13,7 @@ COPY --from=cloner /usr/src/app/ts_logging_frontend /usr/src/app
 
 WORKDIR /usr/src/app
 
-RUN npm install
+RUN npm ci
 RUN npx vite build
 
 VOLUME /usr/src/app/dist
