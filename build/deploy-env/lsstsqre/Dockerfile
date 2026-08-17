@@ -57,7 +57,10 @@ RUN curl -LO https://ls.st/lsstinstall && \
 
 RUN ${WORKDIR}/conda/bin/conda env list | awk '{print $1}' | grep '^lsst-scipipe-' | head -n1 > /tmp/env_name && \
     ENV_NAME=$(cat /tmp/env_name) && \
-    ${WORKDIR}/conda/bin/conda install -n "$ENV_NAME" -y gdal=3.10
+    GDAL_VERSION=$(${WORKDIR}/conda/bin/conda list -n "$ENV_NAME" | awk '$1 == "gdal" || $1 == "libgdal" || $1 == "libgdal-core" { print $2; exit }') && \
+    if [ -z "$GDAL_VERSION" ] || ! printf '%s\n%s\n' 3.13 "$GDAL_VERSION" | sort -V -C; then \
+      ${WORKDIR}/conda/bin/conda install -n "$ENV_NAME" -y gdal=3.10; \
+    fi
 
 RUN source ./loadLSST.bash && \
   eups distrib install -t ${stack} lsst_distrib
