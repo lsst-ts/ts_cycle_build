@@ -14,12 +14,6 @@ RUN source /home/saluser/.setup_sal_env.sh && \
     "$(conda_package_spec ts-logging-and-reporting "${ts_logging_and_reporting}")" && \
     conda update -y -c conda-forge astropy astropy-iers-data
 
-
-# Workaround until we lsst-resources get conda packaged.
-# See: OSW-1382.
-RUN source /home/saluser/.setup_sal_env.sh && \
-    pip install lsst-resources
-
 WORKDIR /home/saluser/
 
 LABEL ts_logging_and_reporting=${ts_logging_and_reporting}
