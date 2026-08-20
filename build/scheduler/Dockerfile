@@ -14,6 +14,7 @@ ARG rubin_scheduler
 ARG ts_fbs_utils
 ARG ts_scheduler
 ARG ts_observing
+ARG lsst_efd_client
 
 RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y -c lsstts \
@@ -21,14 +22,11 @@ RUN source /home/saluser/.setup_sal_env.sh && \
     "$(conda_package_spec ts-astrosky-model "${ts_astrosky_model}")" \
     "$(conda_package_spec ts-dateloc "${ts_dateloc}")" \
     "$(conda_package_spec ts-observing "${ts_observing}")" \
+    "$(conda_package_spec lsst-efd-client "${lsst_efd_client}")" \
     rubin-scheduler=${rubin_scheduler} \
     "$(conda_package_spec ts-scheduler "${ts_scheduler}")"  \
     "$(conda_package_spec ts-fbs-utils "${ts_fbs_utils}")"
 
-ARG lsst_efd_client
-
-RUN source /home/saluser/.setup_sal_env.sh && \
-    pip install lsst-efd-client==${lsst_efd_client}
 
 ARG config
 
