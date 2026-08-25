@@ -131,7 +131,11 @@ ENV EUPS_PKGROOT=https://eups.lsst.cloud/stack/redhat/el7/conda-system/miniconda
 
 RUN conda env list | awk '{print $1}' | grep '^lsst-scipipe-' | head -n1 > /tmp/env_name
 
-RUN ENV_NAME=$(cat /tmp/env_name) && conda install -n "$ENV_NAME" -y gdal=3.10
+RUN ENV_NAME=$(cat /tmp/env_name) && \
+    GDAL_VERSION=$(conda list -n "$ENV_NAME" | awk '$1 == "gdal" || $1 == "libgdal" || $1 == "libgdal-core" { print $2; exit }') && \
+    if [ -z "$GDAL_VERSION" ] || ! printf '%s\n%s\n' 3.13 "$GDAL_VERSION" | sort -V -C; then \
+      conda install -n "$ENV_NAME" -y gdal=3.10; \
+    fi
 
 RUN source ${STACKDIR}/loadLSST.sh && eups distrib install -t ${stack} lsst_distrib
 

@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 10
+====================
+
+* Updated version of the following packages:
+
+  * lsst_efd_client
+  * rubin_scheduler
+  * ts_config_ocs
+  * ts_develop
+  * ts_fiberspectrograph
+  * ts_scheduler
+  * ts_scriptqueue
+
+* Updated scheduler build to install lsst-efd-client from conda.
+* Added check to only pin gdal to 3.10 if 3.13 is not installed.
+
 Cycle 44 revision 9
 ===================
 
