@@ -95,22 +95,22 @@ USER root
 # RUN source /home/saluser/.setup_salobj.sh && \
 #     ${LSST_SAL_PREFIX}/bin/setupStackBuildEnvironment
 
-RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro || echo "Failed."
+# RUN source /home/saluser/.setup_salobj.sh && \
+#     ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment avro || echo "Failed."
 
-RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment librdkafka || echo "Failed."
+# RUN source /home/saluser/.setup_salobj.sh && \
+#     ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment librdkafka || echo "Failed."
 
-RUN source /home/saluser/.setup_salobj.sh && \
-    ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment libserdes || echo "Failed."
+# RUN source /home/saluser/.setup_salobj.sh && \
+#     ${LSST_SAL_PREFIX}/bin/setupSALKafkaBuildEnvironment libserdes || echo "Failed."
 
 USER saluser
 
-RUN source /home/saluser/.setup_salobj.sh && \
-    setup ts_xml -t current && \
-    setup ts_sal -t current && \
-    source ${TS_SAL_DIR}/setupKafka.env && \
-    salgeneratorKafka validate Test
+# RUN source /home/saluser/.setup_salobj.sh && \
+#     setup ts_xml -t current && \
+#     setup ts_sal -t current && \
+#     source ${TS_SAL_DIR}/setupKafka.env && \
+#     salgeneratorKafka validate Test
 
 WORKDIR /home/saluser/
 

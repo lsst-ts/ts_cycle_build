@@ -1,0 +1,127 @@
+properties (
+    [
+        disableConcurrentBuilds()
+    ]
+)
+pipeline {
+    agent {
+        label 'Node2_8CPU'
+    }
+    environment {
+        registryCredential = "dockerhub-lssttsadmin"
+        IMAGE_NAME = "develop-env"
+    }
+    parameters {
+        booleanParam defaultValue: false, description: 'Build main branch for all repos. Ignores All version parameters.', name: 'build_main'
+        booleanParam defaultValue: false, description: 'Build develop branch for all repos. Ignores All version parameters.', name: 'build_develop'
+        booleanParam defaultValue: false, description: 'Build cycle.', name: 'build_cycle'
+    }
+    stages {
+        stage("Build/push main") {
+            when {
+                expression { return params.build_main }
+            }
+            steps {
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    script {
+                        docker.withRegistry("", registryCredential) {
+                            sh """
+                                docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull develop-env-no-pulp
+                            """
+                        }
+                    }
+                }
+                script {
+                    docker.withRegistry("", registryCredential) {
+                        sh """
+                            source cycle/main.env
+                            docker push lsstts/$IMAGE_NAME:\${CYCLE}
+                        """
+                    }
+                }
+                script {
+                    docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                        sh """
+                            source cycle/main.env
+                            docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}
+                        """
+                    }
+                }
+            }
+        }
+        stage("Build/push develop") {
+            when {
+                expression { return params.build_develop }
+            }
+            steps {
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    script {
+                        docker.withRegistry("", registryCredential) {
+                            sh """
+                                docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull develop-env-no-pulp
+                            """
+                        }
+                    }
+                }
+                script {
+                    docker.withRegistry("", registryCredential) {
+                        sh """
+                            source cycle/develop.env
+                            docker push lsstts/$IMAGE_NAME:\${CYCLE}
+                        """
+                    }
+                }
+                script {
+                    docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                        sh """
+                            source cycle/develop.env
+                            docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}
+                        """
+                    }
+                }
+            }
+        }
+        stage("Build/push cycle") {
+            when {
+                expression { return params.build_cycle }
+            }
+            steps {
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    script {
+                        docker.withRegistry("", registryCredential) {
+                            sh """
+                                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull develop-env-no-pulp
+                            """
+                        }
+                    }
+                }
+                script {
+                    docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
+                        sh """
+                            source cycle/cycle.env
+                            docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}
+                            docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}\${rev}
+                        """
+                    }
+                }
+                script {
+                    docker.withRegistry("https://rubincr.lsst.org/", "nexus3-lsst_jenkins") {
+                        sh """
+                            source cycle/cycle.env
+                            docker push rubincr.lsst.org/$IMAGE_NAME:\${CYCLE}
+                            docker push rubincr.lsst.org/$IMAGE_NAME:\${CYCLE}\${rev}
+                        """
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            step([$class: 'Mailer',
+                notifyEveryUnstableBuild: false,
+                recipients: "eric.coughlin@noirlab.edu",
+                sendToIndividuals: true])
+        }
+    }
+}

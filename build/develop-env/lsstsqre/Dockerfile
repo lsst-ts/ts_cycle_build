@@ -3,8 +3,6 @@ FROM almalinux:9
 ARG UID=73006
 ARG GID=73006
 
-LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org>
-
 ENV USER ${USER:-saluser}
 ENV HOME /home/saluser
 ENV STACKDIR /opt/lsst/software/stack
@@ -78,8 +76,8 @@ RUN dnf install -y yum-utils && \
     xorg-x11-server-Xvfb
 
 # Install Yarn package manager
-RUN npm install --global yarn
-RUN chown -R ${UID}:${GID} ${HOME}/.npm
+# RUN npm install --global yarn
+# RUN chown -R ${UID}:${GID} ${HOME}/.npm
 
 # DDS Plumbing, remove if not needed for whatever reason.
 
@@ -137,25 +135,31 @@ RUN ENV_NAME=$(cat /tmp/env_name) && \
       conda install -n "$ENV_NAME" -y gdal=3.10; \
     fi
 
-RUN source ${STACKDIR}/loadLSST.sh && eups distrib install -t ${stack} lsst_distrib
+RUN conda config --add channels lsstts
+
+RUN source ${STACKDIR}/loadLSST.bash && conda install -y ts-develop-rsp
+
+RUN source ${STACKDIR}/loadLSST.bash && \
+    eups distrib install -t ${stack} lsst_distrib
 
 # Install labjack
-USER root
-ENV WORKDIR /tmp
-ARG labjack_file_version
-ARG labjack_arch
-ARG labjack_ljm
-COPY common/install_labjack.sh /tmp/install_labjack.sh
-RUN chown -R ${UID}:${GID} ${HOME}/.cache; \
-    chmod +x /tmp/install_labjack.sh && \
-    /tmp/install_labjack.sh --labjack_file_version=${labjack_file_version} \
-    --labjack_arch=${labjack_arch} --labjack_ljm=${labjack_ljm} \
-    --saluser_env_script="/opt/lsst/software/stack/loadLSST.bash"
+# USER root
+# ENV WORKDIR /tmp
+# ARG labjack_file_version
+# ARG labjack_arch
+# ARG labjack_ljm
+# COPY common/install_labjack.sh /tmp/install_labjack.sh
+# RUN chown -R ${UID}:${GID} ${HOME}/.cache; \
+#     chmod +x /tmp/install_labjack.sh && \
+#     /tmp/install_labjack.sh --labjack_file_version=${labjack_file_version} \
+#     --labjack_arch=${labjack_arch} --labjack_ljm=${labjack_ljm} \
+#     --saluser_env_script="/opt/lsst/software/stack/loadLSST.bash"
 
 ARG maven
 ARG openjdk
 
 # Install Azul
+USER root
 RUN dnf install -y https://cdn.azul.com/zulu/bin/zulu-repo-1.0.0-1.noarch.rpm && \
     dnf install -y zulu${openjdk}-jdk
 
@@ -197,10 +201,10 @@ ENV JAVA_HOME=/usr/lib/jvm/zulu${openjdk}
 ENV MAVEN_HOME=/usr/lib/maven/apache-maven-${maven}
 ENV PATH=${PATH}:${MAVEN_HOME}/bin
 
-LABEL maintainer Tiago Ribeiro <tribeiro@lsst.org> \
-    image_tag=${lsstsqre} \
+LABEL maintainer="Tiago Ribeiro <tribeiro@lsst.org>" \
+    image_tag=${stack} \
     ts_develop=${ts_develop} \
     gphoto2=${gphoto2}\
-    labjack_file_version=${labjack_file_version} \
-    labjack_arch=${labjack_arch} \
-    labjack_ljm=${labjack_ljm}
+    # labjack_file_version=${labjack_file_version} \
+    # labjack_arch=${labjack_arch} \
+    # labjack_ljm=${labjack_ljm}

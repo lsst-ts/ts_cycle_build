@@ -38,16 +38,19 @@ done
 yum -y --enablerepo=extras install epel-release unzip
 
 cd /tmp
-curl -O https://files.labjack.com/installers/LJM/Linux/x64/release/labjack_ljm_software_${labjack_file_version}_${labjack_arch}.tar.gz
-tar -xzf labjack_ljm_software_${labjack_file_version}_${labjack_arch}.tar.gz
-cd labjack_ljm_software_${labjack_file_version}_${labjack_arch}
-./labjack_ljm_installer.run || echo "Expected failure! can't restart rules on docker."
-cd ..
-rm -rf labjack_ljm_software_${labjack_file_version}_${labjack_arch}.tar.gz
-rm -rf labjack_ljm_software_${labjack_file_version}_${labjack_arch}
+arch="$(uname -m)"
 
-cd /tmp
-runuser - saluser -c """
-source "${saluser_env_script}" && \
-conda install -y -c lsstts labjack-ljm=${labjack_ljm}
-"""
+if [[ "$arch" == "x86_64" ]]; then
+  url="https://files.labjack.com/installers/LJM/Linux/x64/release/LabJack-LJM_2025-05-07.zip"
+elif [[ "$arch" == "aarch64" ]]; then
+  url="https://files.labjack.com/installers/LJM/Linux/AArch64/release/LabJack-LJM_2025-05-07.zip"
+else
+  echo "Unsupported architecture: $arch" >&2
+  exit 1
+fi
+
+curl -fL -O "$url"
+unzip LabJack-LJM_2025-05-07.zip
+./labjack_ljm_installer.run -- --without-kipling --no-restart-device-rules # || echo "Expected failure! can't restart rules on docker."
+rm labjack_ljm_installer.run
+rm INSTALL.md

@@ -9,6 +9,7 @@ pipeline {
     }
     environment {
         registryCredential = "dockerhub-lssttsadmin"
+        IMAGE_NAME = "develop-env-sqre"
     }
     parameters {
       booleanParam defaultValue: false, description: 'Build main branch for all repos. Ignores All version parameters.', name: 'build_main'
@@ -34,7 +35,7 @@ pipeline {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     source cycle/main.env
-                    docker push lsstts/develop-env:\${CYCLE}
+                    docker push lsstts/$IMAGE_NAME:\${CYCLE}
                   """
                 }
               }
@@ -42,7 +43,7 @@ pipeline {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
                     source cycle/main.env
-                    docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}
+                    docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}
                   """
                 }
               }
@@ -66,7 +67,7 @@ pipeline {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     source cycle/develop.env
-                    docker push lsstts/develop-env:\${CYCLE}
+                    docker push lsstts/$IMAGE_NAME:\${CYCLE}
                   """
                 }
               }
@@ -74,7 +75,7 @@ pipeline {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
                     source cycle/develop.env
-                    docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}
+                    docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}
                   """
                 }
               }
@@ -98,8 +99,8 @@ pipeline {
                 docker.withRegistry("", registryCredential) {
                   sh """
                     source cycle/cycle.env
-                    docker push lsstts/develop-env:\${CYCLE}
-                    docker push lsstts/develop-env:\${CYCLE}\${rev}
+                    docker push lsstts/$IMAGE_NAME:\${CYCLE}
+                    docker push lsstts/$IMAGE_NAME:\${CYCLE}\${rev}
                   """
                 }
               }
@@ -107,8 +108,8 @@ pipeline {
                 docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
                     source cycle/cycle.env
-                    docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}
-                    docker push ts-dockerhub.lsst.org/develop-env:\${CYCLE}\${rev}
+                    docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}
+                    docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}\${rev}
                   """
                 }
               }
