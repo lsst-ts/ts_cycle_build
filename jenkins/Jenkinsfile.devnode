@@ -1,0 +1,85 @@
+properties (
+    [
+        disableConcurrentBuilds()
+    ]
+)
+
+pipeline {
+    agent {
+        label 'Node2_8CPU'
+    }
+    environment {
+        registryCredential = "nexus3-lsst_jenkins"
+        IMAGE_NAME = "develop-env-node"
+    }
+    parameters {
+        booleanParam defaultValue: false, description: 'Build main branch for all repos. Ignores all version parameters.', name: 'build_main'
+        booleanParam defaultValue: false, description: 'Build develop branch for all repos. Ignores all version parameters.', name: 'build_develop'
+        booleanParam defaultValue: false, description: 'Build cycle.', name: 'build_cycle'
+    }
+    stages {
+        stage("Build/push main") {
+            when {
+                expression { return params.build_main }
+            }
+            steps {
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    script {
+                        docker.withRegistry("https://rubincr.lsst.org/", registryCredential) {
+                            sh """
+                                docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull develop-env-node
+                                source cycle/main.env
+                                docker push rubincr.lsst.org/\$IMAGE_NAME:\${CYCLE}
+                            """
+                        }
+                    }
+                }
+            }
+        }
+        stage("Build/push develop") {
+            when {
+                expression { return params.build_develop }
+            }
+            steps {
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    script {
+                        docker.withRegistry("https://rubincr.lsst.org/", registryCredential) {
+                            sh """
+                                docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull develop-env-node
+                                source cycle/develop.env
+                                docker push rubincr.lsst.org/\$IMAGE_NAME:\${CYCLE}
+                            """
+                        }
+                    }
+                }
+            }
+        }
+        stage("Build/push cycle") {
+            when {
+                expression { return params.build_cycle }
+            }
+            steps {
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    script {
+                        docker.withRegistry("https://rubincr.lsst.org/", registryCredential) {
+                            sh """
+                                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull develop-env-node
+                                source cycle/cycle.env
+                                docker push rubincr.lsst.org/\$IMAGE_NAME:\${CYCLE}
+                                docker push rubincr.lsst.org/\$IMAGE_NAME:\${CYCLE}\${rev}
+                            """
+                        }
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            step([$class: 'Mailer',
+                notifyEveryUnstableBuild: false,
+                recipients: "eric.coughlin@noirlab.edu",
+                sendToIndividuals: true])
+        }
+    }
+}

@@ -22,7 +22,7 @@ RUN if [ -d "$HOME/.cache" ]; then \
 
 COPY deploy-env/lsstsqre/startup.sh ${HOME}/.startup.sh
 COPY deploy-env/lsstsqre/setup_sal_env.sh ${HOME}/.setup_sal_env.sh
-COPY develop-env/salobj/checkout_repo.sh ${HOME}/.checkout_repo.sh
+COPY develop-env/scripts/checkout-repo.sh ${HOME}/.checkout_repo.sh
 COPY common/conda_package_spec.sh ${HOME}/.conda_package_spec.sh
 COPY common/wait_obsenv_sidecar.sh /home/saluser/.wait_obsenv_sidecar.sh
 
