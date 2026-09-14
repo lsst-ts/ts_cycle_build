@@ -32,34 +32,59 @@ RUN curl -O ftp://ftp.boulder.nist.gov/pub/time/leap-seconds.list
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-FROM common AS stack-foundation
+FROM common AS foundation
 
 ARG stack
+ARG python_version
 ARG gphoto2
 ARG maven
 ARG openjdk
+ARG ts_develop
+ARG use_lsstinstall=true
 ARG use_rattler_solver=false
 USER root
 RUN chmod +x /tmp/install-rpm-packages.sh && \
-    /tmp/install-rpm-packages.sh stack && \
-    rm /etc/yum.repos.d/lsst-ts-private.repo
+    if [[ "${use_lsstinstall}" == true ]]; then \
+      /tmp/install-rpm-packages.sh stack; \
+    else \
+      /tmp/install-rpm-packages.sh no-stack; \
+    fi && \
+    rm /etc/yum.repos.d/lsst-ts-private.repo && \
+    mkdir -p ${STACKDIR} && chown -R saluser:saluser /opt/lsst
 USER saluser
 WORKDIR ${STACKDIR}
-RUN curl -LO https://ls.st/lsstinstall && \
-    bash lsstinstall -T ${stack}
+RUN if [[ "${use_lsstinstall}" == true ]]; then \
+      curl -LO https://ls.st/lsstinstall && bash lsstinstall -T ${stack}; \
+    else \
+      wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" && \
+      bash Miniforge3.sh -b -p "${STACKDIR}/conda"; \
+    fi
 ENV PATH=${STACKDIR}/conda/bin/:$PATH
 ENV EUPS_PKGROOT=https://eups.lsst.cloud/stack/redhat/el7/conda-system/miniconda3-py38_4.9.2-12.1.0|https://eups.lsst.cloud/stack/src
-RUN bash /tmp/configure-conda-solver.sh "${use_rattler_solver}"
-RUN conda env list | awk '{print $1}' | grep '^lsst-scipipe-' | head -n1 > /tmp/env_name
-RUN ENV_NAME=$(cat /tmp/env_name) && \
-    GDAL_VERSION=$(conda list -n "$ENV_NAME" | awk '$1 == "gdal" || $1 == "libgdal" || $1 == "libgdal-core" { print $2; exit }') && \
-    if [ -z "$GDAL_VERSION" ] || ! printf '%s\n%s\n' 3.13 "$GDAL_VERSION" | sort -V -C; then \
-      conda install -n "$ENV_NAME" -y gdal=3.10; \
+RUN if [[ "${use_lsstinstall}" == false ]]; then \
+      source "${STACKDIR}/conda/etc/profile.d/conda.sh" && conda init; \
+    fi && \
+    conda config --add channels lsstts && \
+    conda config --add channels conda-forge && \
+    bash /tmp/configure-conda-solver.sh "${use_rattler_solver}" && \
+    if [[ "${use_lsstinstall}" == true ]]; then \
+      conda env list | awk '{print $1}' | grep '^lsst-scipipe-' | head -n1 > /tmp/env_name; \
+    else \
+      conda create -n ssw-${python_version} python=${python_version} && \
+      conda create -n ssw-3.14 python=3.14 && \
+      echo "ssw-${python_version}" > /tmp/env_name; \
     fi
-RUN conda config --add channels lsstts && conda config --add channels conda-forge
-FROM stack-foundation AS stack-base
+RUN if [[ "${use_lsstinstall}" == true ]]; then \
+      ENV_NAME=$(cat /tmp/env_name) && \
+      GDAL_VERSION=$(conda list -n "$ENV_NAME" | awk '$1 == "gdal" || $1 == "libgdal" || $1 == "libgdal-core" { print $2; exit }') && \
+      if [ -z "$GDAL_VERSION" ] || ! printf '%s\n%s\n' 3.13 "$GDAL_VERSION" | sort -V -C; then \
+        conda install -n "$ENV_NAME" -y gdal=3.10; \
+      fi; \
+    fi
 
-ARG ts_develop
+FROM foundation AS stack-foundation
+FROM stack-foundation AS configured-base
+
 USER root
 RUN dnf install -y https://cdn.azul.com/zulu/bin/zulu-repo-1.0.0-1.noarch.rpm && \
     dnf install -y zulu${openjdk}-jdk
@@ -70,14 +95,22 @@ WORKDIR /usr/lib/maven
 RUN curl -LO https://archive.apache.org/dist/maven/maven-3/${maven}/binaries/apache-maven-${maven}-bin.tar.gz && \
     tar zxf apache-maven-${maven}-bin.tar.gz
 USER saluser
-RUN source ${STACKDIR}/loadLSST.bash && \
-    conda install -y ts-develop-rsp && \
-    eups distrib install -t ${stack} lsst_distrib && \
-    source ${HOME}/.conda_package_spec.sh && \
-    conda install -y -c lsstts "$(conda_package_spec ts-develop "${ts_develop}")" && \
-    conda install -y ltd-conveyor setuptools==81 && \
-    pip install gphoto2==${gphoto2} --no-deps --only-binary :all: && \
-    pip install rawpy==0.24 --no-deps
+RUN ENV_NAME=$(cat /tmp/env_name) && \
+    if [[ "${use_lsstinstall}" == true ]]; then \
+      source ${STACKDIR}/loadLSST.bash && \
+      conda install -n "$ENV_NAME" -y ts-develop-rsp && \
+      eups distrib install -t ${stack} lsst_distrib && \
+      source ${HOME}/.conda_package_spec.sh && \
+      conda install -n "$ENV_NAME" -y -c lsstts "$(conda_package_spec ts-develop "${ts_develop}")"; \
+    else \
+      conda install -n "$ENV_NAME" -y -c lsstts ts-develop=${ts_develop}; \
+    fi && \
+    conda install -n "$ENV_NAME" -y ltd-conveyor setuptools==81 && \
+    LDFLAGS="-L/usr/lib64" LIBRARY_PATH="/usr/lib64" \
+    conda run -n "$ENV_NAME" uv pip install gphoto2==${gphoto2} --no-deps --only-binary :all: && \
+    conda run -n "$ENV_NAME" uv pip install rawpy==0.24 --no-deps
+
+FROM configured-base AS stack-base
 
 FROM stack-base AS salobj
 
@@ -151,16 +184,11 @@ WORKDIR /home/saluser
 ENTRYPOINT ["/bin/bash", "--"]
 CMD ["/home/saluser/.setup_dev.sh"]
 
-FROM common AS no-stack
+FROM configured-base AS no-stack
 
-ARG python_version
-ARG gphoto2
 ARG labjack_file_version
 ARG labjack_arch
 ARG labjack_ljm
-ARG maven
-ARG openjdk
-ARG use_rattler_solver=false
 ARG ts_config_ocs=develop
 ARG ts_config_attcs=develop
 ARG ts_config_mtcalsys=develop
@@ -190,41 +218,11 @@ ARG ts_criopy=develop
 ARG ts_m1m3_utils=develop
 ARG ts_planning_tool=develop
 USER root
-RUN chmod +x /tmp/install-rpm-packages.sh && \
-    /tmp/install-rpm-packages.sh no-stack && \
-    rm /etc/yum.repos.d/lsst-ts-private.repo
-RUN mkdir -p ${STACKDIR} && chown -R saluser:saluser /opt/lsst
-USER saluser
-WORKDIR ${HOME}
-RUN wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" && \
-    bash Miniforge3.sh -b -p "${STACKDIR}/conda" && \
-    source "${STACKDIR}/conda/etc/profile.d/conda.sh" && \
-    conda init && \
-    conda config --add channels lsstts && \
-    bash /tmp/configure-conda-solver.sh "${use_rattler_solver}" && \
-    conda create -n ssw-${python_version} python=${python_version} ts-develop=0.6 && \
-    conda create -n ssw-3.14 python=3.14 ts-develop=0.6 && \
-    echo "ssw-${python_version}" > /tmp/env_name
-ENV PATH=${STACKDIR}/conda/bin:${PATH}
-USER root
 RUN chmod +x /tmp/install_labjack.sh && \
     /tmp/install_labjack.sh --labjack_file_version=${labjack_file_version} \
       --labjack_arch=${labjack_arch} --labjack_ljm=${labjack_ljm} \
       --saluser_env_script=/home/saluser/.setup-ssw-environment.sh
-RUN dnf install -y https://cdn.azul.com/zulu/bin/zulu-repo-1.0.0-1.noarch.rpm && \
-    dnf install -y zulu${openjdk}-jdk
-ENV MAVEN_HOME=/usr/lib/maven/apache-maven-${maven} \
-    JAVA_HOME=/usr/lib/jvm/zulu${openjdk}
-ENV PATH=${PATH}:${MAVEN_HOME}/bin
-WORKDIR /usr/lib/maven
-RUN curl -LO https://archive.apache.org/dist/maven/maven-3/${maven}/binaries/apache-maven-${maven}-bin.tar.gz && \
-    tar zxf apache-maven-${maven}-bin.tar.gz
 USER saluser
-RUN ENV_NAME=$(cat /tmp/env_name) && \
-    conda install -n "$ENV_NAME" -y ltd-conveyor && \
-    LDFLAGS="-L/usr/lib64" LIBRARY_PATH="/usr/lib64" \
-    conda run -n "$ENV_NAME" uv pip install gphoto2==${gphoto2} --no-deps --only-binary :all: && \
-    conda run -n "$ENV_NAME" uv pip install rawpy==0.24 --no-deps
 COPY develop-env/scripts/checkout-repo.sh /home/saluser/.checkout-repo.sh
 COPY develop-env/scripts/setup-ssw-repositories.sh /home/saluser/.setup-ssw-repositories.sh
 COPY develop-env/no-stack/setup-ssw-environment.sh /home/saluser/.setup-ssw-environment.sh

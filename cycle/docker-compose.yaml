@@ -1076,6 +1076,7 @@ services:
         node: ${node}
         openjdk: ${openjdk}
         use_rattler_solver: ${use_rattler_solver}
+        use_lsstinstall: true
         librdkafka: ${librdkafka}
         python_confluent_kafka: ${python_confluent_kafka}
         UID: ${B_UID}
@@ -1168,6 +1169,7 @@ services:
         node: ${node}
         openjdk: ${openjdk}
         use_rattler_solver: ${use_rattler_solver}
+        use_lsstinstall: true
         UID: ${B_UID}
         GID: ${B_GID}
         ts_config_ocs: ${ts_config_ocs}
@@ -1203,6 +1205,7 @@ services:
         node: ${node}
         openjdk: ${openjdk}
         use_rattler_solver: ${use_rattler_solver}
+        use_lsstinstall: true
         UID: ${B_UID}
         GID: ${B_GID}
         ts_scriptqueue: ${ts_scriptqueue}
@@ -1272,6 +1275,7 @@ services:
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
         use_rattler_solver: ${use_rattler_solver}
+        use_lsstinstall: false
 
   develop-env-no-stack-aarch64:
     image: rubincr.lsst.org/develop-env-aarch64:${CYCLE}${rev}
@@ -1313,6 +1317,7 @@ services:
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
         use_rattler_solver: ${use_rattler_solver}
+        use_lsstinstall: false
 
   conda-builder-aarch64-community:
     image: lsstts/conda_package_builder_aarch64:${CYCLE}
