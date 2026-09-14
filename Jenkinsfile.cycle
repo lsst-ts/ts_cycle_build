@@ -587,7 +587,7 @@ pipeline {
               docker push rubincr.lsst.org/salobj:\${CYCLE}\${rev}
               docker push rubincr.lsst.org/salobj:\${CYCLE}
 
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} --pull develop-env-stack
               docker push rubincr.lsst.org/develop-env:\${CYCLE}\${rev}
               docker push rubincr.lsst.org/develop-env:\${CYCLE}
             """

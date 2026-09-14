@@ -6,7 +6,7 @@
 #                                                                       #
 # This script is used by:                                               #
 #   - build/conda_builder/linux64/Dockerfile                            #
-#   - build/develop-env/lsstsqre/Dockerfile                             #
+#   - build/develop-env/Dockerfile                                      #
 #   - build/ess/Dockerfile                                              #
 # so modifying this script may affect building those Docker images.     #
 #########################################################################

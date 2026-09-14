@@ -23,7 +23,7 @@ RUN dnf install -y gcc-c++ make ncurses-libs xterm xorg-x11-fonts-misc java-1.8.
 
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY conda_builder/setup.sh ${HOME}/.setup.sh
-COPY develop-env/salobj/checkout_repo.sh ${HOME}/.checkout_repo.sh
+COPY develop-env/scripts/checkout-repo.sh ${HOME}/.checkout_repo.sh
 COPY common/conda_build_config.yaml /home/saluser/conda_build_config.yaml
 
 RUN chown saluser:saluser /home/saluser/.setup.sh && \

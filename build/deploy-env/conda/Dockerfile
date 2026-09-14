@@ -18,7 +18,7 @@ RUN dnf install -y dnf-plugins-core && dnf config-manager --set-enabled crb
 
 COPY deploy-env/conda/startup.sh /home/saluser/.startup.sh
 COPY deploy-env/conda/setup_sal_env.sh /home/saluser/.setup_sal_env.sh
-COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
+COPY develop-env/scripts/checkout-repo.sh /home/saluser/.checkout_repo.sh
 COPY common/conda_package_spec.sh /home/saluser/.conda_package_spec.sh
 COPY common/lsst-ts-nexus.repo /etc/yum.repos.d/lsst-ts.repo
 COPY common/wait_obsenv_sidecar.sh /home/saluser/.wait_obsenv_sidecar.sh

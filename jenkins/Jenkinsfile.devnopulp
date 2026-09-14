@@ -26,7 +26,7 @@ pipeline {
                     script {
                         docker.withRegistry("", registryCredential) {
                             sh """
-                                docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull develop-env-no-pulp
+                                docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull develop-env-no-stack
                             """
                         }
                     }
@@ -58,7 +58,7 @@ pipeline {
                     script {
                         docker.withRegistry("", registryCredential) {
                             sh """
-                                docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull develop-env-no-pulp
+                                docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull develop-env-no-stack
                             """
                         }
                     }
@@ -90,7 +90,7 @@ pipeline {
                     script {
                         docker.withRegistry("", registryCredential) {
                             sh """
-                                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull develop-env-no-pulp
+                                docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull develop-env-no-stack
                             """
                         }
                     }

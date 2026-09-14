@@ -1015,7 +1015,6 @@ services:
       labels:
         com.description: "Base deployment image for cycle ${CYCLE}."
       args:
-        stack: ${stack}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_idl: ${ts_idl}
@@ -1062,7 +1061,8 @@ services:
       platforms:
         - linux/amd64
       context: ../build/
-      dockerfile: ./develop-env/lsstsqre/Dockerfile
+      dockerfile: ./develop-env/Dockerfile
+      target: stack-base
       labels:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
@@ -1075,6 +1075,7 @@ services:
         maven: ${maven}
         node: ${node}
         openjdk: ${openjdk}
+        use_rattler_solver: ${use_rattler_solver}
         librdkafka: ${librdkafka}
         python_confluent_kafka: ${python_confluent_kafka}
         UID: ${B_UID}
@@ -1153,13 +1154,22 @@ services:
         - "rubincr.lsst.org/salobj:${CYCLE}"
       platforms:
         - linux/amd64
-      context: ../build/develop-env/salobj/
+      context: ../build/
+      dockerfile: ./develop-env/Dockerfile
+      target: salobj
       # network: kafka
       labels:
         com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
       args:
-        hub: lsstts
-        base_image_tag: ${CYCLE}
+        stack: ${stack}
+        ts_develop: ${ts_develop}
+        gphoto2: ${gphoto2}
+        maven: ${maven}
+        node: ${node}
+        openjdk: ${openjdk}
+        use_rattler_solver: ${use_rattler_solver}
+        UID: ${B_UID}
+        GID: ${B_GID}
         ts_config_ocs: ${ts_config_ocs}
         ts_config_attcs: ${ts_config_attcs}
         ts_config_mtcalsys: ${ts_config_mtcalsys}
@@ -1173,10 +1183,12 @@ services:
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
 
-  develop-env:
+  develop-env-stack:
     image: rubincr.lsst.org/develop-env-sqre:${CYCLE}${rev}
     build:
-      context: ../build/develop-env/develop-env/
+      context: ../build/
+      dockerfile: ./develop-env/Dockerfile
+      target: develop-env-stack
       tags:
         - "rubincr.lsst.org/develop-env-sqre:${CYCLE}"
       platforms:
@@ -1184,8 +1196,15 @@ services:
       labels:
         com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev} with stack.
       args:
-        hub: lsstts
-        base_image_tag: ${CYCLE}${rev}
+        stack: ${stack}
+        ts_develop: ${ts_develop}
+        gphoto2: ${gphoto2}
+        maven: ${maven}
+        node: ${node}
+        openjdk: ${openjdk}
+        use_rattler_solver: ${use_rattler_solver}
+        UID: ${B_UID}
+        GID: ${B_GID}
         ts_scriptqueue: ${ts_scriptqueue}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
@@ -1206,20 +1225,19 @@ services:
   develop-env-javascript:
     image: rubincr.lsst.org/develop-env-javascript:${CYCLE}${rev}
     build:
-      context: ../build/develop-env/javascript
+      context: ../build/develop-env/node
       platforms:
         - linux/amd64
         - linux/arm64
       tags:
         - "rubincr.lsst.org/develop-env-javascript:${CYCLE}"
 
-  develop-env-no-pulp:
+  develop-env-no-stack:
     image: rubincr.lsst.org/develop-env:${CYCLE}${rev}
     build:
-      additional_contexts:
-        - common=../build/common/
-        - lsstsqre=../build/develop-env/lsstsqre/
-      context: ../build/develop-env/no-pulp/
+      context: ../build/
+      dockerfile: ./develop-env/Dockerfile
+      target: no-stack
       tags:
         - "rubincr.lsst.org/develop-env:${CYCLE}"
       platforms:
@@ -1227,8 +1245,9 @@ services:
       labels:
         com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}.
       args:
-        hub: lsstts
-        base_image_tag: ${CYCLE}${rev}
+        node: ${node}
+        UID: ${B_UID}
+        GID: ${B_GID}
         ts_scriptqueue: ${ts_scriptqueue}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
@@ -1252,14 +1271,14 @@ services:
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
+        use_rattler_solver: ${use_rattler_solver}
 
-  develop-env-no-pulp-aarch64:
+  develop-env-no-stack-aarch64:
     image: rubincr.lsst.org/develop-env-aarch64:${CYCLE}${rev}
     build:
-      additional_contexts:
-        - common=../build/common/
-        - lsstsqre=../build/develop-env/lsstsqre/
-      context: ../build/develop-env/no-pulp/
+      context: ../build/
+      dockerfile: ./develop-env/Dockerfile
+      target: no-stack
       tags:
         - "rubincr.lsst.org/develop-env-aarch64:${CYCLE}"
       platforms:
@@ -1267,8 +1286,9 @@ services:
       labels:
         com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args:
-        hub: lsstts
-        base_image_tag: ${CYCLE}${rev}
+        node: ${node}
+        UID: ${B_UID}
+        GID: ${B_GID}
         ts_scriptqueue: ${ts_scriptqueue}
         ts_observatory_control: ${ts_observatory_control}
         ts_standardscripts: ${ts_standardscripts}
@@ -1292,6 +1312,7 @@ services:
         labjack_file_version: ${labjack_file_version}
         labjack_arch: ${labjack_arch}
         labjack_ljm: ${labjack_ljm}
+        use_rattler_solver: ${use_rattler_solver}
 
   conda-builder-aarch64-community:
     image: lsstts/conda_package_builder_aarch64:${CYCLE}
