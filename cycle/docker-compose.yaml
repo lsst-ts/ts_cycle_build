@@ -969,6 +969,35 @@ x-ledprojector:
     platforms:
       - linux/amd64
 
+x-develop-env-no-stack-args:
+  &develop-env-no-stack-args
+  UID: ${B_UID}
+  GID: ${B_GID}
+  ts_scriptqueue: ${ts_scriptqueue}
+  ts_observatory_control: ${ts_observatory_control}
+  ts_standardscripts: ${ts_standardscripts}
+  ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
+  ts_maintel_standardscripts: ${ts_maintel_standardscripts}
+  ts_externalscripts: ${ts_externalscripts}
+  ts_atmcs: ${ts_atmcs}
+  ts_atdome: ${ts_atdome}
+  ts_atdometrajectory: ${ts_atdometrajectory}
+  ts_attcpip: ${ts_attcpip}
+  ts_simactuators: ${ts_simactuators}
+  ts_hexrotcomm: ${ts_hexrotcomm}
+  ts_tcpip: ${ts_tcpip}
+  ts_criopy: ${ts_criopy}
+  ts_m1m3_utils: ${ts_m1m3_utils}
+  openjdk: ${openjdk}
+  maven: ${maven}
+  gphoto2: ${gphoto2}
+  python_version: ${PYTHON_VERSION}
+  ts_develop: ${ts_develop}
+  labjack_file_version: ${labjack_file_version}
+  labjack_arch: ${labjack_arch}
+  labjack_ljm: ${labjack_ljm}
+  use_rattler_solver: ${use_rattler_solver}
+
 services:
 
   deploy-conda-community:
@@ -1015,7 +1044,6 @@ services:
       labels:
         com.description: "Base deployment image for cycle ${CYCLE}."
       args:
-        stack: ${stack}
         ts_utils: ${ts_utils}
         ts_salobj: ${ts_salobj}
         ts_idl: ${ts_idl}
@@ -1055,32 +1083,21 @@ services:
         com.description: "docker-compose aarch64 image."
 
   base-sqre:
-    image: lsstts/base-sqre:${CYCLE}
+    image: rubincr.lsst.org/base-sqre:${CYCLE}
     build:
       tags:
-        - "ts-dockerhub.lsst.org/base-sqre:${CYCLE}"
-        - "lsstts/base-sqre:${CYCLE}${rev}"
-        - "ts-dockerhub.lsst.org/base-sqre:${CYCLE}${rev}"
+        - "rubincr.lsst.org/base-sqre:${CYCLE}${rev}"
       platforms:
         - linux/amd64
       context: ../build/
-      dockerfile: ./develop-env/lsstsqre/Dockerfile
+      dockerfile: ./develop-env/stack/Dockerfile
+      additional_contexts:
+        no_stack: service:develop-env-no-stack
+      target: stack-base
       labels:
         com.description: "LSST Telescope and Site base development for cycle/revision ${CYCLE}."
       args:
         stack: ${stack}
-        ts_develop: ${ts_develop}
-        gphoto2: ${gphoto2}
-        labjack_file_version: ${labjack_file_version}
-        labjack_arch: ${labjack_arch}
-        labjack_ljm: ${labjack_ljm}
-        maven: ${maven}
-        node: ${node}
-        openjdk: ${openjdk}
-        librdkafka: ${librdkafka}
-        python_confluent_kafka: ${python_confluent_kafka}
-        UID: ${B_UID}
-        GID: ${B_GID}
 
   sal-sciplat-community:
     image: lsstts/sal-sciplat:${stack}_${CYCLE}${rev}
@@ -1149,80 +1166,85 @@ services:
         python_confluent_kafka: ${python_confluent_kafka}
 
   salobj:
-    image: lsstts/salobj:${CYCLE}${rev}
+    image: rubincr.lsst.org/salobj:${CYCLE}${rev}
     build:
       tags:
-        - "lsstts/salobj:${CYCLE}"
-        - "ts-dockerhub.lsst.org/salobj:${CYCLE}"
-        - "ts-dockerhub.lsst.org/salobj:${CYCLE}${rev}"
+        - "rubincr.lsst.org/salobj:${CYCLE}"
       platforms:
         - linux/amd64
-      context: ../build/develop-env/salobj/
+      context: ../build/
+      dockerfile: ./develop-env/stack/Dockerfile
+      additional_contexts:
+        no_stack: service:develop-env-no-stack
+      target: salobj
       # network: kafka
       labels:
         com.description: LSST Telescope and Site Docker image with SalObj for cycle/revision ${CYCLE}${rev}.
       args:
-        hub: lsstts
-        base_image_tag: ${CYCLE}
-        ts_config_ocs: ${ts_config_ocs}
-        ts_config_attcs: ${ts_config_attcs}
-        ts_config_mtcalsys: ${ts_config_mtcalsys}
-        ts_config_eas: ${ts_config_eas}
-        ts_config_latiss: ${ts_config_latiss}
-        ts_config_mttcs: ${ts_config_mttcs}
-        ts_config_atcalsys: ${ts_config_atcalsys}
-        ts_xml: ${ts_xml}
-        ts_idl: ${ts_idl}
-        ts_sal: ${ts_sal}
-        ts_utils: ${ts_utils}
-        ts_salobj: ${ts_salobj}
+        stack: ${stack}
 
-  develop-env:
-    image: lsstts/develop-env:${CYCLE}${rev}
+  develop-env-stack:
+    image: rubincr.lsst.org/develop-env-sqre:${CYCLE}${rev}
     build:
-      context: ../build/develop-env/develop-env/
+      context: ../build/
+      dockerfile: ./develop-env/stack/Dockerfile
+      additional_contexts:
+        no_stack: service:develop-env-no-stack
+      target: develop-env-stack
       tags:
-        - "lsstts/develop-env:${CYCLE}"
-        - "ts-dockerhub.lsst.org/develop-env:${CYCLE}${rev}"
-        - "ts-dockerhub.lsst.org/develop-env:${CYCLE}"
+        - "rubincr.lsst.org/develop-env-sqre:${CYCLE}"
       platforms:
         - linux/amd64
       labels:
-        com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
+        com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev} with stack.
       args:
-        hub: lsstts
-        base_image_tag: ${CYCLE}${rev}
-        ts_scriptqueue: ${ts_scriptqueue}
-        ts_observatory_control: ${ts_observatory_control}
-        ts_standardscripts: ${ts_standardscripts}
-        ts_auxtel_standardscripts: ${ts_auxtel_standardscripts}
-        ts_maintel_standardscripts: ${ts_maintel_standardscripts}
-        ts_externalscripts: ${ts_externalscripts}
-        ts_atmcs: ${ts_atmcs}
-        ts_atdome: ${ts_atdome}
-        ts_atdometrajectory: ${ts_atdometrajectory}
-        ts_attcpip: ${ts_attcpip}
-        ts_simactuators: ${ts_simactuators}
-        ts_hexrotcomm: ${ts_hexrotcomm}
-        ts_tcpip: ${ts_tcpip}
-        ts_criopy: ${ts_criopy}
-        ts_m1m3_utils: ${ts_m1m3_utils}
-        ts_planning_tool: ${ts_planning_tool}
+        stack: ${stack}
+
+  develop-env-node:
+    image: rubincr.lsst.org/develop-env-node:${CYCLE}${rev}
+    build:
+      context: ../build/develop-env/node
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      tags:
+        - "rubincr.lsst.org/develop-env-node:${CYCLE}"
+
+  develop-env-no-stack:
+    image: rubincr.lsst.org/develop-env:${CYCLE}${rev}
+    build:
+      context: ../build/
+      dockerfile: ./develop-env/no-stack/Dockerfile
+      target: no-stack
+      tags:
+        - "rubincr.lsst.org/develop-env:${CYCLE}"
+      platforms:
+        - linux/amd64
+      labels:
+        com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}.
+      args: *develop-env-no-stack-args
+
+  develop-env-no-stack-aarch64:
+    image: rubincr.lsst.org/develop-env-aarch64:${CYCLE}${rev}
+    build:
+      context: ../build/
+      dockerfile: ./develop-env/no-stack/Dockerfile
+      target: no-stack
+      tags:
+        - "rubincr.lsst.org/develop-env-aarch64:${CYCLE}"
+      platforms:
+        - linux/arm64
+      labels:
+        com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
+      args: *develop-env-no-stack-args
 
   conda-builder-aarch64-community:
     image: lsstts/conda_package_builder_aarch64:${CYCLE}
     build:
-      context: ../build/
-      dockerfile: ./conda_builder/Dockerfile
-      labels:
-        com.description: "LSST Telescope and Site base AlmaLinux 9 aarch64 image for cycle ${CYCLE} without OpenSpliceDDS."
-      args:
-        platform: linux/aarch64
-        PYTHON_VERSION: ${PYTHON_VERSION}
-
-  conda-builder-aarch64-private:
-    image: ${hub}/conda_package_builder_aarch64:${CYCLE}
-    build:
+      tags:
+        - lsstts/conda_package_builder_aarch64:${CYCLE}${rev}
+        - ts-dockerhub.lsst.org/conda_package_builder_aarch64:${CYCLE}
+        - ts-dockerhub.lsst.org/conda_package_builder_aarch64:${CYCLE}${rev}
       context: ../build/
       dockerfile: ./conda_builder/Dockerfile
       labels:

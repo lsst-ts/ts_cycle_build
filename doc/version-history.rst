@@ -8,6 +8,18 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 12
+====================
+
+* Updated version of the following packages:
+
+   * love_frontend
+   * ts_cbp
+   * ts_fbs_utils
+   * ts_watcher
+
+* Added no-stack and node develop-env; made no-stack default and switched to rubincr registry.
+
 Cycle 44 revision 11
 ====================
 

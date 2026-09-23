@@ -25,7 +25,7 @@ RUN if [ $UID -eq 1000 ] && [ $GID -eq 1000 ]; then  \
     adduser -u ${UID} -m -g ${GID} -s /bin/bash saluser ; \
     fi
 
-COPY develop-env/salobj/checkout_repo.sh /home/saluser/.checkout_repo.sh
+COPY develop-env/scripts/checkout-repo.sh /home/saluser/.checkout_repo.sh
 
 RUN chown saluser:saluser /home/saluser/.checkout_repo.sh && \
     chmod a+x /home/saluser/.checkout_repo.sh
