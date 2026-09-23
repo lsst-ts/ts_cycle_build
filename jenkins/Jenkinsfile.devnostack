@@ -22,6 +22,9 @@ pipeline {
                 expression { return params.build_main }
             }
             steps {
+                withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+                    sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/ && chmod u+rw -R ${env.WORKSPACE}"
+                }
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     script {
                         docker.withRegistry("", registryCredential) {
@@ -32,18 +35,10 @@ pipeline {
                     }
                 }
                 script {
-                    docker.withRegistry("", registryCredential) {
+                    docker.withRegistry("https://rubincr.lsst.org/", "nexus3-lsst_jenkins") {
                         sh """
                             source cycle/main.env
-                            docker push lsstts/$IMAGE_NAME:\${CYCLE}
-                        """
-                    }
-                }
-                script {
-                    docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                        sh """
-                            source cycle/main.env
-                            docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}
+                            docker push rubincr.lsst.org/$IMAGE_NAME:\${CYCLE}
                         """
                     }
                 }
@@ -54,6 +49,9 @@ pipeline {
                 expression { return params.build_develop }
             }
             steps {
+                withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+                    sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/ && chmod u+rw -R ${env.WORKSPACE}"
+                }
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     script {
                         docker.withRegistry("", registryCredential) {
@@ -64,18 +62,10 @@ pipeline {
                     }
                 }
                 script {
-                    docker.withRegistry("", registryCredential) {
+                    docker.withRegistry("https://rubincr.lsst.org/", "nexus3-lsst_jenkins") {
                         sh """
                             source cycle/develop.env
-                            docker push lsstts/$IMAGE_NAME:\${CYCLE}
-                        """
-                    }
-                }
-                script {
-                    docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                        sh """
-                            source cycle/develop.env
-                            docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}
+                            docker push rubincr.lsst.org/$IMAGE_NAME:\${CYCLE}
                         """
                     }
                 }
@@ -86,6 +76,9 @@ pipeline {
                 expression { return params.build_cycle }
             }
             steps {
+                withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
+                    sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/ && chmod u+rw -R ${env.WORKSPACE}"
+                }
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     script {
                         docker.withRegistry("", registryCredential) {
@@ -93,15 +86,6 @@ pipeline {
                                 docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull develop-env-no-stack
                             """
                         }
-                    }
-                }
-                script {
-                    docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                        sh """
-                            source cycle/cycle.env
-                            docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}
-                            docker push ts-dockerhub.lsst.org/$IMAGE_NAME:\${CYCLE}\${rev}
-                        """
                     }
                 }
                 script {
