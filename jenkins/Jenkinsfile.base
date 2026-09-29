@@ -17,7 +17,7 @@ pipeline {
             }
             steps {
               withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/ && chmod u+rw -R ${env.WORKSPACE}"
+                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/lsst-ts-nexus-private.repo && chmod u+rw -R ${env.WORKSPACE}"
               }
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
@@ -57,7 +57,7 @@ pipeline {
             steps {
 
               withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/ && chmod u+rw -R ${env.WORKSPACE}"
+                sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/lsst-ts-nexus-private.repo && chmod u+rw -R ${env.WORKSPACE}"
               }
 
               withEnv(["HOME=${env.WORKSPACE}"]) {
