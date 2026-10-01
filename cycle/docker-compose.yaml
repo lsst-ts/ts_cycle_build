@@ -1073,6 +1073,8 @@ services:
       args:
         hub: ${hub}
         cycle: ${CYCLE}
+        sal: ${ts_sal}
+        xml: ${ts_xml}
         crio_cpp: ${ts_cRIOcpp}
         config: ${ts_config_mttcs}
       platforms:
