@@ -141,12 +141,12 @@ RUN source /home/saluser/.setup_sal_env.sh \
     && cd /opt/lsst/tssw \
     && git clone https://github.com/lsst-ts/ts_sal \
     && cd ts_sal \
-    && git checkout $sal \
+    && /home/saluser/.checkout_repo.sh "$sal" \
     && sed -i 's|^export LSST_KAFKA_LOCAL_SCHEMAS=.*|export LSST_KAFKA_LOCAL_SCHEMAS="${LSST_KAFKA_LOCAL_SCHEMAS:-$LSST_SAL_PREFIX}"|' setupKafka.env \
     && cd .. \
     && git clone https://github.com/lsst-ts/ts_xml \
     && cd ts_xml \
-    && git checkout $xml
+    && /home/saluser/.checkout_repo.sh "$xml"
 
 RUN chown -R saluser.saluser /opt/lsst/tssw
 
