@@ -4,9 +4,12 @@
   "dependencies": [
     "abseil",
     "avro-cpp",
+    "bzip2",
     "cpr",
     "jsoncons",
+    "liblzma",
     "nlohmann-json",
-    "openssl"
+    "openssl",
+    "zstd"
   ]
 }
