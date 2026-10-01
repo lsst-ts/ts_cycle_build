@@ -1242,7 +1242,7 @@ services:
         com.description: LSST Telescope and Site development environment image for cycle/revision ${CYCLE}${rev}..
       args: *develop-env-no-stack-args
 
-  conda-builder-aarch64-community:
+  conda-builder-aarch64:
     image: lsstts/conda_package_builder_aarch64:${CYCLE}
     build:
       tags:
