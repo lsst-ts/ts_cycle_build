@@ -8,6 +8,24 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 13
+====================
+
+* Updated version of the following packages:
+
+   * ts_config_mtcalsys
+   * ts_config_ocs
+   * ts_dimm
+   * ts_mtdome
+   * ts_mtdomecom
+   * ts_watcher
+
+* Updated Watcher startup script to enable support for using the obs-env for it configuration.
+* Only upload base, salobj and dev to rubincr.
+* Updated ts_develop in main.env.
+* Added explicit filename to be copied in basedev job.
+* Removed arm64 node build for jenkins builder does not support multiplatform; Added private repo to devnostack job.
+
 Cycle 44 revision 12
 ====================
 
