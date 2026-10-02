@@ -1206,7 +1206,6 @@ services:
       context: ../build/develop-env/node
       platforms:
         - linux/amd64
-        - linux/arm64
       tags:
         - "rubincr.lsst.org/develop-env-node:${CYCLE}"
 

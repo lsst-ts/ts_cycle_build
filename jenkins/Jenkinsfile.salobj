@@ -34,18 +34,10 @@ pipeline {
                 }
               }
               script {
-                docker.withRegistry("", registryCredential) {
+                docker.withRegistry("https://rubincr.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
                     source cycle/main.env
-                    docker push lsstts/salobj:\${CYCLE}
-                  """
-                }
-              }
-              script {
-                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                  sh """
-                    source cycle/main.env
-                    docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}
+                    docker push rubincr.lsst.org/salobj:\${CYCLE}
                   """
                 }
               }
@@ -66,18 +58,10 @@ pipeline {
                 }
               }
               script {
-                docker.withRegistry("", registryCredential) {
+                docker.withRegistry("https://rubincr.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
                     source cycle/develop.env
-                    docker push lsstts/salobj:\${CYCLE}
-                  """
-                }
-              }
-              script {
-                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                  sh """
-                    source cycle/develop.env
-                    docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}
+                    docker push rubincr.lsst.org/salobj:\${CYCLE}
                   """
                 }
               }
@@ -98,20 +82,11 @@ pipeline {
                 }
               }
               script {
-                docker.withRegistry("", registryCredential) {
+                docker.withRegistry("https://rubincr.lsst.org/", "nexus3-lsst_jenkins") {
                   sh """
                     source cycle/cycle.env
-                    docker push lsstts/salobj:\${CYCLE}
-                    docker push lsstts/salobj:\${CYCLE}\${rev}
-                  """
-                }
-              }
-              script {
-                docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
-                  sh """
-                    source cycle/cycle.env
-                    docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}\${rev}
-                    docker push ts-dockerhub.lsst.org/salobj:\${CYCLE}\${rev}
+                    docker push rubincr.lsst.org/salobj:\${CYCLE}
+                    docker push rubincr.lsst.org/salobj:\${CYCLE}\${rev}
                   """
                 }
               }
