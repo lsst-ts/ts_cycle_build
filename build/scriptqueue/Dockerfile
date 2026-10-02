@@ -72,10 +72,13 @@ RUN source ${HOME}/.setup_sal_env.sh && \
     scriptqueue_path=$(python -c 'from lsst.ts import scriptqueue; import pathlib; print(pathlib.Path(scriptqueue.__file__).parents[0])') && \
     eups declare -m none -r ${scriptqueue_path} ts_scriptqueue ${ts_scriptqueue}
 
+COPY scriptqueue/cwfs-numpy-scalar.patch /tmp/
+
 ARG cwfs
 WORKDIR ${HOME}/cwfs
 RUN source ${HOME}/.setup_sal_env.sh && \
     /home/saluser/.checkout_repo.sh ${cwfs} && \
+    git apply /tmp/cwfs-numpy-scalar.patch && \
     eups declare -r . cwfs ${cwfs} -t current && \
     setup lsst_distrib && \
     setup cwfs -t current && \
