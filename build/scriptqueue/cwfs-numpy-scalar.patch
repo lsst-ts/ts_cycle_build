@@ -1,0 +1,9 @@
+diff --git a/python/lsst/cwfs/image.py b/python/lsst/cwfs/image.py
+--- a/python/lsst/cwfs/image.py
++++ b/python/lsst/cwfs/image.py
+@@ -295,4 +295,4 @@
+         lutIp = np.zeros(lutxp.shape[0] * lutxp.shape[1])
+         for i, (xx, yy) in enumerate(zip(lutxp.ravel(), lutyp.ravel())):
+-            lutIp[i] = ip(yy, xx)
++            lutIp[i] = ip(yy, xx)[0, 0]
+         lutIp = lutIp.reshape(lutxp.shape)
