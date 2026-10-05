@@ -5,87 +5,65 @@ pipeline {
         label 'Node2_8CPU'
     }
     parameters {
-        booleanParam defaultValue: false, description: 'Build main branch for all repos.', name: 'build_main'
-        booleanParam defaultValue: false, description: 'Build develop branch for all repos.', name: 'build_develop'
-        booleanParam defaultValue: false, description: 'Build cycle.', name: 'build_cycle'
+        choice(name: 'ENV_FILE', choices: ['cycle/main.env', 'cycle/develop.env', 'cycle/cycle.env'], description: 'Environment file for the image builds.')
     }
     stages {
-        stage('Build/push main') {
-            when {
-                expression { return params.build_main }
-            }
+        stage('Build/push base-sqre') {
             steps {
                 withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
                     sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/lsst-ts-nexus-private.repo && chmod u+rw -R ${env.WORKSPACE}"
                 }
                 withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'docker compose --env-file cycle/main.env -f cycle/docker-compose.yaml build --pull base-sqre salobj develop-env-stack'
+                    sh 'docker compose --env-file "$ENV_FILE" -f cycle/docker-compose.yaml build --pull base-sqre'
                 }
                 script {
                     docker.withRegistry('https://rubincr.lsst.org/', 'nexus3-lsst_jenkins') {
                         sh '''
-                            . cycle/main.env
+                            . "$ENV_FILE"
                             docker push rubincr.lsst.org/base-sqre:${CYCLE}
-                            docker push rubincr.lsst.org/salobj:${CYCLE}
-                            docker push rubincr.lsst.org/develop-env-sqre:${CYCLE}
+                            if [ "$ENV_FILE" = cycle/cycle.env ]; then
+                                docker push rubincr.lsst.org/base-sqre:${CYCLE}${rev}
+                            fi
                         '''
                     }
                 }
             }
         }
-        stage('Build/push develop') {
-            when {
-                expression { return params.build_develop }
-            }
+        stage('Build/push salobj') {
             steps {
-                withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-                    sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/lsst-ts-nexus-private.repo && chmod u+rw -R ${env.WORKSPACE}"
-                }
                 withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'docker compose --env-file cycle/develop.env -f cycle/docker-compose.yaml build --pull base-sqre salobj develop-env-stack'
+                    sh 'docker compose --env-file "$ENV_FILE" -f cycle/docker-compose.yaml build --pull salobj'
                 }
                 script {
                     docker.withRegistry('https://rubincr.lsst.org/', 'nexus3-lsst_jenkins') {
                         sh '''
-                            . cycle/develop.env
-                            docker push rubincr.lsst.org/base-sqre:${CYCLE}
+                            . "$ENV_FILE"
                             docker push rubincr.lsst.org/salobj:${CYCLE}
-                            docker push rubincr.lsst.org/develop-env-sqre:${CYCLE}
+                            if [ "$ENV_FILE" = cycle/cycle.env ]; then
+                                docker push rubincr.lsst.org/salobj:${CYCLE}${rev}
+                            fi
                         '''
                     }
                 }
             }
         }
-        stage('Trigger the SAL Multi-Language tests job') {
-            when {
-                expression { return params.build_develop }
-            }
+        stage('Build/push develop-env-sqre') {
             steps {
-                build wait: false, job: 'LSST_Telescope-and-Site/ts_SalMultiLanguageTests/main', parameters: [string(name: 'image_version', value: 'develop')]
-            }
-        }
-        stage('Build/push cycle') {
-            when {
-                expression { return params.build_cycle }
-            }
-            steps {
-                withCredentials([file(credentialsId: 'yum-nexus-private', variable: 'yum_nexus_private')]) {
-                    sh "cp \$yum_nexus_private ${env.WORKSPACE}/build/common/lsst-ts-nexus-private.repo && chmod u+rw -R ${env.WORKSPACE}"
-                }
                 withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'docker compose --env-file cycle/cycle.env -f cycle/docker-compose.yaml build --pull base-sqre salobj develop-env-stack'
+                    sh 'docker compose --env-file "$ENV_FILE" -f cycle/docker-compose.yaml build --pull develop-env-stack'
                 }
                 script {
                     docker.withRegistry('https://rubincr.lsst.org/', 'nexus3-lsst_jenkins') {
                         sh '''
-                            . cycle/cycle.env
-                            docker push rubincr.lsst.org/base-sqre:${CYCLE}
-                            docker push rubincr.lsst.org/base-sqre:${CYCLE}${rev}
-                            docker push rubincr.lsst.org/salobj:${CYCLE}
-                            docker push rubincr.lsst.org/salobj:${CYCLE}${rev}
+                            . "$ENV_FILE"
                             docker push rubincr.lsst.org/develop-env-sqre:${CYCLE}
-                            docker push rubincr.lsst.org/develop-env-sqre:${CYCLE}${rev}
+                            if [ "$ENV_FILE" = cycle/cycle.env ]; then
+                                docker push rubincr.lsst.org/develop-env-sqre:${CYCLE}${rev}
+                            fi
                         '''
+                    }
+                    if (params.ENV_FILE == 'cycle/develop.env') {
+                        build wait: false, job: 'LSST_Telescope-and-Site/ts_SalMultiLanguageTests/main', parameters: [string(name: 'image_version', value: 'develop')]
                     }
                 }
             }
