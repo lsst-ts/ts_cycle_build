@@ -42,7 +42,7 @@ pipeline {
                 expression { params.build_ess_controller }
             }
             agent {
-                label 'Node2_8CPU'
+                label 'Node1_4CPU||Node2_8CPU||Node1_4CPU'
             }
             steps {
                 script {
