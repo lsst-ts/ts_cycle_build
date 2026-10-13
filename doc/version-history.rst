@@ -8,6 +8,22 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a version history format.
 
+Cycle 44 revision 14
+====================
+
+* Updated version of the following packages:
+
+   * rubin_scheduler
+   * ts_fbs_utils
+   * ts_scheduler
+   * ts_weatherforecast
+
+* Added RPM packages needed for playwright in node.
+* Added setup_dev script to no-stack.
+* Made sure that the ESS Controller builds run all post actions on a node.
+* Updated EFD client in develop and main.env.
+* Added devstack job that combines base, salobj and dev into one.
+
 Cycle 44 revision 13
 ====================
 

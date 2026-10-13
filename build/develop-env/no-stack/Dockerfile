@@ -121,6 +121,7 @@ RUN ENV_NAME=$(cat /tmp/env_name) && \
 COPY develop-env/scripts/checkout-repo.sh /home/saluser/.checkout-repo.sh
 COPY develop-env/scripts/setup-ssw-repositories.sh /home/saluser/.setup-ssw-repositories.sh
 COPY develop-env/no-stack/setup-ssw-environment.sh /home/saluser/.setup-ssw-environment.sh
+COPY --chown=saluser:saluser --chmod=755 develop-env/no-stack/setup_dev.sh /home/saluser/.setup_dev.sh
 USER root
 RUN chmod +x /home/saluser/.checkout-repo.sh /home/saluser/.setup-ssw-repositories.sh /home/saluser/.setup-ssw-environment.sh
 USER saluser
@@ -140,16 +141,6 @@ RUN ENV_NAME=$(cat /tmp/env_name) && \
     ts_planning_tool=${ts_planning_tool} CHECKOUT_HELPER=/home/saluser/.checkout-repo.sh \
     SETUP_REPOSITORIES=/home/saluser/.setup-ssw-repositories.sh \
     /home/saluser/.setup-ssw-environment.sh "$ENV_NAME"
-RUN cat <<EOF >> ${HOME}/.bashrc
-ENV_NAME=\$(cat /tmp/env_name)
-conda activate "\${ENV_NAME}"
-setup ts_config_ocs -t current
-setup ts_config_atcalsys -t current
-setup ts_config_mtcalsys -t current
-setup ts_config_attcs -t current
-setup ts_config_mttcs -t current
-setup ts_config_eas -t current
-setup ts_config_latiss -t current
-EOF
+RUN echo 'source /home/saluser/.setup_dev.sh' >> ${HOME}/.bashrc
 WORKDIR /home/saluser
 CMD ["/bin/bash"]

@@ -10,7 +10,22 @@ ENV WORKDIR=${STACKDIR}
 
 USER root
 
-RUN dnf install -y gcc libatomic
+RUN dnf install -y gcc \
+    libatomic \
+    git \
+    nss \
+    nspr \
+    atk \
+    at-spi2-atk \
+    at-spi2-core \
+    pango \
+    alsa-lib \
+    mesa-libgbm \
+    libXcomposite \
+    libXdamage \
+    libXext \
+    libXrandr \
+    libxkbcommon
 
 RUN groupadd --gid ${GID} ${USER} && \
     adduser -u ${UID} -m -g ${GID} -s /bin/bash ${USER} 
