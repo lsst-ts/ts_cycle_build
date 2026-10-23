@@ -1,5 +1,7 @@
 FROM almalinux:9
 
+RUN dnf upgrade --refresh -y && dnf clean all
+
 ARG UID=73006
 ARG GID=73006
 
