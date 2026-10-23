@@ -212,13 +212,13 @@ pipeline {
       }
       steps {
 
-        withEnv(["HOME=${env.WORKSPACE}"]) {
-          sh """
-          export \$(cat cycle/${params.env_file} | grep rev | sed  's/#.*//g' | xargs)
-          export \$(cat cycle/${params.env_file} | grep CYCLE | sed  's/#.*//g' | xargs)
-          if [ "\$rev" != ".000" ]; then echo "FAILED: Building ALL components only allowed when building revision 0."; exit 1 ; else echo "BUILDING CYCLE \${CYCLE}\${rev}";fi
-          """
-        }
+        // withEnv(["HOME=${env.WORKSPACE}"]) {
+        //   sh """
+        //   export \$(cat cycle/${params.env_file} | grep rev | sed  's/#.*//g' | xargs)
+        //   export \$(cat cycle/${params.env_file} | grep CYCLE | sed  's/#.*//g' | xargs)
+        //   if [ "\$rev" != ".000" ]; then echo "FAILED: Building ALL components only allowed when building revision 0."; exit 1 ; else echo "BUILDING CYCLE \${CYCLE}\${rev}";fi
+        //   """
+        // }
 
         script{
           def cacheOption = params.set_cache_option ? "--no-cache" : ""
