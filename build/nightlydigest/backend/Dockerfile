@@ -19,7 +19,9 @@ WORKDIR /home/saluser/
 LABEL ts_logging_and_reporting=${ts_logging_and_reporting}
 
 COPY startup.sh /home/saluser/.startup.sh
+COPY refresh_worker.sh /home/saluser/.refresh-worker.sh
 USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
-    chmod a+x /home/saluser/.startup.sh
+    chmod a+x /home/saluser/.startup.sh && \
+    chmod a+x /home/saluser/.refresh-worker.sh
 USER saluser
