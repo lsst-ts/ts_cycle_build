@@ -75,7 +75,7 @@ USER saluser
 ARG xml
 
 RUN source /home/saluser/.setup_sal_env.sh \
-    && mamba install -y -c lsstts readline yaml-cpp catch2 spdlog texlive-core ghostscript "$(conda_package_spec ts-xml "$xml")"
+    && conda install -y -c lsstts readline yaml-cpp catch2 spdlog texlive-core ghostscript "$(conda_package_spec ts-xml "$xml")"
 
 WORKDIR /home/saluser
 
@@ -109,17 +109,16 @@ export LSST_KAFKA_LOCAL_SCHEMAS=$SAL_WORK_DIR\\n\
 export TS_CONFIG_OCS_DIR=/lsst/ts_config_ocs/\\n\
 \\n\
 export LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/opt/lsst/tssw/ts_sal/lib\\n\
-export CONDA_PREFIX=/opt/lsst/software/stack/miniconda\\n\
 \\n\
 source /home/saluser/.setup_sal_env.sh\\n\
 source /opt/lsst/tssw/ts_sal/setupKafka.env\\n\
 \\n\
-export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$CONDA_PREFIX/lib/pkgconfig\\n\
+export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:\$CONDA_PREFIX/lib/pkgconfig\\n\
 \\n\
 source scl_source enable gcc-toolset-14\\n\
 \\n\
 export CPATH=\"/usr/local/include\"\\n\
-export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:/usr/local/lib64:/usr/local/lib"\\n\
+export LD_LIBRARY_PATH="\$CONDA_PREFIX/lib:/usr/local/lib64:/usr/local/lib"\\n\
 \\n\
 export SAL_DIR=/opt/lsst/tssw/ts_sal/lsstsal/scripts\\n\
 export TS_XML_DIR=/opt/lsst/tssw/ts_xml

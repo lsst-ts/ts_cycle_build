@@ -11,7 +11,7 @@ WORKDIR /home/saluser/
 
 ENV RUN_ARG=""
 
-RUN source /opt/lsst/software/stack/miniconda/bin/activate && \
+RUN source /home/saluser/.setup_sal_env.sh && \
     conda install -y fitsio pyyaml && \
     git clone https://github.com/lsst-dm/HeaderService -b ${headerservice} && \
     cd HeaderService && \
@@ -24,8 +24,9 @@ USER root
 RUN chown saluser:saluser /home/saluser/.startup.sh && \
     chmod a+x /home/saluser/.startup.sh
 
-RUN mkdir -p /opt/lsst/software/stack/miniconda/HeaderService/etc/playback/lib/LSSTCam && \
-    chown saluser:saluser /opt/lsst/software/stack/miniconda/HeaderService/etc/playback/lib/LSSTCam
+RUN source /home/saluser/.setup_sal_env.sh && \
+    mkdir -p "$CONDA_PREFIX/HeaderService/etc/playback/lib/LSSTCam" && \
+    chown saluser:saluser "$CONDA_PREFIX/HeaderService/etc/playback/lib/LSSTCam"
 
 USER saluser
 
