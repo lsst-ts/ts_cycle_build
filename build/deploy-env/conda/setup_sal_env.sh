@@ -17,8 +17,8 @@ ${HOME}/.wait_obsenv_sidecar.sh
 # on callback, kill the last background process and execute term_handler
 trap 'kill ${!}; term_handler' SIGTERM
 
-${WORKDIR}/miniconda/bin/python -m conda init
-source ${WORKDIR}/miniconda/bin/activate
+source "${WORKDIR}/miniconda/etc/profile.d/conda.sh" && \
+  conda activate "ssw-${PYTHON_VERSION}" || return $?
 
 if [ -f "${HOME}/.conda_package_spec.sh" ]; then
   source "${HOME}/.conda_package_spec.sh"

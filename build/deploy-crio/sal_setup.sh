@@ -20,7 +20,7 @@ export SAL_WORK_DIR=$LSST_SDK_INSTALL/
 
 export SAL_CPPFLAGS=-m64
 
-export CONDA_PREFIX=/opt/lsst/software/stack/miniconda/
+source /home/saluser/.setup_sal_env.sh
 export PKG_CONFIG_PATH=$CONDA_PREFIX/lib/pkgconfig
 
 if [ -z "$JAVA_HOME" ]; then
