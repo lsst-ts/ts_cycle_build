@@ -12,6 +12,7 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     git \
     make \
     cmake \
+    fmt-devel \
     wget \
     boost1.78 \
     boost1.78-devel \
@@ -26,10 +27,12 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     dnf clean all
 
 ARG rpm
+ARG ts_sal
 
 RUN dnf install -y \
     --enablerepo=lsst-ts \
     --disablerepo=lsst-ts-test \
+    ts_sal_utilsKafka-${ts_sal} \
     ATPtg-${rpm} \
     MTPtg-${rpm} \
     MTMount-${rpm} \
