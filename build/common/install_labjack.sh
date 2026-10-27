@@ -5,10 +5,8 @@
 # the labjack-ljm conda package as saluser user.                        #
 #                                                                       #
 # This script is used by:                                               #
-#   - build/conda_builder/linux64/Dockerfile                            #
 #   - build/develop-env/no-stack/Dockerfile                             #
-#   - build/ess/Dockerfile                                              #
-# so modifying this script may affect building those Docker images.     #
+# so modifying this script may affect building that Docker image.       #
 #########################################################################
 
 optspec=":-:"
@@ -23,17 +21,20 @@ while getopts "$optspec" optchar; do
                 labjack_file_version=*)
                     labjack_file_version=${OPTARG#*=}
                     ;;
-                saluser_env_script=*)
-                    # The saluser environment script to source
-                    saluser_env_script=${OPTARG#*=}
+                conda_environment=*)
+                    # The Conda environment to install the package into
+                    conda_environment=${OPTARG#*=}
                     ;;
                 labjack_ljm=*)
-                    # The version of the labjac-ljm conda package to install
+                    # The version of the labjack-ljm conda package to install
                     labjack_ljm=${OPTARG#*=}
                     ;;
             esac;;
     esac
 done
+
+: "${conda_environment:?--conda_environment is required}"
+: "${labjack_ljm:?--labjack_ljm is required}"
 
 yum -y --enablerepo=extras install epel-release unzip
 
@@ -54,3 +55,6 @@ unzip LabJack-LJM_2025-05-07.zip
 ./labjack_ljm_installer.run -- --without-kipling --no-restart-device-rules # || echo "Expected failure! can't restart rules on docker."
 rm labjack_ljm_installer.run
 rm INSTALL.md
+
+runuser -u saluser -- conda install -y \
+  -n "${conda_environment}" "labjack-ljm=${labjack_ljm}"
