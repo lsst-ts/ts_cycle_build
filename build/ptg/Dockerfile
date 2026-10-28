@@ -12,6 +12,7 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     git \
     make \
     cmake \
+    fmt-devel \
     wget \
     boost1.78 \
     boost1.78-devel \
@@ -26,10 +27,12 @@ RUN dnf install -y dnf-plugins-core epel-release && \
     dnf clean all
 
 ARG rpm
+ARG ts_sal
 
 RUN dnf install -y \
     --enablerepo=lsst-ts \
     --disablerepo=lsst-ts-test \
+    ts_sal_utilsKafka-${ts_sal} \
     ATPtg-${rpm} \
     MTPtg-${rpm} \
     MTMount-${rpm} \
@@ -64,8 +67,6 @@ WORKDIR /home/saluser/repos/ts_pointing_common
 WORKDIR /home/saluser
 
 ENV LSST_SDK_INSTALL=/opt/lsst/ts_sal/
-ENV PYTHON_BUILD_VERSION=3.6m
-ENV PYTHON_BUILD_LOCATION=/opt/lsst/software/stack/python/miniconda3-4.5.4/
 ENV LSST_DDS_DOMAIN=citest
 ENV PYTHONPATH=${PYTHONPATH}:/opt/lsst/ts_sal/lib/
 ENV PTG_CONFIG_DIR=/home/saluser/repos/ts_pointing_common/install/data
@@ -89,6 +90,8 @@ ARG ptg
 WORKDIR /home/saluser/repos/ts_pointing_common/build
 RUN /home/saluser/.checkout_repo.sh ${ptg} && \
     source /home/saluser/.setup_sal_env.sh && \
+    export PYTHON_BUILD_VERSION=$(python -c 'import sysconfig; print(sysconfig.get_config_var("LDVERSION"))') && \
+    export PYTHON_BUILD_LOCATION="${CONDA_PREFIX}/" && \
     source scl_source enable gcc-toolset-13 && \
     cmake -DRPM=ON .. && make && \
     cmake -DRPM=ON -DAT=ON .. && make

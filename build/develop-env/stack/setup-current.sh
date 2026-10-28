@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -Eeuo pipefail
+# EUPS setup scripts read optional variables that may be unset.
+set -Eeo pipefail
 
 for product in \
     ts_config_atcalsys ts_config_attcs ts_config_eas ts_config_latiss \

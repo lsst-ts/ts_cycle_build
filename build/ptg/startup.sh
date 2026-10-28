@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 source ${HOME}/.setup_sal_env.sh
+export PYTHON_BUILD_VERSION=$(python -c 'import sysconfig; print(sysconfig.get_config_var("LDVERSION"))')
+export PYTHON_BUILD_LOCATION="${CONDA_PREFIX}/"
 source ${LSST_SDK_INSTALL}sal_setup.env
 
 if [ "$TELESCOPE" == "MT" ]

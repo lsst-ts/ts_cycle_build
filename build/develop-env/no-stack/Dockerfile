@@ -1,5 +1,7 @@
 FROM almalinux:9 AS common
 
+RUN dnf upgrade --refresh -y && dnf clean all
+
 ARG UID=73006
 ARG GID=73006
 
@@ -98,7 +100,7 @@ USER root
 RUN chmod +x /tmp/install_labjack.sh && \
     /tmp/install_labjack.sh --labjack_file_version=${labjack_file_version} \
       --labjack_arch=${labjack_arch} --labjack_ljm=${labjack_ljm} \
-      --saluser_env_script=/home/saluser/.setup-ssw-environment.sh
+      --conda_environment="$(cat /tmp/env_name)"
 RUN dnf install -y https://cdn.azul.com/zulu/bin/zulu-repo-1.0.0-1.noarch.rpm && \
     dnf install -y zulu${openjdk}-jdk zulu11-jdk zulu21-jdk && \
     dnf clean all && \

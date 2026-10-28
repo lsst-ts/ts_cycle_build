@@ -499,6 +499,7 @@ x-ptg:
       cycle: ${CYCLE}
       hub: ${hub}
       rpm: 0:${ts_xml}-${ts_sal}.el9.x86_64
+      ts_sal: ${ts_sal}
       ptg: ${ts_pointing_common}
 
 x-base-rubintv:

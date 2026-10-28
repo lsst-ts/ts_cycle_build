@@ -1,5 +1,7 @@
 FROM almalinux:9
 
+RUN dnf upgrade --refresh -y && dnf clean all
+
 ARG UID=73006
 ARG GID=73006
 
@@ -58,26 +60,30 @@ ARG librdkafka
 ARG python_confluent_kafka
 
 ARG PYTHON_VERSION
+ENV PYTHON_VERSION=${PYTHON_VERSION}
 
 RUN curl -sSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o miniforge.sh && \
   chmod +x miniforge.sh && \
   ./miniforge.sh -b -p ${WORKDIR}/miniconda && \
   ${WORKDIR}/miniconda/bin/conda init bash
 
-RUN source /home/saluser/.setup_sal_env.sh && \
+RUN source ${WORKDIR}/miniconda/etc/profile.d/conda.sh && \
+  conda activate base && \
+  conda config --set auto_activate_base false && \
   source /home/saluser/.conda_package_spec.sh && \
   ts_xml_spec=$(conda_package_spec ts-xml "${ts_xml}") && \
   ts_salobj_spec=$(conda_package_spec ts-salobj "${ts_salobj}") && \
   ts_idl_spec=$(conda_package_spec ts-idl "${ts_idl}") && \
   ts_utils_spec=$(conda_package_spec ts-utils "${ts_utils}") && \
   conda update -n base -c https://conda.anaconda.org/conda-forge/linux-64 conda && \
-  conda update -y -n base -c conda-forge conda-libmamba-solver --solver classic && \
+  # conda self update -y --all && \
   conda config --set solver libmamba && \
-  conda install -y python=${PYTHON_VERSION} && \
+  conda create -n "ssw-${PYTHON_VERSION}" -y python=${PYTHON_VERSION} && \
+  source /home/saluser/.setup_sal_env.sh && \
   conda config --add channels conda-forge && \
   conda config --add channels lsstts && \
-  conda install -y librdkafka=${librdkafka} python-confluent-kafka=${python_confluent_kafka} && \
-  conda install -y -c lsstts -c lsstts/label/dev -c lsstts/label/rc "${ts_xml_spec}" "${ts_salobj_spec}" "${ts_idl_spec}" "${ts_utils_spec}" pyopenssl
+  conda install -n "ssw-${PYTHON_VERSION}" -y librdkafka=${librdkafka} python-confluent-kafka=${python_confluent_kafka} && \
+  conda install -n "ssw-${PYTHON_VERSION}" -y -c lsstts -c lsstts/label/dev -c lsstts/label/rc "${ts_xml_spec}" "${ts_salobj_spec}" "${ts_idl_spec}" "${ts_utils_spec}" pyopenssl
 
 WORKDIR /home/saluser/
 

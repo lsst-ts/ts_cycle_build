@@ -11,7 +11,7 @@ RUN source /home/saluser/.crio_setup.sh \
     && salgeneratorKafka generate cpp MTVMS
 
 RUN source /home/saluser/.setup_sal_env.sh \
-    && mamba install -y fftw
+    && conda install -y fftw
     
 ARG vms
 

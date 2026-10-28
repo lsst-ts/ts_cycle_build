@@ -6,7 +6,25 @@ Version History
 .. Until then, it is not expected that both a version history and a release_notes be maintained.
 .. It is expected that each CSC link to whatever method of tracking is being used for that CSC until standardization occurs.
 .. No new work should be required in order to complete this section.
-.. Below is an example of a version history format.
+.. Below is an example of a_as_str vers_as_strion history format.
+
+Cycle 44 revision 15
+====================
+
+* Updated version of the following packages:
+
+  * ts_watcher
+  * ts_scheduler
+  * love_manager
+  * ts_fbs_utils
+  * rubin_scheduler
+
+* Installed labjack-ljm in install_labjack script.
+* Copied specific filename in GenericCamera stage.
+* Pinned ts-sal-utilsKafka and adding missing RPM to ptg.
+* Createed separate python 3.13 environment for deploy-env; 
+* Updated startup scripts to activate new separate environment.
+* Added line to upgrade packages for each develop-env and deploy-env image.
 
 Cycle 44 revision 14
 ====================

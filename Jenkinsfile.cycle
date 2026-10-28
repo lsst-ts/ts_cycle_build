@@ -306,7 +306,7 @@ pipeline {
       steps {
 
         withCredentials([file(credentialsId: 'nexus-netrc', variable: 'nexus_netrc')]) {
-            sh "cp \$nexus_netrc ${env.WORKSPACE}/build/common/"
+            sh "cp \$nexus_netrc ${env.WORKSPACE}/build/common/netrc"
         }
         script{
         def cacheOption = params.set_cache_option ? "--no-cache" : ""
