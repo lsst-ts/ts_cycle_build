@@ -166,8 +166,8 @@ The build scripts are located in;
 Once the build scripts are created, the next step is to add the docker-compose build configuration.
 The configuration is hosted in the ``cycle/docker-compose.yaml`` file.
 
-For each component 2 identical images are built; one receives a ``cycle`` tag and the other a ``cycle.revision``.
-In order to avoid duplication we create a template build configuration and add 2 components with different tagging schema.
+Each component image is built once and receives both a ``cycle`` tag and a ``cycle.revision`` tag.
+Each component has one service with a revision image and an additional cycle tag in its build configuration.
 
 At the top of the compose file, add the build configuration with the following format:
 
@@ -175,6 +175,8 @@ At the top of the compose file, add the build configuration with the following f
 
   x-<component-name>: &base-<component-name>
     build:
+      tags:
+        - ${hub}/<component-name>:${CYCLE}
       context: ../build/<component-name>
       labels:
         com.description: "<component-name> deployment image for cycle/revision ${CYCLE}${rev}."
@@ -193,14 +195,10 @@ At the bottom of the compose file, add the following:
     image: ${hub}/<component-name>:${CYCLE}${rev}
     <<: *base-<component-name>
 
-  <component-name>_c:
-    image: ${hub}/<component-name>:${CYCLE}
-    <<: *base-<component-name>
-
 Next add the components dependency versions to the cycle file in ``cycle/cycle.env``.
 
 Finally, add the component to a build step in the ``Jenkinsfile.cycle`` file.
-If the component is build on top of the ``deploy_env`` image, then add it to the list of base components in ``CONDA_PACKAGES`` and ``CONDA_PACKAGES_C`` and as an option in the parameter choice of ``base_components``.
+If the component is build on top of the ``deploy_env`` image, then add it to the list of base components in ``CONDA_PACKAGES`` and as an option in the parameter choice of ``base_components``.
 They must have the same name as that added in the docker-compose file above.
 
 
