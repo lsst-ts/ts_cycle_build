@@ -9,7 +9,7 @@ RUN git clone --branch ${love_frontend} --depth 1 --single-branch https://github
 FROM node:lts as builder
 COPY --from=cloner /usr/src/love/LOVE-frontend /usr/src/love/LOVE-frontend
 WORKDIR /usr/src/love/LOVE-frontend/love
-RUN yarn install && yarn build
+RUN npm install --global yarn@1.22.22 && yarn install && yarn build
 
 # Copy artifacts files to smaller image
 FROM alpine:3.8
