@@ -1,6 +1,8 @@
 x-mtreflector:
   &base-mtreflector
   build:
+    tags:
+      - ${hub}/mtreflector:${CYCLE}
     context: ../build/mtreflector
     labels:
       com.description: "MTReflector deployment image for cycle/revision ${CYCLE}${rev}."
@@ -15,6 +17,8 @@ x-mtreflector:
 x-cbp:
   &base-cbp
   build:
+    tags:
+      - ${hub}/cbp:${CYCLE}
     context: ../build/cbp
     labels:
       com.description: "CBP deployment image for cycle/revision ${CYCLE}${rev}."
@@ -29,6 +33,8 @@ x-cbp:
 x-linearstage:
   &base-linearstage
   build:
+    tags:
+      - ${hub}/linearstage:${CYCLE}
     context: ../build/linearstage
     labels:
       com.description: "CBP deployment image for cycle/revision ${CYCLE}${rev}."
@@ -43,6 +49,8 @@ x-linearstage:
 x-tunablelaser:
   &base-tunablelaser
   build:
+    tags:
+      - ${hub}/tunablelaser:${CYCLE}
     context: ../build/tunablelaser
     labels:
       com.description: "TunableLaser deployment image for cycle/revision ${CYCLE}${rev}."
@@ -57,6 +65,10 @@ x-tunablelaser:
 x-headerservice:
   &base-headerservice
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/headerservice:${CYCLE}
     context: ../build/headerservice
     labels:
       com.description: "HeaderService deployment image for cycle/revision ${CYCLE}${rev}."
@@ -68,6 +80,8 @@ x-headerservice:
 x-oods:
   &base-oods
   build:
+    tags:
+      - ${hub}/oods:${CYCLE}
     context: ../build/oods
     labels:
       com.description: "OODS deployment image for cycle/revision ${CYCLE}${rev}."
@@ -81,6 +95,8 @@ x-oods:
 x-wfoods:
   &base-wfoods
   build:
+    tags:
+      - ${hub}/wfoods:${CYCLE}
     context: ../build/wfoods
     labels:
       com.description: "WFOODS deployment image for cycle/revision ${CYCLE}${rev}."
@@ -94,6 +110,10 @@ x-wfoods:
 x-atoods:
   &base-atoods
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/atoods:${CYCLE}
     context: ../build/atoods
     labels:
       com.description: "ATOODS deployment image for cycle/revision ${CYCLE}${rev}."
@@ -104,6 +124,10 @@ x-atoods:
 x-ccoods:
   &base-ccoods
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/ccoods:${CYCLE}
     context: ../build/ccoods
     labels:
       com.description: "CCOODS deployment image for cycle/revision ${CYCLE}${rev}."
@@ -114,6 +138,10 @@ x-ccoods:
 x-mtoods:
   &base-mtoods
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/mtoods:${CYCLE}
     context: ../build/mtoods
     labels:
       com.description: "MTOODS deployment image for cycle/revision ${CYCLE}${rev}."
@@ -124,6 +152,10 @@ x-mtoods:
 x-audio_broadcaster:
   &base-audio_broadcaster
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/audio_broadcaster:${CYCLE}
     context: ../build/audio_broadcaster
     labels:
       com.description: "Audio broadcaster deployment image for cycle/revision ${CYCLE}${rev}."
@@ -135,6 +167,10 @@ x-audio_broadcaster:
 x-nightreport:
   &base-nightreport
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/nightreport:${CYCLE}
     context: ../build/nightreport
     labels:
       com.description: "Nightreport REST API image for cycle/revision ${CYCLE}${rev}."
@@ -146,6 +182,8 @@ x-nightreport:
 x-lsst_sims:
   &base-lsst_sims
   build:
+    platforms:
+      - linux/amd64
     context: ../build/lsst_sims
     labels:
       com.description: "LSST sims image for cycle/revision ${CYCLE}${rev}."
@@ -178,6 +216,10 @@ x-base-deploy-lsstsqre-private:
 x-dimm:
   &base-dimm
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/dimm:${CYCLE}
     context: ../build/dimm
     labels:
       com.description: "DIMM deployment image for cycle/revision ${CYCLE}${rev}."
@@ -190,6 +232,10 @@ x-dimm:
 x-dream:
   &base-dream
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/dream:${CYCLE}
     context: ../build/dream
     labels:
       com.description: "DREAM deployment image for cycle/revision ${CYCLE}${rev}."
@@ -204,6 +250,10 @@ x-dream:
 x-dsm:
   &base-dsm
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/dsm:${CYCLE}
     context: ../build/dsm
     labels:
       com.description: "DSM deployment image for cycle/revision ${CYCLE}${rev}."
@@ -215,6 +265,10 @@ x-dsm:
 x-eas:
   &base-eas
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/eas:${CYCLE}
     context: ../build/eas
     labels:
       com.description: "EAS deployment image for cycle/revision ${CYCLE}${rev}."
@@ -229,6 +283,10 @@ x-eas:
 x-love-commander:
   &base-love-commander
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/love-commander:${CYCLE}
     context: ../build/love/commander
     labels:
       com.description: "LOVE commander for cycle/revision ${CYCLE}${rev}."
@@ -242,6 +300,10 @@ x-love-commander:
 x-love-frontend:
   &base-love-frontend
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/love-frontend:${CYCLE}
     context: ../build/love/frontend
     labels:
       com.description: "LOVE frontend for cycle/revision ${CYCLE}${rev}."
@@ -251,6 +313,10 @@ x-love-frontend:
   x-love-frontend-k8s:
     &base-love-frontend-k8s
     build:
+      platforms:
+        - linux/amd64
+      tags:
+        - ${hub}/love-frontend-k8s:${CYCLE}
       context: ../build/love/frontend-k8s
       labels:
         com.description: "LOVE frontend kubernetes for cycle/revision ${CYCLE}${rev}."
@@ -260,6 +326,10 @@ x-love-frontend:
 x-love-manager:
   &base-love-manager
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/love-manager:${CYCLE}
     context: ../build/love/manager
     labels:
       com.description: "LOVE manager for cycle/revision ${CYCLE}${rev}."
@@ -269,6 +339,10 @@ x-love-manager:
 x-love-manager-static:
   &base-love-manager-static
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/love-manager-static:${CYCLE}
     context: ../build/love/manager-static
     labels:
       com.description: "LOVE manager static for cycle/revision ${CYCLE}${rev}."
@@ -278,6 +352,10 @@ x-love-manager-static:
 x-love-producer:
   &base-love-producer
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/love-producer:${CYCLE}
     context: ../build/love/producer
     labels:
       com.description: "LOVE producer for cycle/revision ${CYCLE}${rev}."
@@ -289,6 +367,10 @@ x-love-producer:
 x-love-csc:
   &base-love-csc
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/love-csc:${CYCLE}
     context: ../build/love/csc
     labels:
       com.description: "LOVE CSC for cycle/revision ${CYCLE}${rev}."
@@ -300,6 +382,10 @@ x-love-csc:
 x-love-view-backup:
   &base-love-view-backup
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/love-view-backup:${CYCLE}
     context: ../build/love/view-backup
     labels:
       com.description: "LOVE view-backup for cycle/revision ${CYCLE}${rev}."
@@ -310,6 +396,10 @@ x-love-view-backup:
 x-nightlydigest-frontend:
   &base-nightlydigest-frontend
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/nightlydigest-frontend:${CYCLE}
     context: ../build/nightlydigest/frontend
     labels:
       com.description: "Nightlydigest frontend for cycle/revision ${CYCLE}${rev}."
@@ -319,6 +409,10 @@ x-nightlydigest-frontend:
 x-nightlydigest-backend:
   &base-nightlydigest-backend
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/nightlydigest-backend:${CYCLE}
     context: ../build/nightlydigest/backend
     labels:
       com.description: "Nightlydigest backend for cycle/revision ${CYCLE}${rev}."
@@ -330,6 +424,10 @@ x-nightlydigest-backend:
 x-mtaos:
   &base-mtaos
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/mtaos:${CYCLE}
     context: ../build/
     dockerfile: ./mtaos/Dockerfile
     labels:
@@ -347,6 +445,10 @@ x-mtaos:
 x-mtdome:
   &base-mtdome
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/mtdome:${CYCLE}
     context: ../build/mtdome
     labels:
       com.description: "MTDome component for cycle {$CYCLE}"
@@ -360,6 +462,10 @@ x-mtdome:
 x-mtdometrajectory:
   &base-mtdometrajectory
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/mtdometrajectory:${CYCLE}
     context: ../build/mtdometrajectory
     labels:
       com.description: "MTDomeTrajectory component for cycle {$CYCLE}"
@@ -372,6 +478,10 @@ x-mtdometrajectory:
 x-mthexapod:
   &base-mthexapod
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/mthexapod:${CYCLE}
     context: ../build/mthexapod
     labels:
       com.description: "MTHexapod deployment image for cycle/revision ${CYCLE}${rev}."
@@ -434,6 +544,10 @@ x-vms_sim:
 x-mtaircompressor:
   &base-mtaircompressor
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/mtaircompressor:${CYCLE}
     context: ../build/mtaircompressor
     labels:
       com.description: "M1M3 & Camera air compressors on level 1 for cycle/revision ${CYCLE}/${rev}."
@@ -446,6 +560,10 @@ x-mtaircompressor:
 x-lasertracker:
   &base-lasertracker
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/lasertracker:${CYCLE}
     context: ../build/lasertracker
     labels:
       com.description: "for cycle/revision ${CYCLE}/${rev}."
@@ -458,6 +576,10 @@ x-lasertracker:
 x-mtm2:
   &base-mtm2
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/m2:${CYCLE}
     context: ../build/mtm2
     labels:
       com.description: "M2 deployment image for cycle/revision ${CYCLE}${rev}."
@@ -471,6 +593,10 @@ x-mtm2:
 x-mtmount:
   &base-mtmount
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/mtmount:${CYCLE}
     context: ../build/mtmount
     labels:
       com.description: "MTmount deployment image for cycle/revision ${CYCLE}${rev}."
@@ -484,6 +610,10 @@ x-mtmount:
 x-mtrotator:
   &base-mtrotator
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/mtrotator:${CYCLE}
     context: ../build/mtrotator
     labels:
       com.description: "MTRotator deployment image for cycle/revision ${CYCLE}${rev}."
@@ -498,6 +628,10 @@ x-mtrotator:
 x-ptg:
   &base-ptg
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ts-dockerhub.lsst.org/ptkernel:${CYCLE}
     context: ../build/
     dockerfile: ./ptg/Dockerfile
     labels:
@@ -514,6 +648,10 @@ x-ptg:
 x-base-rubintv:
   &base-rubintv
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/rubintv:${CYCLE}
     context: ../build/rubintv/
     labels:
       com.description: "RubinTV frontend image for cycle/revision ${CYCLE}${rev}."
@@ -525,6 +663,10 @@ x-base-rubintv:
 x-base-rapid-analysis:
   &base-rapid-analysis
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/rapid-analysis:${CYCLE}
     context: ../build/
     dockerfile: ./rapid-analysis/Dockerfile
     labels:
@@ -540,6 +682,10 @@ x-base-rapid-analysis:
 x-scheduler:
   &base-scheduler
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/scheduler:${CYCLE}
     context: ../build/scheduler
     labels:
       com.description: "Scheduler image for cycle/revision ${CYCLE}${rev}"
@@ -559,6 +705,10 @@ x-scheduler:
 x-schedview:
   &base-schedview
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/schedview:${CYCLE}
     context: ../build/schedview
     labels:
       com.description: "Scheduler Visualization Bokeh App image for cycle/revision ${CYCLE}${rev}"
@@ -571,6 +721,10 @@ x-schedview:
 x-scriptqueue:
   &base-scriptqueue
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/scriptqueue:${CYCLE}
     context: ../build/
     dockerfile: ./scriptqueue/Dockerfile
     labels:
@@ -603,6 +757,10 @@ x-scriptqueue:
 x-test:
   &base-test
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/test:${CYCLE}
     context: ../build/test
     labels:
       com.description: "Test CSC for cycle/revision ${CYCLE}${rev}."
@@ -614,6 +772,10 @@ x-test:
 x-watcher:
   &base-watcher
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/watcher:${CYCLE}
     context: ../build/watcher
     labels:
       com.description: "Watcher CSC for cycle/revision ${CYCLE}${rev}."
@@ -626,6 +788,10 @@ x-watcher:
 x-weatherforecast:
   &base-weatherforecast
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/weatherforecast:${CYCLE}
     context: ../build/weatherforecast
     labels:
       com.description: "Weather Forecast CSC for cycle/revision ${CYCLE}${rev}."
@@ -638,6 +804,10 @@ x-weatherforecast:
 x-atmcs:
   &base-atmcs
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/atmcs:${CYCLE}
     context: ../build/atmcs
     labels:
       com.description: "ATMCS CSC for cycle {$CYCLE}"
@@ -651,6 +821,10 @@ x-atmcs:
 x-atmonochromator:
   &base-atmonochromator
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/atmonochromator:${CYCLE}
     context: ../build/atmonochromator
     labels:
       com.description: "atmonochromator component for cycle ${CYCLE}"
@@ -663,6 +837,10 @@ x-atmonochromator:
 x-atbuilding:
   &base-atbuilding
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/atbuilding:${CYCLE}
     context: ../build/atbuilding_csc
     labels:
       com.description: "ATBuilding component for cycle {$CYCLE}"
@@ -675,6 +853,10 @@ x-atbuilding:
 x-atdome:
   &base-atdome
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/atdome:${CYCLE}
     context: ../build/atdome
     labels:
       com.description: "ATDome component for cycle {$CYCLE}"
@@ -687,6 +869,10 @@ x-atdome:
 x-atdometrajectory:
   &base-atdometrajectory
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/atdometrajectory:${CYCLE}
     context: ../build/atdometrajectory
     labels:
       com.description: "ATDomeTrajectory component for cycle {$CYCLE}"
@@ -699,6 +885,10 @@ x-atdometrajectory:
 x-atpneumatics:
   &base-atpneumatics
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/at_pneumatics:${CYCLE}
     context: ../build/atpneumatics
     labels:
       com.description: "ATPneumatics CSC for cycle {$CYCLE}"
@@ -712,6 +902,10 @@ x-atpneumatics:
 x-ataos:
   &base-ataos
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/ataos:${CYCLE}
     context: ../build/ataos
     labels:
       com.description: "ATAOS component for cycle {$CYCLE}"
@@ -725,6 +919,8 @@ x-ataos:
 x-athexapod:
   &base-athexapod
   build:
+    tags:
+      - ${hub}/athexapod:${CYCLE}
     context: ../build/athexapod
     labels:
       com.description: "ATHexapod component for cycle {$CYCLE}"
@@ -739,6 +935,8 @@ x-athexapod:
 x-atspectrograph:
   &base-atspectrograph
   build:
+    tags:
+      - ${hub}/atspec:${CYCLE}
     context: ../build/atspectrograph
     labels:
       com.description: "ATSpectrograph component for cycle {$CYCLE}"
@@ -753,6 +951,8 @@ x-atspectrograph:
 x-atwhitelight:
   &base-atwhitelight
   build:
+    tags:
+      - ${hub}/atwhitelight:${CYCLE}
     context: ../build/atwhitelight
     labels:
       com.description: "ATWhiteLight component for cycle {$CYCLE}"
@@ -768,6 +968,10 @@ x-atwhitelight:
 x-dmocps:
   &base-dmocps
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/dmocps:${CYCLE}
     context: ../build/dmocps
     labels:
       com.description: "OCPS component for cycle {$CYCLE}"
@@ -780,6 +984,10 @@ x-dmocps:
 x-genericcamera:
   &base-genericcamera
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/genericcamera:${CYCLE}
     context: ../build/genericcamera/base
     labels:
       com.description: "GenericCamera component for cycle {$CYCLE}"
@@ -792,6 +1000,10 @@ x-genericcamera:
 x-genericcamera-canon:
   &base-genericcamera-canon
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/genericcamera-canon:${CYCLE}
     context: ../build/genericcamera/canon
     labels:
       com.description: "Canon specific GenericCamera for cycle {$CYCLE}"
@@ -803,6 +1015,10 @@ x-genericcamera-canon:
 x-genericcamera-vimba:
   &base-genericcamera-vimba
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/genericcamera-vimba:${CYCLE}
     context: ../build/
     dockerfile: ./genericcamera/vimba/Dockerfile
     labels:
@@ -816,6 +1032,8 @@ x-genericcamera-vimba:
 x-pmd:
   &base-pmd
   build:
+    tags:
+      - ${hub}/pmd:${CYCLE}
     context: ../build/pmd
     labels:
       com.description: "PMD component for cycle {$CYCLE}"
@@ -832,6 +1050,10 @@ x-pmd:
 x-integrationtests:
   &base-integrationtests
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/integrationtests:${CYCLE}
     context: ../build/integrationtests
     labels:
       com.description: "Integration tests for cycle {$CYCLE}"
@@ -844,6 +1066,10 @@ x-integrationtests:
 x-ess:
   &base-ess
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/ess:${CYCLE}
     context: ../build/
     dockerfile: ./ess/Dockerfile
     labels:
@@ -878,6 +1104,8 @@ x-ess-controller-aarch64:
 x-ess-controller-x86_64:
   &base-ess-controller-x86_64
   build:
+    platforms:
+      - linux/amd64
     context: ../build/ess-controller
     labels:
       com.description: "ESS aarch64 Controller for cycle {$CYCLE}"
@@ -911,6 +1139,10 @@ x-audiotrigger-controller-aarch64:
 x-hvac:
   &base-hvac
   build:
+    platforms:
+      - linux/amd64
+    tags:
+      - ${hub}/hvac:${CYCLE}
     context: ../build/hvac
     labels:
       com.description: "HVAC component for cycle {$CYCLE}"
@@ -925,6 +1157,8 @@ x-electrometer:
   devices:
     - "/dev/ttyUSB0:/dev/electrometer"
   build:
+    tags:
+      - ${hub}/electrometer:${CYCLE}
     context: ../build/electrometer
     labels:
       com.description: "Electrometer component for cycle {$CYCLE}"
@@ -940,6 +1174,8 @@ x-electrometer:
 x-fiberspectrograph:
   &base-fiberspectrograph
   build:
+    tags:
+      - ${hub}/fiberspectrograph:${CYCLE}
     context: ../build/fiberspectrograph
     labels:
       com.description: "FiberSpectrograph component for cycle {$CYCLE}"
@@ -954,6 +1190,8 @@ x-fiberspectrograph:
 x-gis:
   &base-gis
   build:
+    tags:
+      - ${hub}/gis:${CYCLE}
     context: ../build/gis
     labels:
       com.description: "GIS component for cycle {$CYCLE}"
@@ -968,6 +1206,8 @@ x-gis:
 x-ledprojector:
   &base-ledprojector
   build:
+    tags:
+      - ${hub}/ledprojector:${CYCLE}
     context: ../build/ledprojector
     labels:
       com.description: "LEDProjector component for cycle {$CYCLE}"
@@ -1013,6 +1253,8 @@ services:
   deploy-conda-community:
     image: lsstts/deploy-env:${CYCLE}
     build:
+      platforms:
+        - linux/amd64
       context: ../build/
       dockerfile: ./deploy-env/conda/Dockerfile
       labels:
@@ -1049,6 +1291,8 @@ services:
   deploy-lsstsqre-community:
     image: lsstts/deploy-sqre:${CYCLE}
     build:
+      platforms:
+        - linux/amd64
       context: ../build/
       dockerfile: ./deploy-env/lsstsqre/Dockerfile
       labels:
@@ -1109,6 +1353,8 @@ services:
   sal-sciplat-community:
     image: lsstts/sal-sciplat:${stack}_${CYCLE}${rev}
     build:
+      platforms:
+        - linux/amd64
       context: ../build/
       dockerfile: ./sal-sciplat/Dockerfile
       args:
@@ -1142,6 +1388,8 @@ services:
   sal-sciplat-licensed:
     image: ts-dockerhub.lsst.org/sal-sciplat:${stack}_${CYCLE}${rev}
     build:
+      platforms:
+        - linux/amd64
       context: ../build/
       dockerfile: ./sal-sciplat/Dockerfile
       args:
@@ -1262,6 +1510,8 @@ services:
   conda-builder-community:
     image: lsstts/conda_package_builder:${CYCLE}
     build:
+      platforms:
+        - linux/amd64
       context: ../build/
       dockerfile: ./conda_builder/Dockerfile
       labels:
@@ -1276,6 +1526,8 @@ services:
   conda-builder-private:
     image: ${hub}/conda_package_builder:${CYCLE}${rev}
     build:
+      platforms:
+        - linux/amd64
       context: ../build/
       dockerfile: ./conda_builder/Dockerfile
       labels:
@@ -1291,160 +1543,80 @@ services:
     image: ${hub}/dimm:${CYCLE}${rev}
     <<: *base-dimm
 
-  dimm_c:
-    image: ${hub}/dimm:${CYCLE}
-    <<: *base-dimm
-
   dream:
     image: ${hub}/dream:${CYCLE}${rev}
-    <<: *base-dream
-
-  dream_c:
-    image: ${hub}/dream:${CYCLE}
     <<: *base-dream
 
   dsm:
     image: ${hub}/dsm:${CYCLE}${rev}
     <<: *base-dsm
 
-  dsm_c:
-    image: ${hub}/dsm:${CYCLE}
-    <<: *base-dsm
-
   eas:
     image: ${hub}/eas:${CYCLE}${rev}
-    <<: *base-eas
-
-  eas_c:
-    image: ${hub}/eas:${CYCLE}
     <<: *base-eas
 
   love-commander:
     image: ${hub}/love-commander:${CYCLE}${rev}
     <<: *base-love-commander
 
-  love-commander_c:
-    image: ${hub}/love-commander:${CYCLE}
-    <<: *base-love-commander
-
   love-frontend-k8s:
     image: ${hub}/love-frontend-k8s:${CYCLE}${rev}
-    <<: *base-love-frontend-k8s
-
-  love-frontend-k8s_c:
-    image: ${hub}/love-frontend-k8s:${CYCLE}
     <<: *base-love-frontend-k8s
 
   love-frontend:
     image: ${hub}/love-frontend:${CYCLE}${rev}
     <<: *base-love-frontend
 
-  love-frontend_c:
-    image: ${hub}/love-frontend:${CYCLE}
-    <<: *base-love-frontend
-
   love-manager:
     image: ${hub}/love-manager:${CYCLE}${rev}
-    <<: *base-love-manager
-
-  love-manager_c:
-    image: ${hub}/love-manager:${CYCLE}
     <<: *base-love-manager
 
   love-manager-static:
     image: ${hub}/love-manager-static:${CYCLE}${rev}
     <<: *base-love-manager-static
 
-  love-manager-static_c:
-    image: ${hub}/love-manager-static:${CYCLE}
-    <<: *base-love-manager-static
-
   love-producer:
     image: ${hub}/love-producer:${CYCLE}${rev}
-    <<: *base-love-producer
-
-  love-producer_c:
-    image: ${hub}/love-producer:${CYCLE}
     <<: *base-love-producer
 
   love-csc:
     image: ${hub}/love-csc:${CYCLE}${rev}
     <<: *base-love-csc
 
-  love-csc_c:
-    image: ${hub}/love-csc:${CYCLE}
-    <<: *base-love-csc
-
   love-view-backup:
     image: ${hub}/love-view-backup:${CYCLE}${rev}
     <<: *base-love-view-backup
 
-  love-view-backup_c:
-    image: ${hub}/love-view-backup:${CYCLE}
-    <<: *base-love-view-backup
-  
   nightlydigest-frontend:
     image: ${hub}/nightlydigest-frontend:${CYCLE}${rev}
     <<: *base-nightlydigest-frontend
   
-  nightlydigest-frontend_c:
-    image: ${hub}/nightlydigest-frontend:${CYCLE}
-    <<: *base-nightlydigest-frontend
-
   nightlydigest-backend:
     image: ${hub}/nightlydigest-backend:${CYCLE}${rev}
-    <<: *base-nightlydigest-backend
-
-  nightlydigest-backend_c:
-    image: ${hub}/nightlydigest-backend:${CYCLE}
     <<: *base-nightlydigest-backend
 
   audio_broadcaster:
     image: ${hub}/audio_broadcaster:${CYCLE}${rev}
     <<: *base-audio_broadcaster
 
-  audio_broadcaster_c:
-    image: ${hub}/audio_broadcaster:${CYCLE}
-    <<: *base-audio_broadcaster
-
   nightreport:
     image: ${hub}/nightreport:${CYCLE}${rev}
-    <<: *base-nightreport
-
-  nightreport_c:
-    image: ${hub}/nightreport:${CYCLE}
     <<: *base-nightreport
 
   mtaos:
     image: ${hub}/mtaos:${CYCLE}${rev}
     <<: *base-mtaos
 
-  mtaos_c:
-    image: ${hub}/mtaos:${CYCLE}
-    <<: *base-mtaos
-
   mtdome:
     image: ${hub}/mtdome:${CYCLE}${rev}
-    <<: *base-mtdome
-
-  mtdome_c:
-    image: ${hub}/mtdome:${CYCLE}
     <<: *base-mtdome
 
   mtdometrajectory:
     image: ${hub}/mtdometrajectory:${CYCLE}${rev}
     <<: *base-mtdometrajectory
 
-  mtdometrajectory_c:
-    image: ${hub}/mtdometrajectory:${CYCLE}
-    <<: *base-mtdometrajectory
-
   mthexapod:
     image: ${hub}/mthexapod:${CYCLE}${rev}
-    <<: *base-mthexapod
-
-  mthexapod_c:
-    image: ${hub}/mthexapod:${CYCLE}
     <<: *base-mthexapod
 
   mtm1m3_sim:
@@ -1463,78 +1635,37 @@ services:
     image: ${hub}/mtaircompressor:${CYCLE}${rev}
     <<: *base-mtaircompressor
 
-  mtaircompressor_c:
-    image: ${hub}/mtaircompressor:${CYCLE}
-    <<: *base-mtaircompressor
-
   lasertracker:
     image: ${hub}/lasertracker:${CYCLE}${rev}
-    <<: *base-lasertracker
-
-  lasertracker_c:
-    image: ${hub}/lasertracker:${CYCLE}
     <<: *base-lasertracker
 
   mtm2:
     image: ${hub}/m2:${CYCLE}${rev}
     <<: *base-mtm2
 
-  mtm2_c:
-    image: ${hub}/m2:${CYCLE}
-    <<: *base-mtm2
-
   mtmount:
     image: ${hub}/mtmount:${CYCLE}${rev}
-    <<: *base-mtmount
-
-  mtmount_c:
-    image: ${hub}/mtmount:${CYCLE}
     <<: *base-mtmount
 
   mtrotator:
     image: ${hub}/mtrotator:${CYCLE}${rev}
     <<: *base-mtrotator
 
-  mtrotator_c:
-    image: ${hub}/mtrotator:${CYCLE}
-    <<: *base-mtrotator
-
   rubintv:
     image: ${hub}/rubintv:${CYCLE}${rev}
-    <<: *base-rubintv
-
-  rubintv_c:
-    image: ${hub}/rubintv:${CYCLE}
     <<: *base-rubintv
 
   rapid-analysis:
     image: ${hub}/rapid-analysis:${CYCLE}${rev}
     <<: *base-rapid-analysis
 
-  rapid-analysis_c:
-    image: ${hub}/rapid-analysis:${CYCLE}
-    <<: *base-rapid-analysis
-
   rapid-analysis-usdf:
     image: lsstts/rapid-analysis:${CYCLE}${rev}_usdf
     build:
-      context: ../build/
-      dockerfile: ./rapid-analysis/Dockerfile
-      labels:
-        com.description: "RubinTV Rapid Analysis image for cycle/revision ${CYCLE}${rev}."
-      args:
-        image_tag: al9-${stack_ra}
-        spectractor_work_branch: ${rubintv_spectractor}
-        atmospec_work_branch: ${rubintv_atmospec}
-        summit_utils_work_branch: ${rubintv_summit_utils}
-        summit_extras_work_branch: ${rubintv_summit_extras}
-        rubintv_production_work_branch: ${rubintv_production}
-        UID: 17951
-        GID: 4085
-
-  rapid-analysis-usdf_c:
-    image: lsstts/rapid-analysis:${CYCLE}_usdf
-    build:
+      platforms:
+        - linux/amd64
+      tags:
+        - lsstts/rapid-analysis:${CYCLE}_usdf
       context: ../build/
       dockerfile: ./rapid-analysis/Dockerfile
       labels:
@@ -1553,192 +1684,96 @@ services:
     image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}${rev}
     <<: *base-ptg
 
-  ptg_c:
-    image: ts-dockerhub.lsst.org/ptkernel:${CYCLE}
-    <<: *base-ptg
-
   scheduler:
     image: ${hub}/scheduler:${CYCLE}${rev}
-    <<: *base-scheduler
-
-  scheduler_c:
-    image: ${hub}/scheduler:${CYCLE}
     <<: *base-scheduler
 
   schedview:
     image: ${hub}/schedview:${CYCLE}${rev}
     <<: *base-schedview
 
-  schedview_c:
-    image: ${hub}/schedview:${CYCLE}
-    <<: *base-schedview
-
   scriptqueue:
     image: ${hub}/scriptqueue:${CYCLE}${rev}
-    <<: *base-scriptqueue
-
-  scriptqueue_c:
-    image: ${hub}/scriptqueue:${CYCLE}
     <<: *base-scriptqueue
 
   test:
     image: ${hub}/test:${CYCLE}${rev}
     <<: *base-test
 
-  test_c:
-    image: ${hub}/test:${CYCLE}
-    <<: *base-test
-
   watcher:
     image: ${hub}/watcher:${CYCLE}${rev}
-    <<: *base-watcher
-
-  watcher_c:
-    image: ${hub}/watcher:${CYCLE}
     <<: *base-watcher
 
   weatherforecast:
     image: ${hub}/weatherforecast:${CYCLE}${rev}
     <<: *base-weatherforecast
 
-  weatherforecast_c:
-    image: ${hub}/weatherforecast:${CYCLE}
-    <<: *base-weatherforecast
-
   atmcs:
     image: ${hub}/atmcs:${CYCLE}${rev}
-    <<: *base-atmcs
-
-  atmcs_c:
-    image: ${hub}/atmcs:${CYCLE}
     <<: *base-atmcs
 
   atmonochromator:
     image: ${hub}/atmonochromator:${CYCLE}${rev}
     <<: *base-atmonochromator
 
-  atmonochromator_c:
-    image: ${hub}/atmonochromator:${CYCLE}
-    <<: *base-atmonochromator
-
   atbuilding:
     image: ${hub}/atbuilding:${CYCLE}${rev}
-    <<: *base-atbuilding
-
-  atbuilding_c:
-    image: ${hub}/atbuilding:${CYCLE}
     <<: *base-atbuilding
 
   atdome:
     image: ${hub}/atdome:${CYCLE}${rev}
     <<: *base-atdome
 
-  atdome_c:
-    image: ${hub}/atdome:${CYCLE}
-    <<: *base-atdome
-
   atdometrajectory:
     image: ${hub}/atdometrajectory:${CYCLE}${rev}
-    <<: *base-atdometrajectory
-
-  atdometrajectory_c:
-    image: ${hub}/atdometrajectory:${CYCLE}
     <<: *base-atdometrajectory
 
   atpneumatics:
     image: ${hub}/at_pneumatics:${CYCLE}${rev}
     <<: *base-atpneumatics
 
-  atpneumatics_c:
-    image: ${hub}/at_pneumatics:${CYCLE}
-    <<: *base-atpneumatics
-
   ataos:
     image: ${hub}/ataos:${CYCLE}${rev}
-    <<: *base-ataos
-
-  ataos_c:
-    image: ${hub}/ataos:${CYCLE}
     <<: *base-ataos
 
   athexapod:
     image: ${hub}/athexapod:${CYCLE}${rev}
     <<: *base-athexapod
 
-  athexapod_c:
-    image: ${hub}/athexapod:${CYCLE}
-    <<: *base-athexapod
-
   atspectrograph:
     image: ${hub}/atspec:${CYCLE}${rev}
-    <<: *base-atspectrograph
-
-  atspectrograph_c:
-    image: ${hub}/atspec:${CYCLE}
     <<: *base-atspectrograph
 
   atwhitelight:
     image: ${hub}/atwhitelight:${CYCLE}${rev}
     <<: *base-atwhitelight
 
-  atwhitelight_c:
-    image: ${hub}/atwhitelight:${CYCLE}
-    <<: *base-atwhitelight
-
   dmocps:
     image: ${hub}/dmocps:${CYCLE}${rev}
-    <<: *base-dmocps
-
-  dmocps_c:
-    image: ${hub}/dmocps:${CYCLE}
     <<: *base-dmocps
 
   genericcamera:
     image: ${hub}/genericcamera:${CYCLE}${rev}
     <<: *base-genericcamera
 
-  genericcamera_c:
-    image: ${hub}/genericcamera:${CYCLE}
-    <<: *base-genericcamera
-
   genericcamera-canon:
     image: ${hub}/genericcamera-canon:${CYCLE}${rev}
-    <<: *base-genericcamera-canon
-
-  genericcamera-canon_c:
-    image: ${hub}/genericcamera-canon:${CYCLE}
     <<: *base-genericcamera-canon
 
   genericcamera-vimba:
     image: ${hub}/genericcamera-vimba:${CYCLE}${rev}
     <<: *base-genericcamera-vimba
 
-  genericcamera-vimba_c:
-    image: ${hub}/genericcamera-vimba:${CYCLE}
-    <<: *base-genericcamera-vimba
-
   pmd:
     image: ${hub}/pmd:${CYCLE}${rev}
-    <<: *base-pmd
-
-  pmd_c:
-    image: ${hub}/pmd:${CYCLE}
     <<: *base-pmd
 
   integrationtests:
     image: ${hub}/integrationtests:${CYCLE}${rev}
     <<: *base-integrationtests
 
-  integrationtests_c:
-    image: ${hub}/integrationtests:${CYCLE}
-    <<: *base-integrationtests
-
   ess:
     image: ${hub}/ess:${CYCLE}${rev}
-    <<: *base-ess
-
-  ess_c:
-    image: ${hub}/ess:${CYCLE}
     <<: *base-ess
 
   ess-controller-aarch64:
@@ -1761,118 +1796,58 @@ services:
     image: ${hub}/hvac:${CYCLE}${rev}
     <<: *base-hvac
 
-  hvac_c:
-    image: ${hub}/hvac:${CYCLE}
-    <<: *base-hvac
-
   electrometer:
     image: ${hub}/electrometer:${CYCLE}${rev}
-    <<: *base-electrometer
-
-  electrometer_c:
-    image: ${hub}/electrometer:${CYCLE}
     <<: *base-electrometer
 
   fiberspectrograph:
     image: ${hub}/fiberspectrograph:${CYCLE}${rev}
     <<: *base-fiberspectrograph
 
-  fiberspectrograph_c:
-    image: ${hub}/fiberspectrograph:${CYCLE}
-    <<: *base-fiberspectrograph
-
   gis:
     image: ${hub}/gis:${CYCLE}${rev}
-    <<: *base-gis
-
-  gis_c:
-    image: ${hub}/gis:${CYCLE}
     <<: *base-gis
 
   oods:
     image: ${hub}/oods:${CYCLE}${rev}
     <<: *base-oods
 
-  oods_c:
-    image: ${hub}/oods:${CYCLE}
-    <<: *base-oods
-    
   wfoods:
     image: ${hub}/wfoods:${CYCLE}${rev}
     <<: *base-wfoods
     
-  wfoods_c:
-    image: ${hub}/wfoods:${CYCLE}
-    <<: *base-wfoods
-
   atoods:
     image: ${hub}/atoods:${CYCLE}${rev}
-    <<: *base-atoods
-
-  atoods_c:
-    image: ${hub}/atoods:${CYCLE}
     <<: *base-atoods
 
   ccoods:
     image: ${hub}/ccoods:${CYCLE}${rev}
     <<: *base-ccoods
 
-  ccoods_c:
-    image: ${hub}/ccoods:${CYCLE}
-    <<: *base-ccoods
-
   mtoods:
     image: ${hub}/mtoods:${CYCLE}${rev}
-    <<: *base-mtoods
-
-  mtoods_c:
-    image: ${hub}/mtoods:${CYCLE}
     <<: *base-mtoods
 
   headerservice:
     image: ${hub}/headerservice:${CYCLE}${rev}
     <<: *base-headerservice
 
-  headerservice_c:
-    image: ${hub}/headerservice:${CYCLE}
-    <<: *base-headerservice
-
   tunablelaser:
     image: ${hub}/tunablelaser:${CYCLE}${rev}
-    <<: *base-tunablelaser
-
-  tunablelaser_c:
-    image: ${hub}/tunablelaser:${CYCLE}
     <<: *base-tunablelaser
 
   linearstage:
     image: ${hub}/linearstage:${CYCLE}${rev}
     <<: *base-linearstage
 
-  linearstage_c:
-    image: ${hub}/linearstage:${CYCLE}
-    <<: *base-linearstage
-
   cbp:
     image: ${hub}/cbp:${CYCLE}${rev}
-    <<: *base-cbp
-
-  cbp_c:
-    image: ${hub}/cbp:${CYCLE}
     <<: *base-cbp
 
   ledprojector:
     image: ${hub}/ledprojector:${CYCLE}${rev}
     <<: *base-ledprojector
 
-  ledprojector_c:
-    image: ${hub}/ledprojector:${CYCLE}
-    <<: *base-ledprojector
-
   mtreflector:
     image: ${hub}/mtreflector:${CYCLE}${rev}
-    <<: *base-mtreflector
-
-  mtreflector_c:
-    image: ${hub}/mtreflector:${CYCLE}
     <<: *base-mtreflector

@@ -76,9 +76,7 @@ pipeline {
     registryCredential = "dockerhub-lssttsadmin"
     pub_registryCredential = "dockerhub-lssttsadmin"
     CONDA_PACKAGES = conda_packages.join(" ")
-    CONDA_PACKAGES_C = conda_packages.join("_c ").concat("_c")
     CAMSPEC_GENCAM = "genericcamera-canon genericcamera-vimba"
-    CAMSPEC_GENCAM_C = "genericcamera-canon_c genericcamera-vimba_c"
   }
   parameters {
       booleanParam(
@@ -229,9 +227,6 @@ pipeline {
               for comp in \${CONDA_PACKAGES}; do
                 docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} \${comp} || echo "\${comp} FAILED."
               done
-              for comp in \${CONDA_PACKAGES_C}; do
-                docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build \${comp} || echo "\${comp} FAILED."
-              done
               """
               }
           }
@@ -239,7 +234,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push --ignore-push-failures \${CONDA_PACKAGES} \${CONDA_PACKAGES_C}
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push --ignore-push-failures \${CONDA_PACKAGES}
             """
           }
         }
@@ -260,7 +255,6 @@ pipeline {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
               docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} ${params.component}
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${params.component}_c
               """
               }
           }
@@ -268,7 +262,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push ${params.component} ${params.component}_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push ${params.component}
             """
           }
         }
@@ -314,7 +308,6 @@ pipeline {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
               docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} \${CAMSPEC_GENCAM}
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build \${CAMSPEC_GENCAM_C}
               """
               }
           }
@@ -322,7 +315,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push \${CAMSPEC_GENCAM} \${CAMSPEC_GENCAM_C}
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push \${CAMSPEC_GENCAM}
             """
           }
         }
@@ -453,8 +446,7 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} ptg ptg_c
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ptg_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} ptg
               """
               }
           }
@@ -462,7 +454,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push ptg ptg_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push ptg
             """
           }
         }
@@ -483,7 +475,6 @@ pipeline {
               sh """
               export DOCKER_BUILDKIT=0
               docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} mtaos
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build mtaos_c
               """
               }
           }
@@ -491,7 +482,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push mtaos mtaos_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push mtaos
             """
           }
         }
@@ -506,8 +497,8 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh"""
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build oods oods_c
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build atoods atoods_c ccoods ccoods_c mtoods mtoods_c wfoods wfoods_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build oods
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build atoods ccoods mtoods wfoods
               """
             }
           }
@@ -516,7 +507,7 @@ pipeline {
           withEnv(["HOME=${env.WORKSPACE}"]) {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh"""
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push oods oods_c atoods atoods_c ccoods ccoods_c mtoods mtoods_c wfoods wfoods_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push oods atoods ccoods mtoods wfoods
               """
             }
           }
@@ -537,7 +528,6 @@ pipeline {
             docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
               sh """
               docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build ${cacheOption} scriptqueue
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml build scriptqueue_c
               """
               }
           }
@@ -545,7 +535,7 @@ pipeline {
         script {
           docker.withRegistry("https://ts-dockerhub.lsst.org/", "nexus3-lsst_jenkins") {
             sh """
-              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push scriptqueue scriptqueue_c
+              docker compose --env-file cycle/${params.env_file} -f cycle/docker-compose.yaml push scriptqueue
             """
           }
         }
