@@ -56,5 +56,7 @@ unzip LabJack-LJM_2025-05-07.zip
 rm labjack_ljm_installer.run
 rm INSTALL.md
 
-runuser -u saluser -- conda install -y \
+runuser -u saluser -- conda config --set solver rattler
+runuser -u saluser -- conda config --append channels conda-pypi
+runuser -u saluser -- conda install -y --solver rattler \
   -n "${conda_environment}" "labjack-ljm=${labjack_ljm}"
