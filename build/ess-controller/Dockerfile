@@ -34,7 +34,7 @@ RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Mi
     conda config --add channels conda-forge && \
     conda config --add channels lsstts && \
     conda install -y conda-build anaconda-client setuptools_scm && \
-    conda install -y numpy astropy && \
+    conda install -y astropy=8 && \
     conda_package_spec() { \
       package_name="$1"; \
       package_version="$2"; \
@@ -45,7 +45,7 @@ RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Mi
       esac; \
     } && \
     conda install -y "$(conda_package_spec ts-ess-common "${common}")" "$(conda_package_spec ts-ess-controller "${controller}")" && \
-    pip install asyncio pyserial pylibftdi pyftdi jsonschema pyyaml
+    conda install -y pyserial pylibftdi pyftdi jsonschema pyyaml && conda clean -ay
 
 RUN echo source ${HOME}/miniconda3/bin/activate >> ${HOME}/.bashrc
 

@@ -8,9 +8,9 @@ if [[ $# -ne 1 || "$1" != true && "$1" != false ]]; then
 fi
 
 if [[ "$1" == true ]]; then
-    conda install -n base -y --solver classic -c conda-forge conda-rattler-solver
+    conda install -n base -y -c conda-forge conda-rattler-solver
     conda config --set solver rattler
 else
-    conda install -n base -y --solver classic -c conda-forge conda-libmamba-solver
+    conda install -n base -y -c conda-forge conda-libmamba-solver
     conda config --set solver libmamba
 fi

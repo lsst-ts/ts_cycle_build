@@ -8,6 +8,79 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a_as_str vers_as_strion history format.
 
+Cycle 45 revision 0
+===================
+
+* Updated version of the following packages:
+
+   * headerservice
+   * love_manager
+   * oods
+   * robotframework_efd
+   * stack
+   * ts_atbuilding
+   * ts_attcpip
+   * ts_auxtel_standardscripts
+   * ts_config_mttcs
+   * ts_config_scheduler
+   * ts_develop
+   * ts_electrometer
+   * ts_ess_common
+   * ts_ess_ringss
+   * ts_externalscripts
+   * ts_fiberspectrograph
+   * ts_gis
+   * ts_integrationtests
+   * ts_ledprojector
+   * ts_linearstage
+   * ts_logging_and_reporting
+   * ts_logging_frontend
+   * ts_m1m3support
+   * ts_m2com
+   * ts_observatory_control
+   * ts_pointing_common
+   * ts_sal
+   * ts_salobj
+   * ts_tunablelaser
+   * ts_watcher
+   * ts_weatherforecast
+   * ts_xml
+   * use_rattler_solver
+
+* Only install astropy 8 on ESS controller and use conda for all packages.
+* Updated labjack-ljm package.
+* Made sure to install yarn in love-frontend.
+* Combined csc and csc_c into one discrete service with alias tags.
+* Added refresh_worker to Nightly Digest backend.
+* Applied cwfs patch.
+* used checkout_repo script in deploy-crio.
+* Added dependencies to vcpkg build.
+* Updated conda-builder-aarch64 service name.
+* Removed workaround to install lsst-resources in nightlydigest-backend Dockerfile.
+* Fixed nightlydigest-frontend Dockerfile to run npm ci instead of npm install.
+* Removed libschemaregistry patch from m1m3.
+* Removed ts-utils install from electrometer image.
+* Updated build/integrationtests/Dockerfile to install lsst-efd-client from conda, not pip.
+* Adjusted ordering of vms command invocation.
+* Patched ts_sal/setupKafka.env to properly set LSST_LOCAL_SCHEMA_DIR override.
+* Updated LSST_SAL_PREFIX to ts_sal root.
+* Set LSST_SAL_PREFIX to correct location.
+* Updated deploy-crio to use plaintext security protocol by default.
+* Updated deploy-crio to allow environment variables to be overwritten properly.
+* Made sure to allow Kafka settings to be overwritten.
+* Ran chmod directly to avoid any potential differences in builder behavior for M1M3, M1M3TS and VMS images.
+* Used crio_setup.sh in m1m3ts_sim.
+* Updated ptg build for libschemaregistry.
+* Updated deploy-crio, m1m3, m1m3ts and vms to use libschemaregistry.
+* Added missing libserdes patch.
+* Combined deploy-lsstsqre-private into one service with multiple tags for cycle and revision.
+* Updated version history.
+* Installed labjack-ljm in install_labjack script; Used -j flag when using setup.
+* Copied specific filename in GenericCamera stage.
+* Pinned ts-sal-utilsKafka and adding missing RPM to ptg.
+* Created separate python 3.13 environment for deploy-env; Updated startup scripts to activate new separate environment.
+* Added line to upgrade packages for each develop-env and deploy-env image.
+
 Cycle 44 revision 15
 ====================
 

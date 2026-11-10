@@ -1,0 +1,15 @@
+{
+  "name": "schemaregistry",
+  "version": "0.1.0",
+  "dependencies": [
+    "abseil",
+    "avro-cpp",
+    "bzip2",
+    "cpr",
+    "jsoncons",
+    "liblzma",
+    "nlohmann-json",
+    "openssl",
+    "zstd"
+  ]
+}
