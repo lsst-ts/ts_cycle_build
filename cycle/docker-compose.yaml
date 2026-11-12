@@ -1083,6 +1083,7 @@ x-ess:
       earthquake: ${ts_ess_earthquake}
       epm: ${ts_ess_epm}
       labjack: ${ts_ess_labjack}
+      m1m3: ${ts_ess_m1m3}
       labjack_file_version: ${labjack_file_version}
       labjack_arch: ${labjack_arch}
       labjack_ljm: ${labjack_ljm}
