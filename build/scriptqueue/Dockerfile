@@ -45,6 +45,7 @@ RUN source ${HOME}/.setup_sal_env.sh && \
 
 WORKDIR ${WORKDIR}
 
+ARG lsst_efd_client
 ARG ts_utils
 ARG ts_atdome
 ARG ts_atdometrajectory
@@ -52,10 +53,10 @@ ARG ts_atmcs
 ARG ts_scriptqueue
 
 RUN source ${HOME}/.setup_sal_env.sh && \
-    python -m pip install  --no-deps --ignore-installed lsst_efd_client && \
     conda install -y aioinflux kafkit && \
     conda install -y astroplan && \
     conda install -y -c lsstts \
+    "$(conda_package_spec lsst-efd-client "${lsst_efd_client}")" \
     "$(conda_package_spec ts-atdome "${ts_atdome}")" \
     "$(conda_package_spec ts-atdometrajectory "${ts_atdometrajectory}")" \
     "$(conda_package_spec ts-atmcs "${ts_atmcs}")" \
