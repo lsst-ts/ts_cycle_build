@@ -739,6 +739,7 @@ x-scriptqueue:
       atmospec: ${atmospec}
       summit_utils: ${summit_utils}
       summit_extras: ${summit_extras}
+      lsst_efd_client: ${lsst_efd_client}
       ts_utils: ${ts_utils}
       ts_observing_utilities: ${ts_observing_utilities}
       ts_observatory_control: ${ts_observatory_control}
