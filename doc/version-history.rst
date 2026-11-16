@@ -8,6 +8,33 @@ Version History
 .. No new work should be required in order to complete this section.
 .. Below is an example of a_as_str vers_as_strion history format.
 
+Cycle 45 revision 1
+===================
+
+* Updated version of the following packages:
+
+  * ts_mthexapod
+  * ts_mtmount
+  * ts_mtaos
+  * ts_ofc
+  * ts_scheduler
+  * ts_mtdome
+  * ts_mtdomecom
+  * ts_ess_common
+  * ts_ess_labjack
+  * ts_ledprojector
+  * ts_config_ocs
+  * ts_config_mttcs
+  * love_frontend
+  * love_manager
+  * ts_fbs_utils
+  * rubin_scheduler
+
+* Added ts_ess_m1m3 to ESS.
+* Updated script queue Dockerfile to install lssf-efd-client from conda instead of pip and to use the version provided as an argument.
+* Updated cycle/docker-compose.yaml to pass version of lsst_efd_client to the script queue build.
+* Made ts_xml editable in develop env.
+
 Cycle 45 revision 0
 ===================
 

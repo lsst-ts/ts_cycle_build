@@ -17,7 +17,7 @@ install_repo() {
     bash "$checkout_helper" "$ref"
     case "$mode" in
         current) eups declare -r . -t current ;;
-        named) eups declare -m none -r . "$repo" "$ref"; uv pip install --no-deps . ;;
+        named) eups declare -m none -r . "$repo" "$ref"; uv pip install -e . --no-deps ;;
         editable) eups declare -r . -t current; uv pip install -e . --no-deps ;;
         *) echo "Unknown install mode: $mode" >&2; return 1 ;;
     esac
@@ -34,8 +34,6 @@ ts_config_eas:ts_config_eas
 ts_config_latiss:ts_config_latiss
 ts_config_mttcs:ts_config_mttcs
 ts_config_atcalsys:ts_config_atcalsys
-ts_idl:ts_idl
-ts_xml:ts_xml
 ts_sal:ts_sal
 CONFIG_REPOS
 
@@ -45,6 +43,7 @@ done <<'UTILITY_REPOS'
 ts_utils:ts_utils
 ts_idl:ts_idl
 ts_salobj:ts_salobj
+ts_xml:ts_xml
 UTILITY_REPOS
 
 while IFS=: read -r repo variable; do
