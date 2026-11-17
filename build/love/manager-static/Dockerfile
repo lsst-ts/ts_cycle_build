@@ -9,15 +9,13 @@ RUN source /home/saluser/.setup_sal_env.sh && \
 	conda install -y -c lsstts \
     "$(conda_package_spec love-manager "${love_manager}")"
 
-# Collect static files
+# Create static and media files folder
 USER root
 RUN mkdir /usr/src/love-manager
 RUN chown saluser:saluser /usr/src/love-manager
 USER saluser
-RUN source /home/saluser/.setup_sal_env.sh && \
-    manage_love collectstatic --noinput
 
-# Expose static and media files and port
+# Expose static and media files
 VOLUME /usr/src/love-manager
 
 # Set env variables for runtime (to be replaced in docker-compose files)
