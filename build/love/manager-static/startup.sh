@@ -10,10 +10,10 @@ else
 fi
 echo -e "\nSite: ${love_site}"
 
-echo -e "\nGenerate static files to be served"
+echo -e "\nGenerating static files to be served..."
 manage_love collectstatic --noinput
 
-echo -e "\nGenerating media files to be served"
+echo -e "\nGenerating media files to be served..."
 mkdir -p /usr/src/love-manager/media/thumbnails
 cp -u ${PKG_DIR}/ui_framework/fixtures/thumbnails/* /usr/src/love-manager/media/thumbnails
 if [ -d "${PKG_DIR}/ui_framework/fixtures/thumbnails/${love_site}" ]; then
