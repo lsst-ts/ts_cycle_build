@@ -1,31 +1,21 @@
-# Clone repo
-FROM alpine/git as cloner
+ARG cycle=develop
+FROM ts-dockerhub.lsst.org/deploy-env:${cycle}
 
-WORKDIR /usr/src/love
 ARG love_manager
-RUN git clone --branch ${love_manager} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-manager.git || git clone --branch v${love_manager} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-manager.git
 
-FROM python:3.11-bookworm
-COPY --from=cloner /usr/src/love/LOVE-manager /usr/src/love/
+LABEL maintainer="Sebastian Aranda <sebastian.aranda@noirlab.edu>"
 
-# Install required packages
-RUN apt-get update && \
-    apt-get install -y \
-    libsasl2-dev \
-    libldap2-dev \
-    libssl-dev &&\
-    rm -rf /var/lib/apt/lists/*
+RUN source /home/saluser/.setup_sal_env.sh && \
+	conda install -y -c lsstts \
+    "$(conda_package_spec love-manager "${love_manager}")"
 
-# Set workdir and install python requirements
-WORKDIR /usr/src/love/manager
+# Create static and media files folder
+USER root
+RUN mkdir /usr/src/love-manager
+RUN chown saluser:saluser /usr/src/love-manager
+USER saluser
 
-RUN pip install -r requirements.txt
-
-RUN python manage.py collectstatic --noinput
-
-# Expose static files and port
-VOLUME /usr/src/love/manager/static
-VOLUME /usr/src/love/manager/media
+# Expose port
 EXPOSE 8000
 
 # Set env variables for runtime (to be replaced in docker-compose files)
@@ -34,5 +24,7 @@ ENV USER_USER_PASS=test
 ENV CMD_USER_PASS=test
 ENV NO_DEBUG=True
 
-# Run daphne server in runtime
-CMD ["./runserver.sh"]
+# Run uvicorn server in runtime
+COPY --chown=saluser:saluser startup.sh /home/saluser/.startup.sh
+COPY --chown=saluser:saluser init-db.sh /home/saluser/.init-db.sh
+RUN chmod a+x /home/saluser/.startup.sh /home/saluser/.init-db.sh
