@@ -1,38 +1,31 @@
-# Clone repo
-FROM alpine/git as cloner
+ARG cycle=develop
+FROM ts-dockerhub.lsst.org/deploy-env:${cycle}
 
-WORKDIR /usr/src/love
 ARG love_manager
-RUN git clone --branch ${love_manager} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-manager.git || git clone --branch v${love_manager} --depth 1 --single-branch https://github.com/lsst-ts/LOVE-manager.git
 
-FROM python:3.11-bookworm as builder
-COPY --from=cloner /usr/src/love/LOVE-manager /usr/src/love
+LABEL maintainer="Sebastian Aranda <sebastian.aranda@noirlab.edu>"
 
-# Install required packages
-RUN apt-get update && \
-    apt-get install -y \
-    libsasl2-dev \
-    libldap2-dev \
-    libssl-dev &&\
-    rm -rf /var/lib/apt/lists/*
+RUN source /home/saluser/.setup_sal_env.sh && \
+	conda install -y -c lsstts \
+    "$(conda_package_spec love-manager "${love_manager}")"
 
-# Set workdir and install python requirements
-WORKDIR /usr/src/love/manager
-RUN pip install -r requirements.txt
+# Collect static files
+USER root
+RUN mkdir /usr/src/love-manager
+RUN chown saluser:saluser /usr/src/love-manager
+USER saluser
+RUN source /home/saluser/.setup_sal_env.sh && \
+    manage_love collectstatic --noinput
 
-WORKDIR /usr/src/love/manager
-RUN find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
-RUN python manage.py collectstatic --noinput
+# Expose static and media files and port
+VOLUME /usr/src/love-manager
 
-# Copy media data
-RUN mkdir -p media/thumbnails
-RUN cp -u ui_framework/fixtures/thumbnails/* media/thumbnails
-RUN mkdir -p media/configs
-RUN cp -u api/fixtures/configs/* media/configs
+# Set env variables for runtime (to be replaced in docker-compose files)
+ENV ADMIN_USER_PASS=test
+ENV USER_USER_PASS=test
+ENV CMD_USER_PASS=test
+ENV NO_DEBUG=True
 
-# copy compiled files to smaller image
-FROM alpine:3.8
-COPY --from=builder /usr/src/love/manager/static /usr/src/love/manager/static
-COPY --from=builder /usr/src/love/manager/media /usr/src/love/manager/media
-VOLUME /usr/src/love/manager/static
-VOLUME /usr/src/love/manager/media
+# Run uvicorn server in runtime
+COPY --chown=saluser:saluser startup.sh /home/saluser/.startup.sh
+RUN chmod a+x /home/saluser/.startup.sh
