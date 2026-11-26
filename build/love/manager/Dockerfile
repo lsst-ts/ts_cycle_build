@@ -24,7 +24,7 @@ ENV USER_USER_PASS=test
 ENV CMD_USER_PASS=test
 ENV NO_DEBUG=True
 
-# Run uvicorn server in runtime
+# Copy scripts to run uvicorn server in runtime and database initialization
 COPY --chown=saluser:saluser startup.sh /home/saluser/.startup.sh
 COPY --chown=saluser:saluser init-db.sh /home/saluser/.init-db.sh
 RUN chmod a+x /home/saluser/.startup.sh /home/saluser/.init-db.sh
