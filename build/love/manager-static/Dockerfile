@@ -24,6 +24,6 @@ ENV USER_USER_PASS=test
 ENV CMD_USER_PASS=test
 ENV NO_DEBUG=True
 
-# Run uvicorn server in runtime
+# Run static and media files collection
 COPY --chown=saluser:saluser startup.sh /home/saluser/.startup.sh
 RUN chmod a+x /home/saluser/.startup.sh
