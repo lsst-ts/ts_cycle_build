@@ -1250,6 +1250,21 @@ x-develop-env-no-stack-args:
   labjack_ljm: ${labjack_ljm}
   use_rattler_solver: ${use_rattler_solver}
 
+x-vms-logger:
+    &base-vms-logger
+    build:
+        tags:
+            - ${hub}/vms_logger:${CYCLE}
+        context: ../build/vms_logger
+        labels:
+            com.description: "VMSLogger component for cycle {$CYCLE}."
+        args:
+            cycle: ${CYCLE}
+            hub: ${hub}
+            vms_logger: ${ts_vms_logger}
+        platforms:
+            - linux/amd64
+
 services:
 
   deploy-conda-community:
@@ -1853,3 +1868,7 @@ services:
   mtreflector:
     image: ${hub}/mtreflector:${CYCLE}${rev}
     <<: *base-mtreflector
+
+  vms-logger:
+      image: ${hub}/vms_logger:${CYCLE}${rev}
+      <<: *base-vms-logger

@@ -52,6 +52,7 @@ conda_packages = [
   "scheduler",
   "test",
   "tunablelaser",
+  "vms-logger",
   "watcher",
   "weatherforecast"
 ]
